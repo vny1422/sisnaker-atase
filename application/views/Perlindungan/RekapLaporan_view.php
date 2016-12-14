@@ -372,13 +372,13 @@
 <script type="text/javascript">
 
   $('#filetree-basic').fileTree({
-    script: window.location.protocol+'//localhost/sisnaker/jFT.php',
-    root: '/sisnaker/assets/rekap/',
+    script: window.location.protocol+'//localhost/sisnaker-atase/jFT.php',
+    root: '/sisnaker-atase/assets/rekap/',
     multiFolder: true
   }, function(file) {
     console.log(file);
       // do something with file
-      window.open(window.location.protocol+"//localhost/sisnaker/"+file, '_blank');
+      window.open(window.location.protocol+"//localhost/sisnaker-atase/"+file, '_blank');
     });
 
   $('#tabs-list').css('border-bottom','0px');

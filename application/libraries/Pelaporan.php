@@ -67,13 +67,13 @@ class Pelaporan{
 
 				switch ($info) {
 					case 'jenis':							
-					$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker/assets/template/RekapJenis.xlsx');
+					$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker-atase/assets/template/RekapJenis.xlsx');
 					list($hasilperjenis,$hasilperklasifikasi) = $this->get_jenis_based($m, $y);
 					$objPHPExcel = $this->format_jenis_based($objPHPExcel,$objPHPtemplate,$hasilperjenis,$hasilperklasifikasi,$m_name, $m, $y);
 					break;
 
 					case 'sektor':
-					$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker/assets/template/RekapSektor.xlsx');
+					$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker-atase/assets/template/RekapSektor.xlsx');
 					list($hasilpersektor,$hasilperklasifikasi) = $this->get_sektor_based($m,$y);
 					$objPHPExcel = $this->format_sector_based($objPHPExcel,$objPHPtemplate,
 						$hasilpersektor,$hasilperklasifikasi,
@@ -81,7 +81,7 @@ class Pelaporan{
 					break;
 
 					case 'status':
-					$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker/assets/template/RekapStatusTKI.xlsx');
+					$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker-atase/assets/template/RekapStatusTKI.xlsx');
 					list($hasilperstatus,$hasilperklasifikasi) = $this->get_status_based($m,$y);
 					$objPHPExcel = $this->format_status_based($objPHPExcel,$objPHPtemplate,
 						$hasilperstatus,$hasilperklasifikasi,
@@ -129,7 +129,7 @@ class Pelaporan{
 
 				switch ($info) {
 					case 'jenis':
-					$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker/assets/template/RekapJenisTahun.xlsx');
+					$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker-atase/assets/template/RekapJenisTahun.xlsx');
 					list($hasilpersubject,$hasilperklasifikasi) = $this->get_yeardata_bySubject('jenis',$y,$lingkup);
 					$param = array(
 						'datesign' => 'Z21',
@@ -149,7 +149,7 @@ class Pelaporan{
 					break;
 
 					case 'sektor':
-					$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker/assets/template/RekapSektorTahun.xlsx');
+					$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker-atase/assets/template/RekapSektorTahun.xlsx');
 					list($hasilpersubject,$hasilperklasifikasi) = $this->get_yeardata_bySubject('sektor',$y,$lingkup);
 					$param = array(
 						'datesign' => 'X15',
@@ -169,7 +169,7 @@ class Pelaporan{
 					break;
 
 					case 'status':
-					$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker/assets/template/RekapStatusTKITahun.xlsx');
+					$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker-atase/assets/template/RekapStatusTKITahun.xlsx');
 					list($hasilpersubject,$hasilperklasifikasi) = $this->get_yeardata_bySubject('status',$y,$lingkup);
 					$param = array(
 						'datesign' => 'X16',
@@ -189,7 +189,7 @@ class Pelaporan{
 					break;
 
                     case 'tahunan':	//subject bulan
-                    $objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker/assets/template/RekapTahun.xlsx');
+                    $objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker-atase/assets/template/RekapTahun.xlsx');
                     list($hasilpersubject,$hasilperklasifikasi) = $this->get_yeardata($y, $lingkup);
 
                     $objPHPExcel = $this->format_yearrekap($objPHPExcel,$objPHPtemplate,
@@ -214,7 +214,7 @@ class Pelaporan{
     	foreach ($get_time as $month_info) {
     		$get_date = explode('/',$month_info);
     		$y 		  = $get_date[2];
-    		$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker/assets/template/RekapUang.xlsx');
+    		$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker-atase/assets/template/RekapUang.xlsx');
     		list($totaluang,$uangbulanan) = $this->get_money($y);
 
     		$objPHPExcel = $this->format_money($objPHPExcel,$objPHPtemplate,$totaluang,$uangbulanan,$y);	
@@ -236,14 +236,14 @@ class Pelaporan{
     		$y 		  = $get_date[2];
 
 				//// STATISTIK
-    		$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker/assets/template/RekapEmpty3.xlsx');		
+    		$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker-atase/assets/template/RekapEmpty3.xlsx');		
     		$katDetail = $this->get_yeardata_Category($y,$katg);				
     		$katStatistik = $this->get_yearstatistik_Category($y,$katg);				
     		$data = array($katDetail[0],array($katDetail[1],$katDetail[2]),$katStatistik);					
     		$objPHPExcel = $this->format_empty($objPHPExcel,$objPHPtemplate,$data,$y,$katg);
 
 				//// Detail
-    		$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker/assets/template/DetailKategori.xlsx');
+    		$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker-atase/assets/template/DetailKategori.xlsx');
     		$katDetail = $this->get_detail_Category($y,$katg);
 
     		$objPHPExcel = $this->format_emptyDetail($objPHPExcel,$objPHPtemplate,$katDetail,$y,$katg);
@@ -265,7 +265,7 @@ class Pelaporan{
     		$d 		  = $get_date[1];
     		$y 		  = $get_date[2];
 
-    		$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker/assets/template/RekapShelter.xlsx');
+    		$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker-atase/assets/template/RekapShelter.xlsx');
 
     		$shelterdetail = $this->get_data_shelter($org,$m,$y);
 

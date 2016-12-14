@@ -1,0 +1,27 @@
+.panel-transparent {
+	 background: none;
+ }
+
+ .panel-transparent .panel-heading {
+     background: rgba(122, 130, 136, 0.4)!important;
+ }
+
+ .panel-transparent .panel-footer {
+     background: rgba(122, 130, 136, 0.4)!important;
+ }
+
+ span {
+ 	color: #00b187;
+ }
+
+ a {
+ 	color: #04ffc3;
+ }
+
+ .panel-transparent .panel-body{
+     background: rgba(46, 51, 56, 0.4)!important;
+ }
+
+.center-button{
+	text-align: center;
+}

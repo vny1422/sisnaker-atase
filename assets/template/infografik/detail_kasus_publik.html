@@ -1,0 +1,11 @@
+<div class="row">
+    <div class="twelve columns" style="text-align: center">
+        <h4>Data Aduan {{dbuffer['paspor']}}</h4>
+    </div>
+    <div class="rowmargin inner-pad">
+        <div class="twelve columns" style="text-align: center; margin-bottom: 10px" ng-repeat="(key,value) in dbuffer">
+            <div class="three columns" style="text-align: right; font-weight: bold">{{key}} :</div>
+            <div class="nine columns" style="text-align: left; padding-right: 15px" ng-bind-html="value"></div>
+        </div>
+    </div>
+</div>

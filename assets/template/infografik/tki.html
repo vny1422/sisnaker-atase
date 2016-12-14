@@ -1,0 +1,96 @@
+<div class="row rowmargin">
+    <div class="twelve columns card inner-pad" ng-show="availS==0" style="text-align: center">
+        <font style="font-size: x-large"><i> -- data Sebaran TKI belum tersedia -- </i></font>
+    </div>
+    <div class="twelve columns card" ng-hide="availS==0">
+        <div class="twelve columns card" style="padding: 15px; background-color: #22313F">
+            <div class="inner-pad label-A" style="color: white;">
+                <b>Sebaran Tenaga Kerja Indonesia di Taiwan</b>
+                </br>
+                <small><i>sumber:</i> Ministry of Labor, Taiwan</small>
+            </div>            
+        </div>
+        <div class="five columns" style="padding: 15px;margin-left:0px">
+            <div>
+                <svg id="map" width="100%" height="620px" viewBox="0 0 367 492" preserveAspectRatio="xMaxYMax"></svg>
+            </div>        
+        </div>
+        <div class="seven columns" style="padding-top: 30px;">
+            <div class="twelve columns" style="text-align: center; padding: 0px 2% 0px 0px;" >
+                <span ng-cloak style="font-size: larger">{{labelchart}}</span>
+                </br>
+                <span style="font-size: small">
+                    <i class="fa fa-circle" style="margin-right:2%; color:{{petaChart[0].colors[0]}}">
+                        Total
+                        ( {{petaChart[0].keyVal['total'].toLocaleString()}} )
+                    </i>
+                    <i class="fa fa-circle" style="color:{{petaChart[1].colors[0]}}">
+                        Lembaga Berbadan Hukum
+                        ( {{petaChart[0].keyVal['formal'].toLocaleString()}} / {{(petaChart[0].keyVal['formal']*100/petaChart[0].keyVal['total']).toLocaleString()}} %)
+                    </i>
+                    <i class="fa fa-circle" style="margin-left:2%; color:{{petaChart[2].colors[0]}}">
+                        Domestik
+                        ( {{petaChart[0].keyVal['informal'].toLocaleString()}} / {{(petaChart[0].keyVal['informal']*100/petaChart[0].keyVal['total']).toLocaleString()}} %)
+                    </i>
+                </span >
+                </br></br>
+            </div>
+            <div class="twelve columns" style="padding: 0px 30px 0px 0px;" >
+                <div>
+                    <canvas height="80px" id="line1" class="chart chart-line" style="margin-bottom: 3%"
+                            chart-data="petaChart[0].data" chart-options="petaChart[0].opts" chart-labels="petaChart[0].labels"
+                            chart-series="petaChart[0].series" chart-colours="petaChart[0].colors">
+                    </canvas>
+                </div>
+                <div>
+                    <canvas height="80px" id="line2" class="chart chart-line" style="margin-bottom: 3%"
+                            chart-data="petaChart[1].data" chart-options="petaChart[1].opts" chart-labels="petaChart[1].labels"
+                            chart-series="petaChart[1].series" chart-colours="petaChart[1].colors">
+                    </canvas>
+                </div>
+                <div>
+                    <canvas height="80px" id="line3" class="chart chart-line" style="margin-bottom: 3%"
+                            chart-data="petaChart[2].data" chart-options="petaChart[2].opts" chart-labels="petaChart[2].labels"
+                            chart-series="petaChart[2].series" chart-colours="petaChart[2].colors">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row rowmargin">
+    <div class="twelve columns card inner-pad" ng-show="availR==0" style="text-align: center">
+        <font style="font-size: x-large"><i> -- data Remitansi belum tersedia -- </i></font>
+    </div>
+    <div class="twelve columns card" ng-hide="availR==0">
+        <div class="twelve columns card" style="padding: 15px; background-color: #22313F">
+            <div class="inner-pad label-A" style="color: white;">
+                <b>Remitansi dari Taiwan</b>
+                </br>
+                <small><i>sumber:</i> Bank Indonesia</small>
+            </div>            
+        </div>
+        <div class="eight columns inner-pad" style="padding: 15px;margin-left:0px">
+            <canvas  id="lineR" class="chart chart-line"
+                    chart-data="remitansiChart.data" chart-options="remitansiChart.opts" chart-labels="remitansiChart.labels"
+                    chart-series="remitansiChart.series" chart-colours="remitansiChart.colors">
+            </canvas>
+        </div>
+        <div class="four columns inner-pad" style="padding: 15px;margin-left:0px">
+            <div class="twelve columns" style="text-align: center;padding-top: 7px">
+                <span ng-cloak style="font-size: larger">{{dataRemitansi[0][0]}}</span>
+            </div>
+            <div style="margin-top: 50px">
+                <div class="offset-by-two ten columns" style="padding: 12px 0px" ng-repeat="(key, value) in dataRemitansi[2]">
+                    <span class="three columns" style="font-size: larger; text-align: center">
+                        <b>{{key}}</b>
+                    </span>
+                    <span class="nine columns" style="font-size: larger">
+                        {{value | currency:"US$ ":0}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

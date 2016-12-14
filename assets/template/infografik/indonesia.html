@@ -1,0 +1,174 @@
+<div class="row rowmargin">
+    <div class="card twelve columns" id="mapContainerID">
+        <div class="twelve columns card" style="padding: 15px; background-color: #22313F">
+            <div class="inner-pad label-A" style="color: white;">
+                <b>Profil Ketenagakerjaan Indonesia</b>
+                </br>
+                <small><i>sumber:</i> Kementrian Ketenagakerjaan Indonesia</small>
+            </div>          
+        </div>
+        <div class="twelve columns inner-pad" style="padding: 15px;margin-left:0px; position:relative">
+            <div id="mapContainerID" style="padding-bottom: 50px">
+                <svg id="mapID" width="100%" height="480px" viewBox="0 0 355 132" preserveAspectRatio="xMaxYMax" >         
+                </svg>
+                <div ng-show="infoshow" id="markermap" style="height: 50px; width: 50px; border-radius: 25px; background-color: rgba(255,0,0,0.6); position: absolute; z-index: 150" ng-style="dotstyle"></div>
+            </div>
+            <div style="height: 100%; width: 43%; background-color:#ECF0F1; position: absolute; top: 0; padding: 25px; overflow-y: scroll" ng-style="ttstyle" ng-show="infoshow">
+                <span ng-show="ttdata.propinsieng==null" style="font-size:large; font-style: italic"> {{ttdata.propinsi}}</span>
+                <span ng-hide="ttdata.propinsieng==null" style="font-size:large; font-style: italic"> {{ttdata.propinsieng}}</span>
+                </br>
+                <div ng-show="ttdata.umr2015!=null"><b>Minimum Wage (UMR 2015) </b> {{ttdata.umr2015 | currency:"Rp. ":0}}</div>
+                <div ng-show="ttdata.umr2016!=null"><b>Minimum Wage (UMR 2016) </b> {{ttdata.umr2016 | currency:"Rp. ":0}}</div>
+                <div ng-show="ttdata.ctk2014!=null"><b>Prospective Workers </b> {{ttdata.ctk2014 | number}}</div>
+                <div ng-show="ttdata.blk_count!=null"><b>Vocational Training Center (VTC) </b> {{ttdata.blk_count | number}}</div>
+                <div ng-show="ttdata.blk_eng!=null || ttdata.blk_non!=null || ttdata.smk_eng!=null">
+                    <span><b>Certified Workers</b></span></br>
+                    <span><b> &diams; VTC Engineering :</b> {{ttdata.blk_eng | number}}</span></br>
+                    <span><b> &diams; VTC non-Engineering :</b> {{ttdata.blk_non | number}}</span></br>
+                    <span><b> &diams; SMK Engineering :</b> {{ttdata.smk_eng | number}}</span>
+                </div>
+                </br>
+                <div ng-show="ttdata.balai!=''">
+                    <span><b>Profile : </b></span>
+                    <select style="padding: 2px 3px; height: auto;" ng-change="renewMarked" ng-model="selectedBLK">
+                        <option ng-repeat="opt in ttdata.balai" value="{{opt}}">{{opt}}</option>
+                    </select>
+                    <div marked="detailBLK" >
+                        
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <!--div class="three columns"  ng-style="ttstyle" ng-show="infoshow==true" style="position: fixed; z-index: 3000; background-color: #ECF0F1; padding: 10px">
+        <span ng-show="ttdata.propinsieng==null" style="font-size:large; font-style: italic"> {{ttdata.propinsi}}</span>
+        <span ng-hide="ttdata.propinsieng==null" style="font-size:large; font-style: italic"> {{ttdata.propinsieng}}</span>
+        </br>
+        <div ng-show="ttdata.umr2015!=null"><b>Minimum Wage (UMR 2015) </b> {{ttdata.umr2015 | currency:"Rp. ":0}}</div>
+        <div ng-show="ttdata.umr2016!=null"><b>Minimum Wage (UMR 2016) </b> {{ttdata.umr2016 | currency:"Rp. ":0}}</div>
+        <div ng-show="ttdata.ctk2014!=null"><b>Prospective Workers </b> {{ttdata.ctk2014 | number}}</div>
+        <div ng-show="ttdata.blk_count!=null"><b>Vocational Training Center (VTC) </b> {{ttdata.blk_count | number}}</div>
+        <div ng-show="ttdata.blk_eng!=null || ttdata.blk_non!=null || ttdata.smk_eng!=null">
+            <span><b>Certified Workers</b></span></br>
+            <span><b> &diams; VTC Engineering :</b> {{ttdata.blk_eng | number}}</span></br>
+            <span><b> &diams; VTC non-Engineering :</b> {{ttdata.blk_non | number}}</span></br>
+            <span><b> &diams; SMK Engineering :</b> {{ttdata.smk_eng | number}}</span>
+        </div>
+    </div-->
+</div>
+
+<div class="row rowmargin">
+    <div class="card twelve columns">
+        <div class="twelve columns card" style="padding: 15px; background-color: #22313F">
+            <div class="inner-pad label-A" style="color: white;">
+                <b>Informasi Ketenagakerjaan Indonesia</b>
+            </div>          
+        </div>
+        <div class="twelve columns inner-pad" style="padding: 15px;margin-left:0px">
+            <div class="three columns" style="padding-top: 15px; padding-left: 15px">
+                <button class="twelve columns pad-v" ng-click="infobawah='jamkerja'">Jam Kerja & Lembur</button>
+                <button class="twelve columns pad-v" ng-click="infobawah='jamsos'">Jaminan Sosial</button>
+                <button class="twelve columns pad-v" ng-click="infobawah='upah'">Pengupahan</button>
+                <br><br>
+            </div>
+            <div class="nine columns" style="padding-bottom: 20px; padding-right: 15px">
+                <!--- --->
+                <div ng-show="infobawah=='jamkerja'">
+                    <h3>Jam Kerja dan Lembur</h3>
+                    <ol>
+                        <li>Waktu kerja normal (Pasal 77 Ayat 2 UU No. 13 Tahun 2003)
+                            <ul>
+                                <li>7 (tujuh) jam 1 (satu) hari dan 40 (empat puluh) jam 1 (satu) minggu untuk 6 (enam) hari kerja dalam 1 (satu) minggu; <i>atau</i></li>
+                                <li>8 (delapan) jam 1 (satu) hari dan 40 (empat puluh) jam 1 (satu) minggu untuk 5 (lima) hari kerja dalam 1 (satu) minggu;</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Kerja lembur hanya dapat dilakukan apabila ada persetujuan pekerja dan paling banyak 3 (tiga) jam dalam 1 (satu) hari dan 14 (empat belas) jam 1 (satu) minggu;
+                            (Pasal 78 Ayat 1 UU No. 13 Tahun 2003 jo Kepmenakertrans No. 102 Tahun 2004)
+                        </li>
+                        <li>
+                            Upah lembur didasarkan pada upah bulanan dan dihitung perjam sebesar 1/173 kali upah bulanan; (Kepmenakertrans No. 102 Tahun 2004)
+                        </li>
+                    </ol>
+                </div>
+                <!--- --->
+                <div ng-show="infobawah=='jamsos'">
+                    <h3>Jaminan Sosial</h3>
+                    <ol>
+                        <li>
+                            Usia minimal untuk bekerja adalah 18 (delapan belas) tahun; (Pasal 1 Angka 26 UU No. 13 Tahun 2003)
+                        </li>
+                        <li>Menurut Pasal 68 dan Pasal 69 UU No. 13 Tahun 2003, Anak tidak boleh dipekerjakan terkecuali:
+                            <ul>
+                                <li>Anak berumur 13 s/d 15 tahun hanya dapat melakukan pekerjaan ringan yang tidak mengganggu perkembangan dan kesehatan fisik, mental, dan sosial</li>
+                                <li>
+                                    Anak berumur 15 s/d 18 tahun sudah dapat melakukan pekerjaan normal sesuai klasifikasi dan kompetensi yang dimiliki, tetapi tidak boleh dieksploitasi untuk pekerjaan yang membahyakan kesehatan, keselamatan atau moral anak.
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            Usia pensiun normal wajib ditetapkan dalam peraturan Dana Pensiun dan tidak boleh melebihi usia yang ditetapkan oleh Menteri yang membidangi masalah ketenagakerjaan (Pasal 27 Ayat (2) UU No. 11 Tahun 1992 ).
+                            Usia pensiun ditetapkan dalam perjanjian kerja, peraturan perusahaan, perjanjian kerja bersama atau peraturan perundangan yang terkait.
+                        </li>
+                        <li>
+                            Perusahaan berhak mengatur usia pensiun dengan merujuk pada:
+                            <ul>
+                                <li>UU No.3 Tahun 1992 tentang Jamsostek dengan usia pensiun 55 tahun; <i>atau</i></li>
+                                <li>PP No.45 Tahun 2015 tentang jaminan pensiun dengan masa penerimaan manfaat pensiun 56 tahun; <i>atau</i></li>
+                                <li>UU No.11 Tahun 1992 tentang dana pensiun dengan usia pensiun normal 55 tahun dan usia pensiun wajib 60 tahun; <i>atau</i></li>
+                                <li>Permenaker No.2 Tahun 1995 dengan usia pensiun normal 55 tahun dan maksimal 60 tahun;</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Usia mendapatkan manfaat pensiun diatur dalam PP No. 45 tahun 2015 tentang Penyelenggaraan Program Jaminan Pensiun pada:
+                            <ul>
+                                <li>Pasal 1. Usia Pensiun adalah usia saat peserta dapat mulai menerima manfaat pensiun</li>
+                                <li>Pasal 15. Usia pensiun ditetapkan 56 Tahun, dan menjadi 57 Tahun sejak 1 Januari 2019. Usia pensiun bertambah 1 Tahun setiap 3 Tahun hingga mencapai maksimum 65 Tahun</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+                <!--- --->
+                <div ng-show="infobawah=='upah'">
+                    <h3>Pengupahan</h3>
+                    <ol>
+                        <li>
+                            Upah minimum yang diatur adalah Upah Minimum Provinsi (UMP), Upah Minimum Kabupaten/Kota (UMK), Upah Minimum Sektoral Provinsi (UMSP); serta Upah Minimum Sektoral Kabupaten/Kota (UMSK).
+                            <br>
+                            <div style="padding-top: 10px"></div>
+                            <span mathjax-bind="expression" style="padding-left: 25px"></span>
+                            <br>
+                            <div style="padding-top: 5px; padding-left: 15px;">
+                                Keterangan
+                                <table style="text-indent: 0 !important; font-size: 13px!important;" class="u-full-width">
+                                    <tr class="notb-border">
+                                        <td style="width: 10%"><b mathjax-bind="E1"></b></td><td>:</td>
+                                        <td style="width: 88%">Upah Minimum yang akan ditetapkan</td>
+                                    </tr>
+                                    <tr class="notb-border">
+                                        <td><b mathjax-bind="E2"></b></td><td>:</td>
+                                        <td>Upah Minimum tahun berjalan</td>
+                                    </tr>
+                                    <tr class="notb-border">
+                                        <td><b mathjax-bind="E3"></b></td><td>:</td>
+                                        <td>Inflasi yang dihitung dari periode September tahun yang lalu sampai dengan periode September tahun berjalan</td>
+                                    </tr>
+                                    <tr class="notb-border">
+                                        <td><b mathjax-bind="E4"></b></td><td>:</td>
+                                        <td>Pertumbuhan Produk Domestik Bruto yang dihitung dari pertumbuhan Produk Domestik Bruto yang mencakup periode kwartal III dan IV tahun sebelumnya dan periode kwartal I dan II tahun berjalan</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                        </li>
+                        <li>UMSP dan/atau UMSK ditetapkan oleh Gubernur berdasarkan hasil kesepakatan asosiasi pengusaha dengan serikat pekerja/serikat buruh pada sektor yang bersangkutan.</li>
+                        <li>Penetapan upah untuk pekerja/buruh dengan pengalaman kerja tertentu, keahlian dan/atau jenjang pendidikan tertentu dilakukan dengan berpedoman pada struktur dan skala upah. Struktur dan skala upah diamanatkan dalam Pasal 92 ayat (1) Undang-undang Nomor 13 tahun 2003 tentang Ketenagakerjaan jo. Pasal 14 ayat (2) Peraturan Pemerintah Nomor 78 tahun 2015 tentang Pengupahan.</li>
+                        <li>Ketentuan upah lembur diatur dalam Pasal 78 Undang-undang Nomor 13 tahun 2003 tentang Ketenagakerjaan Jo. Keputusan Menteri Tenaga Kerja dan Transmigrasi Nomor Kep. 102/MEN/2004 tentang Waktu Kerja Lembur dan Upah Kerja Lembur</li>
+                    </ol>
+                </div>
+                <!--- --->
+            </div>
+        </div>
+    </div>
+</div>

@@ -31,9 +31,9 @@ class Pelaporan{
 		$arr_y    = array();
 		foreach ($get_time as $month_info) {
 			$get_date = explode('/',$month_info);
-			$m 		  = $get_date[0];
-			$d 		  = $get_date[1];
-			$y 		  = $get_date[2];
+			$m 		  = $get_date[1];
+			$d 		  = $get_date[2];
+			$y 		  = $get_date[0];
 
 			$data = $this->CI->Rekap_model->get_detailrekap($m, $y, $status);
 
@@ -61,9 +61,9 @@ class Pelaporan{
 
 			foreach ($get_time as $month_info) {
 				$get_date = explode('/',$month_info);
-				$m 		  = $get_date[0];
-				$d 		  = $get_date[1];
-				$y 		  = $get_date[2];
+				$m 		  = $get_date[1];
+				$d 		  = $get_date[2];
+				$y 		  = $get_date[0];
 
 				switch ($info) {
 					case 'jenis':							
@@ -125,7 +125,7 @@ class Pelaporan{
             ///get
 			foreach ($get_time as $month_info) {
 				$get_date = explode('/',$month_info);
-				$y 		  = $get_date[2];
+				$y 		  = $get_date[0];
 
 				switch ($info) {
 					case 'jenis':
@@ -213,7 +213,7 @@ class Pelaporan{
     	$get_time = explode(',',$time);
     	foreach ($get_time as $month_info) {
     		$get_date = explode('/',$month_info);
-    		$y 		  = $get_date[2];
+    		$y 		  = $get_date[0];
     		$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker-atase/assets/template/RekapUang.xlsx');
     		list($totaluang,$uangbulanan) = $this->get_money($y);
 
@@ -233,7 +233,7 @@ class Pelaporan{
     	$get_time = explode(',',$time);
     	foreach ($get_time as $time_info) {
     		$get_date = explode('/',$time_info);
-    		$y 		  = $get_date[2];
+    		$y 		  = $get_date[0];
 
 				//// STATISTIK
     		$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker-atase/assets/template/RekapEmpty3.xlsx');		
@@ -261,9 +261,9 @@ class Pelaporan{
     	$get_time = explode(',',$time);
     	foreach ($get_time as $time_info) {
     		$get_date = explode('/',$time_info);				
-    		$m 		  = $get_date[0];
-    		$d 		  = $get_date[1];
-    		$y 		  = $get_date[2];
+    		$m 		  = $get_date[1];
+    		$d 		  = $get_date[2];
+    		$y 		  = $get_date[0];
 
     		$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker-atase/assets/template/RekapShelter.xlsx');
 

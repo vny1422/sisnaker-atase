@@ -324,7 +324,7 @@ class Perlindungan_model extends CI_Model {
 		$this->db->select('m.tanggalpenyelesaian, m.agid');
 		$this->db->from('masalah m, shelter s, user u, jenispekerjaan j, klasifikasi k, media me');
 		$this->db->where('m.idmasalah',$id);
-		$this->db->where('m.idinstitution = s.idinstitution');
+		$this->db->where('m.idshelter = s.id');
 		$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
 		$this->db->where('m.idklasifikasi = k.id');
 		$this->db->where('m.idmedia = me.id');

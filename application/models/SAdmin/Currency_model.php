@@ -1,6 +1,6 @@
 <?php
 class Currency_model extends CI_Model {
-    private $table = 'Currency';
+    private $table = 'currency';
     public function __construct()
     {
         $this->load->database('default');

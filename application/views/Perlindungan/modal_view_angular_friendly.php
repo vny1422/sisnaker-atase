@@ -104,21 +104,21 @@
 		                				</div>
 		                				<div class="panel-body">
 		                					<div class="form-group">
-												<label for="inputagensitw" class="col-sm-3 control-label">Nama Agensi Taiwan :</label>
+												<label for="inputagensitw" class="col-sm-3 control-label">Nama Agensi :</label>
 												<div class="col-sm-8">
 													<p class="form-control-static" id="Aagensitw" name="agensitw"></p>
 												</div>
 											</div>
 											
 											<div class="form-group">
-												<label for="inputcpagensitw" class="col-sm-3 control-label">CP Agensi Taiwan :</label>
+												<label for="inputcpagensitw" class="col-sm-3 control-label">CP Agensi :</label>
 												<div class="col-sm-8">
 													<p class="form-control-static" id="Acpagensitw" name="cpagensitw"></p>
 												</div>
 											</div>
 											
 											<div class="form-group">
-												<label for="inputhpagensitw" class="col-sm-3 control-label">Telp. Agensi Taiwan :</label>
+												<label for="inputhpagensitw" class="col-sm-3 control-label">Telp. Agensi :</label>
 												<div class="col-sm-4">
 													<p class="form-control-static" id="Ahpagensitw" name="hpagensitw"></p>								
 												</div>

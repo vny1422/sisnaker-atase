@@ -18,6 +18,14 @@ class User_model extends CI_Model {
         return $query->row();
     }
 
+    public function get_user_institution($username)
+    {
+      $query = $this->db->get_where($this->table, array('username' => $username));
+      $hasil = $query->row();
+      $this->db->select('nameinstitution');
+      return $this->db->get_where('institution', array('idinstitution' => $hasil->idinstitution))->row();
+    }
+
     public function post_new_user()
     {
         $data = array(

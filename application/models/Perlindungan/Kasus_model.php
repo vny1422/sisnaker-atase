@@ -128,4 +128,40 @@ function get_shelter() {
 	return $query->result_array();
 }
 
+function org_count_problem_thismonth($month,$year,$idorganisasi) {
+		$this->db->select('*');
+		$this->db->from('masalah m');
+		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
+		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
+		$this->db->where('m.idinstitution',$idorganisasi);
+		$query = $this->db->count_all_results();
+
+		return $query;
+	}
+
+	function org_count_problem_thisyear($year,$idorganisasi) {
+		$this->db->select('*');
+		$this->db->from('masalah m');
+		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
+		$this->db->where('m.idinstitution',$idorganisasi);
+		$query = $this->db->count_all_results();
+
+		return $query;
+	}
+
+	function input_problem($data_arr) {
+		$this->db->insert('masalah', $data_arr);
+		//print $this->db->last_query();
+
+		$id = $this->db->insert_id();
+
+		return $id;
+	}
+
+	function input_tki($data_arr) {
+	$this->db->insert('tkimasalah', $data_arr);
+	$id = $this->db->insert_id();
+
+	return $id;
+}
 }

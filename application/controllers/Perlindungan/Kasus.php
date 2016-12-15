@@ -10,6 +10,7 @@ class Kasus extends MY_Controller {
     parent::__construct();
     $this->load->model('Perlindungan/Kasus_model');
     $this->load->model('SAdmin/Jobtype_model');
+    $this->load->model('SAdmin/User_model');
     $this->load->helper('string');
     $this->load_sidebar();
     $this->data['listdp'] = $this->listdp;
@@ -148,25 +149,25 @@ $tindaklanjut	= $this->deftest($fdata,'tindaklanjut');
 /// complex entry
 $sektor			= $this->Jobtype_model->get_sektor($fdata['pekerjaan']);
 $petugas    	= $fdata['petugas'];
-$organisasi		= $this->Input_model->get_officer_info($fdata['petugas'])->row_array()['idorganisasi'];
+$organisasi = $this->User_model->get_userid($fdata['petugas'])->idinstitution;
+$namaorganisasi		= $this->User_model->get_user_institution($fdata['petugas'])->nameinstitution;
 
 $dataAduan = array(
-        'idorganisasi' => intval($organisasi),
-        'nomormasalah' => $this->get_problem_number($tgladuan, $organisasi),
+        'idinstitution' => intval($organisasi),
+        'nomormasalah' => $this->get_problem_number($tgladuan, $namaorganisasi,$organisasi),
         'idmedia' => intval($media),
         'namapelapor' => $pelapor,
         'teleponpelapor' => $tlppelapor,
         'tanggalpengaduan' => $tgladuan,
         'petugaspenanganan' => $petugas,
-        'tanggalmasuktaiwan' => $tglmasuktw,
+        'tanggalmasuk' => $tglmasuktw,
         'agensi' => $agensitw,
         'cpagensi' => $cpagensitw,
         'teleponagensi' => $hpagensitw,
         'pptkis' => $pptkis,
         'majikan' => $majikan,
         'idklasifikasi' => intval($klasifi),
-        'idjenis' => intval($jeniskerja),
-        'sektor' => intval($sektor),
+        'idjenispekerjaan' => intval($jeniskerja),
         'statustki' => intval($statustki),
         'permasalahan' => $masalah,
         'tuntutan' => $tuntutan,
@@ -176,22 +177,22 @@ $dataAduan = array(
         'tanggalpenyelesaian' => $tglselesai,
         'tanggalkeluarshelter' => '',
         'enable' => 1,
-        'adid' => intval($adid),
+        'agid' => intval($adid),
         'pulang' => intval($pulang),
         'keyword' => $keyword
   );
 // Input Problem to Database
-$id_problem = $this->Input_model->input_problem($dataAduan);
+$id_problem = $this->Kasus_model->input_problem($dataAduan);
 //echo json_encode($dataAduan);
 
 ///input tindak lanjut
-if($tindaklanjut != "" && strlen($tindaklanjut)>10){
-  $date = date('Y-m-d');
-  $this->Input_model->insert_tindak_lanjut($id_problem,$tindaklanjut,$date,$petugas);
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
+// if($tindaklanjut != "" && strlen($tindaklanjut)>10){
+//   $date = date('Y-m-d');
+//   $this->Input_model->insert_tindak_lanjut($id_problem,$tindaklanjut,$date,$petugas);
+// }
+//
+// ///////////////////////////////////////////////////////////////////////////////
+//
 //// DATA TKI
 $namatki_cur = quotes_to_entities(trim($this->deftest($fdata,'namatki')));
 $paspor_cur  = quotes_to_entities(trim($this->deftest($fdata,'paspor')));
@@ -205,59 +206,58 @@ $data_tki = array(
     'idmasalah' => $id_problem,
     'namatki' => strtoupper($namatki_cur),
     'jk' => $gender_cur,
-    'paspor' => $paspor_cur,
+    'paspor' => strtoupper($paspor_cur),
     'arc' => $arc_cur,
     'handphone' => $tlptki_cur,
     'alamatindonesia' => $addid_cur,
     'alamattaiwan' => $addtw_cur,
-    'enable' => 1
 );
 // Input TKI to Database
-$idtki = $this->Input_model->input_tki($data_tki);
+$idtki = $this->Kasus_model->input_tki($data_tki);
 ///////////////////////////////////////////////////////////////////////////////
 
-$fdata['shelter'] = $this->deftest($fdata,'shelter');
+// $fdata['shelter'] = $this->deftest($fdata,'shelter');
 /// SHELTER
-if($fdata['shelter'] != '') {
-  for($i=0;$i<count($fdata['shelter']);$i++){
-    $data_sh = array(
-      'idmasalah' 	=>	$id_problem,
-      'idtki' 		=>	$idtki,
-      'tgmasuk'		=> 	$fdata['shelter'][$i]['in'],
-      'tgkeluar'		=> 	$fdata['shelter'][$i]['out'],
-      'keterangan'	=> 	$fdata['shelter'][$i]['info'],
-      'idorganisasi'	=> 	$fdata['shelter'][$i]['lokasi']['idorganisasi']
-    );
-    $this->Input_model->input_shelter($data_sh);
-  }
-}
+// if($fdata['shelter'] != '') {
+//   for($i=0;$i<count($fdata['shelter']);$i++){
+//     $data_sh = array(
+//       'idmasalah' 	=>	$id_problem,
+//       'idtki' 		=>	$idtki,
+//       'tgmasuk'		=> 	$fdata['shelter'][$i]['in'],
+//       'tgkeluar'		=> 	$fdata['shelter'][$i]['out'],
+//       'keterangan'	=> 	$fdata['shelter'][$i]['info'],
+//       'idorganisasi'	=> 	$fdata['shelter'][$i]['lokasi']['idorganisasi']
+//     );
+//     $this->Input_model->input_shelter($data_sh);
+//   }
+// }
 ///////////////////////////////////////////////////////////////////////////////
-$data_file_list = array();
-/// file upload + works perfectly
-$config['upload_path'] = $this->input->server('DOCUMENT_ROOT').'/data';
-$this->load->library('upload',$config);
-if(isset($_FILES['file']) && $_FILES['file']['size'] > 0){
-  $name_array 	= $_FILES['file']['name'];
-  $tmp_name_array = $_FILES['file']['tmp_name'];
-  for ($i=0;$i < count($tmp_name_array); $i++) {
-    if ($tmp_name_array[$i] != '') {
-      if (!move_uploaded_file($tmp_name_array[$i], $config['upload_path'].'/'.$id_problem.'_'.$name_array[$i])) {
-        print 'error';
-      } else {
-        $data_file = array(
-            'idmasalah' => $id_problem,
-            'filename' => 'data/'.$id_problem.'_'.$name_array[$i],
-            'username' => $petugas,
-            'timestamp' => date('Y-m-d H:i:s')
-        );
-        array_push($data_file_list,$data_file['filename']);
-        /// Input File
-        $this->Input_model->input_file($data_file);
-        print '<br>input file to database<br>';
-      }
-    }
-  }
-}
+// $data_file_list = array();
+// /// file upload + works perfectly
+// $config['upload_path'] = $this->input->server('DOCUMENT_ROOT').'/data';
+// $this->load->library('upload',$config);
+// if(isset($_FILES['file']) && $_FILES['file']['size'] > 0){
+//   $name_array 	= $_FILES['file']['name'];
+//   $tmp_name_array = $_FILES['file']['tmp_name'];
+//   for ($i=0;$i < count($tmp_name_array); $i++) {
+//     if ($tmp_name_array[$i] != '') {
+//       if (!move_uploaded_file($tmp_name_array[$i], $config['upload_path'].'/'.$id_problem.'_'.$name_array[$i])) {
+//         print 'error';
+//       } else {
+//         $data_file = array(
+//             'idmasalah' => $id_problem,
+//             'filename' => 'data/'.$id_problem.'_'.$name_array[$i],
+//             'username' => $petugas,
+//             'timestamp' => date('Y-m-d H:i:s')
+//         );
+//         array_push($data_file_list,$data_file['filename']);
+//         /// Input File
+//         $this->Input_model->input_file($data_file);
+//         print '<br>input file to database<br>';
+//       }
+//     }
+//   }
+// }
 
 /*
 /// push data to CC-BNP2TKI
@@ -270,15 +270,30 @@ $syncstat = "(Sync:".$syncstat.")";
 */
 
 // Input History
-$log = "<em>".$fdata['ofname']."</em> menginput masalah baru <a href='view.php?id=".$id_problem."'>".strtoupper($namatki_cur)."</a> ".$syncstat;
-$data_hist = array(
-    'idmasalah' => $id_problem,
-    'history' => $log,
-    'timestamp' => date('Y-m-d H:i:s')
-);
-$this->Input_model->input_history($data_hist);
-
-
-
+// $log = "<em>".$fdata['ofname']."</em> menginput masalah baru <a href='view.php?id=".$id_problem."'>".strtoupper($namatki_cur)."</a> ".$syncstat;
+// $data_hist = array(
+//     'idmasalah' => $id_problem,
+//     'history' => $log,
+//     'timestamp' => date('Y-m-d H:i:s')
+// );
+// $this->Input_model->input_history($data_hist);
 }
+function get_problem_number($tglpengaduan,$namaorganisasi,$idorganisasi) {
+
+		$romawi = array('01'=>'I','02'=>'II','03'=>'III','04'=>'IV','05'=>'V','06'=>'VI',
+						'07'=>'VII','08'=>'VIII','09'=>'IX','10'=>'X','11'=>'XI','12'=>'XII'
+						);
+		$dt_exp  = explode('/',$tglpengaduan);
+		$tahun   = $dt_exp[0];
+		$bulan   = $dt_exp[1];
+		$count_month_problem = $this->Kasus_model->org_count_problem_thismonth($bulan,$tahun,$idorganisasi);
+		$count_year_problem  = $this->Kasus_model->org_count_problem_thisyear($tahun,$idorganisasi);
+
+		$this_number_month = $count_month_problem + 1;
+		$this_number_year  = $count_year_problem + 1;
+
+		$problem_number = $this_number_month. "/ADU/" . $namaorganisasi ."/" .  $romawi[$bulan] . "/" . $tahun . " (".$this_number_year.".ADU.".$namaorganisasi.".".$tahun.")";
+
+		return $problem_number;
+	}
 }

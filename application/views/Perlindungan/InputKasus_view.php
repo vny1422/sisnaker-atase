@@ -466,7 +466,7 @@
   							</div>
   							<div class="modal-footer" ng-hide="working==0">
   								<button type="button" class="btn btn-info" data-dismiss="modal" ng-show="(working==1) && (reuse==false)"
-  										onclick="window.location.href = window.location.protocol+'//simpati.kdei-taipei.org';">
+  										onclick="window.location.href = <?php echo base_url('kasus/search'); ?>';">
   									Keluar
   								</button>
   								<button type="button" class="btn btn-info" data-dismiss="modal" ng-show="(working==1) && (reuse==true)">

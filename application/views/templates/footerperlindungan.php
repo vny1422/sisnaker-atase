@@ -36,6 +36,9 @@
     <!-- Select -->
     <script src="<?php echo base_url('assets/js/select/select2.full.min.js'); ?>"></script>
 
+    <!-- Custom Theme Scripts -->
+    <script src="<?php echo base_url('assets/build/js/custom.min.js'); ?>"></script>
+
     <!-- Datatables -->
     <script>
       $(document).ready(function() {

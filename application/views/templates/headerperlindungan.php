@@ -43,7 +43,6 @@
     <link href="<?php echo base_url('assets/css/build.less.css') ?>" rel="stylesheet" type="text/css">
 
     <!-- Custom styling plus plugins -->
-    <link href="<?php echo base_url('assets/css/custom.css'); ?>" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/maps/jquery-jvectormap-2.0.3.css'); ?>" />
     <link href="<?php echo base_url('assets/css/icheck/flat/green.css'); ?>" rel="stylesheet" />
     <link href="<?php echo base_url('assets/css/floatexamples.css'); ?>" rel="stylesheet" type="text/css" />
@@ -119,13 +118,13 @@
 
     <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
     <style type="text/css">
-        .slider-selection {
-            background: red;
-        }
+    .slider-selection {
+      background: red;
+    }
     </style>
     <style type="text/css">
-  .ngdialog-content{width :70% !important;}
-</style>
+    .ngdialog-content{width :70% !important;}
+    </style>
 
   </head>
 

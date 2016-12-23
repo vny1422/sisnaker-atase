@@ -50,9 +50,7 @@ class Perlindungan extends MY_Controller {
         list($offname, $offperform)           = $this->Perlindungan_model->get_officer_performance($data['year'], $petugas);
         $this->data['officername']            = $offname;
         $this->data['performance']            = $offperform;
-        list($shelname, $shelperform)   = $this->Perlindungan_model->get_shelter_performance($data['year'], $shelter);
-        $this->data['sheltername']            = $shelname;
-        $this->data['shelter_performance']    = $shelperform;
+        
         $this->data['year_performance']       = $this->Perlindungan_model->get_year_performance($data['year']);
 
         /// list tahun

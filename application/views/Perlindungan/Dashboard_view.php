@@ -186,37 +186,6 @@
                     </div>
                     <?php }?>
 
-                    <!-- Shelter Performance -->
-                    <?php foreach($sheltername as $key => $shelter) {?>
-                      <div class="col-lg-4 col-md-6">
-                        <div class="panel panel-info">
-                          <div class="panel-heading">
-                            <div class="row">
-                              <div class="col-xs-3">                                              
-                                <i class="fa fa-home fa-5x"></i> 
-                              </div>
-                              <div class="col-xs-9 text-right">
-                                <div class="huge"><?php echo number_format($shelter_performance[$key][1],1,".",",") ?> % </div>
-                                <div><?php echo $shelter ?> </div>
-                              </div>
-                            </div>
-                          </div>
-                          <a href="<?php echo site_url('perlindungan/shelter/'.$key);?>">
-                            <div class="panel-footer">
-                              <span class="pull-left">
-                                <?php echo $shelter_performance[$key][0]?> Kasus 
-                                ( <i class="fa fa-check" style="color: green;"> <?php echo $shelter_performance[$key][2]?></i>
-                                  <i></i>
-                                  <i class="fa fa-close" style="color: red;padding-left:8px;"> <?php echo $shelter_performance[$key][3]?></i> )
-                              </span>
-                              <span class="pull-right"><i class="fa fa-arrow-circle-right"> Details</i></span>
-                              <div class="clearfix"></div>
-                            </div>
-                          </a>
-                        </div>
-                      </div>
-                      <?php }?>
-
                     </div>
                   </div>
                 </div>

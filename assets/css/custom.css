@@ -525,7 +525,12 @@ a, a:visited, a:focus, a:active, :visited, :focus, :active, .btn:focus, .btn:act
   outline: 0; }
 
 a:hover, a:focus {
-  text-decoration: none; }
+  text-decoration: none;
+  color:#16cc8c;  }
+
+a:visited {
+  color: #34495E;
+}
 
 .navbar {
   margin-bottom: 0; }
@@ -1998,8 +2003,9 @@ span.section {
   border-bottom: 1px solid #e5e5e5; }
 
 .form-control {
+  align-items: center;
   border-radius: 0;
-  width: 100%; }
+  width: 85%; }
 
 .form-horizontal .control-label {
   padding-top: 8px; }

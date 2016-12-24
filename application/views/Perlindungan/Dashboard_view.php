@@ -238,9 +238,7 @@
                                     <?php echo strtoupper($row->namatki);  if ($row->jumlah > 1) echo ' ('.$row->jumlah.' orang)'?>
                                   </a>
                                 </td>
-                                <td>
-                                  <a style="cursor: pointer;"onclick="openLookExt('<?php echo $row->paspor ?>');"><?php echo $row->paspor ?></a>
-                                </td>
+                                <td><?php echo $row->paspor ?></td>
                                 <td><?php echo $row->statustki==1?"Resmi":"Kaburan"; ?></td>
                                 <td><?php echo $row->klasifikasi ?></td>
                                 <td><?php echo $row->keyword ?></td>
@@ -274,9 +272,7 @@
                                       <?php echo strtoupper($row->namatki);  if ($row->jumlah > 1) echo ' ('.$row->jumlah.' orang)'?>
                                     </a>
                                   </td>
-                                  <td>
-                                    <a style="cursor: pointer;" onclick="openLookExt('<?php echo $row->paspor ?>');"><?php echo $row->paspor ?></a>
-                                  </td>
+                                  <td><?php echo $row->paspor ?></td>
                                   <td><?php echo $row->statustki==1?"Resmi":"Kaburan"; ?></td>
                                   <td><?php echo $row->klasifikasi ?></td>
                                   <td><?php echo $row->keyword ?></td>

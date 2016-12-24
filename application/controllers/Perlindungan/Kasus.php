@@ -183,13 +183,13 @@ $dataAduan = array(
   );
 // Input Problem to Database
 $id_problem = $this->Kasus_model->input_problem($dataAduan);
-//echo json_encode($dataAduan);
+echo json_encode($dataAduan);
 
 ///input tindak lanjut
-// if($tindaklanjut != "" && strlen($tindaklanjut)>10){
-//   $date = date('Y-m-d');
-//   $this->Input_model->insert_tindak_lanjut($id_problem,$tindaklanjut,$date,$petugas);
-// }
+if($tindaklanjut != "" && strlen($tindaklanjut)>10){
+  $date = date('Y-m-d');
+  $this->Kasus_model->insert_tindak_lanjut($id_problem,$tindaklanjut,$date,$petugas);
+}
 //
 // ///////////////////////////////////////////////////////////////////////////////
 //
@@ -216,48 +216,49 @@ $data_tki = array(
 $idtki = $this->Kasus_model->input_tki($data_tki);
 ///////////////////////////////////////////////////////////////////////////////
 
-// $fdata['shelter'] = $this->deftest($fdata,'shelter');
-/// SHELTER
-// if($fdata['shelter'] != '') {
-//   for($i=0;$i<count($fdata['shelter']);$i++){
-//     $data_sh = array(
-//       'idmasalah' 	=>	$id_problem,
-//       'idtki' 		=>	$idtki,
-//       'tgmasuk'		=> 	$fdata['shelter'][$i]['in'],
-//       'tgkeluar'		=> 	$fdata['shelter'][$i]['out'],
-//       'keterangan'	=> 	$fdata['shelter'][$i]['info'],
-//       'idorganisasi'	=> 	$fdata['shelter'][$i]['lokasi']['idorganisasi']
-//     );
-//     $this->Input_model->input_shelter($data_sh);
-//   }
-// }
+$fdata['shelter'] = $this->deftest($fdata,'shelter');
+// SHELTER
+if($fdata['shelter'] != '') {
+  $data_fixsh = array();
+  for($i=0;$i<count($fdata['shelter']);$i++){
+    $data_sh = array(
+      'idmasalah' 	=>	$id_problem,
+      'tanggalmasukshelter'		=> 	$fdata['shelter'][$i]['in'],
+      'tanggalkeluarshelter'		=> 	$fdata['shelter'][$i]['out'],
+      'keterangan'	=> 	$fdata['shelter'][$i]['info'],
+      'idshelter'	=> 	$fdata['shelter'][$i]['lokasi']['id']
+    );
+    array_push($data_fixsh,$data_sh);
+  }
+  $this->Kasus_model->input_shelter($data_fixsh);
+}
 ///////////////////////////////////////////////////////////////////////////////
-// $data_file_list = array();
-// /// file upload + works perfectly
-// $config['upload_path'] = $this->input->server('DOCUMENT_ROOT').'/data';
-// $this->load->library('upload',$config);
-// if(isset($_FILES['file']) && $_FILES['file']['size'] > 0){
-//   $name_array 	= $_FILES['file']['name'];
-//   $tmp_name_array = $_FILES['file']['tmp_name'];
-//   for ($i=0;$i < count($tmp_name_array); $i++) {
-//     if ($tmp_name_array[$i] != '') {
-//       if (!move_uploaded_file($tmp_name_array[$i], $config['upload_path'].'/'.$id_problem.'_'.$name_array[$i])) {
-//         print 'error';
-//       } else {
-//         $data_file = array(
-//             'idmasalah' => $id_problem,
-//             'filename' => 'data/'.$id_problem.'_'.$name_array[$i],
-//             'username' => $petugas,
-//             'timestamp' => date('Y-m-d H:i:s')
-//         );
-//         array_push($data_file_list,$data_file['filename']);
-//         /// Input File
-//         $this->Input_model->input_file($data_file);
-//         print '<br>input file to database<br>';
-//       }
-//     }
-//   }
-// }
+$data_file_list = array();
+/// file upload + works perfectly
+$config['upload_path'] = $this->input->server('DOCUMENT_ROOT').'/sisnaker-atase/data';
+$this->load->library('upload',$config);
+if(isset($_FILES['file']) && $_FILES['file']['size'] > 0){
+  $name_array 	= $_FILES['file']['name'];
+  $tmp_name_array = $_FILES['file']['tmp_name'];
+  for ($i=0;$i < count($tmp_name_array); $i++) {
+    if ($tmp_name_array[$i] != '') {
+      if (!move_uploaded_file($tmp_name_array[$i], $config['upload_path'].'/'.$id_problem.'_'.$name_array[$i])) {
+        print 'error';
+      } else {
+        $data_file = array(
+            'idmasalah' => $id_problem,
+            'filename' => 'data/'.$id_problem.'_'.$name_array[$i],
+            'username' => $petugas,
+            'timestamp' => date('Y-m-d H:i:s')
+        );
+        array_push($data_file_list,$data_file['filename']);
+        /// Input File
+        $this->Kasus_model->input_file($data_file);
+        print '<br>input file to database<br>';
+      }
+    }
+  }
+}
 
 /*
 /// push data to CC-BNP2TKI

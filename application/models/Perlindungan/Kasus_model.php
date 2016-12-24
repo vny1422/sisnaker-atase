@@ -163,5 +163,26 @@ function org_count_problem_thismonth($month,$year,$idorganisasi) {
 	$id = $this->db->insert_id();
 
 	return $id;
-}
+	}
+
+	function insert_tindak_lanjut($id,$tindaklanjut,$date,$petugas)
+	{
+		$data = array(
+			'idmasalah' => $id,
+			'tindakan' => $tindaklanjut,
+			'tanggal' => $date,
+			'username' => $petugas
+		);
+		return $this->db->insert('tindak_lanjut', $data);
+	}
+
+	function input_shelter($data_arr) {
+	return $this->db->insert_batch('masalah_has_shelter', $data_arr);
+	}
+
+	function input_file($data_arr) {
+	$this->db->insert('file', $data_arr);
+	return true;
+	}
+
 }

@@ -249,7 +249,7 @@
                         </label>
                         <div class="">
                           <textarea class="form-control" rows="3" placeholder="Tindak Lanjut"
-													  style="resize: vertical;" ng-model="formdata['tindaklanjutlama']"></textarea>
+													  style="resize: vertical;" ng-model="formdata['tindaklanjut']"></textarea>
                         </div>
                       </div>
 
@@ -260,7 +260,7 @@
     											<div class="panel panel-default">
     												<table class="table table-striped table-hover table-bordered">
     													<tr ng-repeat="sh in formdata['shelter']">
-    														<td style="width:25%;text-align:center">{{sh.lokasi}}</td>
+    														<td style="width:25%;text-align:center">{{sh.lokasi.name}}</td>
     														<td style="width:20%;text-align:center"><b>Masuk : </b>  {{sh.in}}</td>
     														<td style="width:20%;text-align:center"><b>Keluar : </b>  {{sh.out}}</td>
     														<td style="text-align:center"><font ng-show="sh.info.length>0"><b>{{sh.info}}</b></td>
@@ -402,7 +402,7 @@
                               <div class="form-group">
                                   <label class="col-sm-3 control-label">Lokasi Shelter</label>
                                   <div class="col-sm-8">
-                                      <select class="form-control" ng-model="shelterform['lokasi']" ng-options="k.name as k.name for k in shList"
+                                      <select class="form-control" ng-model="shelterform['lokasi']" ng-options="k.name for k in shList"
                                               selectpicker toggle-dropdown>
                                       </select>
                                   </div>

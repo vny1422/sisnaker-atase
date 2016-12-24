@@ -33,7 +33,8 @@ class User_model extends CI_Model {
             'password' => md5($this->input->post('password',TRUE)),
             'name' => $this->input->post('name',TRUE),
             'idinstitution' => $this->input->post('institution',TRUE),
-            'idlevel' => $this->input->post('level',TRUE)
+            'idlevel' => $this->input->post('level',TRUE),
+            'idkantor' => $this->input->post('kantor',TRUE)
         );
 
         return $this->db->insert($this->table, $data);
@@ -55,7 +56,8 @@ class User_model extends CI_Model {
         $data = array(
           'name' => $this->input->post('name',TRUE),
           'idinstitution' => $this->input->post('institution',TRUE),
-          'idlevel' => $this->input->post('level',TRUE)
+          'idlevel' => $this->input->post('level',TRUE),
+          'idkantor' => $this->input->post('kantor',TRUE)
         );
         $this->db->where('username',$username);
         return $this->db->update($this->table,$data);

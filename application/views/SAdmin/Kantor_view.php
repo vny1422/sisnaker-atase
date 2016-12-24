@@ -18,11 +18,10 @@
           <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
             <thead>
               <tr>
-                <th>Username</th>
-                <th>Nama</th>
-                <th>Institusi</th>
-                <th>Kantor</th>
-                <th>Level</th>
+                <th>ID Kantor</th>
+                <th>Nama Kantor</th>
+                <th>Nama Institusi</th>
+                <th>Is Active</th>
                 <th>Edit</th>
                 <th>Hapus</th>
               </tr>
@@ -32,16 +31,15 @@
               $i=0;
             foreach($list as $row): ?>
               <tr>
-                <td><?php echo $row->username ?></td>
-                <td><?php echo $row->name ?></td>
-                <td><?php echo $listnamainstitusi[$i]->nameinstitution ?></td>
-                <td><?php echo $listnamakantor[$i]->namakantor ?></td>
-                <td><?php echo $listnamalevel[$i]->levelname ?></td>
+                <td><?php echo $row->idkantor ?></td>
+                <td><?php echo $row->namakantor ?></td>
+                <td><?php if ($row->isactive == 1) {echo 'Active';} else echo 'Not Active';  ?></td>
+                <td><?php echo $listnama[$i]->nameinstitution ?></td>
                 <td>
-                  <div class="center-button"><a href=" <?php echo base_url() ?>user/edit/<?php echo $row->username ?>"><button class="btn btn-info" type="button" name="button">Edit</button></a></div>
+                  <div class="center-button"><a href="<?php echo base_url()?>kantor/edit/<?php echo $row->idkantor ?>"><button class="btn btn-info" type="button" name="button">Edit</button></a></div>
                 </td>
                 <td>
-                  <div class="center-button"><a href="<?php echo base_url() ?>user/delete/<?php echo $row->username ?>"><button align="center" class="btn btn-danger" type="button" name="button">Hapus</button></a></div>
+                  <div class="center-button"><a href="<?php echo base_url()?>kantor/delete/<?php echo $row->idkantor ?>"><button align="center" class="btn btn-danger" type="button" name="button">Hapus</button></a></div>
                 </td>
               </tr>
 

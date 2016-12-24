@@ -1,3 +1,7 @@
+<div>
+  <br><br><br>
+</div>
+
 <!-- footer content -->
         <footer>
           <div class="pull-right">

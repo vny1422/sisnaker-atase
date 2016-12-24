@@ -24,6 +24,7 @@
     <!-- Custom Theme Style -->
     <link href="<?php echo base_url('assets/build/css/custom.min.css'); ?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/css/custom.css'); ?>" rel="stylesheet">
+    <link href="<?php echo base_url('assets/css/mycss.css'); ?>" rel="stylesheet">
 
     <!-- chart CSS -->
     <link href="<?php echo base_url('assets/css/angular-chart.min.css') ?>" rel="stylesheet">
@@ -84,7 +85,7 @@
     <script src="<?php echo base_url('assets/js/moment.js') ?>"></script>
 
     <!-- Custom JS -->
-    <script src="<?php echo base_url('assets/build/js/custom.min.js'); ?>"></script>
+    <!-- <script src="<?php //echo base_url('assets/build/js/custom.min.js'); ?>"></script> -->
 
     <!-- Morris JavaScript -->
     <script src="<?php echo assets_url() ?>js/morris/raphael.min.js"></script>

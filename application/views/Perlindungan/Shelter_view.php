@@ -18,8 +18,8 @@
           <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
             <thead>
               <tr>
-                <th>ID Kantor</th>
-                <th>Nama Kantor</th>
+                <th>ID Shelter</th>
+                <th>Nama Shelter</th>
                 <th>Nama Institusi</th>
                 <th>Is Active</th>
                 <th>Edit</th>
@@ -31,15 +31,15 @@
               $i=0;
             foreach($list as $row): ?>
               <tr>
-                <td><?php echo $row->idkantor ?></td>
-                <td><?php echo $row->namakantor ?></td>
+                <td><?php echo $row->id ?></td>
+                <td><?php echo $row->name ?></td>
                 <td><?php echo $listnama[$i]->nameinstitution ?></td>
                 <td><?php if ($row->isactive == 1) {echo 'Active';} else echo 'Not Active';  ?></td>
                 <td>
-                  <div class="center-button"><a href="<?php echo base_url()?>kantor/edit/<?php echo $row->idkantor ?>"><button class="btn btn-info" type="button" name="button">Edit</button></a></div>
+                  <div class="center-button"><a href="<?php echo base_url()?>shelter/edit/<?php echo $row->id ?>"><button class="btn btn-info" type="button" name="button">Edit</button></a></div>
                 </td>
                 <td>
-                  <div class="center-button"><a href="<?php echo base_url()?>kantor/delete/<?php echo $row->idkantor ?>"><button align="center" class="btn btn-danger" type="button" name="button">Hapus</button></a></div>
+                  <div class="center-button"><a href="<?php echo base_url()?>shelter/delete/<?php echo $row->id ?>"><button align="center" class="btn btn-danger" type="button" name="button">Hapus</button></a></div>
                 </td>
               </tr>
 

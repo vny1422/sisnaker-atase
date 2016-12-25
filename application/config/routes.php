@@ -106,6 +106,7 @@ $route['(?i)wilayah/(:any)/(:any)'] = 'SAdmin/Wilayah/$1/$2';
 $route['(?i)level/(:any)/(:any)'] = 'SAdmin/Level/$1/$2';
 $route['(?i)user/(:any)/(:any)'] = 'SAdmin/User/$1/$2';
 $route['(?i)shelter/(:any)'] = 'Perlindungan/Shelter/$1';
+$route['(?i)shelter/(:any)/(:any)'] = 'Perlindungan/Shelter/$1/$2';
 $route['(?i)perlindungan/(:any)'] = 'Perlindungan/Perlindungan/$1';
 $route['(?i)perlindungan/(:any)/(:any)'] = 'Perlindungan/Perlindungan/$1/$2';
 $route['(?i)agensipptkis/(:any)/(:any)'] = 'Perlindungan/AgensiPPTKIS/$1/$2';

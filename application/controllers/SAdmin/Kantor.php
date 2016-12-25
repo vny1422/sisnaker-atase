@@ -9,13 +9,13 @@ class Kantor extends MY_Controller {
     {
         parent::__construct();
         $this->load->model('SAdmin/Institution_model');
-		$this->load->model('SAdmin/Kantor_model');
+        $this->load->model('SAdmin/Kantor_model');
 
         $this->load_sidebar();
         $this->data['listdp'] = $this->listdp;
         $this->data['usedpg'] = $this->usedpg;
         $this->data['usedmpg'] = $this->usedmpg;
-		$this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
+        $this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
         $this->data['sidebar'] = 'SAdmin/Sidebar';
 
         if ($this->session->userdata('role') != 1 && $this->session->userdata('role') != 2)
@@ -29,21 +29,16 @@ class Kantor extends MY_Controller {
         if($this->session->userdata('role') == '1')
         {
             $this->data['list'] = $this->Kantor_model->list_all_kantor();
-            $this->data['listnama'] = array();
-            foreach ($this->data['list'] as $row):
-                array_push($this->data['listnama'],$this->Institution_model->get_institution_name($row->idinstitution));
-            endforeach;
         }
         else
         {
             $this->data['list'] = $this->Kantor_model->list_all_kantor_institution($this->session->userdata('institution'));
-            $this->data['listnama'] = array();
-            foreach ($this->data['list'] as $row):
-                array_push($this->data['listnama'],$this->Institution_model->get_institution_name($row->idinstitution));
-            endforeach;
         }
-    	
-		$this->data['title'] = 'Tabel Kantor';
+        $this->data['listnama'] = array();
+        foreach ($this->data['list'] as $row):
+            array_push($this->data['listnama'],$this->Institution_model->get_institution_name($row->idinstitution));
+        endforeach;
+        $this->data['title'] = 'Tabel Kantor';
         $this->load->view('templates/header', $this->data);
         $this->load->view('SAdmin/Kantor_view', $this->data);
         $this->load->view('templates/footer');

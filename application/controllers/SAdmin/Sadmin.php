@@ -11,17 +11,27 @@ class Sadmin extends MY_Controller {
 		$this->load->model('SAdmin/User_model');
 		$this->load->model('SAdmin/Institution_model');
 		$this->load->model('Perlindungan/Perlindungan_model');
+        $this->load->model('SAdmin/Kantor_model');
+        
         $this->load_sidebar();
-
     	$this->data['listdp'] = $this->listdp;
     	$this->data['usedpg'] = $this->usedpg;
     	$this->data['usedmpg'] = $this->usedmpg;
 		$this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
     	$this->data['sidebar'] = 'SAdmin/Sidebar';
+
+        if ($this->session->userdata('role') != 1 && $this->session->userdata('role') != 2)
+        {
+            show_error("Access is forbidden.",403,"403 Forbidden");
+        }
     }
 
 	public function index()
 	{
+        if ($this->session->userdata('role') != 1)
+        {
+            show_error("Access is forbidden.",403,"403 Forbidden");
+        }
 		$this->data['list'] = $this->User_model->list_all_user();
 		$this->data['listnamainstitusi'] = array();
 		foreach ($this->data['list'] as $row):
@@ -31,6 +41,10 @@ class Sadmin extends MY_Controller {
 		foreach ($this->data['list'] as $row):
 			array_push($this->data['listnamalevel'],$this->Level_model->get_level_name($row->idlevel));
 		endforeach;
+        $this->data['listnamakantor'] = array();
+        foreach ($this->data['list'] as $row):
+            array_push($this->data['listnamakantor'],$this->Kantor_model->get_kantor_name($row->idkantor));
+        endforeach;
 		$this->data['title'] = 'Super Admin';
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('SAdmin/SAdmin_view', $this->data);

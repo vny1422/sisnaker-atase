@@ -7,20 +7,90 @@ class Shelter_model extends CI_Model {
 		$this->load->database('default');
 	}
 
-	function query_shelter_list(){
+	public function post_new_shelter()
+    {
+    	$active = $this->input->post('active',TRUE);
+
+    	if ($active) {
+    		$active = true;
+    	} else {
+    		$active = false;
+    	}
+
+    	$data = array(
+		    'name' => $this->input->post('name',TRUE),
+		    'idinstitution' => $this->input->post('institution',TRUE),
+		    'isactive' => $active
+		);
+
+		return $this->db->insert('shelter', $data);
+    }
+
+    public function list_all_shelter()
+    {
+        return $this->db->get('shelter')->result();
+    }
+
+	public function query_shelter_list(){
 		$q = $this->db->get('shelter');
 		return $q->result_array();		
 	}
 
-	function query_shelter_institution($id){
+	public function query_shelter_institution($id){
 		$q = $this->db->get_where('shelter', array('idinstitution' => $id));
 		return $q->result();
 	}
 
-	function query_shelter_institution_array($id){
+	public function query_shelter_institution_array($id){
 		$q = $this->db->get_where('shelter', array('idinstitution' => $id));
 		return $q->result_array();
 	}
+
+	public function get_shelter_name($id)
+    {
+        $this->db->select('name');
+        return $this->db->get_where('shelter', array('id' => $id))->row();
+    }
+
+    public function get_shelter($id)
+    {
+        return $this->db->get_where('shelter', array('id' => $id))->row();
+    }
+
+    public function get_active_shelter($id)
+    {
+        return $this->db->get_where('shelter', array('id' => $id,'isactive' => 1))->row();
+    }
+
+    public function list_active_shelter()
+    {
+        return $this->db->get_where('shelter', array('isactive' => '1'))->result();
+    }
+
+    public function update_shelter($id)
+    {
+        $active = $this->input->post('active',TRUE);
+
+    	if ($active) {
+    		$active = true;
+    	} else {
+    		$active = false;
+    	}
+
+    	$data = array(
+		    'name' => $this->input->post('name',TRUE),
+		    'idinstitution' => $this->input->post('institution',TRUE),
+		    'isactive' => $active
+		);
+        $this->db->where('id',$id);
+        return $this->db->update('shelter',$data);
+    }
+
+    public function delete_shelter($id)
+    {
+        $this->db->where('id',$id);
+        return $this->db->delete('shelter');
+    }
 	
 	function query_resident_month($id,$month,$year){
 		$this->db->select("m.idmasalah, t.namatki, t.paspor, k.name AS klasifikasi, YEAR(m.tanggalpengaduan) AS yearadu, u.name AS petugas, m.statusmasalah ");

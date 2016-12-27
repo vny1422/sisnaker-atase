@@ -1,15 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Log extends MY_Controller {
+class Paket extends MY_Controller {
 
   private $data;
 
   public function __construct()
   {
     parent::__construct();
-    $this->load->model('Perlindungan/Log_model');
-
     $this->load_sidebar();
     $this->data['listdp'] = $this->listdp;
     $this->data['usedpg'] = $this->usedpg;
@@ -25,7 +23,6 @@ class Log extends MY_Controller {
 
     $this->data['result_log'] = array();
 
-    $listlog = $this->Log_model->get_history()->result();
     foreach($listlog as $row):
       $user = $this->Log_model->get_namapetugas($row->user_username);
       $namatki = $this->Log_model->get_namatki($row->idmasalah);
@@ -37,4 +34,12 @@ class Log extends MY_Controller {
     $this->load->view('Perlindungan/CatatanAktivitas_view', $this->data);
     $this->load->view('templates/footerperlindungan');
   }
+
+  public function add()
+  {
+    $this->load->view('templates/headerperlindungan', $this->data);
+    $this->load->view('endorsement/DaftarPaketJO_view');
+    $this->load->view('templates/footerperlindungan');
+  }
+
 }

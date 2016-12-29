@@ -93,8 +93,10 @@ class Kasus extends MY_Controller {
   }
 
   function kasuscheck(){
+    $this->data['title'] = 'Verifikasi Input Kasus';
+    $this->data['subtitle'] = 'Verifikasi Input Kasus';
     $this->load->view('templates/headerperlindungan', $this->data);
-    $this->load->view('Perlindungan/InputKasus_view', $this->data);
+    $this->load->view('Perlindungan/InputCheck_view', $this->data);
     $this->load->view('templates/footerperlindungan');
   }
 

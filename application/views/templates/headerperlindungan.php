@@ -59,6 +59,9 @@
     <!-- Morris Charts CSS -->
     <link href="<?php echo assets_url() ?>css/plugins/morris.css" rel="stylesheet">
 
+    <!-- Bootstrap Progressbar CSS -->
+    <link href="<?php echo assets_url() ?>css/progressbar/bootstrap-progressbar-3.3.0.css" rel="stylesheet">
+
     <!-- css for input kasus -->
     <link href="<?php echo base_url('assets/css/fileinput.min.css'); ?>" rel="stylesheet">
 
@@ -83,9 +86,6 @@
 
     <!-- moment JS -->
     <script src="<?php echo base_url('assets/js/moment.js') ?>"></script>
-
-    <!-- Custom JS -->
-    <!-- <script src="<?php //echo base_url('assets/build/js/custom.min.js'); ?>"></script> -->
 
     <!-- Morris JavaScript -->
     <script src="<?php echo assets_url() ?>js/morris/raphael.min.js"></script>
@@ -116,6 +116,9 @@
 
     <script src="<?php echo base_url('assets/js/marked.min.js') ?>"></script>
     <script src="<?php echo base_url('assets/js/angular-marked.min.js') ?>"></script>
+
+    <!-- Bootstrap Progressbar JavaScript -->
+    <script src="<?php echo base_url('assets/js/progressbar/bootstrap-progressbar.min.js') ?>"></script>
 
     <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
     <style type="text/css">

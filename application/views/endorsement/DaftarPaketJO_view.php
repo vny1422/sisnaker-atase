@@ -28,7 +28,7 @@
             </div>
           </div>' ?>
         <?php endif; ?>
-          <?php echo form_open(base_url('input/addpenempatan')) ?>
+          <?php echo form_open(base_url('paket/add')) ?>
 
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Nama Agensi <span class="required">*</span></label>

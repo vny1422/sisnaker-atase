@@ -426,8 +426,13 @@
                       												</div>
                       											</div>
                       										</div>
-
-
+<br><br><br><br>
+                                          <div class="btn-group" ng-init="reuse=false" ng-show="self[1]==1 && self[3]=='new'" style="margin-right:25%">
+  <button type="button" class="btn" ng-class="{'btn-success': reuse==false}"
+      ng-click="reuse=false" ng-disabled="disableAll">Entry Tunggal</button>
+  <button type="button" class="btn" ng-class="{'btn-success': reuse==true}"
+      ng-click="reuse=true" ng-disabled="disableAll">Entry Jamak</button>
+</div>
                     </form>
                   </div>
                   <div class="ln_solid"></div>

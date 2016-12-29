@@ -92,7 +92,9 @@ class Kasus extends MY_Controller {
   }
 
   function kasuscheck(){
-
+    $this->load->view('templates/headerperlindungan', $this->data);
+    $this->load->view('Perlindungan/InputKasus_view', $this->data);
+    $this->load->view('templates/footerperlindungan');
   }
 
   public function getParam(){

@@ -15,6 +15,7 @@ formApp.controller('FormController',['$scope','FormService','LookupService','Upl
     $scope.adminOnly = false;
     /// form data
     $scope.formdata = {};
+    $scope.formlain = {};
     // id siap
     $scope.formdata.adid = parseInt(siap);
     ///selectoptions data
@@ -254,7 +255,6 @@ formApp.controller('FormController',['$scope','FormService','LookupService','Upl
         $scope.disablesubmit = true;
         $('#modal_working').modal('show');
         $scope.working = 0;
-        console.log($scope.newfile);
         //
         if ($scope.self[3]==='new') {
            var targetURL = mainURI+"kasus/save_entry";
@@ -269,7 +269,7 @@ formApp.controller('FormController',['$scope','FormService','LookupService','Upl
 
         var upload = Upload.upload({
             url: targetURL,
-            fields: {'formdata': Upload.json($scope.formdata)},
+            fields: {'formdata': Upload.json($scope.formdata),'formlain': Upload.json($scope.formlain)},
             file: $scope.newfile
         });
 

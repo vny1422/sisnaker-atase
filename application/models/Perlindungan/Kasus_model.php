@@ -190,4 +190,40 @@ function org_count_problem_thismonth($month,$year,$idorganisasi) {
 	return true;
 }
 
+//check kasus
+public function similar_test($nama,$paspor){
+
+		$query = "";
+		for($i=0;$i<count($nama);$i++){
+				$query = $query." namatki LIKE '%".$nama[$i]."%' ";
+				if($i+1 < count($nama)){
+						$query = $query." OR ";
+				}
+		}
+		if(!empty($query) && count($paspor)>0){
+				$query = $query." ) AND ( ";
+		}
+		for($i=0;$i<count($paspor);$i++){
+				$query = $query." paspor LIKE '%".$paspor[$i]."%' ";
+				if($i+1 < count($paspor)){
+						$query = $query." OR ";
+				}
+		}
+		$query = "SELECT m.idmasalah, t.namatki, t.paspor, k.name, j.namajenispekerjaan, m.tanggalpengaduan ".
+			", IF(m.statusmasalah=1,'Proses','Selesai') AS status, u.name AS petugas ".
+								"FROM tkimasalah t, masalah m, klasifikasi k, jenispekerjaan j, user u ".
+								"WHERE (".$query.") AND t.idmasalah=m.idmasalah AND m.idjenispekerjaan=j.idjenispekerjaan AND m.idklasifikasi=k.id AND m.petugaspenanganan=u.username ".
+								"ORDER BY m.tanggalpengaduan DESC ";
+
+		/// multi white space removal
+		$query = preg_replace('/\s+/', ' ', $query);
+
+		//return $query;
+
+		$result = $this->db->query($query);
+
+		return $result->result_array();
+
+}
+
 }

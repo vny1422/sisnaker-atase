@@ -55,4 +55,12 @@ class PPTKIS_model extends CI_Model {
 
       return $query->row_array();
     }
+
+    function ambilnamapptkis($keyword, $num=0, $rand=false) {   
+    $this->db->like('ppnama', $keyword);
+    $this->db->where('ppenable', "1");
+    
+    $query = $this->db->get('mpptkis');
+    return $query->result();
+  }
   }

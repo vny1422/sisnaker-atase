@@ -55,4 +55,12 @@ class Agency_model extends CI_Model {
       return $query->row_array();
     }
 
+    function ambilnamaagensi($keyword, $num=0, $rand=false) {   
+    $this->db->like('agnama', $keyword);
+    $this->db->where('agenable', "1");
+    
+    $query = $this->db->get('magensi');
+    return $query->result();
+  }
+
 }

@@ -9,6 +9,8 @@ class Paket extends MY_Controller {
   {
     parent::__construct();
     $this->load_sidebar();
+    $this->load->model('Perlindungan/Agency_model');
+    $this->load->model('Perlindungan/Pptkis_model');
     $this->data['listdp'] = $this->listdp;
     $this->data['usedpg'] = $this->usedpg;
     $this->data['usedmpg'] = $this->usedmpg;
@@ -37,9 +39,29 @@ class Paket extends MY_Controller {
 
   public function add()
   {
-    $this->load->view('templates/headerperlindungan', $this->data);
+    $this->data['title'] = 'Mendaftarkan Paket JO';
+    $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('endorsement/DaftarPaketJO_view');
-    $this->load->view('templates/footerperlindungan');
+    $this->load->view('templates/footerendorsement');
+  }
+
+  // AJAX AUTOCOMPLETE
+  public function ambilnamaagensi($kode=NULL){
+    $keyword = $this->input->post('kode',TRUE);
+    $query = $this->Agency_model->ambilnamaagensi($keyword);
+    $json_array = array();
+    foreach ($query as $row)
+      $json_array[]=$row->agnama;
+    echo json_encode($json_array);
+  }
+
+  public function ambilnamapptkis($kode=NULL){
+    $keyword = $this->input->post('kode',TRUE);
+    $query = $this->Pptkis_model->ambilnamapptkis($keyword);
+    $json_array = array();
+    foreach ($query as $row)
+      $json_array[]=$row->ppnama;
+    echo json_encode($json_array);
   }
 
 }

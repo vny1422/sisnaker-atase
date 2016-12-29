@@ -154,6 +154,67 @@
           </div>
         </div>
       </div>
+      <?php
+            foreach($listcategory as $category): ?>
+              <div class="row">
+                  <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                      <div class="x_title">
+                        <ul class="nav navbar-right panel_toolbox">
+                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                          </ul>
+                          <h3><strong><?php echo $category->namecategory?></strong></h3>
+                          <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                          <div class="col-md-8 center-margin">
+                            <form class="form-horizontal form-label-left">
+                              <?php foreach($listinput as $input):
+                                  if($input->idcategory_perlindungan == $category->idcategory_perlindungan)
+                                  { ?>
+                                    <div class="form-group">
+                                      <label><?php echo $input->nameinputdetail ?></label>
+                                      <input type="<?php echo $input->nameinputtype?>" class="form-control" placeholder="<?php echo $input->nameinputdetail ?>" ng-model="formlain['<?php echo $input->fieldname?>']" ng-disabled="disableAll">
+                                    </div>
+                                    <?php
+                                  } ?>
+                              <?php endforeach; ?>
+                              <?php foreach($listselecttable as $inputselect):
+                                if($inputselect->idcategory_perlindungan == $category->idcategory_perlindungan)
+                                { ?>
+                                  <div>
+                                    <label><?php echo $inputselect->nameinputdetail ?></label>
+                                    <select class="form-control" ng-model="formlain['<?php echo $inputselect->fieldname?>']" selectpicker="{dropupAuto:false}" toggle-dropdown ng-disabled="disableAll">
+                                      <?php foreach(${'i'.$inputselect->idinputdetail_perlindungan} as $row): ?>
+                                          <option value="<?php echo $row->name ?>"><?php echo $row->name ?></option>
+                                      <?php endforeach; ?>
+                                    </select>
+                                  </div>
+                                  <?php
+                                } ?>
+                              <?php endforeach; ?>
+                              <?php foreach($listinputselect as $inputselect):
+                                if($inputselect->idcategory_perlindungan == $category->idcategory_perlindungan)
+                                { ?>
+                                  <div>
+                                    <label><?php echo $inputselect->nameinputdetail ?></label>
+                                    <select class="form-control" ng-model="formlain['<?php echo $inputselect->fieldname?>']" selectpicker="{dropupAuto:false}" toggle-dropdown ng-disabled="disableAll">
+                                      <?php foreach(${'i'.$inputselect->idinputdetail_perlindungan} as $row): ?>
+                                          <option value="<?php echo $row->name ?>"><?php echo $row->name ?></option>
+                                      <?php endforeach; ?>
+                                    </select>
+                                  </div>
+                                  <?php
+                                } ?>
+                              <?php endforeach; ?>
+                            </form>
+                          </div>
+                          <div class="ln_solid"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            <?php endforeach; ?>
 
       <div class="row">
           <div class="col-md-12 col-sm-12 col-xs-12">
@@ -466,7 +527,7 @@
   							</div>
   							<div class="modal-footer" ng-hide="working==0">
   								<button type="button" class="btn btn-info" data-dismiss="modal" ng-show="(working==1) && (reuse==false)"
-  										onclick="window.location.href = <?php echo base_url('kasus/search'); ?>';">
+  										onclick="location.href = '<?php echo base_url('kasus/search')?>'">
   									Keluar
   								</button>
   								<button type="button" class="btn btn-info" data-dismiss="modal" ng-show="(working==1) && (reuse==true)">

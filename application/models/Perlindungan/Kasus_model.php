@@ -105,10 +105,10 @@ class Kasus_model extends CI_Model {
 }
 
 function get_officer_all() {
-	$this->db->select('u.username, u.name as namapetugas, s.id, s.name as namashelter');
-	$this->db->from('user u, shelter s');
+	$this->db->select('u.username, u.name as namapetugas, k.idkantor, k.namakantor as namakantor');
+	$this->db->from('user u, kantor k');
 	$this->db->where('u.idlevel',3);
-	$this->db->where('u.idinstitution = s.idinstitution');
+	$this->db->where('u.idinstitution = k.idinstitution');
 	$this->db->order_by('u.name','ASC');
 	$query = $this->db->get();
 

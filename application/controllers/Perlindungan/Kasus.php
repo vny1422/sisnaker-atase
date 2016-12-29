@@ -28,7 +28,7 @@ class Kasus extends MY_Controller {
     $this->data['listinput'] = $this->Kasus_model->list_input($this->session->userdata('institution'));
     $this->data['listinputselect'] = $this->Kasus_model->list_inputselectfromoption($this->session->userdata('institution'));
     foreach ($this->data['listinputselect'] as $row):
-      $this->data[$row->idinputdetail_perlindungan] = $this->Kasus_model->list_opsiinput($row->idinputdetail_perlindungan);
+      $this->data['i'.$row->idinputdetail_perlindungan] = $this->Kasus_model->list_opsiinput($row->idinputdetail_perlindungan);
     endforeach;
     $this->data['listselecttable'] = $this->Kasus_model->list_inputselectfromtable($this->session->userdata('institution'));
     foreach ($this->data['listselecttable'] as $row):

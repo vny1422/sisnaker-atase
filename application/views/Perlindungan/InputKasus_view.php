@@ -200,7 +200,7 @@
                                     <label><?php echo $inputselect->nameinputdetail ?></label>
                                     <select class="form-control" ng-model="formlain['<?php echo $inputselect->fieldname?>']" selectpicker="{dropupAuto:false}" toggle-dropdown ng-disabled="disableAll">
                                       <?php foreach(${'i'.$inputselect->idinputdetail_perlindungan} as $row): ?>
-                                          <option value="<?php echo $row->name ?>"><?php echo $row->name ?></option>
+                                          <option value="<?php echo $row->nameinputoption ?>"><?php echo $row->nameinputoption ?></option>
                                       <?php endforeach; ?>
                                     </select>
                                   </div>
@@ -234,7 +234,7 @@
                       <div class="form-group">
                         <label>Petugas Penanganan</label>
                         <div>
-                          <select class="form-control" ng-model="formdata['petugas']" ng-options="k.username as k.namapetugas group by k.namashelter for k in sop.petugas"
+                          <select class="form-control" ng-model="formdata['petugas']" ng-options="k.username as k.namapetugas group by k.namakantor for k in sop.petugas"
 													selectpicker="{dropupAuto:false}" toggle-dropdown data-live-search="true" data-size="8" id="pilihpetugas">
 											</select>
                         </div>

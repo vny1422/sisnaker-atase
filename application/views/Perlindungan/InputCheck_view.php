@@ -1,4 +1,4 @@
-<div class="right_col" role="main" ng-app="verifyApp" ng-controller="FormController" >
+<div class="right_col" role="main" ng-app="verifyApp" ng-controller="VerifyController">
   <div class="row" >
   </div>
   <br />
@@ -14,7 +14,7 @@
             <div class="clearfix"></div>
           </div>
           <div class="x_content">
-          <div class="row" ng-controller="VerifyController">          
+          <div class="row">
           <div class="col-lg-12">
                         <h1 class="col-lg-12" style="text-align: center">
                             Apakah aduan telah tercatat sebelumnya?
@@ -22,12 +22,12 @@
                             <small>verifikasi untuk mencegah duplikasi pencatatan aduan</small>
                         </h1>
                         <div class="col-lg-12" style="padding: 30px 0px">
-                            <form class="form-group" ng-submit="cari()">
+                            <form class="form-group">
                                 <div class="col-lg-8 col-lg-offset-2">
                                     <div class="input-group">
                                         <input type="text" class="form-control input-lg" ng-model="qstring">
                                         <span class="input-group-btn">
-                                            <button class="btn btn-primary btn-lg" type="submit">
+                                            <button class="btn btn-primary btn-lg" ng-click = "cari()">
                                                 <i class="fa fa-search"></i> Cari Aduan
                                             </button>
                       <button class="btn btn-danger btn-lg" type="button"
@@ -48,9 +48,9 @@
               <h3><i>{{label_q[0]}} <strong>{{label_q[2]}}</strong> {{label_q[1]}}</i></h3>
             </div>
                     </div>
-                    <div class="col-lg-12">           
+                    <div class="col-lg-12">
             <!-- tabel -->
-                        <div class="panel panel-default" ng-show="query_result.length>0">                            
+                        <div class="panel panel-default" ng-show="query_result.length>0">
               <table st-table="queries" st-safe-src="query_result" class="table table-striped table-hover table-bordered panel" >
                 <thead>
                   <tr class="btn-danger">
@@ -87,14 +87,14 @@
                       <div st-pagination="" st-items-by-page="6" st-template="<?php echo assets_url() ?>/template/custom.pagination.html"></div>
                     </td>
                   </tr>
-                  
+
                 </tfoot>
-              </table>                            
+              </table>
                         </div>
             <!-- EoT -->
-                    </div>                    
+                    </div>
                 </div>
-            
+
             <div class="ln_solid"></div>
           </div>
         </div>
@@ -102,26 +102,22 @@
     </div>
 
     <!-- Masa Tinggal Shelter -->
-    <script src="<?php echo base_url('assets/js/form_angular/formv3.js'); ?>"></script>
-
-    <script src="<?php echo base_url('assets/js/ng-file-upload-all.min.js'); ?>"></script>
-
     <script type="text/javascript">
     /////////////////// JQUERY MODAL
-    
+
     $(".modal-wide").on("show.bs.modal", function() {
         var height = $(window).height() - 200;
         $(this).find(".modal-body").css("max-height", height);
     });
-    
+
     function popupMasalah(problemID){
       $('#windowModal').modal('show');
       $.post("<?php echo site_url('main/modal')?>",{id:problemID},
         function(data){
           var obj = JSON.parse(data);
-          
+
           //console.log(obj);
-          
+
           if(obj[3].length == 0) {$("#casesiap").hide();}
           else {
             $("#casesiap").show();
@@ -129,25 +125,25 @@
             $("#pesandisposisi").text(obj[3][0].pesandisposisi);
             $("#filesiap").attr("href", obj[3][0].filedisposisi);
           }
-          
+
           if(obj[2].length > 0) {
             $("#berkaskasus").html('');
             for(i=0; i<obj[2].length; i++) {
               //console.log(i);
               var dt = '';
-              
+
               dt = '<tr>';
               //dt += ' <td><a href="<?php echo $this->config->item('domain_url')?>'+obj[2][i].filename+'" target="_blank">'+obj[2][i].filename+'</a></td>';
               dt += ' <td><a href="'+window.location.protocol+'//'+window.location.hostname+'/'+obj[2][i].filename+'" target="_blank">'+obj[2][i].filename+'</a></td>';
               dt += '</tr>';
-      
+
               $("#berkaskasus").append(dt);
             }
           } else {
             $("#berkaskasus").html('');
             $("#berkaskasus").append("<tr><td>Berkas kasus tidak tersedia!</td></tr>");
           }
-          
+
           $("#Adownloadform").val(obj[0].idmasalah);
           $("#Ainputpaspor").text(obj[1][0].paspor);
           $("#Anamebmi").text(obj[1][0].namatki);
@@ -174,51 +170,51 @@
           $("#Atindaklanjut").html(obj[0].tindaklanjut);
           $("#Anominal").text(obj[0].uang);
           $("#Astatusmasalah").text(obj[0].statusmasalah);
-      
+
           $("#editkasus").click(function(){
             window.location.href = "<?php echo site_url('edit/index') ?>/"+obj[0].idmasalah;
           });
         }
       );
     };
-    
+
     $("#Adownloadform").click(function() {
       var idprob = $("#Adownloadform").val();
       window.open("<?php echo site_url('formulir/index') ?>"+"/"+idprob);
     });
-    
+
   </script>
-    
+
   <script type="text/javascript">
     /////////////////// ANGULAR CONTROLLER
     var app = angular.module('verifyApp', ['smart-table','angular-bootstrap-select','ngAlertify']);
     app.controller('VerifyController', function($scope,$http,alertify) {
-            
+
                 $scope.qstring ="";
-        
+
         /// binding for modal popup
         $scope.justTest = function(input){
           popupMasalah(input);
         };
-        
-        ////// query all parameter and update all ng-options and ng-model on success  
-        
+
+        ////// query all parameter and update all ng-options and ng-model on success
+
         $scope.query_result = [];
         $scope.queries = [].concat($scope.query_result);
         $scope.label_q = ["","","",false];
         $scope.ena = 0;
-        
+
         $scope.cari = function(){
-                    if($scope.qstring=="") return;                  
+                    if($scope.qstring=="") return;
                     //console.log($scope.qstring);
           $scope.query_result = [];
           $scope.ena = 1;
           $http({
             method  : "post",
-            url   : "<?php echo site_url("input_check/query_string"); ?>",
+            url   : "<?php echo base_url("kasus/checkkasus"); ?>",
             data  : {'text':$scope.qstring}
           }).success(function(response){
-            //console.log(response);          
+            //console.log(response);
             angular.copy(response,$scope.query_result);
             if(response.length==0){
               $scope.label_q[0] = 'Informasi';
@@ -234,7 +230,7 @@
             }
           });
         };
-        
+
         $scope.newentry = function(){
           if ($scope.ena==0) {
             alertify.alert("Mohon lakukan pencarian terlebih dahulu sebelum membuat aduan baru.");
@@ -242,14 +238,14 @@
                     }
           else{
             alertify.confirm("Anda akan membuat aduan baru. Lanjutkan?", function () {
-              window.location = '<?php echo site_url('input')?>';         
+              window.location = '<?php echo base_url('kasus')?>';
             }, function(){
               return;
-            });           
-          }         
-        };      
+            });
+          }
+        };
       });
-    
+
     app.directive('pageSelect', function() {
       return {
       restrict: 'E',

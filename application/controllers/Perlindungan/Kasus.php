@@ -100,6 +100,27 @@ class Kasus extends MY_Controller {
     $this->load->view('templates/footerperlindungan');
   }
 
+  function checkkasus(){
+        $string = $this->getJSONpost();
+        $string = $string['text'];
+
+        preg_match_all("/\b[a-zA-Z]+\b/",$string,$nama);
+        preg_match_all("/\S\d+\b/",$string,$paspor);
+        $nama=$nama[0];
+        $paspor=$paspor[0];
+
+        $retval = array($nama,$paspor);
+        $similar = $this->Kasus_model->similar_test($nama,$paspor);
+
+		for($i=0;$i<count($similar);$i++){
+			$similar[$i]['idx'] = $i+1;
+		}
+
+        //echo $similar;
+        echo json_encode($similar);
+
+  }
+
   public function getParam(){
     $collection = array();
     $collection['worktype'] 	= $this->Kasus_model->get_work_type();
@@ -306,4 +327,12 @@ function get_problem_number($tglpengaduan,$namaorganisasi,$idorganisasi) {
 
 		return $problem_number;
 	}
+  function getJSONpost(){
+  $input = $this->input->post();
+  if( isset( $_SERVER['CONTENT_TYPE'] ) && strpos( $_SERVER['CONTENT_TYPE'], "application/json" ) !== false )
+  {
+    $input = json_decode(trim(file_get_contents( 'php://input' ) ), true );
+  }
+  return $input;
+}
 }

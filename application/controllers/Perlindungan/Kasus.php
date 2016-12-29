@@ -32,8 +32,9 @@ class Kasus extends MY_Controller {
     endforeach;
     $this->data['listselecttable'] = $this->Kasus_model->list_inputselectfromtable($this->session->userdata('institution'));
     foreach ($this->data['listselecttable'] as $row):
-      $this->data[$row->idinputdetail_perlindungan] = $this->Kasus_model->list_opsitable($row->conntable);
+      $this->data['i'.$row->idinputdetail_perlindungan] = $this->Kasus_model->list_opsitable($row->conntable);
     endforeach;
+
 
     //dari simpati
 
@@ -92,7 +93,9 @@ class Kasus extends MY_Controller {
   }
 
   function kasuscheck(){
-
+    $this->load->view('templates/headerperlindungan', $this->data);
+    $this->load->view('Perlindungan/InputKasus_view', $this->data);
+    $this->load->view('templates/footerperlindungan');
   }
 
   public function getParam(){
@@ -117,7 +120,9 @@ class Kasus extends MY_Controller {
  public function save_entry(){
 // GET FORM DATA
 $fdata = $_POST['formdata'];
+$flain = $_POST['formlain'];
 $fdata = json_decode($fdata,true);
+$flain = json_decode($flain,true);
 
 //// preventif
 /// $this->deftest untuk menghindari undefined index
@@ -171,7 +176,6 @@ $dataAduan = array(
         'statustki' => intval($statustki),
         'permasalahan' => $masalah,
         'tuntutan' => $tuntutan,
-        'tindaklanjut' => $tindaklanjut,
         'uang' => $nominal,
         'statusmasalah' => intval($statusmasalah),
         'tanggalpenyelesaian' => $tglselesai,
@@ -181,6 +185,9 @@ $dataAduan = array(
         'pulang' => intval($pulang),
         'keyword' => $keyword
   );
+  foreach ($flain as $key=>$value) {
+    $dataAduan[$key] = $value;
+  }
 // Input Problem to Database
 $id_problem = $this->Kasus_model->input_problem($dataAduan);
 echo json_encode($dataAduan);
@@ -271,13 +278,13 @@ $syncstat = "(Sync:".$syncstat.")";
 */
 
 // Input History
-// $log = "<em>".$fdata['ofname']."</em> menginput masalah baru <a href='view.php?id=".$id_problem."'>".strtoupper($namatki_cur)."</a> ".$syncstat;
-// $data_hist = array(
-//     'idmasalah' => $id_problem,
-//     'history' => $log,
-//     'timestamp' => date('Y-m-d H:i:s')
-// );
-// $this->Input_model->input_history($data_hist);
+$log = "menginputkan masalah baru";
+$data_hist = array(
+    'idmasalah' => $id_problem,
+    'history' => $log,
+    'timestamp' => date('Y-m-d H:i:s')
+);
+$this->Kasus_model->input_history($data_hist);
 }
 function get_problem_number($tglpengaduan,$namaorganisasi,$idorganisasi) {
 

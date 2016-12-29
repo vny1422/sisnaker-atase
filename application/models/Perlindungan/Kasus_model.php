@@ -185,4 +185,9 @@ function org_count_problem_thismonth($month,$year,$idorganisasi) {
 	return true;
 	}
 
+	function input_history($data_arr) {
+	$this->db->insert('history', $data_arr);
+	return true;
+}
+
 }

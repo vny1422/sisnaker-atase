@@ -110,7 +110,7 @@ class Datatki extends MY_Controller {
 			if($result[1]==null) $result[1]=[];
 			$this->data['hasil'] = $result;
       $this->data['title'] = 'Pencarian Data TKI';
-      $this->data['subtitle'] = 'Pencarian Data TKI (Endorsement & Re-Entry)';
+      $this->data['subtitle'] = 'Pencarian Data TKI';
       $this->load->view('templates/headerperlindungan', $this->data);
       $this->load->view('Perlindungan/PencarianDataTKI_view', $this->data);
       $this->load->view('templates/footerperlindungan');

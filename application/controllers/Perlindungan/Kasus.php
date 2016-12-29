@@ -28,7 +28,7 @@ class Kasus extends MY_Controller {
     $this->data['listinput'] = $this->Kasus_model->list_input($this->session->userdata('institution'));
     $this->data['listinputselect'] = $this->Kasus_model->list_inputselectfromoption($this->session->userdata('institution'));
     foreach ($this->data['listinputselect'] as $row):
-      $this->data[$row->idinputdetail_perlindungan] = $this->Kasus_model->list_opsiinput($row->idinputdetail_perlindungan);
+      $this->data['i'.$row->idinputdetail_perlindungan] = $this->Kasus_model->list_opsiinput($row->idinputdetail_perlindungan);
     endforeach;
     $this->data['listselecttable'] = $this->Kasus_model->list_inputselectfromtable($this->session->userdata('institution'));
     foreach ($this->data['listselecttable'] as $row):
@@ -93,9 +93,32 @@ class Kasus extends MY_Controller {
   }
 
   function kasuscheck(){
+    $this->data['title'] = 'Verifikasi Input Kasus';
+    $this->data['subtitle'] = 'Verifikasi Input Kasus';
     $this->load->view('templates/headerperlindungan', $this->data);
-    $this->load->view('Perlindungan/InputKasus_view', $this->data);
+    $this->load->view('Perlindungan/InputCheck_view', $this->data);
     $this->load->view('templates/footerperlindungan');
+  }
+
+  function checkkasus(){
+        $string = $this->getJSONpost();
+        $string = $string['text'];
+
+        preg_match_all("/\b[a-zA-Z]+\b/",$string,$nama);
+        preg_match_all("/\S\d+\b/",$string,$paspor);
+        $nama=$nama[0];
+        $paspor=$paspor[0];
+
+        $retval = array($nama,$paspor);
+        $similar = $this->Kasus_model->similar_test($nama,$paspor);
+
+		for($i=0;$i<count($similar);$i++){
+			$similar[$i]['idx'] = $i+1;
+		}
+
+        //echo $similar;
+        echo json_encode($similar);
+
   }
 
   public function getParam(){
@@ -304,4 +327,12 @@ function get_problem_number($tglpengaduan,$namaorganisasi,$idorganisasi) {
 
 		return $problem_number;
 	}
+  function getJSONpost(){
+  $input = $this->input->post();
+  if( isset( $_SERVER['CONTENT_TYPE'] ) && strpos( $_SERVER['CONTENT_TYPE'], "application/json" ) !== false )
+  {
+    $input = json_decode(trim(file_get_contents( 'php://input' ) ), true );
+  }
+  return $input;
+}
 }

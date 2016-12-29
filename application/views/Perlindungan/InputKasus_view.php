@@ -200,7 +200,7 @@
                                     <label><?php echo $inputselect->nameinputdetail ?></label>
                                     <select class="form-control" ng-model="formlain['<?php echo $inputselect->fieldname?>']" selectpicker="{dropupAuto:false}" toggle-dropdown ng-disabled="disableAll">
                                       <?php foreach(${'i'.$inputselect->idinputdetail_perlindungan} as $row): ?>
-                                          <option value="<?php echo $row->name ?>"><?php echo $row->name ?></option>
+                                          <option value="<?php echo $row->nameinputoption ?>"><?php echo $row->nameinputoption ?></option>
                                       <?php endforeach; ?>
                                     </select>
                                   </div>
@@ -234,7 +234,7 @@
                       <div class="form-group">
                         <label>Petugas Penanganan</label>
                         <div>
-                          <select class="form-control" ng-model="formdata['petugas']" ng-options="k.username as k.namapetugas group by k.namashelter for k in sop.petugas"
+                          <select class="form-control" ng-model="formdata['petugas']" ng-options="k.username as k.namapetugas group by k.namakantor for k in sop.petugas"
 													selectpicker="{dropupAuto:false}" toggle-dropdown data-live-search="true" data-size="8" id="pilihpetugas">
 											</select>
                         </div>
@@ -426,8 +426,13 @@
                       												</div>
                       											</div>
                       										</div>
-
-
+<br><br><br><br>
+                                          <div class="btn-group" ng-init="reuse=false" ng-show="self[1]==1 && self[3]=='new'" style="margin-right:25%">
+  <button type="button" class="btn" ng-class="{'btn-success': reuse==false}"
+      ng-click="reuse=false" ng-disabled="disableAll">Entry Tunggal</button>
+  <button type="button" class="btn" ng-class="{'btn-success': reuse==true}"
+      ng-click="reuse=true" ng-disabled="disableAll">Entry Jamak</button>
+</div>
                     </form>
                   </div>
                   <div class="ln_solid"></div>

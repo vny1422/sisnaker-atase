@@ -116,38 +116,44 @@
     });
 
     $(function() {
-      $( "#agensi" ).autocomplete({
-        source: function(request, response) {
-          $.ajax({ 
-            url: "<?php echo base_url(); ?>/Paket/ambilnamaagensi/",
-            data: { kode: request.term},
-            dataType: "json",
-            type: "POST",
-            success: function(data){
-              response(data);
-            }
-          });
-        }
-      });
-    } );
+  $( "#agensi" ).autocomplete({
+    source: function(request, response) {
+      $.post('<?php echo base_url();?>/Paket/ambilnamaagensi/', { term:request.term}, function(json) {
+        response( $.map( json.rows, function( item ) {
+          return {
+            label: item.agnama,
+            id: item.agid
+          }
+        }));
+      }, 'json');
+    },
+    minLength: 1,
+  select: function( event, ui ) {
+    idagensi = ui.item.id;
+  }
+  });
+} );
 
-    $(function() {
-      $( "#pptkis" ).autocomplete({
-        source: function(request, response) {
-          $.ajax({ 
-            url: "<?php echo base_url(); ?>/Paket/ambilnamapptkis/",
-            data: { kode: request.term},
-            dataType: "json",
-            type: "POST",
-            success: function(data){
-              response(data);
-            }
-          });
-        }
-      });
-    } );
+$(function() {
+  $( "#pptkis" ).autocomplete({
+    source: function(request, response) {
+      $.post('<?php echo base_url();?>/Paket/ambilnamapptkis/', { term:request.term}, function(json) {
+        response( $.map( json.rows, function( item ) {
+          return {
+            label: item.ppnama,
+            id: item.ppkode
+          }
+        }));
+      }, 'json');
+    },
+    minLength: 1,
+  select: function( event, ui ) {
+    idagensi = ui.item.id;
+  }
+  });
+} );
+
 
     divjo.hide();
   });
   </script>
-

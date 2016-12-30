@@ -71,16 +71,16 @@ class Paket extends MY_Controller {
     } else {
       $total_pages = 0;
     }
-      
+
     if ($page > $total_pages) $page=$total_pages;
     $start = $limit*$page - $limit; // do not put $limit*($page - 1)
     if ($start < 0) $start = 0;
 
     if (!isset($r)) $r = new stdClass();
-    $r->page = $page; 
-    $r->total = $total_pages; 
-    $r->records = $count; 
-    
+    $r->page = $page;
+    $r->total = $total_pages;
+    $r->records = $count;
+
     $query = $this->Paket_model->getJO('2','12345',$start,$limit,$sidx,$sord);
     $i=0;
     foreach ($query as $row):
@@ -93,7 +93,7 @@ class Paket extends MY_Controller {
         $row->jobenable,
         $row->jobispushed
       );
-      $i++; 
+      $i++;
     endforeach;
 
     echo json_encode($r);
@@ -122,7 +122,7 @@ class Paket extends MY_Controller {
       $jobdp[$i] = $row->jobdp;
       $jobdc[$i] =  $row->jobdc;
     endforeach;
-    
+
     $prevdate = '0000-00-00';
     $j = 0;
     $query = $this->Paket_model->getDate($jpid,$agid,$ppkode,$jobtglawalnya,$jobtglakhirnya);
@@ -173,22 +173,26 @@ class Paket extends MY_Controller {
   }
 
   // AJAX AUTOCOMPLETE
-  public function ambilnamaagensi($kode=NULL){
-    $keyword = $this->input->post('kode',TRUE);
-    $query = $this->Agency_model->ambilnamaagensi($keyword);
-    $json_array = array();
-    foreach ($query as $row)
-      $json_array[]=$row->agnama;
-    echo json_encode($json_array);
-  }
+   public function ambilnamaagensi($kode=NULL){
+     $keyword = $this->input->post('term',TRUE);
+     $query = $this->Agency_model->ambilnamaagensi($keyword);
+     $json_array = array();
+     $r = new stdClass;
+     $i=0;
+     foreach ($query as $row)
+       $r->rows[$i++]=$row;
+     echo json_encode($r);
+   }
 
-  public function ambilnamapptkis($kode=NULL){
-    $keyword = $this->input->post('kode',TRUE);
-    $query = $this->Pptkis_model->ambilnamapptkis($keyword);
-    $json_array = array();
-    foreach ($query as $row)
-      $json_array[]=$row->ppnama;
-    echo json_encode($json_array);
-  }
+   public function ambilnamapptkis($kode=NULL){
+     $keyword = $this->input->post('term',TRUE);
+     $query = $this->Pptkis_model->ambilnamapptkis($keyword);
+     $json_array = array();
+     $r = new stdClass;
+     $i=0;
+     foreach ($query as $row)
+       $r->rows[$i++]=$row;
+     echo json_encode($r);
+   }
 
 }

@@ -47,6 +47,58 @@ class Paket extends MY_Controller {
     $this->load->view('templates/footerendorsement');
   }
 
+  public function listJO()
+  {
+    $ppkode = $this->input->post('ppkode', TRUE);
+    $agid = $this->input->post('agid', TRUE);
+
+    $page = $this->input->post('page', TRUE); // get the requested page
+    $limit = $this->input->post('rows', TRUE); // get how many rows we want to have into the grid
+    $sidx = $this->input->post('sidx', TRUE); // get index row - i.e. user click to sort
+    $sord = $this->input->post('sord', TRUE); // get the direction
+    if(!$sidx) $sidx = 1;
+
+    $totalrows = isset($_POST['totalrows']) ? $_POST['totalrows']: false;
+    if($totalrows) {
+      $limit = $totalrows;
+    }
+
+    //$count = $this->Paket_model->countJO($agid,$ppkode);
+    $count = $this->Paket_model->countJO('2','12345')->count;
+
+    if( $count >0 ) {
+        $total_pages = ceil($count/$limit);
+    } else {
+      $total_pages = 0;
+    }
+      
+    if ($page > $total_pages) $page=$total_pages;
+    $start = $limit*$page - $limit; // do not put $limit*($page - 1)
+    if ($start < 0) $start = 0;
+
+    if (!isset($r)) $r = new stdClass();
+    $r->page = $page; 
+    $r->total = $total_pages; 
+    $r->records = $count; 
+    
+    $query = $this->Paket_model->getJO('2','12345',$start,$limit,$sidx,$sord);
+    $i=0;
+    foreach ($query as $row):
+      $r->rows[$i]['id']=$i;
+      $r->rows[$i]['cell'] = array(
+        $row->jobid,
+        $row->jobno,
+        $row->jobtglawal,
+        $row->jobtglakhir,
+        $row->jobenable,
+        $row->jobispushed
+      );
+      $i++; 
+    endforeach;
+
+    echo json_encode($r);
+  }
+
   public function getSisa()
   {
     $jobd = $this->input->get('jobdid', TRUE);

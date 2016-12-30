@@ -34,6 +34,8 @@
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/js/jquery.min.js'); ?>"></script>
 
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+
     <!-- Bootstrap -->
     <script src="<?php echo base_url('assets/vendors/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
 
@@ -42,7 +44,11 @@
 
     <link href="<?php echo base_url('assets/css/jquery-ui.css'); ?>" rel="stylesheet">
 
-    
+    <link href="<?php echo base_url('assets/jqgrid/css/ui.jqgrid.css'); ?>" rel="stylesheet">
+    <link href="<?php echo base_url('assets/jqgrid/plugins/searchFilter.css'); ?>" rel="stylesheet">
+
+    <script src="<?php echo base_url('assets/jqgrid/js/i18n/grid.locale-en.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/jqgrid/js/jquery.jqGrid.min.js'); ?>"></script>
 
   </head>
 

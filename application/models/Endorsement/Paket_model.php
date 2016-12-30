@@ -34,6 +34,26 @@ class Paket_model extends CI_Model {
     	return $result;
     }
 
+    function countJO($agid,$ppkode)
+    {
+    	$sql = "SELECT COUNT(*) AS count FROM jo WHERE ppkode = ".$ppkode." AND agid = ".$agid;
+    	$query = $this->db->query($sql);
+
+    	$num = $query->result()[0];
+
+  		return $num;
+    }
+
+    function getJO($agid,$ppkode,$start,$limit,$sidx,$sord)
+    {
+    	$sql = "SELECT *, DATE_FORMAT(jobtglawal, '%d/%m/%Y') as jobtglawal, DATE_FORMAT(jobtglakhir, '%d/%m/%Y') as jobtglakhir FROM jo WHERE ppkode = ".$ppkode." AND agid = ".$agid." ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
+    	$query = $this->db->query($sql);
+
+    	$result = $query->result();
+
+    	return $result;
+    }
+
     function getDate($jpid,$agid,$ppkode,$jobtglawalnya,$jobtglakhirnya)
     {
     	$this->db->distinct();

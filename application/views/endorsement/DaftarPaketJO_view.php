@@ -54,7 +54,97 @@
     var remove_button   = $("#reset");
     var agensi          = $("#agensi");
     var pptkis          = $("#pptkis");
+    var idagensi        = "";
+    var idpptkis        = "";
     var divjo           = $("div#jo");
+
+    $(add_button).click(function(){
+      if (agensi.val() === "" || pptkis.val() === "") {
+        alert("Nama Agensi atau PPTKIS harus diisi!");
+        return;
+      }
+
+      agensi.attr("disabled", "");
+      pptkis.attr("disabled", "");
+
+      $("#grid").jqGrid('setGridParam', {
+        url: "<?php echo base_url()?>paket/listJO",
+        postData: { ppkode: idpptkis,agid: idagensi }
+      }).trigger('reloadGrid');
+
+      divjo.show();
+    });
+
+    $(remove_button).click(function(){
+      agensi.removeAttr("disabled").val("");
+      pptkis.removeAttr("disabled").val("");
+
+      divjo.hide();
+    });
+
+    $(function() {
+      $( "#agensi" ).autocomplete({
+        source: function(request, response) {
+          $.post('<?php echo base_url();?>/paket/ambilnamaagensi/', { term:request.term}, function(json) {
+            response( $.map( json.rows, function( item ) {
+              return {
+                label: item.agnama,
+                id: item.agid
+              }
+            }));
+          }, 'json');
+        },
+        minLength: 1,
+      select: function( event, ui ) {
+        idagensi = ui.item.id;
+      }
+      });
+    } );
+
+    $(function() {
+      $( "#pptkis" ).autocomplete({
+        source: function(request, response) {
+          $.post('<?php echo base_url();?>/paket/ambilnamapptkis/', { term:request.term}, function(json) {
+            response( $.map( json.rows, function( item ) {
+              return {
+                label: item.ppnama,
+                id: item.ppkode
+              }
+            }));
+          }, 'json');
+        },
+        minLength: 1,
+      select: function( event, ui ) {
+        idpptkis = ui.item.id;
+      }
+      });
+    } );
+
+    var initCustom = function() {
+      var el = divjo.find('#jobtglawal');
+      el.css("readonly", "");
+      el.datepicker({
+        showOn: "button",
+        buttonImage: '<?php echo base_url();?>/assets/images/calendar.gif',
+        buttonImageOnly: true,
+        dateFormat:'dd/mm/yy',
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '1900:+200'
+      });
+      
+      var el = divjo.find('#jobtglakhir');
+      el.css("readonly", "");
+      el.datepicker({
+        showOn: "button",
+        buttonImage: '<?php echo base_url();?>/assets/images/calendar.gif',
+        buttonImageOnly: true,
+        dateFormat:'dd/mm/yy',
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '1900:+200'
+      });
+    }
 
     var grid = $("#grid").jqGrid({
       mtype: "POST",
@@ -73,7 +163,66 @@
       autowidth: true,
       viewrecords: true,
       sortname: 'jobid',
-      sortorder: 'desc'
+      sortorder: 'desc',
+      subGrid: true,
+      subGridRowExpanded: function(subgrid_id, row_id) {
+        var subgrid_table_id = subgrid_id+"_t";
+        var pager_id = "p_"+subgrid_table_id;
+        
+        var template = "<table id='"+subgrid_table_id+"' class='scroll'></table><div id='"+pager_id+"' class='scroll'></div>";
+        $("#"+subgrid_id).html(template);
+        
+        var subgrid = $("#"+subgrid_table_id).jqGrid({
+          datatype: "json",
+          mtype: "POST",
+          colNames: ["ID", "Jenis Pekerjaan", "L", "P", "C"],
+          colModel: [
+            {name:'id', index:'jobdid', key:true, hidden: true},
+            {name:'jpid', index: 'jpid', edittype:'select', editable:true, editrules:{required:true}, formoptions:{elmsuffix:'(*)'}},
+            {name:'jobdl', index:'jobdl', width:40, editable:true, editoptions:{size:4, maxlength:11, defaultValue:'0'}, editrules:{required:true, minValue:0, number:true}, formoptions:{elmsuffix:'(*)'}},
+            {name:'jobdp', index:'jobdp', width:40, editable:true, editoptions:{size:4, maxlength:11, defaultValue:'0'}, editrules:{required:true, minValue:0, number:true}, formoptions:{elmsuffix:'(*)'}},
+            {name:'jobdc', index:'jobdc', width:40, editable:true, editoptions:{size:4, maxlength:11, defaultValue:'0'}, editrules:{required:true, minValue:0, number:true}, formoptions:{elmsuffix:'(*)'}}
+          ],
+          autowidth:true,
+          height: 80,
+          pager: "#"+pager_id,
+          viewrecords: true,
+          sortname: 'jobdid',
+          sortorder: 'asc',
+          url: '<?php echo base_url()?>paket/listJODetail',
+          postData: { jobid: row_id }
+        });
+          
+        var initCustom2 = function() {
+          $.post('<?php echo base_url();?>/paket/listJP', function(data) {
+            var obj = $.parseJSON(data);
+            var el = $("tr#tr_jpid").find("select");
+            $.each(obj['rows'], function(index,value) {
+              $temp = "<option value='" + value.idjenispekerjaan + "'>" + value.namajenispekerjaan + "</option>";
+              el.append($temp);
+            });
+            
+            el.css("width", "325px");
+            el.attr("id", "jpid");
+            el.attr("name", "jpid");
+          });
+        }
+        
+        var reload = function() {
+          subgrid.trigger('reloadGrid');
+        }
+        
+        subgrid.jqGrid(
+          'navGrid',
+          "#"+pager_id,
+          {edit:true, add:true, del:false, search:true, view:false, refresh:true, beforeRefresh: function() {$(this).clearGridData(true);}},
+          {jqModal:true, width: 450, checkOnSubmit:true, closeAfterEdit:true, afterComplete:reload, recreateForm:true, beforeShowForm:initCustom2, bottominfo:"Fields marked with (*) are required"}, // edit
+          {jqModal:true, width: 450, closeOnEscape:true, checkOnUpdate:true, clearAfterAdd:true, closeAfterAdd:true, afterComplete:reload, recreateForm:true, beforeShowForm:initCustom2, bottominfo:"Fields marked with (*) are required"}, // add
+          {}, // del
+          {multipleSearch:true},
+          {}
+        );
+      }
     });
 
     var reload = function() {
@@ -84,75 +233,12 @@
         'navGrid',
         '#pgrid',
         {edit:true, add:true, del:false, search:true, view:false, refresh:true, beforeRefresh: function() {$(this).clearGridData(true);}},
-        {jqModal:true, width: 450, checkOnSubmit:true, closeAfterEdit:true, afterComplete:reload, recreateForm:true, bottominfo:"Fields marked with (*) are required"}, // edit
-        {jqModal:true, width: 450, closeOnEscape:true, checkOnUpdate:true, clearAfterAdd:true, closeAfterAdd:true, afterComplete:reload, recreateForm:true, bottominfo:"Fields marked with (*) are required"}, // add
+        {jqModal:true, width: 450, checkOnSubmit:true, closeAfterEdit:true, afterComplete:reload, recreateForm:true, beforeShowForm:initCustom, bottominfo:"Fields marked with (*) are required"}, // edit
+        {jqModal:true, width: 450, closeOnEscape:true, checkOnUpdate:true, clearAfterAdd:true, closeAfterAdd:true, afterComplete:reload, beforeShowForm:initCustom, recreateForm:true, bottominfo:"Fields marked with (*) are required"}, // add
         {}, // del
         {multipleSearch:true},
         {}
     );
-
-    $(add_button).click(function(){
-      if (agensi.val() === "" || pptkis.val() === "") {
-        alert("Nama Agensi atau PPTKIS harus diisi!");
-        return;
-      }
-
-      agensi.attr("disabled", "");
-      pptkis.attr("disabled", "");
-
-      $("#grid").jqGrid('setGridParam', {
-        url: "<?php echo base_url()?>paket/listJO",
-        postData: { ppkode: pptkis.val(),agid: agensi.val() }
-      }).trigger('reloadGrid');
-
-      divjo.show();
-    });
-
-    $(remove_button).click(function(){
-      agensi.removeAttr("disabled").val("");
-      pptkis.removeAttr("disabled").val("");
-
-      divjo.hide();
-    });
-
-    $(function() {
-  $( "#agensi" ).autocomplete({
-    source: function(request, response) {
-      $.post('<?php echo base_url();?>/Paket/ambilnamaagensi/', { term:request.term}, function(json) {
-        response( $.map( json.rows, function( item ) {
-          return {
-            label: item.agnama,
-            id: item.agid
-          }
-        }));
-      }, 'json');
-    },
-    minLength: 1,
-  select: function( event, ui ) {
-    idagensi = ui.item.id;
-  }
-  });
-} );
-
-$(function() {
-  $( "#pptkis" ).autocomplete({
-    source: function(request, response) {
-      $.post('<?php echo base_url();?>/Paket/ambilnamapptkis/', { term:request.term}, function(json) {
-        response( $.map( json.rows, function( item ) {
-          return {
-            label: item.ppnama,
-            id: item.ppkode
-          }
-        }));
-      }, 'json');
-    },
-    minLength: 1,
-  select: function( event, ui ) {
-    idagensi = ui.item.id;
-  }
-  });
-} );
-
 
     divjo.hide();
   });

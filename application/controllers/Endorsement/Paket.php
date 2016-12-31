@@ -47,6 +47,19 @@ class Paket extends MY_Controller {
     $this->load->view('templates/footerendorsement');
   }
 
+  public function listJP()
+  {
+    if (!isset($r)) $r = new stdClass();
+    $query = $this->Paket_model->getJP();
+
+    $i=0;
+    foreach ($query as $row):
+      $r->rows[$i++] = $row;
+    endforeach;
+      
+    echo json_encode($r);
+  }
+
   public function listJO()
   {
     $ppkode = $this->input->post('ppkode', TRUE);
@@ -63,8 +76,7 @@ class Paket extends MY_Controller {
       $limit = $totalrows;
     }
 
-    //$count = $this->Paket_model->countJO($agid,$ppkode);
-    $count = $this->Paket_model->countJO('2','12345')->count;
+    $count = $this->Paket_model->countJO($agid,$ppkode)->count;
 
     if( $count >0 ) {
         $total_pages = ceil($count/$limit);
@@ -81,7 +93,7 @@ class Paket extends MY_Controller {
     $r->total = $total_pages;
     $r->records = $count;
 
-    $query = $this->Paket_model->getJO('2','12345',$start,$limit,$sidx,$sord);
+    $query = $this->Paket_model->getJO_ForTable($agid,$ppkode,$start,$limit,$sidx,$sord);
     $i=0;
     foreach ($query as $row):
       $r->rows[$i]['id']=$i;
@@ -99,11 +111,123 @@ class Paket extends MY_Controller {
     echo json_encode($r);
   }
 
-  public function getSisa()
+  public function listJODetail()
   {
-    $jobd = $this->input->get('jobdid', TRUE);
-    $jpid = $this->input->get('jpid', TRUE);
+    $jobid = $this->input->post('jobid', TRUE);
 
+    // $query = $this->Paket_model->getJO_FromID($jobid);
+    // $curppkode = $query[0]->ppkode;
+    // $curagid = $query[0]->agid;
+    // $curjobtglakhir = $query[0]->jobtglakhir;
+
+    // $query = $this->Paket_model->getJOD_FromID($jobid);
+    // $k = 0;
+    // foreach ($query as $row):
+    //   $curjpid[$k] = $row->idjenispekerjaan;
+    //   $k++;
+    // endforeach;
+      
+    // for($j = 0; $j < $k; $j++)
+    // {
+    //   $psisal = 0; $psisap = 0; $psisac = 0;
+    //   $pjobdl = 0; $pjobdp = 0; $pjobdc = 0;
+    //   $preall = 0; $prealp = 0;
+
+    //   $query = $this->Paket_model->getJOD($curjpid[$j],$curagid,$curppkode,$curjobtglakhir);
+    //   $s = 0;
+    //   foreach ($query as $row):
+    //     $pjobtglawal = $row->jobtglawal;
+    //     $pjobtglakhir = $row->jobtglakhir;
+
+    //     //defaultnya adalah 0
+    //     $pjobdl = 0; $pjobdp = 0; $pjobdc = 0;
+    //     if($row->jobdl >= 0) {$pjobdl = $row->jobdl;}
+    //     if($row->jobdp >= 0) {$pjobdp = $row->jobdp;}
+    //     if($row->jobdc >= 0) {$pjobdc = $row->jobdc;}
+
+    //     //dipisah jika tanggalnya terpisah
+    //     if($lastjobtglakhir < $pjobtglawal){$psisal = 0; $psisap = 0; $psisac = 0;}
+    //     else{
+    //       if($psisal >= 0){$psisal =0;}
+    //       if($psisap >= 0){$psisap =0;}
+    //       if($psisac >= 0){$psisac =0;}
+    //       $pjobtglawal = $lastjobtglakhir;
+    //     }
+
+    //     $preall = $this->Paket_model->getEntryJOLaki($pjobtglawal,$pjobtglakhir,$curjpid[$j],$curagid,$curppkode);
+    //     $prealp = $this->Paket_model->getEntryJOPerempuan($pjobtglawal,$pjobtglakhir,$curjpid[$j],$curagid,$curppkode);
+    //     $psisal = $psisal + $pjobdl - $preall;
+    //     $psisap = $psisap + $pjobdp - $prealp;
+    //     $psisac = $pjobdc;
+    //     if($psisal < 0)
+    //     {
+    //       $psisac = $psisac + $psisal;
+    //       if($psisac >= 0) {$psisal = 0;}
+    //       else if($psisac < 0){$psisac = 0; $psisal = $psisac;}
+    //     }
+    //     if($psisap < 0)
+    //     {
+    //       $psisac = $psisac + $psisap;
+    //       if($psisac >= 0) {$psisap = 0;}
+    //       else if($psisac < 0){$psisac = 0; $psisap = $psisac;}
+    //     }
+
+    //     $lastjobtglakhir = $pjobtglakhir;
+    //   endforeach;
+
+    //   $remainl[$curjpid[$j]]=$psisal;
+    //   $remainp[$curjpid[$j]]=$psisap;
+    //   $remainc[$curjpid[$j]]=$psisac;
+    // }
+
+    $page = $this->input->post('page', TRUE); // get the requested page
+    $limit = $this->input->post('rows', TRUE); // get how many rows we want to have into the grid
+    $sidx = $this->input->post('sidx', TRUE); // get index row - i.e. user click to sort
+    $sord = $this->input->post('sord', TRUE); // get the direction
+    if(!$sidx) $sidx = 1;
+
+    $totalrows = isset($_POST['totalrows']) ? $_POST['totalrows']: false;
+    if($totalrows) {
+      $limit = $totalrows;
+    }
+
+    $count = $this->Paket_model->countJOD($jobid)->count;
+
+    if( $count >0 ) {
+        $total_pages = ceil($count/$limit);
+    } else {
+      $total_pages = 0;
+    }
+
+    if ($page > $total_pages) $page=$total_pages;
+    $start = $limit*$page - $limit; // do not put $limit*($page - 1)
+    if ($start < 0) $start = 0;
+
+    if (!isset($r)) $r = new stdClass();
+    $r->page = $page;
+    $r->total = $total_pages;
+    $r->records = $count;
+        
+    $query = $this->Paket_model->getJOD_ForTable($jobid,$start,$limit,$sidx,$sord);
+    $i=0;
+    foreach ($query as $row):
+      $r->rows[$i]['id']=$i;
+      $sisa = $this->getSisa($row->jobdid, $row->idjenispekerjaan);
+      $r->rows[$i]['cell'] = array(
+        $row->jobdid,
+        $row->namajenispekerjaan,
+        $row->jobdl . " (Sisa:" .$sisa[0]. ")",
+        $row->jobdp . " (Sisa:" .$sisa[1]. ")",
+        $row->jobdc . " (Sisa:" .$sisa[2]. ")"
+      );
+      $i++;
+    endforeach;
+      
+    echo json_encode($r);
+  }
+
+  function getSisa($jobd,$jpid)
+  {
     $row = $this->Paket_model->getJobOrder($jobd);
     $agid = $row[0]->agid;
     $ppkode = $row[0]->ppkode;

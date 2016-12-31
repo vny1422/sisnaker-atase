@@ -17,6 +17,26 @@ class Paket_model extends CI_Model {
     	return $result;
     }
 
+    function getJO_ForTable($agid,$ppkode,$start,$limit,$sidx,$sord)
+    {
+        $sql = "SELECT *, DATE_FORMAT(jobtglawal, '%d/%m/%Y') as jobtglawal, DATE_FORMAT(jobtglakhir, '%d/%m/%Y') as jobtglakhir FROM jo WHERE ppkode = ".$ppkode." AND agid = ".$agid." ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
+        $query = $this->db->query($sql);
+
+        $result = $query->result();
+
+        return $result;
+    }
+
+    function countJO($agid,$ppkode)
+    {
+        $sql = "SELECT COUNT(*) AS count FROM jo WHERE ppkode = ".$ppkode." AND agid = ".$agid;
+        $query = $this->db->query($sql);
+
+        $num = $query->result()[0];
+
+        return $num;
+    }
+
     function getJobDetail($jpid,$agid,$ppkode,$jobtglawalnya,$jobtglakhirnya)
     {
     	$this->db->select('jo.jobid, jobdid, jobtglawal, jobtglakhir, jobdl, jobdp, jobdc');
@@ -34,24 +54,34 @@ class Paket_model extends CI_Model {
     	return $result;
     }
 
-    function countJO($agid,$ppkode)
+    function getJOD_ForTable($jobid,$start,$limit,$sidx,$sord)
     {
-    	$sql = "SELECT COUNT(*) AS count FROM jo WHERE ppkode = ".$ppkode." AND agid = ".$agid;
-    	$query = $this->db->query($sql);
+        $sql = "SELECT * FROM jodetail JOIN jenispekerjaan ON jenispekerjaan.idjenispekerjaan = jodetail.idjenispekerjaan WHERE jobid = ".$jobid." ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
+        $query = $this->db->query($sql);
 
-    	$num = $query->result()[0];
+        $result = $query->result();
 
-  		return $num;
+        return $result;
     }
 
-    function getJO($agid,$ppkode,$start,$limit,$sidx,$sord)
+    function countJOD($jobid)
     {
-    	$sql = "SELECT *, DATE_FORMAT(jobtglawal, '%d/%m/%Y') as jobtglawal, DATE_FORMAT(jobtglakhir, '%d/%m/%Y') as jobtglakhir FROM jo WHERE ppkode = ".$ppkode." AND agid = ".$agid." ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
-    	$query = $this->db->query($sql);
+        $sql = "SELECT COUNT(*) AS count FROM jodetail WHERE jobid = ".$jobid;
+        $query = $this->db->query($sql);
 
-    	$result = $query->result();
+        $num = $query->result()[0];
 
-    	return $result;
+        return $num;
+    }
+
+    function getJP()
+    {
+        $this->db->select('*');
+        $this->db->from('jenispekerjaan');
+        $this->db->order_by('namajenispekerjaan ASC');
+        $result = $this->db->get()->result();
+
+        return $result;
     }
 
     function getDate($jpid,$agid,$ppkode,$jobtglawalnya,$jobtglakhirnya)

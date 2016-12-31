@@ -33,6 +33,12 @@ class Agency_model extends CI_Model {
     return $this->db->insert($this->table, $data);
     }
 
+    public function delete_agency($id)
+    {
+        $this->db->where('agid',$id);
+        return $this->db->delete($this->table);
+    }
+
     function get_agency($cekal=false) {
       if($cekal==false){
         return $this->db->get($this->table)->result_array();
@@ -46,6 +52,34 @@ class Agency_model extends CI_Model {
 
     }
 
+    public function update_agency($id)
+    {
+      $active = $this->input->post('active',TRUE);
+
+      if ($active) {
+        $active = 1;
+      } else {
+        $active = 0;
+      }
+
+      $data = array(
+        'agnama' => $this->input->post('name', TRUE),
+        'agnamaoth' => $this->input->post('nameother', TRUE),
+        'agnoijincla' => $this->input->post('noijin', TRUE),
+        'agalmtkantor' => $this->input->post('address', TRUE),
+        'agalmtkantoroth' => $this->input->post('addressother', TRUE),
+        'username' => $this->input->post('user',TRUE),
+        'idinstitution' => $this->input->post('institution',TRUE),
+        'agpngjwb' => $this->input->post('penanggung',TRUE),
+        'agpngjwboth' => $this->input->post('penanggungother',TRUE),
+        'agtelp' => $this->input->post('notelp',TRUE),
+        'agfax' => $this->input->post('nofax',TRUE),
+        'agenable' => $active
+    );
+    $this->db->where('agid',$id);
+    return $this->db->update($this->table, $data);
+    }
+
     function get_agency_info($id) {
       $this->db->select('agnama,agnamaoth,agalmtkantor,agalmtkantoroth,agpngjwb,agpngjwboth,agtelp,agfax,agnoijincla');
       $this->db->from('magensi');
@@ -55,10 +89,19 @@ class Agency_model extends CI_Model {
       return $query->row_array();
     }
 
-    function ambilnamaagensi($keyword, $num=0, $rand=false) {   
+    function get_agency_edit($id) {
+      $this->db->select('*');
+      $this->db->from('magensi');
+      $this->db->where('agid', $id);
+      $query = $this->db->get();
+
+      return $query->row();
+    }
+
+    function ambilnamaagensi($keyword, $num=0, $rand=false) {
     $this->db->like('agnama', $keyword);
     $this->db->where('agenable', "1");
-    
+
     $query = $this->db->get('magensi');
     return $query->result();
   }

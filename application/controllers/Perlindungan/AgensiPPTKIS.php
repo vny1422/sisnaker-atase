@@ -90,6 +90,57 @@ class AgensiPPTKIS extends MY_Controller {
 
 	}
 
+	public function deleteAgensi($id)
+	{
+		$this->Agency_model->delete_agency($id);
+		redirect('AgensiPPTKIS');
+	}
+
+	public function editAgensi($id)
+	{
+		if ($this->session->userdata('role') != 1 && $this->session->userdata('role') != 2)
+		{
+				show_error("Access is forbidden.",403,"403 Forbidden");
+		}
+		else {
+			$this->form_validation->set_rules('name', 'Nama Agensi', 'required|trim');
+			$this->form_validation->set_rules('institution', 'Institution', 'required');
+
+			if ($this->form_validation->run() === FALSE)
+			{
+
+
+				if($this->session->userdata('role') == '1')
+				{
+					$this->data['listinstitution'] = $this->Institution_model->list_active_institution();
+					$this->data['listuser'] = $this->User_model->list_all_user();
+					$this->data['values'] =  $this->Agency_model->get_agency_edit($id);
+					$this->data['title'] = 'Edit Agensi';
+					$this->load->view('templates/header', $this->data);
+					$this->load->view('SAdmin/EditAgency_view', $this->data);
+					$this->load->view('templates/footer');
+				}
+				else {
+					$this->data['listinstitution'] = array();
+					array_push($this->data['listinstitution'],$this->Institution_model->get_institution($this->session->userdata('institution')));
+					$this->data['listuser'] = $this->User_model->list_all_user_by_institution($this->session->userdata('institution'));
+					$this->data['title'] = 'Edit Agensi';
+					$this->data['values'] =  $this->Agency_model->get_agency_edit($id);
+					$this->load->view('templates/header', $this->data);
+					$this->load->view('SAdmin/EditAgency_view', $this->data);
+					$this->load->view('templates/footer');
+				}
+			}
+			else
+			{
+				$this->Agency_model->update_agency($id);
+				redirect('AgensiPPTKIS');
+			}
+		}
+
+	}
+
+
 	public function addPPTKIS()
 	{
 		if ($this->session->userdata('role') != 1)
@@ -117,6 +168,37 @@ class AgensiPPTKIS extends MY_Controller {
 				}
 			}
 		}
+
+		public function deletePPTKIS($id)
+		{
+			$this->Pptkis_model->delete_PPTKIS($id);
+			redirect('AgensiPPTKIS');
+		}
+
+		public function editPPTKIS($id)
+		{
+			if ($this->session->userdata('role') != 1)
+			{
+					show_error("Access is forbidden.",403,"403 Forbidden");
+			}
+			else {
+				$this->form_validation->set_rules('kode', 'Kode PPTKIS', 'required|trim');
+
+				if ($this->form_validation->run() === FALSE)
+				{
+						$this->data['title'] = 'Edit PPTKIS';
+						$this->data['values'] =  $this->Pptkis_model->get_pptkis_info($id);
+						$this->load->view('templates/header', $this->data);
+						$this->load->view('SAdmin/EditPPTKIS_view', $this->data);
+						$this->load->view('templates/footer');
+				}
+				else
+				{
+						$this->Pptkis_model->update_pptkis($id);
+						redirect('AgensiPPTKIS');
+					}
+				}
+			}
 
 		function get_agency_list(){
 			$tmp = $this->Agency_model->get_agency();

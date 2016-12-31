@@ -7,6 +7,8 @@
             <th class="text-center" style="width:15%">Penanggung Jawab</th>
             <th class="text-center" style="width:25%">Telp / Fax</th>
             <th class="text-center" style="width:20%">No Ijin</th>
+            <th class="text-center" style="width:7.5%">Edit</th>
+            <th class="text-center" style="width:7.5%">Delete</th>
         </tr>
         <tr class="text-center">
             <th></th>
@@ -14,6 +16,8 @@
             <th><input st-search="agpngjwb" placeholder="penanggung jawab" class="input-sm form-control" type="search"/></th>
             <th><input st-search="agtelp" placeholder="telepon" class="input-sm form-control" type="search"/></th>
             <th><input st-search="agnoijincla" placeholder="no ijin" class="input-sm form-control" type="search"/></th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody class="table-hover " >
@@ -23,11 +27,17 @@
             <td class="text-center">{{agen.agpngjwb}} </br> {{agen.agpngjwboth}}</td>
             <td class="text-center">{{agen.agtelp}} / {{agen.agfax}}</td>
             <td class="text-center">{{agen.agnoijincla}}</td>
+            <td>
+              <div class="center-button"><a href=" <?php echo base_url() ?>AgensiPPTKIS/editAgensi/{{agen.agid}}"><button class="btn btn-info" type="button" name="button">Edit</button></a></div>
+            </td>
+            <td>
+              <div class="center-button"><a href=" <?php echo base_url() ?>AgensiPPTKIS/deleteAgensi/{{agen.agid}}"><button class="btn btn-danger" type="button" name="button">Hapus</button></a></div>
+            </td>
         </tr>
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="5" class="text-center">
+            <td colspan="7" class="text-center">
                 <div st-pagination="" st-items-by-page="10" st-template="<?php echo assets_url() ?>/template/custom.pagination.html"></div>
             </td>
         </tr>

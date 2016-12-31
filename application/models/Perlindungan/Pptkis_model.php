@@ -23,15 +23,20 @@ class PPTKIS_model extends CI_Model {
         'pptelp' => $this->input->post('notelp',TRUE),
         'ppfax' => $this->input->post('nofax',TRUE),
 		    'ppijin' => $this->input->post('ijin',TRUE),
-        'pppngjwb' => $this->input->post('name',TRUE),
-        'ppstatus' => $this->input->post('name',TRUE),
-        'ppkota' => $this->input->post('name',TRUE),
-		    'pppropinsi' => $this->input->post('type',TRUE),
+        'pppngjwb' => $this->input->post('penanggung',TRUE),
+        'ppstatus' => $this->input->post('status',TRUE),
+        'ppkota' => $this->input->post('kota',TRUE),
+		    'pppropinsi' => $this->input->post('propinsi',TRUE),
 		    'ppenable' => $active
 		);
 
     return $this->db->insert($this->table, $data);
 
+    }
+    public function delete_PPTKIS($id)
+    {
+        $this->db->where('ppkode',$id);
+        return $this->db->delete($this->table);
     }
 
     function get_pptkis($cekal=false) {
@@ -47,6 +52,33 @@ class PPTKIS_model extends CI_Model {
       }
 
     }
+    public function update_pptkis($id)
+    {
+      $active = $this->input->post('active',TRUE);
+
+      if ($active) {
+        $active = true;
+      } else {
+        $active = false;
+      }
+
+      $data = array(
+        'ppkode' => $this->input->post('kode',TRUE),
+        'ppnama' => $this->input->post('name',TRUE),
+        'ppalmtkantor' => $this->input->post('address',TRUE),
+        'pptelp' => $this->input->post('notelp',TRUE),
+        'ppfax' => $this->input->post('nofax',TRUE),
+		    'ppijin' => $this->input->post('ijin',TRUE),
+        'pppngjwb' => $this->input->post('penanggung',TRUE),
+        'ppstatus' => $this->input->post('status',TRUE),
+        'ppkota' => $this->input->post('kota',TRUE),
+		    'pppropinsi' => $this->input->post('propinsi',TRUE),
+		    'ppenable' => $active
+    );
+    $this->db->where('ppkode',$id);
+    return $this->db->update($this->table, $data);
+    }
+
     function get_pptkis_info($id) {
       $this->db->select('*');
       $this->db->from('mpptkis');
@@ -56,10 +88,10 @@ class PPTKIS_model extends CI_Model {
       return $query->row_array();
     }
 
-    function ambilnamapptkis($keyword, $num=0, $rand=false) {   
+    function ambilnamapptkis($keyword, $num=0, $rand=false) {
     $this->db->like('ppnama', $keyword);
     $this->db->where('ppenable', "1");
-    
+
     $query = $this->db->get('mpptkis');
     return $query->result();
   }

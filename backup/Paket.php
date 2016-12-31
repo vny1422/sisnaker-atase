@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Cekal extends MY_Controller {
+class Paket extends MY_Controller {
 
   private $data;
 
@@ -9,6 +9,8 @@ class Cekal extends MY_Controller {
   {
     parent::__construct();
     $this->load_sidebar();
+    $this->load->model('Perlindungan/Agency_model');
+    $this->load->model('Perlindungan/Pptkis_model');
     $this->data['listdp'] = $this->listdp;
     $this->data['usedpg'] = $this->usedpg;
     $this->data['usedmpg'] = $this->usedmpg;
@@ -35,13 +37,31 @@ class Cekal extends MY_Controller {
     $this->load->view('templates/footerperlindungan');
   }
 
-  public function agensi()
+  public function add()
   {
-    $this->data['title'] = 'Cekal Agensi';
-    $this->data['subtitle'] = 'Cekal Agensi';
+    $this->data['title'] = 'Mendaftarkan Paket JO';
     $this->load->view('templates/headerendorsement', $this->data);
-    $this->load->view('Endorsement/CekalAgensi_view', $this->data);
+    $this->load->view('endorsement/DaftarPaketJO_view');
     $this->load->view('templates/footerendorsement');
+  }
+
+  // AJAX AUTOCOMPLETE
+  public function ambilnamaagensi($kode=NULL){
+    $keyword = $this->input->post('kode',TRUE);
+    $query = $this->Agency_model->ambilnamaagensi($keyword);
+    $json_array = array();
+    foreach ($query as $row)
+      $json_array[]=$row->agnama;
+    echo json_encode($json_array);
+  }
+
+  public function ambilnamapptkis($kode=NULL){
+    $keyword = $this->input->post('kode',TRUE);
+    $query = $this->Pptkis_model->ambilnamapptkis($keyword);
+    $json_array = array();
+    foreach ($query as $row)
+      $json_array[]=$row->ppnama;
+    echo json_encode($json_array);
   }
 
 }

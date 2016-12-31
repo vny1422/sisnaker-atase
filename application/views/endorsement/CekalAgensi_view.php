@@ -36,23 +36,29 @@
           </div><br /><br /><br />
 
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Gunakan Batas Tanggal </label>
-            <div class="col-md-5 col-sm-5 col-xs-12">
-              <input type="text" name="keterangan" class="form-control">
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="active">Is Active </label>
+            <div class="col-md-1 col-sm-1 col-xs-2">
+              <input type="checkbox" id="cekenable" name="active">
+            </div>
+          </div><br /><br />
+
+          <div class="form-group" >
+            <label class="col-sm-2 control-label">Mulai</label>
+            <div class="col-sm-2">
+              <div class="input-group date datepicker col-md-12 col-xs-12" data-provide="datepicker" ng-class="{'has-error':(pst && shForm.inDate.$invalid)}">
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                <input id="ckstart" type="text" class="form-control tglformat" ng-model="shelterform['in']" name="inDate" required disabled=""></input>
+              </div>
             </div>
           </div><br /><br /><br />
 
-          <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Mulai </label>
-            <div class="col-md-5 col-sm-5 col-xs-12">
-              <input type="text" name="keterangan" class="form-control">
-            </div>
-          </div><br /><br /><br />
-
-          <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Berakhir </label>
-            <div class="col-md-5 col-sm-5 col-xs-12">
-              <input type="text" name="keterangan" class="form-control">
+          <div class="form-group" >
+            <label class="col-sm-2 control-label">Berakhir</label>
+            <div class="col-sm-2">
+              <div class="input-group date datepicker col-md-12 col-xs-12" data-provide="datepicker" ng-class="{'has-error':(pst && shForm.inDate.$invalid)}">
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                <input id="ckexpired" type="text" class="form-control tglformat" ng-model="shelterform['in']" name="inDate" required disabled=""></input>
+              </div>
             </div>
           </div><br /><br /><br />
 
@@ -78,56 +84,14 @@
 </div>
 
 <script type="text/javascript">
-$(document).ready(function() {
-  var max_fields      = 100; //maximum input boxes allowed
-  var wrapper         = $("#wrapconn"); //Fields wrapper
-  var wrapopsi        = $("#wrapopsi"); //Fields wrapper
-  var add_button      = $(".addButton"); //Add button ID
-  var input_type      = $("#inputtype");
-  var wraptabel       = $("#wraptabel");
-  var x = 2; //initlal text box count
+var checkbox = $("#cekenable");
 
-  $(wrapper).hide();
-  $(wrapopsi).hide();
-  $(wraptabel).hide();
-
-  $(input_type).change(function(){
-    if ($("#inputtype :selected").text() == 'select' || $("#inputtype :selected").text() == 'Select') {
-      $(wrapper).show();
+checkbox.change(function(event) {
+    var checkbox = event.target;
+    if (checkbox.checked) {
+        $('.tglformat').removeAttr('disabled');
     } else {
-      $(wrapper).hide();
+        $('.tglformat').attr('disabled', 'disabled');
     }
-  });
-
-  $(wrapper).change(function(){
-    if ($("#wrapconn :selected").text() == 'Dari Opsi Input') {
-      $(wrapopsi).show();
-      $(wraptabel).hide();
-    } else if ($("#wrapconn :selected").text() == 'Dari Tabel') {
-      $(wraptabel).show();
-      $(wrapopsi).hide();
-    }
-    else {
-      $(wrapopsi).hide();
-      $(wraptabel).hide();
-      $(wrapper).hide();
-    }
-  });
-
-  $(add_button).click(function(e){ //on add input button click
-    e.preventDefault();
-    if(x < max_fields){ //max input box allowed
-      $(wrapopsi).append('<div class="form-group"><label class="control-label col-md-1 col-sm-1 col-xs-12 col-md-offset-1" for="name">Opsi '+ x +'<span class="required">*</span></label><div class="col-md-3 col-sm-3 col-xs-12"><input type="text" name="opsi'+ x +'" required="required" class="form-control"></div><div class="col-md-1 col-sm-1 col-xs-1"><button type="button" class="btn btn-default remove_field"><i class="fa fa-trash"></i></button></div><br /><br /><br /></div>'); //add input box
-
-      x++; //text box increment
-    }
-  });
-
-  $(wrapopsi).on("click",".remove_field", function(e){ //user click on remove text
-    e.preventDefault();
-    $(this).closest('.form-group').remove();
-    x--;
-  })
-
 });
 </script>

@@ -30,6 +30,12 @@
     <link href="<?php echo base_url('assets/css/floatexamples.css'); ?>" rel="stylesheet" type="text/css" />
 
 
+    <!-- Datepicker -->
+    <link href="<?php echo base_url('assets/css/datepicker/bootstrap-datepicker.css'); ?>" rel="stylesheet">
+    <!-- Datepicker CSS -->
+    <link href="<?php echo base_url('assets/css/datepicker.css'); ?>" rel="stylesheet">
+
+
 
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/js/jquery.min.js'); ?>"></script>
@@ -38,6 +44,9 @@
 
     <!-- Bootstrap -->
     <script src="<?php echo base_url('assets/vendors/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
+
+     <!-- Datepicker -->
+    <script src="<?php echo base_url('assets/js/datepicker/bootstrap-datepicker.js'); ?>"></script>
 
     <!-- DataTables -->
     <link href="<?php echo base_url('assets/css/datatables/css/dataTables.bootstrap.css'); ?>" rel="stylesheet">

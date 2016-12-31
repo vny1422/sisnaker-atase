@@ -59,6 +59,13 @@
     <script src="<?php echo base_url('assets/jqgrid/js/i18n/grid.locale-en.js'); ?>"></script>
     <script src="<?php echo base_url('assets/jqgrid/js/jquery.jqGrid.min.js'); ?>"></script>
 
+    <style type="text/css">
+        .ui-datepicker select.ui-datepicker-month, .ui-datepicker select.ui-datepicker-year {
+          color: black;
+          font-size: 14px;
+        }
+    </style>
+
   </head>
 
   <body class="nav-md footer_fixed">

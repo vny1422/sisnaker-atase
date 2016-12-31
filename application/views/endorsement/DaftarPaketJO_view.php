@@ -156,7 +156,7 @@
         {name:'jobtglawal', index:'jobtglawal', width:80, editable:true, searchoptions:{sopt:['gt','ge', 'lt','le']}, editoptions:{size:10, maxlength:50}, editrules:{edithidden:false, required:true}, formoptions:{elmsuffix:'(*)'}},
         {name:'jobtglakhir', index:'jobtglakhir', width:80, editable:true, searchoptions:{sopt:['gt','ge', 'lt','le']}, editoptions:{size:10, maxlength:50}, editrules:{edithidden:true, required:true}, formoptions:{elmsuffix:'(*)'}},
         {name:'jobenable', index:'jobenable', width:50, align:'center', editable:true, searchoptions:{sopt:['eq']}, editable:true, editoptions:{defaultValue:"1", size:1, maxlength:1}, formatoptions:{disabled:true}},
-        {name:'joispushed', index:'joispushed', width:50, align:'center', searchoptions:{sopt:['eq']}, editoptions:{defaultValue:"1", size:1, maxlength:1}, formatoptions:{disabled:true}}
+        {name:'jobispushed', index:'jobispushed', width:50, align:'center', searchoptions:{sopt:['eq']}, editoptions:{defaultValue:"1", size:1, maxlength:1}, formatoptions:{disabled:true}}
       ],
       height: 300,
       pager: "#pgrid",
@@ -232,10 +232,10 @@
     grid.jqGrid(
         'navGrid',
         '#pgrid',
-        {edit:true, add:true, del:false, search:true, view:false, refresh:true, beforeRefresh: function() {$(this).clearGridData(true);}},
-        {jqModal:true, width: 450, checkOnSubmit:true, closeAfterEdit:true, afterComplete:reload, recreateForm:true, beforeShowForm:initCustom, bottominfo:"Fields marked with (*) are required"}, // edit
-        {jqModal:true, width: 450, closeOnEscape:true, checkOnUpdate:true, clearAfterAdd:true, closeAfterAdd:true, afterComplete:reload, beforeShowForm:initCustom, recreateForm:true, bottominfo:"Fields marked with (*) are required"}, // add
-        {}, // del
+        {edit:true, add:true, del:true, search:true, view:false, refresh:true, beforeRefresh: function() {$(this).clearGridData(true);}},
+        {url: '<?php echo base_url()?>paket/editJO',editData: { ppkode: function () { return idpptkis; }, agid: function () { return idagensi; }},jqModal:true, width: 450, closeOnEscape:true, checkOnSubmit:true, closeAfterEdit:true, afterComplete:reload, recreateForm:true, beforeShowForm:initCustom, bottominfo:"Fields marked with (*) are required"}, // edit
+        {url: '<?php echo base_url()?>paket/editJO',editData: { ppkode: function () { return idpptkis; }, agid: function () { return idagensi; }},jqModal:true, width: 450, closeOnEscape:true, checkOnUpdate:true, clearAfterAdd:true, closeAfterAdd:true, afterComplete:reload, beforeShowForm:initCustom, recreateForm:true, bottominfo:"Fields marked with (*) are required"}, // add
+        {url: '<?php echo base_url()?>paket/editJO',closeOnEscape:true,afterComplete:reload}, // del
         {multipleSearch:true},
         {}
     );

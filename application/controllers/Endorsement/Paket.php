@@ -71,12 +71,18 @@ class Paket extends MY_Controller {
     $sord = $this->input->post('sord', TRUE); // get the direction
     if(!$sidx) $sidx = 1;
 
+    $wh = "";
+    if($this->input->post('_search',TRUE)=="true"){
+      $filters = json_decode($this->input->post('filters',TRUE), true);
+      $wh = $this->getSearch($filters);
+    }
+
     $totalrows = isset($_POST['totalrows']) ? $_POST['totalrows']: false;
     if($totalrows) {
       $limit = $totalrows;
     }
 
-    $count = $this->Paket_model->countJO($agid,$ppkode)->count;
+    $count = $this->Paket_model->countJO($agid,$ppkode,$wh)->count;
 
     if( $count >0 ) {
         $total_pages = ceil($count/$limit);
@@ -93,7 +99,7 @@ class Paket extends MY_Controller {
     $r->total = $total_pages;
     $r->records = $count;
 
-    $query = $this->Paket_model->getJO_ForTable($agid,$ppkode,$start,$limit,$sidx,$sord);
+    $query = $this->Paket_model->getJO_ForTable($agid,$ppkode,$start,$limit,$sidx,$sord,$wh);
     $i=0;
     foreach ($query as $row):
       $r->rows[$i]['id']=$i;
@@ -108,6 +114,34 @@ class Paket extends MY_Controller {
       $i++;
     endforeach;
 
+    echo json_encode($r);
+  }
+
+  public function editJO()
+  {
+    if (!isset($r)) $r = new stdClass();
+    $r->status = 0;
+
+    $oper = $this->input->post('oper', TRUE);
+    $ppkode = $this->input->post('ppkode', TRUE);
+    $agid = $this->input->post('agid', TRUE);
+    $id = $this->input->post('id', TRUE);
+
+    if ($oper === "add") {
+      if (!empty($ppkode) && !empty($agid)) {
+        $this->Paket_model->addJO($ppkode,$agid);
+        $r->status = 1;
+      }
+    } else if ($oper === "edit") {
+      if (!empty($ppkode) && !empty($agid)) {
+        $this->Paket_model->updateJO($id);
+        $r->status = 1;
+      }
+    } else if ($oper === "del") {
+      $this->Paket_model->deleteJO($id);
+      $r->status = 1;
+    }
+      
     echo json_encode($r);
   }
 
@@ -183,6 +217,9 @@ class Paket extends MY_Controller {
     $page = $this->input->post('page', TRUE); // get the requested page
     $limit = $this->input->post('rows', TRUE); // get how many rows we want to have into the grid
     $sidx = $this->input->post('sidx', TRUE); // get index row - i.e. user click to sort
+    if($sidx == 'jpid') {
+      $sidx = 'namajenispekerjaan';
+    }
     $sord = $this->input->post('sord', TRUE); // get the direction
     if(!$sidx) $sidx = 1;
 
@@ -294,6 +331,69 @@ class Paket extends MY_Controller {
     $sisa[1] = $jobdp[$i];
     $sisa[2] = $jobdc[$i];
     return $sisa;
+  }
+
+  function getSearch($filters)
+  {
+    $where = "";
+    $ops = array(
+      'eq'=>'=', 
+      'ne'=>'<>',
+      'lt'=>'<', 
+      'le'=>'<=',
+      'gt'=>'>', 
+      'ge'=>'>=',
+      'bw'=>'LIKE',
+      'bn'=>'NOT LIKE',
+      'in'=>'LIKE', 
+      'ni'=>'NOT LIKE', 
+      'ew'=>'LIKE', 
+      'en'=>'NOT LIKE', 
+      'cn'=>'LIKE', 
+      'nc'=>'NOT LIKE' 
+    );
+    
+    if($filters['groupOp'] == 'OR') {
+      $first = true;
+      $where .= " AND ( ";
+      foreach ( $filters['rules'] as $item){
+        if (!$first) {
+          $where .= " OR ";
+        }
+        $searchString = $item['data'];
+        if($item['field'] == 'jobtglawal' || $item['field'] == 'jobtglakhir') {
+          $tgl = "STR_TO_DATE('".$searchString."','%d/%m/%Y')";
+          $where .= $item['field']." ".$ops[$item['op']]." ".$tgl; 
+        } else {
+          if($item['op'] == 'eq' ) $searchString = "'".$searchString."'";
+          if($item['op'] == 'bw' || $item['op'] == 'bn') $searchString = "'".$searchString."%'";
+          if($item['op'] == 'ew' || $item['op'] == 'en' ) $searchString = "'%".$searchString."'";
+          if($item['op'] == 'cn' || $item['op'] == 'nc' || $item['op'] == 'in' || $item['op'] == 'ni') $searchString = "'%".$searchString."%'";                      
+          $where .= $item['field']." ".$ops[$item['op']]." ".$searchString;
+        }
+        if ($first) {
+          $first = false;
+        }                            
+      }
+      $where .= " )";
+    } else {
+      foreach ( $filters['rules'] as $item){                                
+        $where .= " AND ";
+        $searchString = $item['data'];
+        if($item['field'] == 'jobtglawal' || $item['field'] == 'jobtglakhir') {
+          $tgl = "STR_TO_DATE('".$searchString."','%d/%m/%Y')";
+          $where .= $item['field']." ".$ops[$item['op']]." ".$tgl; 
+        } else {
+          if($item['op'] == 'eq' ) $searchString = "'".$searchString."'";
+          if($item['op'] == 'bw' || $item['op'] == 'bn') $searchString = "'".$searchString."%'";
+          if($item['op'] == 'ew' || $item['op'] == 'en' ) $searchString = "'%".$searchString."'";
+          if($item['op'] == 'cn' || $item['op'] == 'nc' || $item['op'] == 'in' || $item['op'] == 'ni') $searchString = "'%".$searchString."%'";                      
+          $where .= $item['field']." ".$ops[$item['op']]." ".$searchString;
+        }                              
+      }
+    }
+
+    return $where;
   }
 
   // AJAX AUTOCOMPLETE

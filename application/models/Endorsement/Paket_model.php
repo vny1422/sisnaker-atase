@@ -17,9 +17,9 @@ class Paket_model extends CI_Model {
     	return $result;
     }
 
-    function getJO_ForTable($agid,$ppkode,$start,$limit,$sidx,$sord)
+    function getJO_ForTable($agid,$ppkode,$start,$limit,$sidx,$sord,$wh)
     {
-        $sql = "SELECT *, DATE_FORMAT(jobtglawal, '%d/%m/%Y') as jobtglawal, DATE_FORMAT(jobtglakhir, '%d/%m/%Y') as jobtglakhir FROM jo WHERE ppkode = ".$ppkode." AND agid = ".$agid." ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
+        $sql = "SELECT *, DATE_FORMAT(jobtglawal, '%d/%m/%Y') as jobtglawal, DATE_FORMAT(jobtglakhir, '%d/%m/%Y') as jobtglakhir FROM jo WHERE ppkode = ".$ppkode." AND agid = ".$agid."".$wh." ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
         $query = $this->db->query($sql);
 
         $result = $query->result();
@@ -27,14 +27,61 @@ class Paket_model extends CI_Model {
         return $result;
     }
 
-    function countJO($agid,$ppkode)
+    function countJO($agid,$ppkode,$wh)
     {
-        $sql = "SELECT COUNT(*) AS count FROM jo WHERE ppkode = ".$ppkode." AND agid = ".$agid;
+        $sql = "SELECT COUNT(*) AS count FROM jo WHERE ppkode = ".$ppkode." AND agid = ".$agid."".$wh;
         $query = $this->db->query($sql);
 
         $num = $query->result()[0];
 
         return $num;
+    }
+
+    function addJO($ppkode,$agid)
+    {
+        $jobtglawal = DateTime::createFromFormat('d/m/Y', $this->input->post('jobtglawal', TRUE));
+        $tglawalbaru = $jobtglawal->format('Y-m-d');
+        $jobtglakhir = DateTime::createFromFormat('d/m/Y', $this->input->post('jobtglakhir', TRUE));
+        $tglawalakhir = $jobtglakhir->format('Y-m-d');
+
+        $data = array(
+            'ppkode' => $ppkode,
+            'agid' => $agid,
+            'idinstitution' => $this->session->userdata('institution'),
+            'jobno' => $this->input->post('jobno', TRUE),
+            'jobtglawal' => $tglawalbaru,
+            'jobtglakhir' => $tglawalakhir,
+            'jobenable' => $this->input->post('jobenable', TRUE),
+            'username' => $this->session->userdata('user')
+        );
+        
+        return $this->db->insert('jo', $data);
+    }
+
+    function updateJO($id)
+    {
+        $jobtglawal = DateTime::createFromFormat('d/m/Y', $this->input->post('jobtglawal', TRUE));
+        $tglawalbaru = $jobtglawal->format('Y-m-d');
+        $jobtglakhir = DateTime::createFromFormat('d/m/Y', $this->input->post('jobtglakhir', TRUE));
+        $tglawalakhir = $jobtglakhir->format('Y-m-d');
+
+        $data = array(
+            'idinstitution' => $this->session->userdata('institution'),
+            'jobno' => $this->input->post('jobno', TRUE),
+            'jobtglawal' => $tglawalbaru,
+            'jobtglakhir' => $tglawalakhir,
+            'jobenable' => $this->input->post('jobenable', TRUE),
+            'username' => $this->session->userdata('user')
+        );
+        
+        $this->db->where('jobid',$id);
+        return $this->db->update('jo', $data);
+    }
+
+    function deleteJO($id)
+    {
+        $this->db->where('jobid',$id);
+        return $this->db->delete('jo');
     }
 
     function getJobDetail($jpid,$agid,$ppkode,$jobtglawalnya,$jobtglakhirnya)

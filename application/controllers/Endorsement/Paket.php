@@ -22,12 +22,17 @@ class Paket extends MY_Controller {
 
   public function index()
   {
-    
+    $this->data['title'] = 'Paket PK';
+    $this->data['subtitle'] = 'Rekap Paket PK';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('endorsement/PaketJO_view');
+    $this->load->view('templates/footerendorsement');
   }
 
   public function add()
   {
-    $this->data['title'] = 'Mendaftarkan Paket PK';
+    $this->data['title'] = 'Paket PK';
+    $this->data['subtitle'] = 'Mendaftarkan Paket PK';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('endorsement/DaftarPaketJO_view');
     $this->load->view('templates/footerendorsement');

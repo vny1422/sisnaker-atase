@@ -22,16 +22,21 @@
           <?php echo '<div class="container">
             <div class="alert alert-success fade in">
               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-              <strong>Selamat!</strong> '.$this->session->flashdata('information').'
+              <strong>Notification: </strong> '.$this->session->flashdata('information').'
             </div>
           </div>' ?>
         <?php endif; ?>
-          <?php echo form_open(base_url('input/addpenempatan')) ?>
+          <?php echo form_open(base_url('cekal/pptkis')) ?>
 
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Nama PPTKIS <span class="required">*</span></label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12">Nama PPTKIS <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-              <input id="pptkis" type="text" name="name" required="required" class="form-control">
+              <select name="pptkis" required="required" class="select2_single form-control" tabindex="-1">
+                <option></option>
+                <?php foreach($list as $row): ?>
+                  <option value="<?php echo $row->ppkode ?>"><?php echo $row->ppnama ?></option>
+                <?php endforeach; ?>
+              </select>
             </div>
           </div><br /><br /><br />
 
@@ -47,7 +52,7 @@
             <div class="col-sm-2">
               <div class="input-group date datepicker col-md-12 col-xs-12" data-provide="datepicker" ng-class="{'has-error':(pst && shForm.inDate.$invalid)}">
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                <input id="ckstart" type="text" class="form-control tglformat" ng-model="shelterform['in']" name="inDate" required disabled=""></input>
+                <input id="ckstart" type="text" class="form-control tglformat" name="start" required disabled=""></input>
               </div>
             </div>
           </div><br /><br /><br />
@@ -57,7 +62,7 @@
             <div class="col-sm-2">
               <div class="input-group date datepicker col-md-12 col-xs-12" data-provide="datepicker" ng-class="{'has-error':(pst && shForm.inDate.$invalid)}">
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                <input id="ckexpired" type="text" class="form-control tglformat" ng-model="shelterform['in']" name="inDate" required disabled=""></input>
+                <input id="ckexpired" type="text" class="form-control tglformat" name="end" required disabled=""></input>
               </div>
             </div>
           </div><br /><br /><br /><br /><br />
@@ -96,15 +101,17 @@
               </tr>
             </thead>
             <tbody>
-            <?php foreach($list as $row): ?>
+            <?php foreach($listcekal as $row): ?>
               <tr>
-                <td><?php echo $row->idlevel ?></td>
-                <td><?php echo $row->levelname ?></td>
+                <td><?php echo $row->ppnama ?></td>
+                <td><?php echo $row->cpstart ?></td>
+                <td><?php echo $row->cpend ?></td>
+                <td><?php echo $row->enable ?></td>
                 <td>
-                  <div class="center-button"><a href="<?php echo base_url() ?>level/edit/<?php echo $row->idlevel ?>"><button class="btn btn-info" type="button" name="button">Edit</button></a></div>
+                  <div class="center-button"><a href="<?php echo base_url() ?>Cekal/editpptkis/<?php echo $row->cpid ?>"><button class="btn btn-info" type="button" name="button">Edit</button></a></div>
                 </td>
                 <td>
-                  <div class="center-button"><a href=" <?php echo base_url() ?>level/delete/<?php echo $row->idlevel ?>"><button align="center" class="btn btn-danger" type="button" name="button">Hapus</button></a></div>
+                  <div class="center-button"><a href=" <?php echo base_url() ?>Cekal/deletePPTKIS/<?php echo $row->cpid ?>"><button align="center" class="btn btn-danger" type="button" name="button">Hapus</button></a></div>
                 </td>
               </tr>
             <?php endforeach; ?>
@@ -115,6 +122,9 @@
 
         </div>
         <div class="clearfix"></div>
+      </div>
+      <div>
+        <br><br>
       </div>
   </div>
   </div>

@@ -29,14 +29,14 @@
           <?php echo form_open(base_url('input/addpenempatan')) ?>
 
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Nama Agensi <span class="required">*</span></label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Nama PPTKIS <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-              <input id="agensi" type="text" name="name" required="required" class="form-control">
+              <input id="pptkis" type="text" name="name" required="required" class="form-control">
             </div>
           </div><br /><br /><br />
 
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="active">Is Active </label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="active">Gunakan Batasan Tanggal</label>
             <div class="col-md-1 col-sm-1 col-xs-2">
               <input type="checkbox" id="cekenable" name="active">
             </div>
@@ -60,14 +60,7 @@
                 <input id="ckexpired" type="text" class="form-control tglformat" ng-model="shelterform['in']" name="inDate" required disabled=""></input>
               </div>
             </div>
-          </div><br /><br /><br />
-
-          <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Catatan </label>
-            <div class="col-md-5 col-sm-5 col-xs-12">
-              <textarea class="resizable_textarea form-control"></textarea>
-            </div>
-          </div><br /><br /><br /><br /><br /><br /><br /><br />
+          </div><br /><br /><br /><br /><br />
 
         <div class="form-group">
           <div class="col-md-6 col-sm-6 col-xs-12">
@@ -94,10 +87,9 @@
           <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
             <thead>
               <tr>
-                <th>Agensi</th>
+                <th>PPTKIS</th>
                 <th>Mulai</th>
                 <th>Berakhir</th>
-                <th>Catatan</th>
                 <th>Aktif</th>
                 <th>Edit</th>
                 <th>Hapus</th>
@@ -146,21 +138,22 @@ checkbox.change(function(event) {
 });
 
 $(function() {
-  $( "#agensi" ).autocomplete({
+  $( "#pptkis" ).autocomplete({
     source: function(request, response) {
-      $.post('<?php echo base_url();?>/Paket/ambilnamaagensi/', { term:request.term}, function(json) {
+      $.post('<?php echo base_url();?>/Paket/ambilnamapptkis/', { term:request.term}, function(json) {
         response( $.map( json.rows, function( item ) {
           return {
-            label: item.agnama,
-            id: item.agid
+            label: item.ppnama,
+            id: item.ppkode
           }
         }));
       }, 'json');
     },
     minLength: 1,
-    select: function( event, ui ) {
-      idagensi = ui.item.id;
-    }
+  select: function( event, ui ) {
+    idagensi = ui.item.id;
+  }
   });
 } );
+
 </script>

@@ -152,7 +152,7 @@
       colNames: ["ID", "No.JO(FORM01)", "Tgl.Awal", "Tgl.Akhir", "Aktif", "Pushed?"],
       colModel: [
         {name:'id', index:'jobid', key:true, hidden: true},
-        {name:'jobno', index:'jobno', width:100, editable:true, searchoptions:{sopt:['cn']}, editoptions:{size:30, maxlength:50}, editrules:{required:true}, formoptions:{elmsuffix:'(*)'}},
+        {name:'jobno', index:'jobno', width:100, editable:true, searchoptions:{sopt:['cn']}, editoptions:{size:30, maxlength:50}, editrules:{required:true}, formoptions:{elmsuffix:'(*)'}, editoptions:{size:2}},
         {name:'jobtglawal', index:'jobtglawal', width:80, editable:true, searchoptions:{sopt:['gt','ge', 'lt','le']}, editoptions:{size:10, maxlength:50}, editrules:{edithidden:false, required:true}, formoptions:{elmsuffix:'(*)'}},
         {name:'jobtglakhir', index:'jobtglakhir', width:80, editable:true, searchoptions:{sopt:['gt','ge', 'lt','le']}, editoptions:{size:10, maxlength:50}, editrules:{edithidden:true, required:true}, formoptions:{elmsuffix:'(*)'}},
         {name:'jobenable', index:'jobenable', width:50, align:'center', editable:true, searchoptions:{sopt:['eq']}, editable:true, editoptions:{defaultValue:"1", size:1, maxlength:1}, formatoptions:{disabled:true}},
@@ -180,9 +180,9 @@
             {name:'id', index:'jobdid', key:true, hidden: true},
             {name:'jpid', index:'jpid', hidden: true},
             {name:'jpnama', index: 'jpnama', edittype:'select', editable:true, editrules:{required:true}, formoptions:{elmsuffix:'(*)'}},
-            {name:'jobdl', index:'jobdl', width:40, editable:true, editoptions:{size:4, maxlength:11, defaultValue:'0'}, editrules:{required:true, minValue:0, number:true}, formoptions:{elmsuffix:'(*)'}},
-            {name:'jobdp', index:'jobdp', width:40, editable:true, editoptions:{size:4, maxlength:11, defaultValue:'0'}, editrules:{required:true, minValue:0, number:true}, formoptions:{elmsuffix:'(*)'}},
-            {name:'jobdc', index:'jobdc', width:40, editable:true, editoptions:{size:4, maxlength:11, defaultValue:'0'}, editrules:{required:true, minValue:0, number:true}, formoptions:{elmsuffix:'(*)'}}
+            {name:'jobdl', index:'jobdl', width:40, editable:true, editoptions:{size:8, maxlength:11, defaultValue:'0'}, editrules:{required:true, minValue:0, number:true}, formoptions:{elmsuffix:'(*)'}},
+            {name:'jobdp', index:'jobdp', width:40, editable:true, editoptions:{size:8, maxlength:11, defaultValue:'0'}, editrules:{required:true, minValue:0, number:true}, formoptions:{elmsuffix:'(*)'}},
+            {name:'jobdc', index:'jobdc', width:40, editable:true, editoptions:{size:8, maxlength:11, defaultValue:'0'}, editrules:{required:true, minValue:0, number:true}, formoptions:{elmsuffix:'(*)'}}
           ],
           autowidth:true,
           height: 80,
@@ -209,7 +209,7 @@
               el.append($temp);
             });
             
-            el.css("width", "325px");
+            el.css("width", "200px");
             el.attr("id", "jpnama");
             el.attr("name", "jpnama");
           });

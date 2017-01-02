@@ -84,6 +84,38 @@ class Paket_model extends CI_Model {
         return $this->db->delete('jo');
     }
 
+    function addJODetail($jobid)
+    {
+        $data = array(
+            'jobid' => $jobid,
+            'idjenispekerjaan' => $this->input->post('jpnama', TRUE),
+            'jobdl' => $this->input->post('jobdl', TRUE),
+            'jobdp' => $this->input->post('jobdp', TRUE),
+            'jobdc' => $this->input->post('jobdc', TRUE)
+        );
+        
+        return $this->db->insert('jodetail', $data);
+    }
+
+    function updateJODetail($id)
+    {
+        $data = array(
+            'idjenispekerjaan' => $this->input->post('jpnama', TRUE),
+            'jobdl' => $this->input->post('jobdl', TRUE),
+            'jobdp' => $this->input->post('jobdp', TRUE),
+            'jobdc' => $this->input->post('jobdc', TRUE)
+        );
+        
+        $this->db->where('jobdid',$id);
+        return $this->db->update('jodetail', $data);
+    }
+
+    function deleteJODetail($id)
+    {
+        $this->db->where('jobdid',$id);
+        return $this->db->delete('jodetail');
+    }
+
     function getJobDetail($jpid,$agid,$ppkode,$jobtglawalnya,$jobtglakhirnya)
     {
     	$this->db->select('jo.jobid, jobdid, jobtglawal, jobtglakhir, jobdl, jobdp, jobdc');
@@ -101,9 +133,9 @@ class Paket_model extends CI_Model {
     	return $result;
     }
 
-    function getJOD_ForTable($jobid,$start,$limit,$sidx,$sord)
+    function getJOD_ForTable($jobid,$start,$limit,$sidx,$sord,$wh)
     {
-        $sql = "SELECT * FROM jodetail JOIN jenispekerjaan ON jenispekerjaan.idjenispekerjaan = jodetail.idjenispekerjaan WHERE jobid = ".$jobid." ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
+        $sql = "SELECT * FROM jodetail JOIN jenispekerjaan ON jenispekerjaan.idjenispekerjaan = jodetail.idjenispekerjaan WHERE jobid = ".$jobid."".$wh." ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
         $query = $this->db->query($sql);
 
         $result = $query->result();
@@ -111,9 +143,9 @@ class Paket_model extends CI_Model {
         return $result;
     }
 
-    function countJOD($jobid)
+    function countJOD($jobid,$wh)
     {
-        $sql = "SELECT COUNT(*) AS count FROM jodetail WHERE jobid = ".$jobid;
+        $sql = "SELECT COUNT(*) AS count FROM jodetail JOIN jenispekerjaan ON jenispekerjaan.idjenispekerjaan = jodetail.idjenispekerjaan WHERE jobid = ".$jobid."".$wh;
         $query = $this->db->query($sql);
 
         $num = $query->result()[0];

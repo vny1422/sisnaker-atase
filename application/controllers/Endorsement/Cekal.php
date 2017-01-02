@@ -39,9 +39,40 @@ class Cekal extends MY_Controller {
   {
     $this->data['title'] = 'Cekal Agensi';
     $this->data['subtitle'] = 'Cekal Agensi';
+    $this->data['subtitle2'] = 'Tabel Cekal Agensi';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/CekalAgensi_view', $this->data);
     $this->load->view('templates/footerendorsement');
   }
+
+  public function pptkis()
+  {
+    $this->data['title'] = 'Cekal PPTKIS';
+    $this->data['subtitle'] = 'Cekal PPTKIS';
+    $this->data['subtitle2'] = 'Tabel Cekal PPTKIS';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/CekalPPTKIS_view', $this->data);
+    $this->load->view('templates/footerendorsement');
+  }
+
+  public function editcklag()
+  {
+    $this->data['title'] = 'Cekal Agensi';
+    $this->data['subtitle'] = 'Edit Cekal Agensi';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/EditCekalAgensi_view', $this->data);
+    $this->load->view('templates/footerendorsement');
+  }
+
+    public function editcklpptkis()
+  {
+    $this->data['title'] = 'Cekal PPTKIS';
+    $this->data['subtitle'] = 'Edit Cekal PPTKIS';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/EditCekalPPTKIS_view', $this->data);
+    $this->load->view('templates/footerendorsement');
+  }
+
+
 
 }

@@ -69,62 +69,18 @@
             </div>
           </div><br /><br /><br /><br /><br /><br /><br /><br />
 
-        <div class="form-group">
-          <div class="col-md-6 col-sm-6 col-xs-12">
-            <button type="reset" class="btn btn-primary">Cancel</button>
-            <button type="submit" class="btn btn-success">Submit</button>
+          <div class="ln_solid"></div>
+          <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <button type="reset" name="cancel" class="btn btn-primary">Cancel</button>
+              <button type="submit" name="submit" class="btn btn-success">Update</button>
+            </div>
           </div>
-        </div>
 
         </form>
 
       </div>
     </div>
-    <div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
-      <div class="x_panel">
-        <div class="x_title">
-          <h2><strong><?php echo $subtitle2; ?></strong></h2>
-          <ul class="nav navbar-right panel_toolbox">
-            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-          </ul>
-          <div class="clearfix"></div>
-        </div>
-        <div class="x_content">
-          <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-            <thead>
-              <tr>
-                <th>Agensi</th>
-                <th>Mulai</th>
-                <th>Berakhir</th>
-                <th>Catatan</th>
-                <th>Aktif</th>
-                <th>Edit</th>
-                <th>Hapus</th>
-              </tr>
-            </thead>
-            <tbody>
-            <?php foreach($list as $row): ?>
-              <tr>
-                <td><?php echo $row->idlevel ?></td>
-                <td><?php echo $row->levelname ?></td>
-                <td>
-                  <div class="center-button"><a href="<?php echo base_url() ?>level/edit/<?php echo $row->idlevel ?>"><button class="btn btn-info" type="button" name="button">Edit</button></a></div>
-                </td>
-                <td>
-                  <div class="center-button"><a href=" <?php echo base_url() ?>level/delete/<?php echo $row->idlevel ?>"><button align="center" class="btn btn-danger" type="button" name="button">Hapus</button></a></div>
-                </td>
-              </tr>
-            <?php endforeach; ?>
-              </tr>
-
-            </tbody>
-          </table>
-
-        </div>
-        <div class="clearfix"></div>
-      </div>
-  </div>
   </div>
 
 

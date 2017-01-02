@@ -33,10 +33,42 @@ class Agency_model extends CI_Model {
     return $this->db->insert($this->table, $data);
     }
 
+    public function post_new_cekal($idinstitusi)
+    {
+      $active = $this->input->post('active',TRUE);
+
+      if ($active) {
+        $data = array(
+          'agid' => $this->input->post('agensi', TRUE),
+          'castart' => $this->input->post('start', TRUE),
+          'caend' => $this->input->post('end', TRUE),
+          'cacatatan' => $this->input->post('catatan', TRUE),
+          'idinstitution' => $idinstitusi,
+          'enable' => 1
+      );
+      } else {
+        $date = date('Y-m-d');
+        $data = array(
+          'agid' => $this->input->post('agensi', TRUE),
+          'castart' => $date,
+          'cacatatan' => $this->input->post('catatan', TRUE),
+          'idinstitution' => $idinstitusi,
+          'enable' => 1
+      );
+      }
+    return $this->db->insert('cekalagensi', $data);
+    }
+
     public function delete_agency($id)
     {
         $this->db->where('agid',$id);
         return $this->db->delete($this->table);
+    }
+
+    public function delete_cekal($id)
+    {
+        $this->db->where('caid',$id);
+        return $this->db->delete('cekalagensi');
     }
 
     function get_agency($cekal=false) {
@@ -44,12 +76,17 @@ class Agency_model extends CI_Model {
         return $this->db->get($this->table)->result_array();
       }
       else{
-        // $this->db->select('*');
-        // $this->db->from('magensi m, cekalagensi c');
-        // $this->db->where('c.agid = m.agid AND c.enable=1 AND (c.caend IS NULL OR c.caend >= NOW())');
-        //
+        $this->db->select('c.*,m.agnama as agnama');
+        $this->db->from('magensi m, cekalagensi c');
+        $this->db->where('c.agid = m.agid AND c.enable=1 AND (c.caend IS NULL OR c.caend >= NOW())');
+        return $this->db->get()->result();
       }
 
+    }
+
+    function get_all_agency()
+    {
+      return $this->db->get($this->table)->result();
     }
 
     public function update_agency($id)

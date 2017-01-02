@@ -22,21 +22,26 @@
           <?php echo '<div class="container">
             <div class="alert alert-success fade in">
               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-              <strong>Selamat!</strong> '.$this->session->flashdata('information').'
+              <strong>Notification: </strong> '.$this->session->flashdata('information').'
             </div>
           </div>' ?>
         <?php endif; ?>
-          <?php echo form_open(base_url('input/addpenempatan')) ?>
+          <?php echo form_open(base_url('cekal/agensi')) ?>
 
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Nama Agensi <span class="required">*</span></label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12">Nama Agensi <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-              <input id="agensi" type="text" name="name" required="required" class="form-control">
+              <select name="agensi" required="required" class="select2_single form-control" tabindex="-1">
+                <option></option>
+                <?php foreach($list as $row): ?>
+                  <option value="<?php echo $row->agid ?>"><?php echo $row->agnama ?></option>
+                <?php endforeach; ?>
+              </select>
             </div>
           </div><br /><br /><br />
 
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="active">Is Active </label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="active">Gunakan batasan tanggal</label>
             <div class="col-md-1 col-sm-1 col-xs-2">
               <input type="checkbox" id="cekenable" name="active">
             </div>
@@ -47,7 +52,7 @@
             <div class="col-sm-2">
               <div class="input-group date datepicker col-md-12 col-xs-12" data-provide="datepicker" ng-class="{'has-error':(pst && shForm.inDate.$invalid)}">
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                <input id="ckstart" type="text" class="form-control tglformat" ng-model="shelterform['in']" name="inDate" required disabled=""></input>
+                <input id="ckstart" type="text" class="form-control tglformat" name="start" required disabled=""></input>
               </div>
             </div>
           </div><br /><br /><br />
@@ -57,7 +62,7 @@
             <div class="col-sm-2">
               <div class="input-group date datepicker col-md-12 col-xs-12" data-provide="datepicker" ng-class="{'has-error':(pst && shForm.inDate.$invalid)}">
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                <input id="ckexpired" type="text" class="form-control tglformat" ng-model="shelterform['in']" name="inDate" required disabled=""></input>
+                <input id="ckexpired" type="text" class="form-control tglformat" name="end" required disabled=""></input>
               </div>
             </div>
           </div><br /><br /><br />
@@ -65,7 +70,7 @@
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Catatan </label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-              <textarea class="resizable_textarea form-control"></textarea>
+              <textarea class="resizable_textarea form-control" name="catatan"></textarea>
             </div>
           </div><br /><br /><br /><br /><br /><br /><br /><br />
 
@@ -104,15 +109,18 @@
               </tr>
             </thead>
             <tbody>
-            <?php foreach($list as $row): ?>
+            <?php foreach($listcekal as $row): ?>
               <tr>
-                <td><?php echo $row->idlevel ?></td>
-                <td><?php echo $row->levelname ?></td>
+                <td><?php echo $row->agnama ?></td>
+                <td><?php echo $row->castart ?></td>
+                <td><?php echo $row->caend ?></td>
+                <td><?php echo $row->cacatatan ?></td>
+                <td><?php echo $row->enable ?></td>
                 <td>
-                  <div class="center-button"><a href="<?php echo base_url() ?>level/edit/<?php echo $row->idlevel ?>"><button class="btn btn-info" type="button" name="button">Edit</button></a></div>
+                  <div class="center-button"><a href="<?php echo base_url() ?>cekal/editagensi/<?php echo $row->caid ?>"><button class="btn btn-info" type="button" name="button">Edit</button></a></div>
                 </td>
                 <td>
-                  <div class="center-button"><a href=" <?php echo base_url() ?>level/delete/<?php echo $row->idlevel ?>"><button align="center" class="btn btn-danger" type="button" name="button">Hapus</button></a></div>
+                  <div class="center-button"><a href=" <?php echo base_url() ?>cekal/deleteagensi/<?php echo $row->caid ?>"><button align="center" class="btn btn-danger" type="button" name="button">Hapus</button></a></div>
                 </td>
               </tr>
             <?php endforeach; ?>
@@ -123,6 +131,9 @@
 
         </div>
         <div class="clearfix"></div>
+      </div>
+      <div>
+        <br><br>
       </div>
   </div>
   </div>

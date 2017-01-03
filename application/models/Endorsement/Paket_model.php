@@ -37,7 +37,7 @@ class Paket_model extends CI_Model {
 
     function countPPTKIS($agid,$wh)
     {
-        $sql = "SELECT COUNT(*) as count FROM jo WHERE agid = ".$agid."".$wh;
+        $sql = "SELECT COUNT(*) as count FROM jo JOIN mpptkis ON mpptkis.ppkode = jo.ppkode WHERE agid = ".$agid."".$wh;
         $query = $this->db->query($sql);
 
         $num = $query->result()[0];

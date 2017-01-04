@@ -36,7 +36,7 @@
                 <input id="ckstart" type="text" class="form-control tglformat" ng-model="shelterform['in']" name="inDate" required></input>
               </div>
             </div>
-          </div><br /><br /><br />
+          </div><br /><br /><br /><br />
 
           <div class="form-group" >
             <label class="col-sm-2 control-label">Tanggal Kuitansi</label>
@@ -49,14 +49,7 @@
           </div><br /><br /><br />
 
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Jenis Dokumen <span class="required">*</span></label>
-            <div class="col-md-5 col-sm-5 col-xs-12">
-              <input id="agensi" type="text" name="name" required="required" class="form-control">
-            </div>
-          </div><br /><br /><br />
-
-          <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12">Level <span class="required">*</span></label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12">Jenis Dokumen <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
               <select id="level" name="level" required="required" class="select2_single form-control" tabindex="-1">
                 <option></option>
@@ -70,17 +63,18 @@
 
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">No. Kuitansi <span class="required">*</span></label>
-            <div class="col-md-5 col-sm-5 col-xs-12">
+            <div class="col-md-3 col-sm-5 col-xs-12">
               <input id="agensi" type="text" name="name" required="required" class="form-control">
+              <div class="value"><input id="checkkuno" type="button" value="Check"/><label for="kuno" class="error">Silahkan masukkan No. Kuitansi</label></div>
             </div>
-          </div><br /><br /><br />
+          </div><br /><br /><br /><br />
 
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Jumlah Terbayar <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-              <input id="agensi" type="text" name="name" required="required" class="form-control">
-            </div>
-          </div><br /><br /><br />
+              <input id="" type="text" name="name" required="required" class="form-control">Jumlah Terbayar dalam satuan NT$
+            </div>  
+          </div><br /><br /><br /><br />
 
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Nama Pemohon <span class="required">*</span></label>

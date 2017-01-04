@@ -108,7 +108,7 @@
                 <td><?php echo $row->cpend ?></td>
                 <td><?php echo $row->enable ?></td>
                 <td>
-                  <div class="center-button"><a href="<?php echo base_url() ?>Cekal/editpptkis/<?php echo $row->cpid ?>"><button class="btn btn-info" type="button" name="button">Edit</button></a></div>
+                  <div class="center-button"><a href="<?php echo base_url() ?>Cekal/editcklpptkis/<?php echo $row->cpid ?>"><button class="btn btn-info" type="button" name="button">Edit</button></a></div>
                 </td>
                 <td>
                   <div class="center-button"><a href=" <?php echo base_url() ?>Cekal/deletePPTKIS/<?php echo $row->cpid ?>"><button align="center" class="btn btn-danger" type="button" name="button">Hapus</button></a></div>

@@ -135,12 +135,54 @@ class Agency_model extends CI_Model {
       return $query->row();
     }
 
+    function get_agency_cekal($id) {
+      $this->db->select('*');
+      $this->db->from('cekalagensi');
+      $this->db->where('caid', $id);
+      $query = $this->db->get();
+
+      return $query->row();
+    }
+
     function ambilnamaagensi($keyword, $num=0, $rand=false) {
     $this->db->like('agnama', $keyword);
     $this->db->where('agenable', "1");
 
     $query = $this->db->get('magensi');
     return $query->result();
+  }
+
+  public function update_cekal($id, $idinstitusi)
+  {
+    $active = $this->input->post('active',TRUE);
+    $enable = $this->input->post('enable',TRUE);
+    if($enable)
+    {
+      $enable = true;
+    }
+    else {
+      $enable = false;
+    }
+    if ($active) {
+      $data = array(
+        'agid' => $this->input->post('agensi', TRUE),
+        'castart' => $this->input->post('start', TRUE),
+        'caend' => $this->input->post('end', TRUE),
+        'cacatatan' => $this->input->post('catatan', TRUE),
+        'idinstitution' => $idinstitusi,
+        'enable' => $enable
+    );
+    } else {
+      $data = array(
+        'agid' => $this->input->post('agensi', TRUE),
+        'cacatatan' => $this->input->post('catatan', TRUE),
+        'caend' => null,
+        'idinstitution' => $idinstitusi,
+        'enable' => $enable
+    );
+    }
+    $this->db->where('caid', $id);
+    return $this->db->update('cekalagensi', $data);
   }
 
 }

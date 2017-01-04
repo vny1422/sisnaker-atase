@@ -117,7 +117,7 @@
                 <td><?php echo $row->cacatatan ?></td>
                 <td><?php echo $row->enable ?></td>
                 <td>
-                  <div class="center-button"><a href="<?php echo base_url() ?>cekal/editagensi/<?php echo $row->caid ?>"><button class="btn btn-info" type="button" name="button">Edit</button></a></div>
+                  <div class="center-button"><a href="<?php echo base_url() ?>cekal/editcklag/<?php echo $row->caid ?>"><button class="btn btn-info" type="button" name="button">Edit</button></a></div>
                 </td>
                 <td>
                   <div class="center-button"><a href=" <?php echo base_url() ?>cekal/deleteagensi/<?php echo $row->caid ?>"><button align="center" class="btn btn-danger" type="button" name="button">Hapus</button></a></div>

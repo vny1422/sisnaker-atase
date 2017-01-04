@@ -23,6 +23,7 @@
                 <th>Is Active</th>
                 <th>ID Pekerjaan BNP2TKI</th>
                 <th>Sektor</th>
+                <th>Gaji</th>
                 <th>Nama Institusi</th>
                 <th>Edit</th>
                 <th>Hapus</th>
@@ -38,6 +39,7 @@
                 <td><?php if ($row->isactive == 1) {echo 'Active';} else echo 'Not Active';  ?></td>
                 <td><?php echo $row->idpekerjaan_bnp2tki ?></td>
                 <td><?php if ($row->sektor == 1) {echo 'Informal';} else {echo 'Formal';} ?>
+                <td><?php echo $row->jpgaji ?></td>
                 <td><?php echo $listnama[$i]->nameinstitution ?></td>
                 <td>
                   <div class="center-button"><a href="<?php echo base_url()?>jobtype/edit/<?php echo $row->idjenispekerjaan ?>"><button class="btn btn-info" type="button" name="button">Edit</button></a></div>

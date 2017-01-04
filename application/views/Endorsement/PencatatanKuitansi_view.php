@@ -63,10 +63,13 @@
 
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">No. Kuitansi <span class="required">*</span></label>
-            <div class="col-md-3 col-sm-5 col-xs-12">
+            <div class="col-md-3 col-sm-3 col-xs-12">
               <input id="agensi" type="text" name="name" required="required" class="form-control">
-              <div class="value"><input id="checkkuno" type="button" value="Check"/><label for="kuno" class="error">Silahkan masukkan No. Kuitansi</label></div>
             </div>
+            <div style="margin-left: -55px;" class="col-md-3 col-sm-3 col-xs-12">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Check</button>Silahkan masukkan No. Kuitansi
+          </div>
+
           </div><br /><br /><br /><br />
 
           <div class="form-group">
@@ -89,6 +92,8 @@
               <input type="checkbox" id="cekenable" name="active">
             </div>
           </div><br /><br /><br /><br />
+
+
 
         <div class="form-group">
           <div class="col-md-6 col-sm-6 col-xs-12">
@@ -118,7 +123,40 @@
 
     </div>
 </div>
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
 
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel"><?php echo $subtitle2; ?></h4>
+      </div>
+      <div class="modal-body">
+        <div class="x_content">
+          <table id="" class="table table-hover" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+              <th>Jenis</th>
+                <th>Nama Pemohon</th>
+                <th>Nama Agensi</th>
+                <th>Tgl. Masuk</th>
+                <th>Tgl. Kuitansi</th>
+                <th>Pilih</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 <script type="text/javascript">
 

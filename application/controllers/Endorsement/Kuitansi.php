@@ -32,6 +32,7 @@ class Kuitansi extends MY_Controller {
   {
     $this->data['title'] = 'Catat Kuitansi';
     $this->data['subtitle'] = 'Pencatatan Kuitansi';
+    $this->data['subtitle2'] = 'History';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/PencatatanKuitansi_view', $this->data);
     $this->load->view('templates/footerendorsement');

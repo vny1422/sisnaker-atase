@@ -33,10 +33,38 @@ class PPTKIS_model extends CI_Model {
     return $this->db->insert($this->table, $data);
 
     }
+
+    public function post_new_cekal()
+    {
+      $active = $this->input->post('active',TRUE);
+      if ($active) {
+        $data = array(
+          'ppkode' => $this->input->post('pptkis', TRUE),
+          'cpstart' => $this->input->post('start', TRUE),
+          'cpend' => $this->input->post('end', TRUE),
+          'enable' => 1
+      );
+      } else {
+        $date = date('Y-m-d');
+        $data = array(
+          'ppkode' => $this->input->post('pptkis', TRUE),
+          'cpstart' => $date,
+          'enable' => 1
+      );
+      }
+    return $this->db->insert('cekalpptkis', $data);
+    }
+
     public function delete_PPTKIS($id)
     {
         $this->db->where('ppkode',$id);
         return $this->db->delete($this->table);
+    }
+
+    public function delete_cekal($id)
+    {
+        $this->db->where('cpid',$id);
+        return $this->db->delete('cekalpptkis');
     }
 
     function get_pptkis($cekal=false) {
@@ -45,13 +73,18 @@ class PPTKIS_model extends CI_Model {
         return $this->db->get($this->table)->result_array();
       }
       else{
-        // $this->db->select('*');
-        // $this->db->from('magensi m, cekalagensi c');
-        // $this->db->where('c.agid = m.agid AND c.enable=1 AND (c.caend IS NULL OR c.caend >= NOW())');
-        //
+        $this->db->select('c.*,m.ppnama as ppnama');
+        $this->db->from('mpptkis m, cekalpptkis c');
+        $this->db->where('c.ppkode = m.ppkode AND c.enable=1 AND (c.cpend IS NULL OR c.cpend >= NOW())');
+        return $this->db->get()->result();
       }
 
     }
+
+    function get_all_pptkis(){
+      return $this->db->get($this->table)->result();
+    }
+
     public function update_pptkis($id)
     {
       $active = $this->input->post('active',TRUE);

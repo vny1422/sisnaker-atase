@@ -22,15 +22,136 @@ class Paket extends MY_Controller {
 
   public function index()
   {
-    
+    $this->data['title'] = 'Paket PK';
+    $this->data['subtitle'] = 'Rekap Paket PK';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('endorsement/PaketJO_view');
+    $this->load->view('templates/footerendorsement');
   }
 
   public function add()
   {
-    $this->data['title'] = 'Mendaftarkan Paket PK';
+    $this->data['title'] = 'Paket PK';
+    $this->data['subtitle'] = 'Mendaftarkan Paket PK';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('endorsement/DaftarPaketJO_view');
     $this->load->view('templates/footerendorsement');
+  }
+
+  public function listAgensi()
+  {
+    $page = $this->input->post('page', TRUE); // get the requested page
+    $limit = $this->input->post('rows', TRUE); // get how many rows we want to have into the grid
+    $sidx = $this->input->post('sidx', TRUE); // get index row - i.e. user click to sort
+    $sord = $this->input->post('sord', TRUE); // get the direction
+    if(!$sidx) $sidx = 1;
+      
+    $wh = "";
+    if($this->input->post('_search',TRUE)=="true"){
+      $filters = json_decode($this->input->post('filters',TRUE), true);
+      $wh = $this->getSearch($filters);
+    }
+
+    $totalrows = isset($_POST['totalrows']) ? $_POST['totalrows']: false;
+    if($totalrows) {
+      $limit = $totalrows;
+    }
+
+    $idinstitution = $this->session->userdata('institution');
+
+    $count = $this->Paket_model->countAgensi($idinstitution,$wh)->count;
+
+    if( $count >0 ) {
+      $total_pages = ceil($count/$limit);
+    } else {
+      $total_pages = 0;
+    }
+
+    if ($page > $total_pages) $page=$total_pages;
+    $start = $limit*$page - $limit; // do not put $limit*($page - 1)
+    if ($start < 0) $start = 0;
+
+    if (!isset($r)) $r = new stdClass();
+    $r->page = $page;
+    $r->total = $total_pages;
+    $r->records = $count;
+
+    $query = $this->Paket_model->getAgensi_ForTable($idinstitution,$start,$limit,$sidx,$sord,$wh);
+    $i=0;
+    foreach ($query as $row):
+      $r->rows[$i]['id']=$i;
+      $r->rows[$i]['cell'] = array(
+        $row->agid,
+        $row->agnama,
+        $row->agnoijincla
+      );
+      $i++;
+    endforeach;
+        
+    echo json_encode($r);
+  }
+
+  public function listPPTKIS()
+  {
+    $agid = $this->input->post('agid', TRUE);
+
+    $page = $this->input->post('page', TRUE); // get the requested page
+    $limit = $this->input->post('rows', TRUE); // get how many rows we want to have into the grid
+    $sidx = $this->input->post('sidx', TRUE); // get index row - i.e. user click to sort
+    $sord = $this->input->post('sord', TRUE); // get the direction
+    if(!$sidx) $sidx = 1;
+      
+    $wh = "";
+    if($this->input->post('_search',TRUE)=="true"){
+      $filters = json_decode($this->input->post('filters',TRUE), true);
+      $wh = $this->getSearch($filters);
+    }
+
+    $totalrows = isset($_POST['totalrows']) ? $_POST['totalrows']: false;
+    if($totalrows) {
+      $limit = $totalrows;
+    }
+
+    $count = $this->Paket_model->countPPTKIS($agid,$wh)->count;
+
+    if( $count >0 ) {
+      $total_pages = ceil($count/$limit);
+    } else {
+      $total_pages = 0;
+    }
+
+    if ($page > $total_pages) $page=$total_pages;
+    $start = $limit*$page - $limit; // do not put $limit*($page - 1)
+    if ($start < 0) $start = 0;
+
+    if (!isset($r)) $r = new stdClass();
+    $r->page = $page;
+    $r->total = $total_pages;
+    $r->records = $count;
+    
+    $query = $this->Paket_model->getPPTKIS_ForTable($agid,$start,$limit,$sidx,$sord,$wh);
+    $i=0;
+    foreach ($query as $row):
+      $query = $this->Paket_model->checkJO($agid,$row->ppkode);
+      $jobtglakhir = $query->result()[0]->jobtglakhir;
+
+      if($query->num_rows() < 1) {
+        $row->ppnama .= " - <strong style='color:#FF0000'>Expired / Inactive</strong>";
+      } else if($jobtglakhir < date("Y-m-d")) {
+        $row->ppnama .= " - <strong style='color:#FF0000'>Expired / Inactive</strong>";
+      } else if(floor(abs(strtotime($jobtglakhir) - strtotime(date("Y-m-d")))/(60*60*24)) <= 30) {
+        $row->ppnama .= " - <strong style='color:#D84700'>Sisa < 1 Bulan / Almost Expired</strong>";
+      }
+      
+      $r->rows[$i]['id']=$i;
+      $r->rows[$i]['cell'] = array(
+        $row->ppkode,
+        $row->ppnama
+      );
+      $i++;
+    endforeach;
+
+    echo json_encode($r);
   }
 
   public function listJP()

@@ -5,6 +5,54 @@ class Paket_model extends CI_Model {
         $this->load->database('default');
     }
 
+    function getAgensi_ForTable($idinstitution,$start,$limit,$sidx,$sord,$wh)
+    {
+        $sql = "SELECT * FROM magensi WHERE idinstitution = ".$idinstitution."".$wh." ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
+        $query = $this->db->query($sql);
+
+        $result = $query->result();
+
+        return $result;
+    }
+
+    function countAgensi($idinstitution,$wh)
+    {
+        $sql = "SELECT COUNT(*) as count FROM magensi WHERE idinstitution = ".$idinstitution."".$wh;
+        $query = $this->db->query($sql);
+
+        $num = $query->result()[0];
+
+        return $num;
+    }
+
+    function getPPTKIS_ForTable($agid,$start,$limit,$sidx,$sord,$wh)
+    {
+        $sql = "SELECT * FROM jo JOIN mpptkis ON mpptkis.ppkode = jo.ppkode WHERE agid = ".$agid."".$wh." GROUP BY jo.ppkode ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
+        $query = $this->db->query($sql);
+
+        $result = $query->result();
+
+        return $result;
+    }
+
+    function countPPTKIS($agid,$wh)
+    {
+        $sql = "SELECT COUNT(*) as count FROM jo JOIN mpptkis ON mpptkis.ppkode = jo.ppkode WHERE agid = ".$agid."".$wh;
+        $query = $this->db->query($sql);
+
+        $num = $query->result()[0];
+
+        return $num;
+    }
+
+    function checkJO($agid,$ppkode)
+    {
+        $sql = "SELECT MAX(jobtglakhir) as jobtglakhir FROM jo WHERE agid = ".$agid." AND ppkode = ".$ppkode." AND jobenable = 1";
+        $query = $this->db->query($sql);
+
+        return $query;
+    }
+
     function getJobOrder($jobdid)
     {
     	$this->db->select('jo.*');

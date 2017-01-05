@@ -165,22 +165,43 @@ class Cekal extends MY_Controller {
 
 
 
-  public function editcklag()
+  public function editcklag($id)
   {
-    $this->data['title'] = 'Cekal Agensi';
-    $this->data['subtitle'] = 'Edit Cekal Agensi';
-    $this->load->view('templates/headerendorsement', $this->data);
-    $this->load->view('Endorsement/EditCekalAgensi_view', $this->data);
-    $this->load->view('templates/footerendorsement');
+    $this->form_validation->set_rules('agensi', 'Agensi', 'required|trim');
+    if ($this->form_validation->run() === FALSE)
+    {
+      $this->data['values'] =  $this->Agency_model->get_agency_cekal($id);
+      $this->data['agency'] = $this->Agency_model->get_all_agency();
+      $this->data['title'] = 'Cekal Agensi';
+      $this->data['subtitle'] = 'Edit Cekal Agensi';
+      $this->load->view('templates/headerendorsement', $this->data);
+      $this->load->view('Endorsement/EditCekalAgensi_view', $this->data);
+      $this->load->view('templates/footerendorsement');
+    }
+    else {
+      $idinstitusi = $this->Agency_model->get_agency_edit($this->input->post('agensi',TRUE))->idinstitution;
+      $this->Agency_model->update_cekal($id,$idinstitusi);
+      redirect('Cekal/agensi');
+    }
+
   }
 
-    public function editcklpptkis()
+    public function editcklpptkis($id)
   {
-    $this->data['title'] = 'Cekal PPTKIS';
-    $this->data['subtitle'] = 'Edit Cekal PPTKIS';
-    $this->load->view('templates/headerendorsement', $this->data);
-    $this->load->view('Endorsement/EditCekalPPTKIS_view', $this->data);
-    $this->load->view('templates/footerendorsement');
+    $this->form_validation->set_rules('pptkis', 'PPTKIS', 'required|trim');
+    if ($this->form_validation->run() === FALSE)
+    {
+      $this->data['values'] =  $this->Pptkis_model->get_pptkis_cekal($id);
+      $this->data['pptkis'] = $this->Pptkis_model->get_all_pptkis();
+      $this->data['title'] = 'Cekal PPTKIS';
+      $this->data['subtitle'] = 'Edit Cekal PPTKIS';
+      $this->load->view('templates/headerendorsement', $this->data);
+      $this->load->view('Endorsement/EditCekalPPTKIS_view', $this->data);
+      $this->load->view('templates/footerendorsement');
+    }
+    else {
+      $this->Pptkis_model->update_cekal($id);
+      redirect('Cekal/pptkis');    }
   }
 
   function getTime ($ymd) {

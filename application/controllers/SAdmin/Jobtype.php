@@ -56,6 +56,7 @@ class Jobtype extends MY_Controller {
 	{
 		$this->form_validation->set_rules('name', 'Job Name', 'required|trim');
 		$this->form_validation->set_rules('institution', 'Institution', 'required');
+		$this->form_validation->set_rules('gaji', 'Gaji', 'required');
 
 		if ($this->form_validation->run() === FALSE)
 		{

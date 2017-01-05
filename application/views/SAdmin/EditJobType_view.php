@@ -47,10 +47,30 @@
                             <div class="form-group">
                                 <label class="control-label col-md-2 col-sm-2 col-xs-12">BNP2TKI <span class="required">*</span></label>
                                 <div class="col-md-5 col-sm-5 col-xs-12">
-                                    <input type="text" name="bnptki" required="required" value="<?php echo $values->idpekerjaan_bnp2tki ?>" class="form-control">
+                                    <input type="text" name="bnptki" value="<?php echo $values->idpekerjaan_bnp2tki ?>" class="form-control">
                             </div>
                         </div>
                         <br /><br /><br />
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Sektor <span class="required">*</span></label>
+                            <div class="col-md-5 col-sm-5 col-xs-12">
+                              <select name="sektor" required="required" class="select2_single form-control" tabindex="-1">
+                                <option></option>
+                                <option value = "1" <?php if ($values->sektor == 1) echo 'selected'?>> Informal </option>
+                                <option value = "2" <?php if ($values->sektor == 2) echo 'selected'?>> Formal </option>
+                              </select>
+                            </div>
+                          </div>
+                          <br /><br /><br />
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Gaji</label>
+                            <div class="col-md-5 col-sm-5 col-xs-12">
+                                <input type="text" name="gaji" class="form-control" value="<?php echo $values->jpgaji ?>">
+                        </div>
+                    </div>
+                    <br /><br /><br />
 
                             <div class="form-group">
                                 <label class="control-label col-md-2 col-sm-2 col-xs-12" for="active">Is Active </label>

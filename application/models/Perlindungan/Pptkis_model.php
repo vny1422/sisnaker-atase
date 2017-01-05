@@ -121,11 +121,49 @@ class PPTKIS_model extends CI_Model {
       return $query->row_array();
     }
 
+    function get_pptkis_cekal($id) {
+      $this->db->select('*');
+      $this->db->from('cekalpptkis');
+      $this->db->where('cpid', $id);
+      $query = $this->db->get();
+
+      return $query->row();
+    }
+
     function ambilnamapptkis($keyword, $num=0, $rand=false) {
     $this->db->like('ppnama', $keyword);
     $this->db->where('ppenable', "1");
 
     $query = $this->db->get('mpptkis');
     return $query->result();
+  }
+
+  public function update_cekal($id)
+  {
+    $active = $this->input->post('active',TRUE);
+    $enable = $this->input->post('enable',TRUE);
+    if($enable)
+    {
+      $enable = true;
+    }
+    else {
+      $enable = false;
+    }
+    if ($active) {
+      $data = array(
+        'ppkode' => $this->input->post('pptkis', TRUE),
+        'cpstart' => $this->input->post('start', TRUE),
+        'cpend' => $this->input->post('end', TRUE),
+        'enable' => $enable
+    );
+    } else {
+      $data = array(
+        'ppkode' => $this->input->post('pptkis', TRUE),
+        'cpend' => null,
+        'enable' => $enable
+    );
+    }
+    $this->db->where('cpid', $id);
+    return $this->db->update('cekalpptkis', $data);
   }
   }

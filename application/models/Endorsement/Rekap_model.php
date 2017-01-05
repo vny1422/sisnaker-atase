@@ -5,7 +5,7 @@ class Rekap_model extends CI_Model {
 		parent::__construct();
 	}
 
-	function getKuitansi($tahun,$bulan)
+	function getRekapKuitansi($tahun,$bulan)
 	{
 		$sql = "SELECT kuitansi.kutglkuitansi,
 					kuitansi.kutglmasuk,
@@ -53,6 +53,76 @@ class Rekap_model extends CI_Model {
 				ORDER BY 
 					kuitansi.kutglmasuk asc, 
 					DATE(kuitansi.kutglkuitansi) asc";
+
+		$query = $this->db->query($sql);
+
+        $result = $query->result();
+
+        return $result;
+	}
+
+	function getRekapJO($tahun,$bulan)
+	{
+		$sql = "SELECT 
+					DATE_FORMAT(`entryjo`.`ejtglendorsement`, '%Y-%m-%d') as 'ejtglendorsement', 
+					`jenispekerjaan`.`namajenispekerjaan` , 
+					`entryjo`.`agnama` , 
+					`entryjo`.`ppnama` , 
+					`entryjo`.`mjnama` , 
+					`entryjo`.`jojmltki`,
+					`entryjo`.`ejbcsp`
+				FROM 
+					`entryjo`
+					LEFT JOIN `jenispekerjaan` ON entryjo.idjenispekerjaan = jenispekerjaan.idjenispekerjaan
+				WHERE 
+					entryjo.ejtglendorsement LIKE '%".$tahun."-".$bulan."-%'
+					AND entryjo.idinstitution = ".$this->session->userdata('institution')."
+				ORDER BY 
+					`entryjo`.`ejtglendorsement` asc, 
+					`entryjo`.ejdatefilled asc, 
+					`entryjo`.`agnama` asc";
+
+		$query = $this->db->query($sql);
+
+        $result = $query->result();
+
+        return $result;
+	}
+
+	function getRekapTKI($tahun,$bulan)
+	{
+		$sql = "SELECT 
+					tki.tknama, 
+					tki.tkbc, 
+					tki.tkpaspor, 
+					jenispekerjaan.namajenispekerjaan, 
+					tki.tkjk, 
+					tki.tktmptlahir, 
+					tki.tktgllahir, 
+					tki.tkalmtid, 
+					tki.tkahliwaris, 
+					tki.tktelp, 
+					entryjo.agnama, 
+					entryjo.agalmtkantor, 
+					entryjo.agpngjwb, 
+					entryjo.agtelp, 
+					entryjo.ppnama, 
+					entryjo.pppngjwb, 
+					entryjo.ppalmtkantor, 
+					entryjo.pptelp, 
+					entryjo.mjnama, 
+					entryjo.mjalmt, 
+					entryjo.mjtelp
+				FROM 
+					tki
+					JOIN entryjo ON entryjo.ejid = tki.ejid
+					JOIN jenispekerjaan ON entryjo.idjenispekerjaan = jenispekerjaan.idjenispekerjaan
+				WHERE 
+					tki.tkstat = 0
+					AND tki.tktglendorsement LIKE '%".$tahun."-".$bulan."-%'
+					AND entryjo.idinstitution = ".$this->session->userdata('institution')."
+				ORDER BY 
+					tki.tkid ASC";
 
 		$query = $this->db->query($sql);
 

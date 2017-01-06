@@ -18,7 +18,7 @@
               <?php
               if ($_SESSION['role'] == 1)
               {
-                echo 
+                echo
                 "<select id=\"institution\" name=\"institution\" required=\"required\" class=\"select2_single form-control\" tabindex=\"-1\">
                 <option></option>";
                 foreach($listinstitution as $row):

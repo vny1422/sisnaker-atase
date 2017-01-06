@@ -220,6 +220,26 @@ class AgensiPPTKIS extends MY_Controller {
 			echo(json_encode($tmp));
 		}
 
+		function get_cekalagency_list(){
+			$tmp = $this->Agency_model->get_cekalagency();
+
+			for($i=0;$i<count($tmp);$i++){
+				$tmp[$i]['index'] = $i+1;
+			}
+
+			echo(json_encode($tmp));
+		}
+
+		function get_cekalpptkis_list(){
+			$tmp = $this->Pptkis_model->get_cekalpptkis();
+
+			for($i=0;$i<count($tmp);$i++){
+				$tmp[$i]['index'] = $i+1;
+			}
+
+			echo(json_encode($tmp));
+		}
+
 		function get_agency_info($id) {
 	$agency_info = $this->Agency_model->get_agency_info($id);
 	// $pptkis_con = $this->Agency_model->get_pptkis_from_agency($id);

@@ -84,6 +84,14 @@ class Agency_model extends CI_Model {
 
     }
 
+    function get_cekalagency()
+    {
+      $this->db->select('c.*,m.agnama as agnama, m.agnamaoth as agnamaoth, m.agpngjwb as agpngjwb, m.agpngjwboth as agpngjwboth');
+      $this->db->from('magensi m, cekalagensi c');
+      $this->db->where('c.agid = m.agid AND c.enable=1 AND (c.caend IS NULL OR c.caend >= NOW())');
+      return $this->db->get()->result_array();
+    }
+
     function get_all_agency()
     {
       return $this->db->get($this->table)->result();

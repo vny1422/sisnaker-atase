@@ -32,6 +32,7 @@ class Pk extends MY_Controller {
   {
     $this->data['title'] = 'Perjanjian Kerja';
     $this->data['subtitle'] = 'Revisi Perjanjian Kerja';
+    $this->data['subtitle2'] = 'Pencatatan Kuitansi';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/RevisiPK_view', $this->data);
     $this->load->view('templates/footerendorsement');

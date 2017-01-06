@@ -25,7 +25,7 @@ class Paket extends MY_Controller {
     $this->data['title'] = 'Paket PK';
     $this->data['subtitle'] = 'Rekap Paket PK';
     $this->load->view('templates/headerendorsement', $this->data);
-    $this->load->view('endorsement/PaketJO_view');
+    $this->load->view('Endorsement/PaketJO_view');
     $this->load->view('templates/footerendorsement');
   }
 
@@ -34,7 +34,7 @@ class Paket extends MY_Controller {
     $this->data['title'] = 'Paket PK';
     $this->data['subtitle'] = 'Mendaftarkan Paket PK';
     $this->load->view('templates/headerendorsement', $this->data);
-    $this->load->view('endorsement/DaftarPaketJO_view');
+    $this->load->view('Endorsement/DaftarPaketJO_view');
     $this->load->view('templates/footerendorsement');
   }
 

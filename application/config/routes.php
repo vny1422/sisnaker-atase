@@ -124,3 +124,4 @@ $route['(?i)perlindungan/(:any)/(:any)'] = 'Perlindungan/Perlindungan/$1/$2';
 $route['(?i)agensipptkis/(:any)/(:any)'] = 'Perlindungan/AgensiPPTKIS/$1/$2';
 $route['(?i)cekal/(:any)/(:any)'] = 'Endorsement/Cekal/$1/$2';
 $route['(?i)rekapendorsement/(:any)/(:any)'] = 'Endorsement/RekapEndorsement/$1/$2';
+$route['(?i)endorsement/(:any)/(:any)'] = 'Endorsement/Endorsement/$1/$2';

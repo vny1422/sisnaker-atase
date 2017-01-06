@@ -14,13 +14,13 @@
             <th><input st-search="agpngjwb" placeholder="penanggung jawab" class="input-sm form-control" type="search"/></th>
             <th><input st-search="castart" placeholder="telepon" class="input-sm form-control" type="search"/></th>
             <th><input st-search="caend" placeholder="email" class="input-sm form-control" type="search"/></th>
-        </tr> 
+        </tr>
     </thead>
     <tbody class="table-hover " >
         <tr ng-repeat="agen in cekalagencies" ng-cloak>
             <td class="text-center">{{agen.index}}</td>
-            <td ><a ng-click="detail_agency(agen.agid)" style="cursor: pointer">{{agen.agnama}} </br> {{agen.agnamacn}}</a></td>
-            <td class="text-center">{{agen.agpngjwb}} </br> {{agen.agpngjwbcn}}</td>
+            <td ><a ng-click="detail_agency(agen.agid)" style="cursor: pointer">{{agen.agnama}} </br> {{agen.agnamaoth}}</a></td>
+            <td class="text-center">{{agen.agpngjwb}} </br> {{agen.agpngjwboth}}</td>
             <td class="text-center">{{agen.castart}}</td>
             <td class="text-center">{{agen.caend || "-" }}</td>
         </tr>
@@ -28,9 +28,9 @@
     <tfoot>
         <tr>
             <td colspan="5" class="text-center">
-                <div st-pagination="" st-items-by-page="10" st-template="<?php echo assets_url() ?>/template/custom.pagination.html"></div> 
+                <div st-pagination="" st-items-by-page="10" st-template="<?php echo assets_url() ?>/template/custom.pagination.html"></div>
             </td>
         </tr>
-        
+
     </tfoot>
 </table>

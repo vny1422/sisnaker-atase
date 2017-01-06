@@ -90,20 +90,34 @@
 			$scope.buffer2 = [];
 
 			/// ajax list agency
-			$http.get("<?php echo base_url('agensipptkis/get_agency_list') ?>")
-				.then(function(response){
-					console.log(response.data);
-					angular.copy(response.data,$scope.agencies_q);
-					$scope.agencies = [].concat($scope.agencies_q);
-				});
-			/// ajax list pptkis
-			$http.get("<?php echo base_url('agensipptkis/get_pptkis_list') ?>")
-				.then(function(response){
-					//console.log(response.data);
-					angular.copy(response.data,$scope.pptkis_q);
-					$scope.pptkis = [].concat($scope.pptkis_q);
-				});
-			
+      $http.get("<?php echo base_url('agensipptkis/get_agency_list') ?>")
+      .then(function(response){
+        console.log(response.data);
+        angular.copy(response.data,$scope.agencies_q);
+        $scope.agencies = [].concat($scope.agencies_q);
+      });
+      /// ajax list pptkis
+      $http.get("<?php echo base_url('agensipptkis/get_pptkis_list') ?>")
+      .then(function(response){
+        //console.log(response.data);
+        angular.copy(response.data,$scope.pptkis_q);
+        $scope.pptkis = [].concat($scope.pptkis_q);
+      });
+
+      $http.get("<?php echo base_url('agensipptkis/get_cekalpptkis_list') ?>")
+      .then(function(response){
+        //console.log(response.data);
+        angular.copy(response.data,$scope.cekalpptkis_q);
+        $scope.pptkis = [].concat($scope.cekalpptkis_q);
+      });
+
+      $http.get("<?php echo base_url('agensipptkis/get_cekalagency_list') ?>")
+      .then(function(response){
+        //console.log(response.data);
+        angular.copy(response.data,$scope.cekalagencies_q);
+        $scope.pptkis = [].concat($scope.cekalagencies_q);
+      });
+
 
 			/// dialog - modal agency
 			$scope.detail_agency = function(agenid){

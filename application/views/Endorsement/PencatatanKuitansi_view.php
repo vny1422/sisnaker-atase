@@ -26,14 +26,14 @@
             </div>
           </div>' ?>
         <?php endif; ?>
-          <?php echo form_open(base_url('input/addpenempatan')) ?>
+          <?php echo form_open(base_url('kuitansi/catat')) ?>
 
           <div class="form-group" >
             <label class="col-sm-2 control-label">Tanggal Masuk</label>
             <div class="col-sm-2">
               <div class="input-group date datepicker col-md-12 col-xs-12" data-provide="datepicker" ng-class="{'has-error':(pst && shForm.inDate.$invalid)}">
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                <input id="ckstart" type="text" class="form-control tglformat" ng-model="shelterform['in']" name="inDate" required></input>
+                <input id="ckstart" type="text" class="form-control tglformat" ng-model="shelterform['in']" name="start" required></input>
               </div>
             </div>
           </div><br /><br /><br /><br />
@@ -43,7 +43,7 @@
             <div class="col-sm-2">
               <div class="input-group date datepicker col-md-12 col-xs-12" data-provide="datepicker" ng-class="{'has-error':(pst && shForm.inDate.$invalid)}">
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                <input id="ckexpired" type="text" class="form-control tglformat" ng-model="shelterform['in']" name="inDate" required></input>
+                <input id="ckexpired" type="text" class="form-control tglformat" ng-model="shelterform['in']" name="tglkuitansi" required></input>
               </div>
             </div>
           </div><br /><br /><br />
@@ -51,10 +51,10 @@
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12">Jenis Dokumen <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-              <select id="level" name="level" required="required" class="select2_single form-control" tabindex="-1">
+              <select id="dokumen" name="dokumen" required="required" class="select2_single form-control" tabindex="-1">
                 <option></option>
-                <?php foreach($listlevel as $row): ?>
-                  <option value="<?php echo $row->idlevel ?>"><?php echo $row->levelname ?></option>
+                <?php foreach($listdokumen as $row): ?>
+                  <option value="<?php echo $row->id ?>"><?php echo $row->name ?></option>
                 <?php endforeach; ?>
               </select>
             </div>
@@ -64,10 +64,10 @@
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">No. Kuitansi <span class="required">*</span></label>
             <div class="col-md-3 col-sm-3 col-xs-12">
-              <input id="agensi" type="text" name="name" required="required" class="form-control">
+              <input id="noku" type="text" name="kuno" required="required" class="form-control">
             </div>
             <div style="margin-left: -55px;" class="col-md-3 col-sm-3 col-xs-12">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Check</button>Silahkan masukkan No. Kuitansi
+            <button type="button" class="btn btn-primary" id="btnCheck">Check</button><a id="errorku">Silahkan masukkan No. Kuitansi</a>
           </div>
 
           </div><br /><br /><br /><br />
@@ -75,14 +75,14 @@
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Jumlah Terbayar <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-              <input id="" type="text" name="name" required="required" class="form-control">Jumlah Terbayar dalam satuan NT$
-            </div>  
+              <input id="jmlterbayar" type="text" name="jmlterbayar" required="required" class="form-control">Jumlah Terbayar dalam satuan <?php echo $currency?>
+            </div>
           </div><br /><br /><br /><br />
 
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Nama Pemohon <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-              <input id="agensi" type="text" name="name" required="required" class="form-control">
+              <input id="pemohon" type="text" name="pemohon" required="required" class="form-control">
             </div>
           </div><br /><br /><br />
 
@@ -98,7 +98,7 @@
         <div class="form-group">
           <div class="col-md-6 col-sm-6 col-xs-12">
             <button type="reset" class="btn btn-primary">Cancel</button>
-            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="submit" id="ceksubmit" class="btn btn-success">Submit</button>
           </div>
         </div>
         <br /><br />
@@ -123,7 +123,7 @@
 
     </div>
 </div>
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade bs-example-modal-lg" id="modalcheck" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
@@ -134,7 +134,7 @@
       </div>
       <div class="modal-body">
         <div class="x_content">
-          <table id="" class="table table-hover" cellspacing="0" width="100%">
+          <table id="datatable" class="display table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
             <thead>
               <tr>
               <th>Jenis</th>
@@ -143,8 +143,13 @@
                 <th>Tgl. Masuk</th>
                 <th>Tgl. Kuitansi</th>
                 <th>Pilih</th>
+                <th> ID tipe</th>
+                <th> Jumlah Terbayar</th>
+                <th> No Kuitansi</th>
               </tr>
             </thead>
+          <tbody id="listkuitansi">
+          </tbody>
           </table>
         </div>
         <div class="clearfix"></div>
@@ -160,22 +165,86 @@
 
 <script type="text/javascript">
 
-$(function() {
-  $( "#agensi" ).autocomplete({
-    source: function(request, response) {
-      $.post('<?php echo base_url();?>/Paket/ambilnamaagensi/', { term:request.term}, function(json) {
-        response( $.map( json.rows, function( item ) {
-          return {
-            label: item.agnama,
-            id: item.agid
-          }
-        }));
-      }, 'json');
-    },
-    minLength: 1,
-    select: function( event, ui ) {
-      idagensi = ui.item.id;
-    }
-  });
-} );
+$(document).ready(function() {
+    var errorku = $("#errorku");
+    var wrapper = $("#listkuitansi");
+    var pilihButton = $(".pilihButton");
+    var submit = false;
+    var table = $("#datatable").DataTable( {
+    "columnDefs": [
+        {
+            "targets": [ 6 ],
+            "visible": false
+        },
+        {
+            "targets": [ 7 ],
+            "visible": false
+        },
+        {
+            "targets": [ 8 ],
+            "visible": false
+        }
+    ]
+    });
+    $(errorku).hide();
+    $("#btnCheck").click(function(){
+      var noku = $("#noku").val();
+      if (noku != ""){
+        submit = true;
+        $(errorku).hide();
+        table.clear();
+        $.post("<?php echo base_url()?>Kuitansi/checkkuitansi", {noku: noku}, function(data,status){
+          var obj = $.parseJSON(data);
+          if (obj.length > 0)
+          {
+            $(wrapper).empty();
+
+            for (var key in obj) {
+              if (obj.hasOwnProperty(key)) {
+                table.row.add( [
+                  obj[key]["namadokumen"],
+                  obj[key]["kupemohon"],
+                  obj[key]["kukode"],
+                  obj[key]["kutglmasuk"],
+                  obj[key]["kutglkuitansi"],
+                  '<div class="center-button"><button class="btn btn-primary pilihButton" type="button" name="button">Pilih</button></a></div>',
+                  obj[key]["idtipe"],
+                  obj[key]["kujmlbayar"],
+                  obj[key]["kuno"]
+                  ] ).draw();
+              }
+            }
+            $("#modalcheck").modal();
+            }
+            else {
+              window.alert("No. Kuitansi siap digunakan");
+            }
+          });
+        }
+      else {
+        $(errorku).show();
+      }
+    });
+
+    $("#ceksubmit").click(function(){
+      if(submit == false){
+        window.alert("Cek No Kuitansi terlebih dahulu");
+      }
+    });
+
+    $(wrapper).on("click",".pilihButton", function(e){ //user click on pilih
+      e.preventDefault();
+      var iddokumen = table.row($(this).closest('tr')).data()[6];
+      var jmlterbayar = table.row($(this).closest('tr')).data()[7];
+      var nokuitansi = table.row($(this).closest('tr')).data()[8];
+      var namapemohon = $(this).closest('tr').find("td:nth-child(2)").text();
+      $("#dokumen").val(iddokumen);
+      $("#jmlterbayar").val(jmlterbayar);
+      $("#noku").val(nokuitansi);
+      $("#pemohon").val(namapemohon);
+      $("#modalcheck").modal('toggle');
+    })
+
+
+});
 </script>

@@ -106,15 +106,26 @@
                 <div class="tab-content">
                   <!-- tab agency -->
                   <div class="tab-pane fade in active" id="tabagency">
-                    <div> 
-                      <h5>Tanggal Masuk    <span style="text-indent: 15em">:30/11/2016</span></h5>
-                      <h5>Tanggal Kuitansi :30/11/2016</h5>
-                      <h5>Jenis Dokumen    :Legalisasi Dokumen TKI (Job Order)</h5>
-                      <h5>No. Kuitansi     :463771</h5>
-                      <h5>Jumlah Terbayar  :700 NT$</h5>
-                      <h5>Nama Pemohon     :xian guo co ltd</h5>
-                      <h5>Petugas          :herlan</h5>
+                    <div class="col-lg-4"> </div>
+                    <div class="col-lg-2"> 
+                      <h4>Tanggal Masuk</h4>
+                      <h4>Tanggal Kuitansi</h4>
+                      <h5>Jenis Dokumen</h5>
+                      <h5>No. Kuitansi</h5>
+                      <h5>Jumlah Terbayar</h5>
+                      <h5>Nama Pemohon</h5>
+                      <h5>Petugas</h5>
                     </div>
+                    <div class="col-lg-3"> 
+                      <h4>: 30/11/2016</span></h4>
+                      <h4>: 30/11/2016</h4>
+                      <h5>: Legalisasi Dokumen TKI (Job Order)</h5>
+                      <h5>: 463771</h5>
+                      <h5>: 700 NT$</h5>
+                      <h5>: xian guo co ltd</h5>
+                      <h5>: herlan</h5>
+                    </div>
+                    <div class="col-lg-3"> </div>
                   </div>
                 </div>
               </div>

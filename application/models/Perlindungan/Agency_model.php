@@ -92,6 +92,13 @@ class Agency_model extends CI_Model {
       return $this->db->get()->result_array();
     }
 
+    function get_cekalagid($id)
+    {
+      $this->db->from('cekalagensi c');
+      $this->db->where('c.agid = '.$id.' AND c.enable=1 AND (c.caend IS NULL OR c.caend >= NOW())');
+      return $this->db->get()->row();
+    }
+
     function get_all_agency()
     {
       return $this->db->get($this->table)->result();

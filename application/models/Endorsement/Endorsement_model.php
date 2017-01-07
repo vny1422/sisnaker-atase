@@ -5,15 +5,25 @@ class Endorsement_model extends CI_Model {
         $this->load->database('default');
     }
 
+		function catatKuitansi_ej($ejid,$kuid)
+		{
+			$data = array(
+				'kuid' => $kuid,
+				'ejid' => $ejid
+			);
+
+			return $this->db->insert('pencatatanej', $data);
+		}
+
     function getKuitansi_FromBarcode($code)
     {
     	$sql = "SELECT
             		DATE_FORMAT(ku.kutglmasuk, '%d/%m/%Y') as kutglmasuk,
             		DATE_FORMAT(ku.kutglkuitansi, '%d/%m/%Y') as kutglkuitansi,
             		tp.tipe, ku.kuno, ku.kujmlbayar, ku.kupemohon, ku.idtipe, ku.username
-		        FROM 
+		        FROM
 		           	kuitansi ku JOIN tipe tp ON tp.idtipe = ku.idtipe
-		        WHERE 
+		        WHERE
 		            ku.kukode = '$code' AND ku.kukode IS NOT NULL
 		            AND ku.idinstitution = ".$this->session->userdata('institution')."";
 
@@ -53,7 +63,7 @@ class Endorsement_model extends CI_Model {
 					jp.idjenispekerjaan, jp.namajenispekerjaan, jp.sektor, jp.jpgaji,
 					ej.joclano, ej.joclatgl, ej.joestduedate, ej.joposisi, ej.jojmltki, ej.jomkthn, ej.jomkbln, ej.jomkhr, ej.jocatatan, ej.joakomodasi,
 					ej.ejid, ej.ejtglendorsement, ej.ejtoken, ej.ejbcsp, ej.ejbcsk
-				FROM 
+				FROM
 					entryjo ej
 					JOIN jenispekerjaan jp ON jp.idjenispekerjaan = ej.idjenispekerjaan
 				WHERE
@@ -73,7 +83,7 @@ class Endorsement_model extends CI_Model {
 					DATE_FORMAT(ku.kutglmasuk, '%d/%m/%Y') as kutglmasuk,
 					DATE_FORMAT(ku.kutglkuitansi, '%d/%m/%Y') as kutglkuitansi,
 					tp.tipe, ku.kuno, ku.kujmlbayar, ku.kupemohon, ku.idtipe, ku.username
-				FROM 
+				FROM
 					entryjo ej
 					JOIN pencatatanej pej ON pej.ejid = ej.ejid
 					JOIN kuitansi ku ON ku.kuid = pej.kuid

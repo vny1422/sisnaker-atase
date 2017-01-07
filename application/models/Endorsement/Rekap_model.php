@@ -66,21 +66,23 @@ class Rekap_model extends CI_Model {
 		$sql = "SELECT 
 					DATE_FORMAT(`entryjo`.`ejtglendorsement`, '%Y-%m-%d') as 'ejtglendorsement', 
 					`jenispekerjaan`.`namajenispekerjaan` , 
-					`entryjo`.`agnama` , 
-					`entryjo`.`ppnama` , 
+					`mag`.`agnama` , 
+					`mpp`.`ppnama` , 
 					`entryjo`.`mjnama` , 
 					`entryjo`.`jojmltki`,
 					`entryjo`.`ejbcsp`
 				FROM 
 					`entryjo`
 					LEFT JOIN `jenispekerjaan` ON entryjo.idjenispekerjaan = jenispekerjaan.idjenispekerjaan
+					LEFT JOIN magensi mag ON entryjo.agid = mag.agid
+					LEFT JOIN mpptkis mpp ON entryjo.ppkode = mpp.ppkode
 				WHERE 
 					entryjo.ejtglendorsement LIKE '%".$tahun."-".$bulan."-%'
 					AND entryjo.idinstitution = ".$this->session->userdata('institution')."
 				ORDER BY 
 					`entryjo`.`ejtglendorsement` asc, 
 					`entryjo`.ejdatefilled asc, 
-					`entryjo`.`agnama` asc";
+					`mag`.`agnama` asc";
 
 		$query = $this->db->query($sql);
 
@@ -102,14 +104,14 @@ class Rekap_model extends CI_Model {
 					tki.tkalmtid, 
 					tki.tkahliwaris, 
 					tki.tktelp, 
-					entryjo.agnama, 
-					entryjo.agalmtkantor, 
-					entryjo.agpngjwb, 
-					entryjo.agtelp, 
-					entryjo.ppnama, 
-					entryjo.pppngjwb, 
-					entryjo.ppalmtkantor, 
-					entryjo.pptelp, 
+					mag.agnama, 
+					mag.agalmtkantor, 
+					mag.agpngjwb, 
+					mag.agtelp, 
+					mpp.ppnama, 
+					mpp.pppngjwb, 
+					mpp.ppalmtkantor, 
+					mpp.pptelp, 
 					entryjo.mjnama, 
 					entryjo.mjalmt, 
 					entryjo.mjtelp
@@ -117,6 +119,8 @@ class Rekap_model extends CI_Model {
 					tki
 					JOIN entryjo ON entryjo.ejid = tki.ejid
 					JOIN jenispekerjaan ON entryjo.idjenispekerjaan = jenispekerjaan.idjenispekerjaan
+					JOIN magensi mag ON entryjo.agid = mag.agid
+					JOIN mpptkis mpp ON entryjo.ppkode = mpp.ppkode
 				WHERE 
 					tki.tkstat = 0
 					AND tki.tktglendorsement LIKE '%".$tahun."-".$bulan."-%'

@@ -345,7 +345,7 @@
                 } else {
                   rKuitansiBody += "<div class='tab-pane fade in table-responsive' id='tabkuitansi"+i+"'>";
                 }
-                rKuitansiBody += "<div class='col-lg-4'></div><div class='col-lg-2'><h5>Tanggal Masuk</h5><h5>Tanggal Kuitansi</h5><h5>Jenis Dokumen</h5><h5>No. Kuitansi</h5><h5>Jumlah Terbayar</h5><h5>Nama Pemohon</h5><h5>Petugas</h5></div><div class='col-lg-3'><h5>: "+obj.kuitansi[i].kutglmasuk+"</h5><h5>: "+obj.kuitansi[i].kutglmasuk+"</h5><h5>: "+obj.kuitansi[i].tipe+"</h5><h5>: "+obj.kuitansi[i].kuno+"</h5><h5>: "+obj.kuitansi[i].kujmlbayar+"</h5><h5>: "+obj.kuitansi[i].kupemohon+"</h5><h5>: "+obj.kuitansi[i].username+"</h5></div><div class='col-lg-3'></div></div>";
+                rKuitansiBody += "<div class='col-lg-4'></div><div class='col-lg-2'><h5>Tanggal Masuk</h5><h5>Tanggal Kuitansi</h5><h5>Jenis Dokumen</h5><h5>No. Kuitansi</h5><h5>Jumlah Terbayar</h5><h5>Nama Pemohon</h5><h5>Petugas</h5></div><div class='col-lg-4'><h5>: "+obj.kuitansi[i].kutglmasuk+"</h5><h5>: "+obj.kuitansi[i].kutglmasuk+"</h5><h5>: "+obj.kuitansi[i].tipe+"</h5><h5>: "+obj.kuitansi[i].kuno+"</h5><h5>: "+obj.kuitansi[i].kujmlbayar+"</h5><h5>: "+obj.kuitansi[i].kupemohon+"</h5><h5>: "+obj.kuitansi[i].username+"</h5></div><div class='col-lg-2'></div></div>";
             }
 
             rKuitansiBody += "</div></div>";

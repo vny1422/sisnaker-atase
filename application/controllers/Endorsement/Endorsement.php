@@ -44,7 +44,6 @@ class Endorsement extends MY_Controller {
   function getDataFromBarcode()
   {
     $code = $this->input->post('barcode', TRUE);
-    // $code = 'kl988';
     
     $tmp['success'] = false;
     $tmp['message'] = "Barcode atau Token tidak valid!!!";

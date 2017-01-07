@@ -57,8 +57,8 @@ class Endorsement_model extends CI_Model {
     function getEntryJO($ejid)
     {
     	$sql = "SELECT
-					ej.agnama, ej.agnoijincla, ej.agalmtkantor, ej.agpngjwb, ej.agtelp, ej.agfax,
-					ej.ppnama, ej.ppalmtkantor, ej.pptelp, ej.ppfax, ej.ppijin, ej.pppngjwb,
+					mag.agnama, mag.agnoijincla, mag.agalmtkantor, mag.agpngjwb, mag.agtelp, mag.agfax,
+					mpp.ppnama, mpp.ppalmtkantor, mpp.pptelp, mpp.ppfax, mpp.ppijin, mpp.pppngjwb,
 					ej.mjktp, ej.mjnama, ej.mjnamacn, ej.mjalmt, ej.mjtelp, ej.mjfax, ej.mjpngjwb,
 					jp.idjenispekerjaan, jp.namajenispekerjaan, jp.sektor, jp.jpgaji,
 					ej.joclano, ej.joclatgl, ej.joestduedate, ej.joposisi, ej.jojmltki, ej.jomkthn, ej.jomkbln, ej.jomkhr, ej.jocatatan, ej.joakomodasi,
@@ -66,6 +66,8 @@ class Endorsement_model extends CI_Model {
 				FROM
 					entryjo ej
 					JOIN jenispekerjaan jp ON jp.idjenispekerjaan = ej.idjenispekerjaan
+					JOIN magensi mag ON mag.agid = ej.agid
+					JOIN mpptkis mpp ON mpp.ppkode = ej.ppkode
 				WHERE
 					ej.ejid = '$ejid'
 					AND ej.idinstitution = ".$this->session->userdata('institution')."";

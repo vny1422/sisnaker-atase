@@ -47,7 +47,7 @@ class Kuitansi extends MY_Controller {
       $this->load->view('templates/footerendorsement');
     }
     else {
-      if($this->input->post('bc',TRUE) == "" && $this->input->post('dokumen', TRUE) != 2)
+      if($this->input->post('bc',TRUE) == "" && $this->input->post('dokumen', TRUE) != 1)
       {
         //preparing variables
         $abnormalize[1] = '01';

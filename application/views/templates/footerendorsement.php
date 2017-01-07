@@ -45,6 +45,11 @@
     <!-- JS Endoresement Table -->
     <script src="<?php echo base_url('assets/js/underscore-min.js'); ?>"></script>
 
+    <!-- Ladda -->
+    <script src="<?php echo base_url('assets/js/spin.min.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/ladda.min.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/ladda.jquery.min.js'); ?>"></script>
+
     <!-- Datatables -->
     <script>
       $(document).ready(function() {

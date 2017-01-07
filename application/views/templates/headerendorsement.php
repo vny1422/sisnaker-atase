@@ -29,13 +29,13 @@
     <link href="<?php echo base_url('assets/css/icheck/flat/green.css'); ?>" rel="stylesheet" />
     <link href="<?php echo base_url('assets/css/floatexamples.css'); ?>" rel="stylesheet" type="text/css" />
 
-
     <!-- Datepicker -->
     <link href="<?php echo base_url('assets/css/datepicker/bootstrap-datepicker.css'); ?>" rel="stylesheet">
     <!-- Datepicker CSS -->
     <link href="<?php echo base_url('assets/css/datepicker.css'); ?>" rel="stylesheet">
 
-
+    <!-- Ladda -->
+    <link href="<?php echo base_url('assets/css/ladda.min.css'); ?>" rel="stylesheet">
 
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/js/jquery.min.js'); ?>"></script>

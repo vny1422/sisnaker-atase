@@ -60,7 +60,6 @@ class Endorsement extends MY_Controller {
 
   function getDataFromBarcode()
   {
-
     $code = $this->input->post('barcode', TRUE);
 
     $tmp['success'] = false;

@@ -54,6 +54,26 @@ class Endorsement_model extends CI_Model {
         return $result;
     }
 
+    function checkEntryJO_ForRevisiPK($code)
+    {
+    	$sql = "SELECT
+					count(ej.ejid) as count, ej.ejid
+				FROM
+					entryjo ej
+					LEFT JOIN tki tk ON tk.ejid = ej.ejid
+				WHERE
+					tk.tkbc = '$code'
+					AND ej.idinstitution = ".$this->session->userdata('institution')."
+				GROUP BY
+					ej.ejid";
+
+		$query = $this->db->query($sql);
+
+        $result = $query->result_array();
+
+        return $result;
+    }
+
     function getEntryJO($ejid)
     {
     	$sql = "SELECT
@@ -125,6 +145,49 @@ class Endorsement_model extends CI_Model {
     			WHERE tk.ejid = '$ejid'";
 
     	$query = $this->db->query($sql);
+
+        $result = $query->result_array();
+
+        return $result;
+    }
+
+    function getTKI_FromBarcode($code)
+    {
+    	$sql = "SELECT
+					tk.*
+				FROM 
+					tki tk
+				WHERE tk.tkbc = '$code'";
+
+		$query = $this->db->query($sql);
+
+        $result = $query->result_array();
+
+        return $result;
+    }
+
+    function countRevisiTKI($ejid)
+    {
+    	$sql = "SELECT 
+					tk.tkid, tk.tkbc, tk.tkrevid, tk.tktglendorsement
+				FROM tki tk 
+				WHERE tk.ejid = '$ejid'";
+
+		$query = $this->db->query($sql);
+
+        $result = $query->result_array();
+
+        return $result;
+    }
+
+    function getTKILama($tkid)
+    {
+    	$sql = "SELECT
+					tk.*
+				FROM tki tk
+				WHERE tk.tkrevid = $tkid";
+
+		$query = $this->db->query($sql);
 
         $result = $query->result_array();
 

@@ -9,6 +9,8 @@ class Pk extends MY_Controller {
   {
     parent::__construct();
     $this->load_sidebar();
+    $this->load->model('Endorsement/Endorsement_model');
+
     $this->data['listdp'] = $this->listdp;
     $this->data['usedpg'] = $this->usedpg;
     $this->data['usedmpg'] = $this->usedmpg;
@@ -36,6 +38,101 @@ class Pk extends MY_Controller {
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/RevisiPK_view', $this->data);
     $this->load->view('templates/footerendorsement');
+  }
+
+  function getDataRevisiPK()
+  {
+    //$code = $this->input->post('barcode', TRUE);
+    $code = 'kl988';
+    $maks_penggantian_pk = 2;
+
+    $tmp['success'] = false;
+    $tmp['message'] = "Barcode atau Token tidak valid!!!";
+
+    $query = $this->Endorsement_model->checkEntryJO_ForRevisiPK($code);
+
+    if(!empty($query)) {
+      $count = $query[0]['count'];
+      $ejid = $query[0]['ejid'];
+
+      if ($count > 0) {
+        // data entry jo
+        $query = $this->Endorsement_model->getEntryJO($ejid);
+        $tmp = $query[0];
+        $tmp['jocatatan'] = str_replace("\n", "<br/>", $query[0]['jocatatan']);
+        $tmp['success'] = true;
+        $tmp['message'] = "Barcode valid.";
+
+        // data kuitansi
+        $query = $this->Endorsement_model->getKuitansi($ejid);
+        $i = 0;
+        foreach ($query as $row):
+          $tmp['kuitansi'][$i++] = $row;
+        endforeach;
+
+
+        // data tki pengganti
+        $tkid = 0; // id tki pengganti; digunakan utk referensi loop di hitung banyak perubahan
+        $tmp["tkpengganti"] = array();
+        $query = $this->Endorsement_model->getTKI_FromBarcode($code);
+        if(!empty($query)) {
+          $tmp["tkpengganti"] = $query[0];
+          $tkid = $query[0]['tkid'];
+        }
+
+          // hitung banyak perubahan revisi
+        $query = $this->Endorsement_model->countRevisiTKI($ejid);
+        $tks = array();
+        $i = 0;
+        foreach ($query as $row):
+          $tks[$i] = $row;
+          $tks[$i]['visited'] = 0;
+          $i++;
+        endforeach;
+
+        $found = 0;
+        $loop = 1;
+        while ($loop) {
+          $loop = 0;
+          for ($i = 0; $i < count($tks); $i++) {
+            if ($tks[$i]['tkrevid'] == $tkid && !$tks[$i]['visited']) {
+              if (isset($tks[$i]['tktglendorsement'])) {
+                $found++;
+              }
+                
+              $loop = 1;
+              $tks[$i]['visited'] = 1;
+              $tkid = $tks[$i]['tkid'];
+              break;
+            }
+          }
+        }
+
+
+        // data tki
+        $tmp["tklama"] = array();
+        $query = $this->Endorsement_model->getTKILama($tmp["tkpengganti"]["tkid"]);
+        if(!empty($query)) {
+          $tmp["tklama"] = $query[0];
+        }
+
+
+        // if ($found > $maks_penggantian_pk) {
+        //   $tmp = array();
+        //   $tmp['success'] = false;
+        //   $tmp['message'] = "Anda melebihi batas maksimal penggantian perjanjian kerja!!!";
+        // } else if (!isset($tmp["tklama"]["tkid"])) {          
+        //   $tmp = array();
+        //   $tmp['success'] = false;
+        //   $tmp['message'] = "Barcode tidak valid!!!";
+        // } else if (isset($tmp["tkpengganti"]["tktglendorsement"])) {
+        //   $tmp = array();
+        //   $tmp['success'] = false;
+        //   $tmp['message'] = "Data TKI telah diendorse!";
+        // }
+      }
+    }
+    echo json_encode($tmp);
   }
 
 }

@@ -289,8 +289,8 @@
                 default: $jk = '';          
               }
               switch(obj.tkiall[i].tkstatkwn) { 
-                case '0': $statkwn = 'Menikah'; break;
-                case '1': $statkwn = 'Belum Menikah'; break;
+                case '0': $statkwn = 'Belum Menikah'; break;
+                case '1': $statkwn = 'Menikah'; break;
                 case '2': $statkwn = 'Cerai'; break;
                 default: $statkwn = '';         
               }

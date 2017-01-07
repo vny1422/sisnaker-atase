@@ -22,6 +22,15 @@ class Endorsement extends MY_Controller {
   {
   }
 
+  public function updateagency()
+  {
+    $this->data['title'] = 'Endorsement';
+    $this->data['subtitle'] = 'Update Agency';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/UpdateAgency_view', $this->data);
+    $this->load->view('templates/footerendorsement');
+  }
+
   public function checkBarcode()
   {
     $this->data['title'] = 'Endorsement';

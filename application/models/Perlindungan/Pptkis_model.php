@@ -81,6 +81,13 @@ class PPTKIS_model extends CI_Model {
 
     }
 
+    function get_cekalppkode($id)
+    {
+      $this->db->from('cekalpptkis c');
+      $this->db->where('c.ppkode = '.$id.' AND c.enable=1 AND (c.cpend IS NULL OR c.cpend >= NOW())');
+      return $this->db->get()->row();
+    }
+
     function get_cekalpptkis(){
       $this->db->select('c.*,m.ppnama as ppnama, m.pppngjwb as pppngjwb');
       $this->db->from('mpptkis m, cekalpptkis c');

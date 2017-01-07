@@ -30,76 +30,76 @@
                 <?php echo '<div class="container">
                 <div class="alert alert-success fade in">
                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    <strong>Selamat!</strong> '.$this->session->flashdata('information').'
+                    <strong>Notification: </strong> '.$this->session->flashdata('information').'
                 </div>
             </div>' ?>
         <?php endif; ?>
-        <?php echo form_open(base_url('AgensiPPTKIS/addAgensi')) ?>
+        <?php echo form_open(base_url('Endorsement/updateagency')) ?>
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Official Company Email <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-                <input type="text" name="name" required="required" class="form-control">
+                <input type="text" name="email" value="<?php echo $values->agemail ?>" required="required" class="form-control">
             </div>
         </div><br /><br /><br />
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Agency Name <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-                <input type="text" name="name" required="required" class="form-control">
+                <input type="text" name="name" value="<?php echo $values->agnama ?>" required="required" class="form-control">
             </div>
         </div><br /><br /><br />
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Agency Name (Local Languange)<span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-                <input type="text" name="name" required="required" class="form-control">
+                <input type="text" name="nameother" value="<?php echo $values->agnamaoth ?>" required="required" class="form-control">
             </div>
         </div><br /><br /><br />
 
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Local Goverments Recruitment Letter<span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-                <input type="text" name="noijin" required="required" class="form-control">
+                <input type="text" name="noijin" value="<?php echo $values->agnoijincla ?>" required="required" class="form-control">
             </div>
         </div><br /><br /><br />
 
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Office Address <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-                <input type="text" name="address" required="required" class="form-control">
+                <input type="text" name="address" value="<?php echo $values->agalmtkantor ?>" required="required" class="form-control">
             </div>
         </div><br /><br /><br />
 
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Office Address (Local Languange)<span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-                <input type="text" name="addressother" required="required" class="form-control">
+                <input type="text" name="addressother" value="<?php echo $values->agalmtkantoroth ?>" required="required" class="form-control">
             </div>
         </div><br /><br /><br />
 
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Authorized Person Name<span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-                <input type="text" name="penanggung" required="required" class="form-control">
+                <input type="text" name="penanggung" value="<?php echo $values->agpngjwb ?>" required="required" class="form-control">
             </div>
         </div><br /><br /><br />
 
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Authorized Person Name (Local Languange)<span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-                <input type="text" name="penanggungother" required="required" class="form-control">
+                <input type="text" name="penanggungother" value="<?php echo $values->agpngjwboth ?>" required="required" class="form-control">
             </div>
         </div><br /><br /><br />
 
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Phone<span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-                <input type="text" name="notelp" required="required" class="form-control">
+                <input type="text" name="notelp" value="<?php echo $values->agtelp ?>" required="required" class="form-control">
             </div>
         </div><br /><br /><br />
 
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Fax<span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-                <input type="text" name="nofax" required="required" class="form-control">
+                <input type="text" name="nofax" value="<?php echo $values->agfax ?>" required="required" class="form-control">
             </div>
         </div><br /><br /><br />
         <div class="ln_solid"></div>

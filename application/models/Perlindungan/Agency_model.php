@@ -104,32 +104,52 @@ class Agency_model extends CI_Model {
       return $this->db->get($this->table)->result();
     }
 
-    public function update_agency($id)
+    public function update_agency($id,$agen = false)
     {
-      $active = $this->input->post('active',TRUE);
+      if($agen == false)
+      {
+        $active = $this->input->post('active',TRUE);
 
-      if ($active) {
-        $active = 1;
-      } else {
-        $active = 0;
+        if ($active) {
+          $active = 1;
+        } else {
+          $active = 0;
+        }
+
+        $data = array(
+          'agnama' => $this->input->post('name', TRUE),
+          'agnamaoth' => $this->input->post('nameother', TRUE),
+          'agnoijincla' => $this->input->post('noijin', TRUE),
+          'agalmtkantor' => $this->input->post('address', TRUE),
+          'agalmtkantoroth' => $this->input->post('addressother', TRUE),
+          'username' => $this->input->post('user',TRUE),
+          'idinstitution' => $this->input->post('institution',TRUE),
+          'agpngjwb' => $this->input->post('penanggung',TRUE),
+          'agpngjwboth' => $this->input->post('penanggungother',TRUE),
+          'agtelp' => $this->input->post('notelp',TRUE),
+          'agfax' => $this->input->post('nofax',TRUE),
+          'agenable' => $active
+      );
+      $this->db->where('agid',$id);
+      return $this->db->update($this->table, $data);
+      }
+      else {
+        $data = array(
+          'agnama' => $this->input->post('name', TRUE),
+          'agnamaoth' => $this->input->post('nameother', TRUE),
+          'agnoijincla' => $this->input->post('noijin', TRUE),
+          'agalmtkantor' => $this->input->post('address', TRUE),
+          'agalmtkantoroth' => $this->input->post('addressother', TRUE),
+          'agpngjwb' => $this->input->post('penanggung',TRUE),
+          'agpngjwboth' => $this->input->post('penanggungother',TRUE),
+          'agtelp' => $this->input->post('notelp',TRUE),
+          'agfax' => $this->input->post('nofax',TRUE),
+          'agemail' => $this->input->post('email', TRUE)
+        );
+        $this->db->where('agid',$id);
+        return $this->db->update($this->table, $data);
       }
 
-      $data = array(
-        'agnama' => $this->input->post('name', TRUE),
-        'agnamaoth' => $this->input->post('nameother', TRUE),
-        'agnoijincla' => $this->input->post('noijin', TRUE),
-        'agalmtkantor' => $this->input->post('address', TRUE),
-        'agalmtkantoroth' => $this->input->post('addressother', TRUE),
-        'username' => $this->input->post('user',TRUE),
-        'idinstitution' => $this->input->post('institution',TRUE),
-        'agpngjwb' => $this->input->post('penanggung',TRUE),
-        'agpngjwboth' => $this->input->post('penanggungother',TRUE),
-        'agtelp' => $this->input->post('notelp',TRUE),
-        'agfax' => $this->input->post('nofax',TRUE),
-        'agenable' => $active
-    );
-    $this->db->where('agid',$id);
-    return $this->db->update($this->table, $data);
     }
 
     function get_agency_info($id) {
@@ -198,6 +218,11 @@ class Agency_model extends CI_Model {
     }
     $this->db->where('caid', $id);
     return $this->db->update('cekalagensi', $data);
+  }
+
+  public function get_agency_info_by_user($username){
+    $this->db->where('username',$username);
+    return $this->db->get($this->table)->row();
   }
 
 }

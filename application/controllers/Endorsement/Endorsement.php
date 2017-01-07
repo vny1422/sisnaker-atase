@@ -10,6 +10,7 @@ class Endorsement extends MY_Controller {
     parent::__construct();
     $this->load_sidebar();
     $this->load->model('Endorsement/Endorsement_model');
+    $this->load->model('Perlindungan/Agency_model');
 
     $this->data['listdp'] = $this->listdp;
     $this->data['usedpg'] = $this->usedpg;
@@ -24,11 +25,27 @@ class Endorsement extends MY_Controller {
 
   public function updateagency()
   {
-    $this->data['title'] = 'Endorsement';
-    $this->data['subtitle'] = 'Update Agency';
-    $this->load->view('templates/headerendorsement', $this->data);
-    $this->load->view('Endorsement/UpdateAgency_view', $this->data);
-    $this->load->view('templates/footerendorsement');
+    $this->form_validation->set_rules('name', 'Agency Name', 'required|trim');
+    if ($this->form_validation->run() === FALSE)
+    {
+      $this->data['values'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
+      $this->data['title'] = 'Endorsement';
+      $this->data['subtitle'] = 'Update Agency';
+      $this->load->view('templates/headerendorsement', $this->data);
+      $this->load->view('Endorsement/UpdateAgency_view', $this->data);
+      $this->load->view('templates/footerendorsement');
+    }
+    else {
+      $this->session->set_flashdata('information', 'Profile Updated!');
+      $this->data['values'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
+      $this->Agency_model->update_agency($this->data['values']->agid,true);
+      $this->data['values'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
+      $this->data['title'] = 'Endorsement';
+      $this->data['subtitle'] = 'Update Agency';
+      $this->load->view('templates/headerendorsement', $this->data);
+      $this->load->view('Endorsement/UpdateAgency_view', $this->data);
+      $this->load->view('templates/footerendorsement');
+    }
   }
 
   public function checkBarcode()
@@ -43,11 +60,12 @@ class Endorsement extends MY_Controller {
 
   function getDataFromBarcode()
   {
+
     $code = $this->input->post('barcode', TRUE);
-    
+
     $tmp['success'] = false;
     $tmp['message'] = "Barcode atau Token tidak valid!!!";
-      
+
     $query = $this->Endorsement_model->getKuitansi_FromBarcode($code);
 
     if(!empty($query)) {
@@ -56,6 +74,11 @@ class Endorsement extends MY_Controller {
     }
     else {
       $query = $this->Endorsement_model->checkEntryJO_FromBarcode($code);
+
+
+      $count = $query[0]['count'];
+      $ejid = $query[0]['ejid'];
+
 
       if(!empty($query)) {
         $count = $query[0]['count'];

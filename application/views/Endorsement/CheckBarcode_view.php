@@ -298,6 +298,8 @@
                 case '0': $revisi = 'Tidak'; break;
                 case '1': $revisi = 'Ya'; break;
               }
+
+              table.clear();
               table.row.add( [  
                 obj.tkiall[i].tknama,
                 obj.tkiall[i].tktgllahir,

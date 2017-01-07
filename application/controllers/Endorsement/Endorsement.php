@@ -75,11 +75,6 @@ class Endorsement extends MY_Controller {
     else {
       $query = $this->Endorsement_model->checkEntryJO_FromBarcode($code);
 
-
-      $count = $query[0]['count'];
-      $ejid = $query[0]['ejid'];
-
-
       if(!empty($query)) {
         $count = $query[0]['count'];
         $ejid = $query[0]['ejid'];

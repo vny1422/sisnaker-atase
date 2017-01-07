@@ -8,15 +8,15 @@ class Kuitansi_model extends CI_Model {
 
   public function check_kuitansi($noku)
   {
-    $this->db->select('k.*,d.name as namadokumen');
+    $this->db->select('k.*,d.tipe as namadokumen');
     $this->db->from('kuitansi k');
-    $this->db->join('dokumenkuitansi d', 'k.idtipe = d.id', 'left');
+    $this->db->join('tipe d', 'k.idtipe = d.idtipe', 'left');
     $this->db->where('kuno LIKE \''.$noku.'\'');
     return $this->db->get()->result();
   }
 
   public function list_dokumen_kuitansi(){
-    return $this->db->get('dokumenkuitansi')->result();
+    return $this->db->get('tipe')->result();
   }
 
   public function catat_kuitansi($username,$idinstitution,$barcode=null)
@@ -67,7 +67,7 @@ class Kuitansi_model extends CI_Model {
   {
     $this->db->select('COUNT(*)+1 as count');
     $this->db->where('kutglmasuk LIKE \''.$thnmasuk.'-'.$blnmasuk.'%\'');
-    $this->db->where('idtipe <> 2');
+    $this->db->where('idtipe <> 1');
     return $this->db->get($this->table)->row();
   }
 }

@@ -54,7 +54,7 @@
               <select id="dokumen" name="dokumen" required="required" class="select2_single form-control" tabindex="-1">
                 <option></option>
                 <?php foreach($listdokumen as $row): ?>
-                  <option value="<?php echo $row->id ?>"><?php echo $row->name ?></option>
+                  <option value="<?php echo $row->idtipe ?>"><?php echo $row->tipe ?></option>
                 <?php endforeach; ?>
               </select>
             </div>
@@ -65,7 +65,7 @@
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Barcode <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-              <input id="barcode" type="text" name="bc" class="form-control">Jumlah Terbayar dalam satuan <?php echo $currency?>
+              <input id="barcode" type="text" name="bc" class="form-control">
             </div>
             <br /><br /><br /><br />
           </div>
@@ -253,7 +253,7 @@ $(document).ready(function() {
         window.alert("Cek No Kuitansi terlebih dahulu");
       }
       else {
-        if($("#dokumen").val() == 2 && $("#barcode").val() == "")
+        if($("#dokumen").val() == 1 && $("#barcode").val() == "")
         {
           e.preventDefault();
           $(hidebc).show();
@@ -265,7 +265,7 @@ $(document).ready(function() {
     });
 
     $("#dokumen").change(function(){
-      if($("#dokumen").val() == 2)
+      if($("#dokumen").val() == 1)
       {
         $(hidebc).show();
         $(hideendorse).show();

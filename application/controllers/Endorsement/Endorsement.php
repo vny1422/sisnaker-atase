@@ -41,6 +41,16 @@ class Endorsement extends MY_Controller {
     $this->load->view('templates/footerendorsement');
   }
 
+  public function createJO()
+  {
+    $this->data['title'] = 'Endorsement';
+    $this->data['subtitle'] = 'Create JO Packet';
+    $this->data['subtitle2'] = 'Worker Data';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/CreateJO_view', $this->data);
+    $this->load->view('templates/footerendorsement');
+  }
+
   function checkJO()
   {
     // $code = $this->input->post('barcode', TRUE);

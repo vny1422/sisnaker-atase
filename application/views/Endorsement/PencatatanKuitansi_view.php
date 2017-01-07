@@ -22,7 +22,7 @@
           <?php echo '<div class="container">
             <div class="alert alert-success fade in">
               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-              <strong>Selamat!</strong> '.$this->session->flashdata('information').'
+              <strong>Notification: </strong> '.$this->session->flashdata('information').'
             </div>
           </div>' ?>
         <?php endif; ?>
@@ -54,12 +54,22 @@
               <select id="dokumen" name="dokumen" required="required" class="select2_single form-control" tabindex="-1">
                 <option></option>
                 <?php foreach($listdokumen as $row): ?>
-                  <option value="<?php echo $row->id ?>"><?php echo $row->name ?></option>
+                  <option value="<?php echo $row->idtipe ?>"><?php echo $row->tipe ?></option>
                 <?php endforeach; ?>
               </select>
             </div>
           </div>
           <br /><br /><br/>
+
+          <div class="input_fields_wrap"  id="hidebarcode">
+          <div class="form-group">
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Barcode <span class="required">*</span></label>
+            <div class="col-md-5 col-sm-5 col-xs-12">
+              <input id="barcode" type="text" name="bc" class="form-control">
+            </div>
+            <br /><br /><br /><br />
+          </div>
+        </div>
 
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">No. Kuitansi <span class="required">*</span></label>
@@ -86,12 +96,15 @@
             </div>
           </div><br /><br /><br />
 
+          <div class="input_fields_wrap"  id="hideendorse">
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="active">Endorse Sekarang (Tidak Perlu Catat Kuitansi Ganda) ? </label>
             <div class="col-md-1 col-sm-1 col-xs-2">
-              <input type="checkbox" id="cekenable" name="active">
+              <input type="checkbox" id="cekenable" name="endorse">
             </div>
-          </div><br /><br /><br /><br />
+            <br /><br /><br /><br />
+          </div>
+        </div>
 
 
 
@@ -170,6 +183,8 @@ $(document).ready(function() {
     var wrapper = $("#listkuitansi");
     var pilihButton = $(".pilihButton");
     var submit = false;
+    var hidebc = $("#hidebarcode");
+    var hideendorse = $("#hideendorse");
     var table = $("#datatable").DataTable( {
     "columnDefs": [
         {
@@ -186,6 +201,8 @@ $(document).ready(function() {
         }
     ]
     });
+    $(hidebc).hide();
+    $(hideendorse).hide();
     $(errorku).hide();
     $("#btnCheck").click(function(){
       var noku = $("#noku").val();
@@ -226,9 +243,36 @@ $(document).ready(function() {
       }
     });
 
-    $("#ceksubmit").click(function(){
+    $("#noku").change(function(){
+      submit = false;
+    });
+
+    $("#ceksubmit").click(function(e){
       if(submit == false){
+        e.preventDefault();
         window.alert("Cek No Kuitansi terlebih dahulu");
+      }
+      else {
+        if($("#dokumen").val() == 1 && $("#barcode").val() == "")
+        {
+          e.preventDefault();
+          $(hidebc).show();
+        }
+        else {
+          $(hidebc).hide();
+        }
+      }
+    });
+
+    $("#dokumen").change(function(){
+      if($("#dokumen").val() == 1)
+      {
+        $(hidebc).show();
+        $(hideendorse).show();
+      }
+      else {
+        $(hidebc).hide();
+        $(hideendorse).hide();
       }
     });
 

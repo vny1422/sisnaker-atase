@@ -5,15 +5,25 @@ class Endorsement_model extends CI_Model {
         $this->load->database('default');
     }
 
+	function catatKuitansi_ej($ejid,$kuid)
+	{
+		$data = array(
+			'kuid' => $kuid,
+			'ejid' => $ejid
+		);
+
+		return $this->db->insert('pencatatanej', $data);
+	}
+
     function getKuitansi_FromBarcode($code)
     {
     	$sql = "SELECT
             		DATE_FORMAT(ku.kutglmasuk, '%d/%m/%Y') as kutglmasuk,
             		DATE_FORMAT(ku.kutglkuitansi, '%d/%m/%Y') as kutglkuitansi,
             		tp.tipe, ku.kuno, ku.kujmlbayar, ku.kupemohon, ku.idtipe, ku.username
-		        FROM 
+		        FROM
 		           	kuitansi ku JOIN tipe tp ON tp.idtipe = ku.idtipe
-		        WHERE 
+		        WHERE
 		            ku.kukode = '$code' AND ku.kukode IS NOT NULL
 		            AND ku.idinstitution = ".$this->session->userdata('institution')."";
 
@@ -47,15 +57,17 @@ class Endorsement_model extends CI_Model {
     function getEntryJO($ejid)
     {
     	$sql = "SELECT
-					ej.agnama, ej.agnoijincla, ej.agalmtkantor, ej.agpngjwb, ej.agtelp, ej.agfax,
-					ej.ppnama, ej.ppalmtkantor, ej.pptelp, ej.ppfax, ej.ppijin, ej.pppngjwb,
+					mag.agnama, mag.agnoijincla, mag.agalmtkantor, mag.agpngjwb, mag.agtelp, mag.agfax,
+					mpp.ppnama, mpp.ppalmtkantor, mpp.pptelp, mpp.ppfax, mpp.ppijin, mpp.pppngjwb,
 					ej.mjktp, ej.mjnama, ej.mjnamacn, ej.mjalmt, ej.mjtelp, ej.mjfax, ej.mjpngjwb,
 					jp.idjenispekerjaan, jp.namajenispekerjaan, jp.sektor, jp.jpgaji,
 					ej.joclano, ej.joclatgl, ej.joestduedate, ej.joposisi, ej.jojmltki, ej.jomkthn, ej.jomkbln, ej.jomkhr, ej.jocatatan, ej.joakomodasi,
 					ej.ejid, ej.ejtglendorsement, ej.ejtoken, ej.ejbcsp, ej.ejbcsk
-				FROM 
+				FROM
 					entryjo ej
 					JOIN jenispekerjaan jp ON jp.idjenispekerjaan = ej.idjenispekerjaan
+					JOIN magensi mag ON mag.agid = ej.agid
+					JOIN mpptkis mpp ON mpp.ppkode = ej.ppkode
 				WHERE
 					ej.ejid = '$ejid'
 					AND ej.idinstitution = ".$this->session->userdata('institution')."";
@@ -73,7 +85,7 @@ class Endorsement_model extends CI_Model {
 					DATE_FORMAT(ku.kutglmasuk, '%d/%m/%Y') as kutglmasuk,
 					DATE_FORMAT(ku.kutglkuitansi, '%d/%m/%Y') as kutglkuitansi,
 					tp.tipe, ku.kuno, ku.kujmlbayar, ku.kupemohon, ku.idtipe, ku.username
-				FROM 
+				FROM
 					entryjo ej
 					JOIN pencatatanej pej ON pej.ejid = ej.ejid
 					JOIN kuitansi ku ON ku.kuid = pej.kuid
@@ -89,7 +101,7 @@ class Endorsement_model extends CI_Model {
         return $result;
     }
 
-    function getTKI($ejid)
+    function getTKINow($ejid)
     {
     	$sql = "SELECT
 					tk.tknama, tk.tkbc
@@ -97,6 +109,22 @@ class Endorsement_model extends CI_Model {
 				WHERE tk.ejid = '$ejid' AND tk.tkrevid IS NULL";
 
 		$query = $this->db->query($sql);
+
+        $result = $query->result_array();
+
+        return $result;
+    }
+
+    function getTKI($ejid)
+    {
+    	$sql = "SELECT 
+    				tk.tkid, tk.tknama, tk.tkalmtid, tk.tkpaspor, tk.tktglkeluar, tk.tktmptkeluar, tk.tktgllahir, tk.tktmptlahir, tk.tkjk, tk.tkstatkwn, tk.tkjmlanaktanggungan, tk.tkahliwaris, tk.tknama2, tk.tkalmt2, tk.tktelp, tk.tkhub, tk.tkstat, tk2.tknama as 'tkrevnama', tk.tktglendorsement 
+    			FROM 
+    				tki tk 
+    				LEFT JOIN tki tk2 ON tk2.tkid = tk.tkrevid 
+    			WHERE tk.ejid = '$ejid'";
+
+    	$query = $this->db->query($sql);
 
         $result = $query->result_array();
 

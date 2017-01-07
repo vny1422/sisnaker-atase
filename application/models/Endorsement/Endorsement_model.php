@@ -5,15 +5,15 @@ class Endorsement_model extends CI_Model {
         $this->load->database('default');
     }
 
-		function catatKuitansi_ej($ejid,$kuid)
-		{
-			$data = array(
-				'kuid' => $kuid,
-				'ejid' => $ejid
-			);
+	function catatKuitansi_ej($ejid,$kuid)
+	{
+		$data = array(
+			'kuid' => $kuid,
+			'ejid' => $ejid
+		);
 
-			return $this->db->insert('pencatatanej', $data);
-		}
+		return $this->db->insert('pencatatanej', $data);
+	}
 
     function getKuitansi_FromBarcode($code)
     {
@@ -99,7 +99,7 @@ class Endorsement_model extends CI_Model {
         return $result;
     }
 
-    function getTKI($ejid)
+    function getTKINow($ejid)
     {
     	$sql = "SELECT
 					tk.tknama, tk.tkbc
@@ -107,6 +107,22 @@ class Endorsement_model extends CI_Model {
 				WHERE tk.ejid = '$ejid' AND tk.tkrevid IS NULL";
 
 		$query = $this->db->query($sql);
+
+        $result = $query->result_array();
+
+        return $result;
+    }
+
+    function getTKI($ejid)
+    {
+    	$sql = "SELECT 
+    				tk.tkid, tk.tknama, tk.tkalmtid, tk.tkpaspor, tk.tktglkeluar, tk.tktmptkeluar, tk.tktgllahir, tk.tktmptlahir, tk.tkjk, tk.tkstatkwn, tk.tkjmlanaktanggungan, tk.tkahliwaris, tk.tknama2, tk.tkalmt2, tk.tktelp, tk.tkhub, tk.tkstat, tk2.tknama as 'tkrevnama', tk.tktglendorsement 
+    			FROM 
+    				tki tk 
+    				LEFT JOIN tki tk2 ON tk2.tkid = tk.tkrevid 
+    			WHERE tk.ejid = '$ejid'";
+
+    	$query = $this->db->query($sql);
 
         $result = $query->result_array();
 

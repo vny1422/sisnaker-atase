@@ -58,11 +58,10 @@ class Endorsement extends MY_Controller {
     $this->load->view('templates/footerendorsement');
   }
 
-  function checkJO()
+  function getDataFromBarcode()
   {
-    // $code = $this->input->post('barcode', TRUE);
-    $code = 'kl988';
 
+    $code = $this->input->post('barcode', TRUE);
     $tmp['success'] = false;
     $tmp['message'] = "Barcode atau Token tidak valid!!!";
 
@@ -75,30 +74,44 @@ class Endorsement extends MY_Controller {
     else {
       $query = $this->Endorsement_model->checkEntryJO_FromBarcode($code);
 
+
       $count = $query[0]['count'];
       $ejid = $query[0]['ejid'];
 
-      if ($count > 0) {
-        // data entry jo
-        $query = $this->Endorsement_model->getEntryJO($ejid);
-        $tmp = $query[0];
-        $tmp['jocatatan'] = str_replace("\n", "<br/>", $query[0]['jocatatan']);
-        $tmp['success'] = true;
-        $tmp['message'] = "Barcode valid.";
 
-        // data kuitansi
-        $query = $this->Endorsement_model->getKuitansi($ejid);
-        $i = 0;
-        foreach ($query as $row):
-          $tmp['kuitansi'][$i++] = $row;
-        endforeach;
+      if(!empty($query)) {
+        $count = $query[0]['count'];
+        $ejid = $query[0]['ejid'];
 
-        // data tki
-        $query = $this->Endorsement_model->getTKI($ejid);
-        $i = 0;
-        foreach ($query as $row):
-          $tmp['tki'][$i++] = $row;
-        endforeach;
+        if ($count > 0) {
+          // data entry jo
+          $query = $this->Endorsement_model->getEntryJO($ejid);
+          $tmp = $query[0];
+          $tmp['jocatatan'] = str_replace("\n", "<br/>", $query[0]['jocatatan']);
+          $tmp['success'] = true;
+          $tmp['message'] = "Barcode valid.";
+
+          // data kuitansi
+          $query = $this->Endorsement_model->getKuitansi($ejid);
+          $i = 0;
+          foreach ($query as $row):
+            $tmp['kuitansi'][$i++] = $row;
+          endforeach;
+
+          // data tki sekarang
+          $query = $this->Endorsement_model->getTKINow($ejid);
+          $i = 0;
+          foreach ($query as $row):
+            $tmp['tki'][$i++] = $row;
+          endforeach;
+
+          // data tki
+          $query = $this->Endorsement_model->getTKI($ejid);
+          $i = 0;
+          foreach ($query as $row):
+            $tmp['tkiall'][$i++] = $row;
+          endforeach;
+        }
       }
     }
     echo json_encode($tmp);

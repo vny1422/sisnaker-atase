@@ -25,7 +25,7 @@ class Paket extends MY_Controller {
     $this->data['title'] = 'Paket PK';
     $this->data['subtitle'] = 'Rekap Paket PK';
     $this->load->view('templates/headerendorsement', $this->data);
-    $this->load->view('Endorsement/PaketJO_view');
+    $this->load->view('Endorsement/RekapPaketJO_view');
     $this->load->view('templates/footerendorsement');
   }
 
@@ -45,7 +45,7 @@ class Paket extends MY_Controller {
     $sidx = $this->input->post('sidx', TRUE); // get index row - i.e. user click to sort
     $sord = $this->input->post('sord', TRUE); // get the direction
     if(!$sidx) $sidx = 1;
-      
+
     $wh = "";
     if($this->input->post('_search',TRUE)=="true"){
       $filters = json_decode($this->input->post('filters',TRUE), true);
@@ -87,7 +87,7 @@ class Paket extends MY_Controller {
       );
       $i++;
     endforeach;
-        
+
     echo json_encode($r);
   }
 
@@ -100,7 +100,7 @@ class Paket extends MY_Controller {
     $sidx = $this->input->post('sidx', TRUE); // get index row - i.e. user click to sort
     $sord = $this->input->post('sord', TRUE); // get the direction
     if(!$sidx) $sidx = 1;
-      
+
     $wh = "";
     if($this->input->post('_search',TRUE)=="true"){
       $filters = json_decode($this->input->post('filters',TRUE), true);
@@ -128,7 +128,7 @@ class Paket extends MY_Controller {
     $r->page = $page;
     $r->total = $total_pages;
     $r->records = $count;
-    
+
     $query = $this->Paket_model->getPPTKIS_ForTable($agid,$start,$limit,$sidx,$sord,$wh);
     $i=0;
     foreach ($query as $row):
@@ -142,7 +142,7 @@ class Paket extends MY_Controller {
       } else if(floor(abs(strtotime($jobtglakhir) - strtotime(date("Y-m-d")))/(60*60*24)) <= 30) {
         $row->ppnama .= " - <strong style='color:#D84700'>Sisa < 1 Bulan / Almost Expired</strong>";
       }
-      
+
       $r->rows[$i]['id']=$i;
       $r->rows[$i]['cell'] = array(
         $row->ppkode,
@@ -163,7 +163,7 @@ class Paket extends MY_Controller {
     foreach ($query as $row):
       $r->rows[$i++] = $row;
     endforeach;
-      
+
     echo json_encode($r);
   }
 
@@ -248,7 +248,7 @@ class Paket extends MY_Controller {
       $this->Paket_model->deleteJO($id);
       $r->status = 1;
     }
-      
+
     echo json_encode($r);
   }
 
@@ -292,7 +292,7 @@ class Paket extends MY_Controller {
     $r->page = $page;
     $r->total = $total_pages;
     $r->records = $count;
-        
+
     $query = $this->Paket_model->getJOD_ForTable($jobid,$start,$limit,$sidx,$sord,$wh);
     $i=0;
     foreach ($query as $row):
@@ -308,7 +308,7 @@ class Paket extends MY_Controller {
       );
       $i++;
     endforeach;
-      
+
     echo json_encode($r);
   }
 
@@ -335,7 +335,7 @@ class Paket extends MY_Controller {
       $this->Paket_model->deleteJODetail($id);
       $r->status = 1;
     }
-      
+
     echo json_encode($r);
   }
 
@@ -413,22 +413,22 @@ class Paket extends MY_Controller {
   {
     $where = "";
     $ops = array(
-      'eq'=>'=', 
+      'eq'=>'=',
       'ne'=>'<>',
-      'lt'=>'<', 
+      'lt'=>'<',
       'le'=>'<=',
-      'gt'=>'>', 
+      'gt'=>'>',
       'ge'=>'>=',
       'bw'=>'LIKE',
       'bn'=>'NOT LIKE',
-      'in'=>'LIKE', 
-      'ni'=>'NOT LIKE', 
-      'ew'=>'LIKE', 
-      'en'=>'NOT LIKE', 
-      'cn'=>'LIKE', 
-      'nc'=>'NOT LIKE' 
+      'in'=>'LIKE',
+      'ni'=>'NOT LIKE',
+      'ew'=>'LIKE',
+      'en'=>'NOT LIKE',
+      'cn'=>'LIKE',
+      'nc'=>'NOT LIKE'
     );
-    
+
     if($filters['groupOp'] == 'OR') {
       $first = true;
       $where .= " AND ( ";
@@ -439,7 +439,7 @@ class Paket extends MY_Controller {
         $searchString = $item['data'];
         if($item['field'] == 'jobtglawal' || $item['field'] == 'jobtglakhir') {
           $tgl = "STR_TO_DATE('".$searchString."','%d/%m/%Y')";
-          $where .= $item['field']." ".$ops[$item['op']]." ".$tgl; 
+          $where .= $item['field']." ".$ops[$item['op']]." ".$tgl;
         } else {
           if($item['op'] == 'eq' ) $searchString = "'".$searchString."'";
           if($item['op'] == 'bw' || $item['op'] == 'bn') $searchString = "'".$searchString."%'";
@@ -453,27 +453,27 @@ class Paket extends MY_Controller {
         }
         if ($first) {
           $first = false;
-        }                            
+        }
       }
       $where .= " )";
     } else {
-      foreach ( $filters['rules'] as $item){                                
+      foreach ( $filters['rules'] as $item){
         $where .= " AND ";
         $searchString = $item['data'];
         if($item['field'] == 'jobtglawal' || $item['field'] == 'jobtglakhir') {
           $tgl = "STR_TO_DATE('".$searchString."','%d/%m/%Y')";
-          $where .= $item['field']." ".$ops[$item['op']]." ".$tgl; 
+          $where .= $item['field']." ".$ops[$item['op']]." ".$tgl;
         } else {
           if($item['op'] == 'eq' ) $searchString = "'".$searchString."'";
           if($item['op'] == 'bw' || $item['op'] == 'bn') $searchString = "'".$searchString."%'";
           if($item['op'] == 'ew' || $item['op'] == 'en' ) $searchString = "'%".$searchString."'";
-          if($item['op'] == 'cn' || $item['op'] == 'nc' || $item['op'] == 'in' || $item['op'] == 'ni') $searchString = "'%".$searchString."%'";                      
+          if($item['op'] == 'cn' || $item['op'] == 'nc' || $item['op'] == 'in' || $item['op'] == 'ni') $searchString = "'%".$searchString."%'";
           if($item['field'] == 'jpnama') {
             $where .= "namajenispekerjaan ".$ops[$item['op']]." ".$searchString;
           } else {
             $where .= $item['field']." ".$ops[$item['op']]." ".$searchString;
           }
-        }                              
+        }
       }
     }
 

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Inang: 127.0.0.1
--- Waktu pembuatan: 07 Jan 2017 pada 21.42
+-- Waktu pembuatan: 08 Jan 2017 pada 12.57
 -- Versi Server: 5.6.14
 -- Versi PHP: 5.5.6
 
@@ -900,6 +900,20 @@ INSERT INTO `level_has_privilegedetail` (`idlevel`, `idprivilege`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `logagensi`
+--
+
+CREATE TABLE IF NOT EXISTS `logagensi` (
+  `idlog` int(11) NOT NULL AUTO_INCREMENT,
+  `agid` int(11) NOT NULL,
+  `timestamp` date NOT NULL,
+  PRIMARY KEY (`idlog`),
+  KEY `fk_log_magensi1` (`agid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `magensi`
 --
 
@@ -1538,6 +1552,12 @@ ALTER TABLE `kuitansi`
 ALTER TABLE `level_has_privilegedetail`
   ADD CONSTRAINT `fk_level_has_priviligedetail_level1` FOREIGN KEY (`idlevel`) REFERENCES `level` (`idlevel`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_level_has_priviligedetail_priviligedetail1` FOREIGN KEY (`idprivilege`) REFERENCES `privilegedetail` (`idprivilege`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `logagensi`
+--
+ALTER TABLE `logagensi`
+  ADD CONSTRAINT `fk_log_magensi1` FOREIGN KEY (`agid`) REFERENCES `magensi` (`agid`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Ketidakleluasaan untuk tabel `magensi`

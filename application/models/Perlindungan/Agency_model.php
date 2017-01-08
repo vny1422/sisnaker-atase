@@ -134,20 +134,32 @@ class Agency_model extends CI_Model {
       return $this->db->update($this->table, $data);
       }
       else {
-        $data = array(
-          'agnama' => $this->input->post('name', TRUE),
-          'agnamaoth' => $this->input->post('nameother', TRUE),
-          'agnoijincla' => $this->input->post('noijin', TRUE),
-          'agalmtkantor' => $this->input->post('address', TRUE),
-          'agalmtkantoroth' => $this->input->post('addressother', TRUE),
-          'agpngjwb' => $this->input->post('penanggung',TRUE),
-          'agpngjwboth' => $this->input->post('penanggungother',TRUE),
-          'agtelp' => $this->input->post('notelp',TRUE),
-          'agfax' => $this->input->post('nofax',TRUE),
-          'agemail' => $this->input->post('email', TRUE)
-        );
-        $this->db->where('agid',$id);
-        return $this->db->update($this->table, $data);
+        $date = date('Y');
+        $this->db->select('COUNT(*) as count');
+        $this->db->where('agid', $id);
+        $this->db->where('timestamp like \''.$date.'%\'');
+        $cek = $this->db->get('logagensi')->row();
+        if($cek->count < 3)
+        {
+          $data = array(
+            'agnama' => $this->input->post('name', TRUE),
+            'agnamaoth' => $this->input->post('nameother', TRUE),
+            'agnoijincla' => $this->input->post('noijin', TRUE),
+            'agalmtkantor' => $this->input->post('address', TRUE),
+            'agalmtkantoroth' => $this->input->post('addressother', TRUE),
+            'agpngjwb' => $this->input->post('penanggung',TRUE),
+            'agpngjwboth' => $this->input->post('penanggungother',TRUE),
+            'agtelp' => $this->input->post('notelp',TRUE),
+            'agfax' => $this->input->post('nofax',TRUE),
+            'agemail' => $this->input->post('email', TRUE)
+          );
+          $this->db->where('agid',$id);
+          return $this->db->update($this->table, $data);
+        }
+        else {
+          return false;
+        }
+
       }
 
     }

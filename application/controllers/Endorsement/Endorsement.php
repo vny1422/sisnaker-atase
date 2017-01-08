@@ -36,15 +36,27 @@ class Endorsement extends MY_Controller {
       $this->load->view('templates/footerendorsement');
     }
     else {
-      $this->session->set_flashdata('information', 'Profile Updated!');
       $this->data['values'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
-      $this->Agency_model->update_agency($this->data['values']->agid,true);
-      $this->data['values'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
-      $this->data['title'] = 'Endorsement';
-      $this->data['subtitle'] = 'Update Agency';
-      $this->load->view('templates/headerendorsement', $this->data);
-      $this->load->view('Endorsement/UpdateAgency_view', $this->data);
-      $this->load->view('templates/footerendorsement');
+      $cek = $this->Agency_model->update_agency($this->data['values']->agid,true);
+      if($cek != false)
+      {
+        $this->Endorsement_model->catat_logagensi($this->data['values']->agid);
+        $this->session->set_flashdata('information', 'Profile Updated!');
+        $this->data['values'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
+        $this->data['title'] = 'Endorsement';
+        $this->data['subtitle'] = 'Update Agency';
+        $this->load->view('templates/headerendorsement', $this->data);
+        $this->load->view('Endorsement/UpdateAgency_view', $this->data);
+        $this->load->view('templates/footerendorsement');
+      }
+      else {
+        $this->session->set_flashdata('warning', 'You can only EDIT THRICE a YEAR!');
+        $this->data['title'] = 'Endorsement';
+        $this->data['subtitle'] = 'Update Agency';
+        $this->load->view('templates/headerendorsement', $this->data);
+        $this->load->view('Endorsement/UpdateAgency_view', $this->data);
+        $this->load->view('templates/footerendorsement');
+      }
     }
   }
 

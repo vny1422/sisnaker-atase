@@ -55,7 +55,7 @@
             }
           }
         }
-        elseif ($_SESSION['role'] == 3) {
+        elseif ($_SESSION['role'] == 3 || $_SESSION['role'] == 4) {
           foreach ($listdp as $rowdp) {
             echo "<li><a href=".base_url($rowdp->pageurl).">".$rowdp->menuname."</a></li>";
           }

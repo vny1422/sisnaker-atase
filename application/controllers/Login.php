@@ -26,6 +26,10 @@ class Login extends CI_Controller {
 			{
 				redirect('perlindungan');
 			}
+			else if($this->session->userdata('role') == 4)
+			{
+				redirect('endorsement');
+			}
 		}
 
 		$this->form_validation->set_rules('username', 'Username', 'required|trim');
@@ -48,6 +52,10 @@ class Login extends CI_Controller {
 					else if($this->session->userdata('role') == 3)
 					{
 						redirect('perlindungan');
+					}
+					else if($this->session->userdata('role') == 4)
+					{
+						redirect('endorsement');
 					}
         }
 	}

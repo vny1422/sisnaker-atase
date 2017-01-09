@@ -1,16 +1,30 @@
 
 <!-- page content -->
+
 <div class="right_col" role="main">
 
   <br />
+
+
+
   <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="bs-example" data-example-id="simple-jumbotron">
+        <div class="jumbotron">
+          <h3><strong>INGAT!</strong></h3>
+          <p><strong>Satu humao, satu barcode. </strong>Jika satu kuitansi digunakan untuk beberapa humao, silahkan diinput berulang kali (sesuai jumlah humao) dengan tetap menggunakan no. kuitansi yang sama.</p>
+
+          <p>Jumlah stiker yang anda cetak ternyata kurang?
+            Klik disini untuk cetak kembali stiker <a style="color: #029E8D" href="">Job Order Endorsement</a> ATAU <a style="color: #029E8D" href="">selain Job Order Endorsement</a>.</p>
+          </div>
+        </div>
       <div class="x_panel">
         <div class="x_title">
           <h2><strong><?php echo $title; ?></strong></h2>
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
+
           <?php
             if (validation_errors() != "") {
               echo "<div class=\"well well-sm\">";
@@ -122,17 +136,6 @@
 
 <br /><br /><br />
 
-
-
-<div class="bs-example" data-example-id="simple-jumbotron">
-  <div class="jumbotron">
-    <h1>INGAT!</h1>
-    <p><strong>Satu humao, satu barcode. </strong>Jika satu kuitansi digunakan untuk beberapa humao, silahkan diinput berulang kali (sesuai jumlah humao) dengan tetap menggunakan no. kuitansi yang sama.</p>
-
-    <p>Jumlah stiker yang anda cetak ternyata kurang?
-      Klik disini untuk cetak kembali stiker <a style="color: #029E8D" href="">Job Order Endorsement</a> ATAU <a style="color: #029E8D" href="">selain Job Order Endorsement</a>.</p>
-    </div>
-  </div>
 
     </div>
 </div>

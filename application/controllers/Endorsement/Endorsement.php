@@ -21,6 +21,11 @@ class Endorsement extends MY_Controller {
 
   public function index()
   {
+    $this->data['title'] = 'Endorsement';
+    $this->data['subtitle'] = 'Agency Dashboard';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/Endorsement_view', $this->data);
+    $this->load->view('templates/footerendorsement');
   }
 
   public function updateagency()

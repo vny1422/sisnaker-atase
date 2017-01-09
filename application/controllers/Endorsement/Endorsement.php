@@ -91,15 +91,6 @@ class Endorsement extends MY_Controller {
     $this->load->view('templates/footerendorsement');
   }
 
-  public function viewQuota()
-  {
-    $this->data['title'] = 'Endorsement';
-    $this->data['subtitle'] = 'View Your Quota';
-    $this->load->view('templates/headerendorsement', $this->data);
-    $this->load->view('Endorsement/Quota_view', $this->data);
-    $this->load->view('templates/footerendorsement');
-  }
-
   function getDataFromBarcode()
   {
     $code = $this->input->post('barcode', TRUE);

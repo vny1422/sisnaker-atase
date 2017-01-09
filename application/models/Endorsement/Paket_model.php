@@ -7,7 +7,7 @@ class Paket_model extends CI_Model {
 
     function getAgensi_ForTable($idinstitution,$start,$limit,$sidx,$sord,$wh)
     {
-        if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2) {
+        if ($this->session->userdata('role') == 2) {
             $sql = "SELECT * FROM magensi WHERE idinstitution = ".$idinstitution." AND agid not in (select distinct agid_kembar as agid from agensi_merge_map)".$wh." ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
         } else if ($this->session->userdata('role') == 4) {
             $sql = "SELECT * FROM magensi WHERE idinstitution = ".$idinstitution." AND username = ".$this->session->userdata('user')." AND agid not in (select distinct agid_kembar as agid from agensi_merge_map)".$wh." ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
@@ -22,7 +22,7 @@ class Paket_model extends CI_Model {
 
     function countAgensi($idinstitution,$wh)
     {
-        if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2) {
+        if ($this->session->userdata('role') == 2) {
             $sql = "SELECT COUNT(*) as count FROM magensi WHERE idinstitution = ".$idinstitution." AND agid not in (select distinct agid_kembar as agid from agensi_merge_map)".$wh;
         } else if ($this->session->userdata('role') == 4) {
             $sql = "SELECT COUNT(*) as count FROM magensi WHERE idinstitution = ".$idinstitution." AND username = ".$this->session->userdata('user')." AND agid not in (select distinct agid_kembar as agid from agensi_merge_map)".$wh;

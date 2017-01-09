@@ -35,8 +35,7 @@
                           <div class="form-group">
                             <label>PPTKIS</label>
                             <div>
-                              <select class="form-control" ng-model="formdata['pekerjaan']" ng-options="k.idjenispekerjaan as k.namajenispekerjaan for k in sop.pekerjaan"
-                              selectpicker="{dropupAuto:false}" toggle-dropdown ng-disabled="disableAll">
+                              <select class="form-control input1st" id="pptkis" toggle-dropdown ng-disabled="disableAll">
                             </select>
                           </div>
                         </div>
@@ -44,18 +43,16 @@
                         <div class="form-group">
                           <label>Job Type</label>
                           <div>
-                            <select class="form-control" ng-model="formdata['pekerjaan']" ng-options="k.idjenispekerjaan as k.namajenispekerjaan for k in sop.pekerjaan"
-                            selectpicker="{dropupAuto:false}" toggle-dropdown ng-disabled="disableAll">
+                            <select class="form-control input1st"  id="jobtype" toggle-dropdown ng-disabled="disableAll">
                           </select>
                         </div>
                       </div>
                       <div></br></br></div>
                       <div class="form-group">
-                        <div class="col-md-8 col-sm-6 col-xs-12">
+                        <div class="col-md-9 col-sm-9 col-xs-12">
                         </div>
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                          <button type="reset" name="cancel" class="btn btn-primary">Cancel</button>
-                          <button type="submit" name="submit" class="btn btn-success">Next</button>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <button id="next1st" class="btn btn-success">Next</button>
                         </div>
                       </div>
                     </div>
@@ -63,7 +60,9 @@
                 </div>
                 <!-- END OF STEP1 -->
 
+
                 <!-- START OF STEP2 -->
+                <div class="input_fields_wrap"  id="wrap2nd">
                 <div class="row" >
                   <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="clearfix"></br></div>
@@ -83,7 +82,7 @@
                                   <p><i><strong>Please input complete passport number (without space / " " character), and click Add : </i></strong></p> </br>
                                   <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">No.Passport TKI <span class="required">*</span></label>
                                   <div class="col-md-4 col-sm-4 col-xs-12">
-                                    <input id="noku" type="text" name="kuno" required="required" class="form-control">
+                                    <input id="passport" type="text" name="passport" required="required" class="form-control input2nd">
                                   </div>
                                   <div style="margin-left: -55px;" class="col-md-4 col-sm-4 col-xs-12">
                                     <button type="button" class="btn btn-primary" id="btnCheck">Add</button>
@@ -92,8 +91,8 @@
                               </br></br>
                               <p><i>(Your Quota's Remain: Male=0,Female=15,Mixed=0)</i></p>
                               <p><i><strong>List of TKI :</i></strong></p>
-                              <ul>
-                                <li>AT677397, DEWI RATNANINGSIH, Female <a href="">(edit)</a> <a href="">(cancel)</a></li>
+                              <ul id="listtki">
+                               <li>AT677397, DEWI RATNANINGSIH, Female <a href="">(edit)</a> <a href="">(cancel)</a></li>
                               </ul>
 
                               <div></br></br></br></div>
@@ -101,16 +100,18 @@
                                 <div class="col-md-8 col-sm-6 col-xs-12">
                                 </div>
                                 <div class="col-md-4 col-sm-6 col-xs-12">
-                                  <button type="reset" name="cancel" class="btn btn-primary">Cancel</button>
-                                  <button type="submit" name="submit" class="btn btn-success">Next</button>
+                                  <button id="back2nd" class="btn btn-primary">Back</button>
+                                  <button id="next2nd" class="btn btn-success">Next</button>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
+                      </div>
                         <!-- END OF STEP2 -->
 
                         <!-- START OF STEP3 -->
+                        <div class="input_fields_wrap"  id="wrap3rd">
                         <div class="row" >
                           <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="clearfix"></br></div>
@@ -129,55 +130,55 @@
                                         <div class="form-group">
                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">ID No.<span class="required">*</span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="name" required="required" class="form-control">
+                                            <input type="text" name="name" required="required" class="form-control input3rd 3rdrequired">
                                           </div>
                                         </div><br /><br /><br />
                                         <div class="form-group">
                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Company / Employer Name <span class="required">*</span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="name" required="required" class="form-control">
+                                            <input type="text" name="name" required="required" class="form-control input3rd 3rdrequired">
                                           </div>
                                         </div><br /><br /><br />
                                         <div class="form-group">
                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Company / Employer Name (Local Languange)<span class="required">*</span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="name" required="required" class="form-control">
+                                            <input type="text" name="name" required="required" class="form-control input3rd 3rdrequired">
                                           </div>
                                         </div><br /><br /><br />
                                         <div class="form-group">
                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Address<span class="required">*</span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="name" required="required" class="form-control">
+                                            <input type="text" name="name" required="required" class="form-control input3rd 3rdrequired">
                                           </div>
                                         </div><br /><br /><br />
                                         <div class="form-group">
                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Address (Local Languange)<span class="required">*</span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="name" required="required" class="form-control">
+                                            <input type="text" name="name" required="required" class="form-control input3rd 3rdrequired">
                                           </div>
                                         </div><br /><br /><br />
                                         <div class="form-group">
-                                          <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Phone<span class="required">*</span></label>
+                                          <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Phone<span class="required"></span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="name" required="required" class="form-control">
+                                            <input type="text" name="name" required="required" class="form-control input3rd">
                                           </div>
                                         </div><br /><br /><br />
                                         <div class="form-group">
-                                          <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Fax<span class="required">*</span></label>
+                                          <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Fax<span class="required"></span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="name" required="required" class="form-control">
+                                            <input type="text" name="name" required="required" class="form-control input3rd">
                                           </div>
                                         </div><br /><br /><br />
                                         <div class="form-group">
-                                          <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Authorized Person Name<span class="required">*</span></label>
+                                          <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Authorized Person Name<span class="required"></span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="name" required="required" class="form-control">
+                                            <input type="text" name="name" required="required" class="form-control input3rd">
                                           </div>
                                         </div><br /><br /><br />
                                         <div class="form-group">
                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Authorized Person Name (Local Languange)<span class="required">*</span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="name" required="required" class="form-control">
+                                            <input type="text" name="name" required="required" class="form-control input3rd">
                                           </div>
                                         </div><br /><br /><br />
 
@@ -186,16 +187,19 @@
                                           <div class="col-md-8 col-sm-6 col-xs-12">
                                           </div>
                                           <div class="col-md-4 col-sm-6 col-xs-12">
-                                            <button type="reset" name="cancel" class="btn btn-primary">Cancel</button>
-                                            <button type="submit" name="submit" class="btn btn-success">Next</button>
+                                            <button id="back3rd" class="btn btn-primary">Back</button>
+                                            <button id="next3rd" class="btn btn-success">Next</button>
                                           </div>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
+                                </div>
+
                                   <!-- END OF STEP3 -->
 
                                   <!-- START OF STEP4 -->
+                                  <div class="input_fields_wrap"  id="wrap4th">
                                   <div class="row" >
                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                       <div class="clearfix"></br></div>
@@ -214,37 +218,37 @@
                                                   <div class="form-group">
                                                     <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">CLA Recruitment Letter No.<span class="required">*</span></label>
                                                     <div class="col-md-5 col-sm-5 col-xs-12">
-                                                      <input type="text" name="name" required="required" class="form-control">
+                                                      <input type="text" name="name" required="required" class="form-control input4th">
                                                     </div>
                                                   </div><br /><br /><br />
                                                   <div class="form-group">
                                                     <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Company / Employer Name <span class="required">*</span></label>
                                                     <div class="col-md-5 col-sm-5 col-xs-12">
-                                                      <input type="text" name="name" required="required" class="form-control">
+                                                      <input type="text" name="name" required="required" class="form-control input4th">
                                                     </div>
                                                   </div><br /><br /><br />
                                                   <div class="form-group">
                                                     <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Jumlah Tenaga Kerja yang dibutuhkan<span class="required">*</span></label>
                                                     <div class="col-md-5 col-sm-5 col-xs-12">
-                                                      <input type="text" name="name" required="required" class="form-control">
+                                                      <input type="text" name="name" required="required" class="form-control input4th">
                                                     </div>
                                                   </div><br /><br /><br />
                                                   <div class="form-group">
                                                     <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Masa Kontrak<span class="required">*</span></label>
                                                     <div class="col-md-1 col-sm-1 col-xs-12">
-                                                      <input type="text" name="name" required="required" class="form-control">
+                                                      <input type="text" name="name" required="required" class="form-control input4th">
                                                     </div>
                                                     <div style="margin-left: -1.5em; margin-top: 0.5em" class="col-md-1 col-sm-1 col-xs-12">
                                                       <p>Tahun</p>
                                                     </div>
                                                     <div class="col-md-1 col-sm-1 col-xs-12">
-                                                      <input type="text" name="name" required="required" class="form-control">
+                                                      <input type="number" max="100" name="tahun" required="required" class="form-control input4th">
                                                     </div>
                                                     <div style="margin-left: -1.5em; margin-top: 0.5em" class="col-md-1 col-sm-1 col-xs-12">
                                                       <p>Bulan</p>
                                                     </div>
                                                     <div class="col-md-1 col-sm-1 col-xs-12">
-                                                      <input type="text" name="name" required="required" class="form-control">
+                                                      <input type="number" max="100" name="bulan" required="required" class="form-control input4th">
                                                     </div>
                                                     <div style="margin-left: -1.5em; margin-top: 0.5em" class="col-md-1 col-sm-1 col-xs-12">
                                                       <p>Hari</p>
@@ -253,13 +257,13 @@
                                                   <div class="form-group">
                                                     <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Gaji <span class="required">*</span></label>
                                                     <div class="col-md-5 col-sm-5 col-xs-12">
-                                                      <input type="text" name="name" required="required" class="form-control">
+                                                      <input type="number" max="100" name="hari" required="required" class="form-control input4th">
                                                     </div>
                                                   </div><br /><br /><br />
                                                   <div class="form-group">
                                                     <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Catatan </label>
                                                     <div class="col-md-5 col-sm-5 col-xs-12">
-                                                      <textarea class="resizable_textarea form-control" name="catatan"></textarea>
+                                                      <textarea class="resizable_textarea form-control input4th" name="catatan"></textarea>
                                                     </div>
                                                   </div><br /><br /><br />
                                                   <div></br></br></br></div>
@@ -267,13 +271,14 @@
                                                     <div class="col-md-8 col-sm-6 col-xs-12">
                                                     </div>
                                                     <div class="col-md-4 col-sm-6 col-xs-12">
-                                                      <button type="reset" name="cancel" class="btn btn-primary">Cancel</button>
-                                                      <button type="submit" name="submit" class="btn btn-success">Next</button>
+                                                      <button class="btn btn-primary">Back</button>
+                                                      <button type="submit" name="submit" class="btn btn-success">Submit</button>
                                                     </div>
                                                   </div>
                                                 </div>
                                               </div>
                                             </div>
+                                          </div>
                                             <!-- END OF STEP4 -->
 
                                           </div>
@@ -444,7 +449,6 @@
                                                             </div>
                                                           </div>
                                                         </div>
-                                                        <!-- end of panel -->
                                                       </div>
                                                     </div>
                                                   </div>
@@ -463,85 +467,89 @@
                                           <script type="text/javascript">
 
                                           $(document).ready(function() {
-                                            var errorku = $("#errorku");
-                                            var wrapper = $("#listkuitansi");
-                                            var pilihButton = $(".pilihButton");
-                                            var submit = false;
-                                            var table = $("#datatable").DataTable( {
-                                              "columnDefs": [
-                                                {
-                                                  "targets": [ 6 ],
-                                                  "visible": false
-                                                },
-                                                {
-                                                  "targets": [ 7 ],
-                                                  "visible": false
-                                                },
-                                                {
-                                                  "targets": [ 8 ],
-                                                  "visible": false
-                                                }
-                                              ]
-                                            });
-                                            $(errorku).hide();
-                                            $("#btnCheck").click(function(){
-                                              var noku = $("#noku").val();
-                                              if (noku != ""){
-                                                submit = true;
-                                                $(errorku).hide();
-                                                table.clear();
-                                                $.post("<?php echo base_url()?>Kuitansi/checkkuitansi", {noku: noku}, function(data,status){
-                                                  var obj = $.parseJSON(data);
-                                                  if (obj.length > 0)
-                                                  {
-                                                    $(wrapper).empty();
+                                            var wrap2nd = $("#wrap2nd");
+                                            var wrap3rd = $("#wrap3rd");
+                                            var wrap4th = $("#wrap4th");
+                                            var cek1st = false;
+                                            var cek2nd = false;
+                                            var cek3rd = false;
 
-                                                    for (var key in obj) {
-                                                      if (obj.hasOwnProperty(key)) {
-                                                        table.row.add( [
-                                                          obj[key]["namadokumen"],
-                                                          obj[key]["kupemohon"],
-                                                          obj[key]["kukode"],
-                                                          obj[key]["kutglmasuk"],
-                                                          obj[key]["kutglkuitansi"],
-                                                          '<div class="center-button"><button class="btn btn-primary pilihButton" type="button" name="button">Pilih</button></a></div>',
-                                                          obj[key]["idtipe"],
-                                                          obj[key]["kujmlbayar"],
-                                                          obj[key]["kuno"]
-                                                        ] ).draw();
-                                                      }
-                                                    }
-                                                    $("#modalcheck").modal();
-                                                  }
-                                                  else {
-                                                    window.alert("No. Kuitansi siap digunakan");
-                                                  }
-                                                });
+                                            $(wrap2nd).hide();
+                                            $(wrap3rd).hide();
+                                            $(wrap4th).hide();
+
+                                            $("#next1st").click(function(e){
+                                              if(cek1st == false)
+                                              {
+                                                e.preventDefault();
+                                                cek1st = true;
+                                                $('.input1st').attr('disabled', 'disabled');
+                                                $(wrap2nd).show();
                                               }
                                               else {
-                                                $(errorku).show();
+                                                $('.input1st').attr('disabled', 'disabled');
+                                                $('.input2nd').removeAttr('disabled');
                                               }
                                             });
 
-                                            $("#ceksubmit").click(function(){
-                                              if(submit == false){
-                                                window.alert("Cek No Kuitansi terlebih dahulu");
+                                            $("#next2nd").click(function(e){
+                                              if(cek2nd == false)
+                                              {
+                                                e.preventDefault();
+                                                if ($('#listtki li').length == 0)
+                                                {
+                                                  window.alert("Please enter TKI Passport first")
+                                                }
+                                                else {
+                                                  cek2nd = true;
+                                                  $(wrap3rd).show();
+                                                  $('.input2nd').attr('disabled', 'disabled');
+                                                }
                                               }
+                                              else {
+                                                e.preventDefault();
+                                                $('.input2nd').attr('disabled', 'disabled');
+                                                $('.input3rd').removeAttr('disabled');
+                                              }
+
                                             });
 
-                                            $(wrapper).on("click",".pilihButton", function(e){ //user click on pilih
+                                            $("#next3rd").click(function(e){
+                                              if(cek3rd == false)
+                                              {
+                                                if($('.3rdrequired').val() != "")
+                                                {
+                                                  cek3rd = true;
+                                                  e.preventDefault();
+                                                  $('.input3rd').attr('disabled', 'disabled');
+                                                  $(wrap4th).show();
+                                                }
+                                              }
+                                              else {
+                                                e.preventDefault();
+                                                $('.input3rd').attr('disabled', 'disabled');
+                                                $('.input4th').removeAttr('disabled');
+                                              }
+
+                                            });
+
+                                            $("#back4th").click(function(e){
                                               e.preventDefault();
-                                              var iddokumen = table.row($(this).closest('tr')).data()[6];
-                                              var jmlterbayar = table.row($(this).closest('tr')).data()[7];
-                                              var nokuitansi = table.row($(this).closest('tr')).data()[8];
-                                              var namapemohon = $(this).closest('tr').find("td:nth-child(2)").text();
-                                              $("#dokumen").val(iddokumen);
-                                              $("#jmlterbayar").val(jmlterbayar);
-                                              $("#noku").val(nokuitansi);
-                                              $("#pemohon").val(namapemohon);
-                                              $("#modalcheck").modal('toggle');
-                                            })
+                                              $('.input3rd').removeAttr('disabled');
+                                              $('.input4th').attr('disabled','disabled');
+                                            });
 
+                                            $("#back3rd").click(function(e){
+                                              e.preventDefault();
+                                              $('.input2nd').removeAttr('disabled');
+                                              $('.input3rd').attr('disabled','disabled');
+                                            });
+
+                                            $("#back2nd").click(function(e){
+                                              e.preventDefault();
+                                              $('.input1st').removeAttr('disabled');
+                                              $('.input2nd').attr('disabled','disabled');
+                                            });
 
                                           });
                                           </script>

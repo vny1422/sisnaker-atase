@@ -213,8 +213,8 @@
                   <div class="tab-pane fade in table-responsive" id="tabcetak">
                     <div class="col-lg-3"></div>
                     <div class="col-lg-1">Perjanjian Kerja :</div>
-                    <div class="col-lg-5"> 
-                      <button type="submit" class="btn btn-primary">Perjanjian Kerja AAAAAAA</button>
+                    <div id="rPerjanjianKerja" class="col-lg-5"> 
+                      
                     </div>
                     <div class="col-lg-3"></div>
                   </div>
@@ -317,7 +317,12 @@
               $("#lTKStatusKawin").text(": Menikah");
             else if (statkwn == '2')
               $("#lTKStatusKawin").text(": Cerai"); 
-            $("#lTKJmlTanggungan").text(": " + obj.tklama.tkjmlanaktanggungan);
+            var jmlanaktanggungan = obj.tklama.tkjmlanaktanggungan;
+            if (jmlanaktanggungan) {
+              $("#lTKJmlTanggungan").text(": " + obj.tklama.tkjmlanaktanggungan);
+            } else {
+              $("#lTKJmlTanggungan").text(": 0");
+            }
             $("#lTKAhliWaris").text(": " + obj.tklama.tkahliwaris);
             $("#lTKNama").text(": " + obj.tklama.tknama2);
             $("#lTKAlamat").text(": " + obj.tklama.tkalmt2);
@@ -339,12 +344,30 @@
               $("#bTKStatusKawin").text(": Menikah");
             else if (statkwn == '2')
               $("#bTKStatusKawin").text(": Cerai"); 
-            $("#bTKJmlTanggungan").text(": " + obj.tkpengganti.tkjmlanaktanggungan);
+            var jmlanaktanggungan = obj.tkpengganti.tkjmlanaktanggungan;
+            if (jmlanaktanggungan) {
+              $("#bTKJmlTanggungan").text(": " + obj.tkpengganti.tkjmlanaktanggungan);
+            } else {
+              $("#bTKJmlTanggungan").text(": 0");
+            }
             $("#bTKAhliWaris").text(": " + obj.tkpengganti.tkahliwaris);
             $("#bTKNama").text(": " + obj.tkpengganti.tknama2);
             $("#bTKAlamat").text(": " + obj.tkpengganti.tkalmt2);
             $("#bTKTelepon").text(": " + obj.tkpengganti.tktelp);
             $("#bTKHubungan").text(": " + obj.tkpengganti.tkhub);
+
+            $("#rPerjanjianKerja").html("<input id='bPrintStickerPK' type='button' class='btn btn-primary' value='Perjanjian Kerja "+obj.tkpengganti.tknama+"'/>");
+
+            $("#bPrintStickerPK").click(function() {
+              $.post("<?php echo base_url()?>pk/endorseTKI", {barcode: code}, function(data,status){
+                var obj2 = $.parseJSON(data);
+                if (obj2.success) {
+                  alert(obj2.message);
+                } else {
+                  alert(obj2.message);
+                }
+              });
+            });
 
             $(".checked").show();
           }

@@ -282,6 +282,7 @@
             $("#lPPNoIjin").text(": " + obj.ppijin);
             $("#lPPPenanggungJawab").text(": " + obj.pppngjwb);
 
+            table.clear();
             for (i = 0; i < obj.tkiall.length; i++) {
               switch(obj.tkiall[i].tkjk) { 
                 case 'L': $jk = 'Laki-laki'; break;
@@ -299,7 +300,6 @@
                 case '1': $revisi = 'Ya'; break;
               }
 
-              table.clear();
               table.row.add( [  
                 obj.tkiall[i].tknama,
                 obj.tkiall[i].tktgllahir,

@@ -42,8 +42,7 @@ class Pk extends MY_Controller {
 
   function getDataRevisiPK()
   {
-    //$code = $this->input->post('barcode', TRUE);
-    $code = 'kl988';
+    $code = $this->input->post('barcode', TRUE);
     $maks_penggantian_pk = 2;
 
     $tmp['success'] = false;
@@ -117,21 +116,77 @@ class Pk extends MY_Controller {
         }
 
 
-        // if ($found > $maks_penggantian_pk) {
-        //   $tmp = array();
-        //   $tmp['success'] = false;
-        //   $tmp['message'] = "Anda melebihi batas maksimal penggantian perjanjian kerja!!!";
-        // } else if (!isset($tmp["tklama"]["tkid"])) {          
-        //   $tmp = array();
-        //   $tmp['success'] = false;
-        //   $tmp['message'] = "Barcode tidak valid!!!";
-        // } else if (isset($tmp["tkpengganti"]["tktglendorsement"])) {
-        //   $tmp = array();
-        //   $tmp['success'] = false;
-        //   $tmp['message'] = "Data TKI telah diendorse!";
-        // }
+        if ($found > $maks_penggantian_pk) {
+          $tmp = array();
+          $tmp['success'] = false;
+          $tmp['message'] = "Anda melebihi batas maksimal penggantian perjanjian kerja!!!";
+        } else if (!isset($tmp["tklama"]["tkid"])) {          
+          $tmp = array();
+          $tmp['success'] = false;
+          $tmp['message'] = "Barcode tidak valid!!!";
+        } else if (isset($tmp["tkpengganti"]["tktglendorsement"])) {
+          $tmp = array();
+          $tmp['success'] = false;
+          $tmp['message'] = "Data TKI telah diendorse!";
+        }
       }
     }
+    echo json_encode($tmp);
+  }
+
+  function endorseTKI()
+  {
+    $code = $this->input->post('barcode', TRUE);
+    $maks_penggantian_pk = 2;
+
+    $tmp['success'] = false;
+    $tmp['message'] = "Barcode tidak valid!!!";
+
+    $query = $this->Endorsement_model->getTKI_FromBarcode($code);
+
+    if(!empty($query)) {
+      $ejid = $query[0]['ejid'];
+      $tkid = $query[0]['tkid'];
+
+      // hitung banyak perubahan revisi
+      $query = $this->Endorsement_model->countRevisiTKI($ejid);
+      $tks = array();
+      $i = 0;
+      foreach ($query as $row):
+        $tks[$i] = $row;
+      $tks[$i]['visited'] = 0;
+      $i++;
+      endforeach;
+
+      $found = 0;
+      $loop = 1;
+      while ($loop) {
+        $loop = 0;
+        for ($i = 0; $i < count($tks); $i++) {
+          if ($tks[$i]['tkrevid'] == $tkid && !$tks[$i]['visited']) {
+            if (isset($tks[$i]['tktglendorsement'])) {
+              $found++;
+            }
+
+            $loop = 1;
+            $tks[$i]['visited'] = 1;
+            $tkid = $tks[$i]['tkid'];
+            break;
+          }
+        }
+      }
+
+      if ($found > $maks_penggantian_pk) {
+        $tmp['success'] = false;
+        $tmp['message'] = "Anda melebihi batas maksimal penggantian perjanjian kerja!!!";
+      } else {
+        $query = $this->Endorsement_model->updateEndorseTKI($code);
+
+        $tmp['success'] = true;
+        $tmp['message'] = "Updated!";
+      }
+    }
+
     echo json_encode($tmp);
   }
 

@@ -193,4 +193,11 @@ class Endorsement_model extends CI_Model {
 
         return $result;
     }
+
+    function updateEndorseTKI($code)
+    {
+    	$this->db->set('tktglendorsement', 'NOW()', FALSE);
+    	$this->db->where('tkbc',$code);
+    	return $this->db->update('tki');
+    }
 }

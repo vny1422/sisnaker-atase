@@ -12,9 +12,9 @@
             <th></th>
             <th><input st-search="ppnama" placeholder="nama pptkis" class="input-sm form-control" type="search"/></th>
             <th><input st-search="pppngjwb" placeholder="penanggung jawab" class="input-sm form-control" type="search"/></th>
-            <th><input st-search="cpstart || ppfax" placeholder="telepon" class="input-sm form-control" type="search"/></th>
-            <th><input st-search="cpend" placeholder="ijin" class="input-sm form-control" type="search"/></th>
-        </tr> 
+            <th><input st-search="cpstart" placeholder="awal cekal" class="input-sm form-control" type="search"/></th>
+            <th><input st-search="cpend" placeholder="akhir cekal" class="input-sm form-control" type="search"/></th>
+        </tr>
     </thead>
     <tbody class="table-hover " >
         <tr ng-repeat="pt in cekalpptkis" ng-cloak>
@@ -28,9 +28,9 @@
     <tfoot>
         <tr>
             <td colspan="5" class="text-center">
-                <div st-pagination="" st-items-by-page="10" st-template="<?php echo assets_url() ?>/template/custom.pagination.html"></div> 
+                <div st-pagination="" st-items-by-page="10" st-template="<?php echo assets_url() ?>/template/custom.pagination.html"></div>
             </td>
         </tr>
-        
+
     </tfoot>
 </table>

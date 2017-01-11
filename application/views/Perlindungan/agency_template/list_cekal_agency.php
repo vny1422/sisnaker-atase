@@ -12,8 +12,8 @@
             <th></th>
             <th><input st-search="agnama" placeholder="nama agensi" class="input-sm form-control" type="search"/></th>
             <th><input st-search="agpngjwb" placeholder="penanggung jawab" class="input-sm form-control" type="search"/></th>
-            <th><input st-search="castart" placeholder="telepon" class="input-sm form-control" type="search"/></th>
-            <th><input st-search="caend" placeholder="email" class="input-sm form-control" type="search"/></th>
+            <th><input st-search="castart" placeholder="awal cekal" class="input-sm form-control" type="search"/></th>
+            <th><input st-search="caend" placeholder="akhir cekal" class="input-sm form-control" type="search"/></th>
         </tr>
     </thead>
     <tbody class="table-hover " >

@@ -272,7 +272,7 @@
     }
     form.style.display = 'none';
     document.body.appendChild(form);
-    map = window.open("about:blank", "Label", "width=400,height=300");
+    map = window.open("", "Label", "width=400,height=300");
     form.submit();
   };
 </script>

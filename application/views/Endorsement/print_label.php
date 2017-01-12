@@ -6,11 +6,10 @@
 	<head>
 		<title>LABEL</title>
 		<script src="<?php echo base_url('assets/js/jquery.min.js'); ?>" type="text/javascript"></script>
-		<script src="<?php echo base_url('assets/js/jquery.printElement.min.js'); ?>" type="text/javascript"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
 				setTimeout(function() {
-					$('#printArea').printElement();
+					window.print();
 				}, 400);
 			});
 		</script> 

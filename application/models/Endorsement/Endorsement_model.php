@@ -85,6 +85,24 @@ class Endorsement_model extends CI_Model {
         return $result;
     }
 
+    function checkEJOForPrint($token,$bc)
+    {
+    	$sql = "SELECT
+					count(*) as count
+				FROM 
+					tki tk
+					JOIN entryjo ej ON ej.ejid = tk.ejid
+				WHERE 
+					(ej.ejbcsp = '$bc' OR ej.ejbcsk = '$bc' OR ej.ejbcform = '$bc' OR tk.tkbc = '$bc')
+					AND ej.ejtoken = '$token'";
+					
+		$query = $this->db->query($sql);
+
+        $result = $query->result_array();
+
+        return $result;
+    }
+
     function getEntryJO($ejid)
     {
     	$sql = "SELECT

@@ -40,7 +40,8 @@
                   <div class="center-button"><a href=" <?php echo base_url() ?>/institution/delete/<?php echo $row->idinstitution ?>"><button class="btn btn-danger" type="button" name="button">Hapus</button></a></div>
                 </td>
               </tr>
-            <?php endforeach; ?>
+            <?php $i=$i+1;
+                endforeach; ?>
 
             </tbody>
           </table>

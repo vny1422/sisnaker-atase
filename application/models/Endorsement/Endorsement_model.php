@@ -110,6 +110,16 @@ class Endorsement_model extends CI_Model {
         return $result;
     }
 
+    function getEntryJO_Agensi($agid)
+    {
+    	$this->db->select('ej.ejid,ej.ejdatefilled,ej.ejtglendorsement,ej.ejbcsp,mpp.ppnama,jp.namajenispekerjaan');
+		$this->db->from('entryjo ej');
+    	$this->db->join('mpptkis mpp','mpp.ppkode = ej.ppkode');
+    	$this->db->join('jenispekerjaan jp','jp.idjenispekerjaan = ej.idjenispekerjaan');
+    	$this->db->where('ej.agid',$agid);
+    	return $this->db->get()->result();
+    }
+
     function getKuitansi($ejid)
     {
     	$sql = "SELECT

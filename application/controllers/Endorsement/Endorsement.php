@@ -88,6 +88,22 @@ class Endorsement extends MY_Controller {
 
   public function viewJO()
   {
+  	$agensi = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
+  	if(!empty($agensi)) {
+  		$query = $this->Endorsement_model->getEntryJO_Agensi($agensi->agid);
+  		$i=0;
+    	foreach ($query as $row):
+    		$this->data['rows'][$i] = array(
+    			$row->ejid,
+		      	$row->ejdatefilled,
+		      	$row->ppnama,
+		      	$row->namajenispekerjaan,
+		      	$row->ejbcsp,
+		      	$row->ejtglendorsement
+    		);
+    		$i++;
+    	endforeach;
+  	}
     $this->data['title'] = 'Endorsement';
     $this->data['subtitle'] = 'History of JO Packet';
     $this->data['subtitle2'] = 'JO Packet Detail';
@@ -148,6 +164,28 @@ class Endorsement extends MY_Controller {
       }
     }
     echo json_encode($tmp);
+  }
+
+  function getDataFromEJID()
+  {
+  	$ejid = $this->input->post('ejid', TRUE);
+  	$tmp['success'] = false;
+
+  	// data entry jo
+  	$query = $this->Endorsement_model->getEntryJO($ejid);
+    $tmp = $query[0];
+    $tmp['jocatatan'] = str_replace("\n", "<br/>", $query[0]['jocatatan']);
+
+    // data tki
+   	$query = $this->Endorsement_model->getTKI($ejid);
+   	$i = 0;
+   	foreach ($query as $row):
+   		$tmp['tkiall'][$i++] = $row;
+   	endforeach;
+
+   	$tmp['success'] = true;
+
+   	echo json_encode($tmp);
   }
 
 }

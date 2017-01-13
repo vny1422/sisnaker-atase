@@ -89,13 +89,13 @@ class Endorsement_model extends CI_Model {
     {
     	$sql = "SELECT
 					count(*) as count
-				FROM 
+				FROM
 					tki tk
 					JOIN entryjo ej ON ej.ejid = tk.ejid
-				WHERE 
+				WHERE
 					(ej.ejbcsp = '$bc' OR ej.ejbcsk = '$bc' OR ej.ejbcform = '$bc' OR tk.tkbc = '$bc')
 					AND ej.ejtoken = '$token'";
-					
+
 		$query = $this->db->query($sql);
 
         $result = $query->result_array();
@@ -249,6 +249,15 @@ class Endorsement_model extends CI_Model {
 			$this->db->from('jo');
 			$this->db->join('mpptkis m', 'jo.ppkode = m.ppkode','left');
 			$this->db->select('m.ppkode,m.ppnama,jo.jobid');
+			return $this->db->get()->result();
+		}
+
+		function get_jodetail($jobid)
+		{
+			$this->db->select('j.*,jp.namajenispekerjaan as namajenispekerjaan');
+			$this->db->from('jodetail j');
+			$this->db->join('jenispekerjaan jp', 'j.idjenispekerjaan = jp.idjenispekerjaan','left');
+			$this->db->where('j.jobid',$jobid);
 			return $this->db->get()->result();
 		}
 

@@ -140,4 +140,26 @@ class Input_model extends CI_Model {
 
         return $this->db->get_where($table, array($idinput => $idinputdetail, 'idinstitution' => $idinstitution))->row();
     }
+
+    public function get_input_dataworker($idinstitution)
+    {
+      $this->db->select('ip.nameinputdetail,ip.fieldname');
+      $this->db->from('institution_has_inputdetail_penempatan i');
+      $this->db->join('inputdetail_penempatan ip', 'ip.idinputdetail_penempatan = i.idinputdetail_penempatan', 'left');
+      $this->db->where('i.idinstitution',$idinstitution);
+      $this->db->where('i.isactive', 1);
+      $this->db->where('ip.idcategory_penempatan', 1);
+      return $this->db->get()->result();
+    }
+
+    public function get_input_joborder($idinstitution)
+    {
+      $this->db->select('ip.nameinputdetail,ip.fieldname');
+      $this->db->from('institution_has_inputdetail_penempatan i');
+      $this->db->join('inputdetail_penempatan ip', 'ip.idinputdetail_penempatan = i.idinputdetail_penempatan', 'left');
+      $this->db->where('i.idinstitution',$idinstitution);
+      $this->db->where('i.isactive', 1);
+      $this->db->where('ip.idcategory_penempatan', 2);
+      return $this->db->get()->result();
+    }
 }

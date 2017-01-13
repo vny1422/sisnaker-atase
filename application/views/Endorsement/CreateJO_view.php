@@ -49,6 +49,7 @@
                           <label>Job Type</label>
                           <div>
                             <select class="form-control input1st"  id="jobtype" toggle-dropdown ng-disabled="disableAll">
+                              <option></option>
                           </select>
                         </div>
                       </div>
@@ -90,11 +91,11 @@
                                     <input id="passport" type="text" name="passport" required="required" class="form-control input2nd">
                                   </div>
                                   <div style="margin-left: -55px;" class="col-md-4 col-sm-4 col-xs-12">
-                                    <button type="button" class="btn btn-primary" id="btnCheck">Add</button>
+                                    <button type="button" class="btn btn-primary" id="addTKI">Add</button>
                                   </div>
                                 </div>
                               </br></br>
-                              <p><i>(Your Quota's Remain: Male=0,Female=15,Mixed=0)</i></p>
+                              <p id="kuota"><i></i></p>
                               <p><i><strong>List of TKI :</i></strong></p>
                               <ul id="listtki">
                                <li>AT677397, DEWI RATNANINGSIH, Female <a href="">(edit)</a> <a href="">(cancel)</a></li>
@@ -133,7 +134,7 @@
                                     <div class="col-md-10 center-margin">
                                       <form class="form-horizontal form-label-left">
                                         <div class="form-group">
-                                          <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">ID No.<span class="required">*</span></label>
+                                          <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">ID Card No.<span class="required">*</span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
                                             <input type="text" name="name" required="required" class="form-control input3rd 3rdrequired">
                                           </div>
@@ -186,6 +187,16 @@
                                             <input type="text" name="name" required="required" class="form-control input3rd">
                                           </div>
                                         </div><br /><br /><br />
+                                        <?php foreach($employer as $row): ?>
+                                          <div class="form-group">
+                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name"><?php echo $row->nameinputdetail ?></label>
+                                            <div class="col-md-5 col-sm-5 col-xs-12">
+                                              <input type="text" name="<?php echo $row->fieldname ?>" class="form-control input3rd">
+                                            </div>
+                                          </div><br /><br /><br />
+                                        <?php endforeach; ?>
+
+
 
                                         <div></br></br></br></div>
                                         <div class="form-group">
@@ -271,6 +282,14 @@
                                                       <textarea class="resizable_textarea form-control input4th" name="catatan"></textarea>
                                                     </div>
                                                   </div><br /><br /><br />
+                                                  <?php foreach($joborder as $row): ?>
+                                                    <div class="form-group">
+                                                      <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name"><?php echo $row->nameinputdetail ?></label>
+                                                      <div class="col-md-5 col-sm-5 col-xs-12">
+                                                        <input type="text" name="<?php echo $row->fieldname ?>" class="form-control input4th">
+                                                      </div>
+                                                    </div><br /><br /><br />
+                                                  <?php endforeach; ?>
                                                   <div></br></br></br></div>
                                                   <div class="form-group">
                                                     <div class="col-md-8 col-sm-6 col-xs-12">
@@ -478,10 +497,19 @@
                                             var cek1st = false;
                                             var cek2nd = false;
                                             var cek3rd = false;
+                                            var addTKI = $("#addTKI");
 
                                             $(wrap2nd).hide();
                                             $(wrap3rd).hide();
                                             $(wrap4th).hide();
+
+                                            $(addTKI).click(function(e){
+                                              if ($("#passport").val() == "") {
+                                                alert("Please input The Passport No. of Worker!");
+                                                return;
+                                              }
+                                            });
+
 
                                             $("#next1st").click(function(e){
                                               if(cek1st == false)
@@ -558,10 +586,37 @@
 
                                             $("#pptkis").change(function(){
                                               $("#loading1st").mask("Loading...");
+                                              $('#jobtype')
+                                              .find('option')
+                                              .remove()
+                                              .end()
+                                              .append('<option></option>');                                              ;
                                               var value = $("#pptkis").val();
-                                              var splitter = value.split('/');
-                                              var jobid = splitter[1];
-                                              window.alert(jobid);
+                                              if(value != "")
+                                              {
+                                                var splitter = value.split('/');
+                                                var jobid = splitter[1];
+                                                $.post("<?php echo base_url()?>Endorsement/getJodetail", {jobid: jobid}, function(data,status){
+                                                  var obj = $.parseJSON(data);
+                                                  $.each(obj, function (i, item) {
+                                                    $('#jobtype').append($('<option>', {
+                                                      value: item[1]+'/'+item[3]+'/'+item[4]+'/'+item[5],
+                                                      text : item[2] + ' {REMAIN: ' + item[3] + "(L) " + item[4] + "(P) " + item[5] + "(C)}"
+                                                    }));
+                                                  });
+                                                });
+                                                $("#loading1st").unmask();
+                                              }
+                                              $("#loading1st").unmask();
+                                            });
+
+                                            $("#jobtype").change(function(){
+                                              var kuota = $("#jobtype").val();
+                                              var kuotastripped = kuota.split('/');
+                                              var laki = kuotastripped[1];
+                                              var perempuan = kuotastripped[2];
+                                              var campuran = kuotastripped[3];
+                                              $("#kuota").text('(Your Quota\'s Remain: Male='+laki+',Female='+perempuan+',Mixed='+campuran+')');
                                             });
 
                                           });

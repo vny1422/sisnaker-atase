@@ -10,7 +10,9 @@ class Endorsement extends MY_Controller {
     parent::__construct();
     $this->load_sidebar();
     $this->load->model('Endorsement/Endorsement_model');
+    $this->load->model('Endorsement/Paket_model');
     $this->load->model('Perlindungan/Agency_model');
+    $this->load->model('SAdmin/Input_model');
 
     $this->data['listdp'] = $this->listdp;
     $this->data['usedpg'] = $this->usedpg;
@@ -82,6 +84,8 @@ class Endorsement extends MY_Controller {
     if(!empty($agensi)) {
       $this->data['listconnpp'] = $this->Endorsement_model->get_connected_pptkis($agensi->agid);
     }
+    $this->data['employer'] = $this->Input_model->get_input_dataworker($this->session->userdata('institution'));
+    $this->data['joborder'] = $this->Input_model->get_input_joborder($this->session->userdata('institution'));
     $this->data['title'] = 'Endorsement';
     $this->data['subtitle'] = 'Create JO Packet';
     $this->data['subtitle2'] = 'Worker Data';
@@ -196,7 +200,21 @@ class Endorsement extends MY_Controller {
   function getJodetail()
   {
     $jobid = $this->input->post('jobid', TRUE);
-    
+    $listjob = $this->Endorsement_model->get_jodetail($jobid);
+    $i=0;
+    foreach ($listjob as $row):
+      $sisa = $this->getSisa($row->jobdid, $row->idjenispekerjaan);
+      $rows[$i] = array(
+        $row->jobdid,
+        $row->idjenispekerjaan,
+        $row->namajenispekerjaan,
+        $sisa[0],
+        $sisa[1],
+        $sisa[2]
+      );
+      $i++;
+    endforeach;
+    echo json_encode($rows);
 
   }
 

@@ -22,7 +22,7 @@
 			<br/>
 			SEEN BY,<br/>
 			INDONESIAN ECONOMIC AND TRADE<br/>
-			OFFICE TO TAIPEI</strong><br/>
+			OFFICE TO <?php echo strtoupper($namainstitusi) ?></strong><br/>
 			<div style="margin-top:10px;">
 			<img src="<?php echo base_url()?>pk/printStamp" /><br />
 			<img src="<?php echo base_url('pk/printBarcode/') . $bc?>" /><br />

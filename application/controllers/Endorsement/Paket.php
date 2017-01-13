@@ -23,7 +23,7 @@ class Paket extends MY_Controller {
   public function index()
   {
     $this->data['title'] = 'Paket PK';
-    $this->data['subtitle'] = 'Rekap Paket PK';
+    $this->data['subtitle'] = 'View Quota';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/RekapPaketJO_view');
     $this->load->view('templates/footerendorsement');
@@ -32,7 +32,7 @@ class Paket extends MY_Controller {
   public function add()
   {
     $this->data['title'] = 'Paket PK';
-    $this->data['subtitle'] = 'Mendaftarkan Paket PK';
+    $this->data['subtitle'] = 'Register Quota';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/DaftarPaketJO_view');
     $this->load->view('templates/footerendorsement');

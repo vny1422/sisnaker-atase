@@ -10,6 +10,7 @@ class Pk extends MY_Controller {
     parent::__construct();
     $this->load_sidebar();
     $this->load->model('Endorsement/Endorsement_model');
+    $this->load->model('SAdmin/Institution_model');
     $this->load->library('Barcode');
     $this->load->library('encrypt');
 
@@ -205,6 +206,7 @@ class Pk extends MY_Controller {
     }
 
     $data['bc'] = $this->encrypt->encode($bc);
+    $data['namainstitusi'] = $this->namainstitusi->nameinstitution;
 
     $this->load->view('Endorsement/print_label',$data);
   }

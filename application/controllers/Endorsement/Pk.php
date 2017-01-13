@@ -10,6 +10,8 @@ class Pk extends MY_Controller {
     parent::__construct();
     $this->load_sidebar();
     $this->load->model('Endorsement/Endorsement_model');
+    $this->load->library('Barcode');
+    $this->load->library('encrypt');
 
     $this->data['listdp'] = $this->listdp;
     $this->data['usedpg'] = $this->usedpg;
@@ -188,6 +190,59 @@ class Pk extends MY_Controller {
     }
 
     echo json_encode($tmp);
+  }
+
+  function printLabel()
+  {
+    $token = $this->input->post('token', TRUE);
+    $bc = $this->input->post('barcode', TRUE);
+
+    $count = 0;
+    $query = $this->Endorsement_model->checkEJOForPrint($token,$bc);
+    $count = $query[0]['count'];
+    if ($count <= 0) {
+      die();
+    }
+
+    $data['bc'] = $this->encrypt->encode($bc);
+
+    $this->load->view('Endorsement/print_label',$data);
+  }
+
+  function printStamp()
+  {
+    $imagepath=base_url('assets/template/stamp_dev.jpg');
+    $image=imagecreatefromjpeg($imagepath);
+    header('Content-Type: image/jpeg');
+    imagejpeg($image);
+    imagedestroy($image);
+  }
+
+  function printBarcode($bc)
+  {
+    $code = $this->encrypt->decode($bc);
+
+    $fontSize = 10;   // GD1 in px ; GD2 in point
+    $marge    = 10;   // between barcode and hri in pixel
+    $x        = 70;  // barcode center
+    $y        = 20;  // barcode center
+    $height   = 20;   // barcode height in 1D ; module size in 2D
+    $width    = 1;    // barcode height in 1D ; not use in 2D
+    $angle    = 0;   // rotation in degrees : nb : non horizontable barcode might not be usable because of pixelisation
+    $type     = 'code128';
+
+    $im     = imagecreatetruecolor(200, 50); // set size here
+    $black  = ImageColorAllocate($im,0x00,0x00,0x00);
+    $white  = ImageColorAllocate($im,0xff,0xff,0xff);
+    $red    = ImageColorAllocate($im,0xff,0x00,0x00);
+    $blue   = ImageColorAllocate($im,0x00,0x00,0xff);
+    imagefilledrectangle($im, 0, 0, 200, 50, $white); // set size here
+
+    $data = Barcode::gd($im, $black, $x, $y, $angle, $type, array('code'=>$code), $width, $height);
+
+    header('Content-type: image/gif');
+    imagegif($im);
+    imagedestroy($im);
   }
 
 }

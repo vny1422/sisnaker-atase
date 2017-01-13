@@ -257,6 +257,27 @@
   </div>
 
 <script>
+  openlabel = function(verb, url, data, target) {
+    var form = document.createElement("form");
+    form.action = url;
+    form.method = verb;
+    form.target = target;
+    if (data) {
+      for (var key in data) {
+        var input = document.createElement("textarea");
+        input.name = key;
+        input.value = typeof data[key] === "object" ? JSON.stringify(data[key]) : data[key];
+        form.appendChild(input);
+      }
+    }
+    form.style.display = 'none';
+    document.body.appendChild(form);
+    map = window.open("", "Label", "width=400,height=300");
+    form.submit();
+  };
+</script>
+
+<script>
   $(document).ready(function () {
     var l = $("#check").ladda();
 
@@ -362,7 +383,7 @@
               $.post("<?php echo base_url()?>pk/endorseTKI", {barcode: code}, function(data,status){
                 var obj2 = $.parseJSON(data);
                 if (obj2.success) {
-                  alert(obj2.message);
+                  openlabel('POST',"<?php echo base_url()?>pk/printLabel",{barcode: code, token: obj.ejtoken},'Label');
                 } else {
                   alert(obj2.message);
                 }

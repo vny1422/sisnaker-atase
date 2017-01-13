@@ -34,6 +34,9 @@
     <!-- Datepicker CSS -->
     <link href="<?php echo base_url('assets/css/datepicker.css'); ?>" rel="stylesheet">
 
+    <!-- Loadmask -->
+    <link href="<?php echo base_url('assets/css/jquery.loadmask.css'); ?>" rel="stylesheet">
+
     <!-- Ladda -->
     <link href="<?php echo base_url('assets/css/ladda.min.css'); ?>" rel="stylesheet">
 

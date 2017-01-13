@@ -13,14 +13,14 @@
 
         <div class="x_content">
 
-          <form class="form-horizontal form-label-left">
+          <form class="form-horizontal form-label-left" >
           </div>
 
           <!-- START OF STEP1 -->
           <div class="row" >
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="clearfix"></br></div>
-              <div class="x_panel">
+              <div class="x_panel" id="loading1st">
                 <div class="x_title">
                   <ul class="nav navbar-right panel_toolbox">
                     <form name="aduanform" enctype="multipart/form-data" ng-init="formWarn=false">
@@ -35,7 +35,12 @@
                           <div class="form-group">
                             <label>PPTKIS</label>
                             <div>
-                              <select class="form-control input1st" id="pptkis" toggle-dropdown ng-disabled="disableAll">
+                              <select class="form-control input1st" id="pptkis" toggle-dropdown>
+                                <option>
+                                </option>
+                                <?php foreach($listconnpp as $row): ?>
+                                    <option value="<?php echo $row->ppkode."/".$row->jobid ?>"><?php echo $row->ppnama ?></option>
+                                <?php endforeach; ?>
                             </select>
                           </div>
                         </div>
@@ -549,6 +554,14 @@
                                               e.preventDefault();
                                               $('.input1st').removeAttr('disabled');
                                               $('.input2nd').attr('disabled','disabled');
+                                            });
+
+                                            $("#pptkis").change(function(){
+                                              $("#loading1st").mask("Loading...");
+                                              var value = $("#pptkis").val();
+                                              var splitter = value.split('/');
+                                              var jobid = splitter[1];
+                                              window.alert(jobid);
                                             });
 
                                           });

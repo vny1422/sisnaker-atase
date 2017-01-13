@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    
+
     <script src="<?php echo base_url('assets/js/jquery-ui.js'); ?>" ></script>
 
     <!-- FastClick -->
@@ -44,6 +44,9 @@
 
     <!-- JS Endoresement Table -->
     <script src="<?php echo base_url('assets/js/underscore-min.js'); ?>"></script>
+
+    <!-- Loadmask JS for loading -->
+    <script src="<?php echo base_url('assets/js/jquery.loadmask.min.js'); ?>"></script>
 
     <!-- Ladda -->
     <script src="<?php echo base_url('assets/js/spin.min.js'); ?>"></script>

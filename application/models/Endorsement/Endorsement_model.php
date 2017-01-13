@@ -222,4 +222,16 @@ class Endorsement_model extends CI_Model {
     	return $this->db->update('tki');
     }
 
+		//for jo Packet
+
+		function get_connected_pptkis($agid)
+		{
+			$this->db->where('agid',$agid);
+			$this->db->where('jobtglawal <= curdate() AND jobtglakhir >= curdate()');
+			$this->db->from('jo');
+			$this->db->join('mpptkis m', 'jo.ppkode = m.ppkode','left');
+			$this->db->select('m.ppkode,m.ppnama,jo.jobid');
+			return $this->db->get()->result();
+		}
+
 }

@@ -32,7 +32,7 @@
         <?php echo form_open_multipart(base_url('pk/uploadStamp')) ?>
 
         <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="stamp">Image File <span class="required">*</span></label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="stamp">Image File (*.jpg) </label>
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <input type="file" name="stamp" required="required" class="form-control">
             </div>

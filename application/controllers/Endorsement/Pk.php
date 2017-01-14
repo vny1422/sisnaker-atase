@@ -51,12 +51,13 @@ class Pk extends MY_Controller {
     }
     
     $config['upload_path'] = './uploads/';
-    $config['allowed_types'] = 'gif|jpg|png';
+    $config['allowed_types'] = 'jpg';
     $config['max_size']     = '100';
     $config['max_width'] = '185';
     $config['max_height'] = '78';
     $config['overwrite'] = TRUE;
     $config['remove_spaces'] = TRUE;
+    $config['file_name'] = 'stamp_dev.jpg';
 
     $this->load->library('upload', $config);
 

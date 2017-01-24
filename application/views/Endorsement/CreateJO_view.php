@@ -11,6 +11,8 @@
       <div class="clearfix"></br></div>
       <div class="x_panel">
 
+
+
         <div class="x_content">
 
           <form class="form-horizontal form-label-left" >
@@ -72,7 +74,7 @@
                 <div class="row" >
                   <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="clearfix"></br></div>
-                    <div class="x_panel">
+                    <div class="x_panel" id="loading2nd">
                       <div class="x_title">
                         <ul class="nav navbar-right panel_toolbox">
                           <form name="aduanform" enctype="multipart/form-data" ng-init="formWarn=false">
@@ -98,7 +100,7 @@
                               <p id="kuota"><i></i></p>
                               <p><i><strong>List of TKI :</i></strong></p>
                               <ul id="listtki">
-                               <li>AT677397, DEWI RATNANINGSIH, Female <a href="">(edit)</a> <a href="">(cancel)</a></li>
+                               <!-- <li>AT677397, DEWI RATNANINGSIH, Female <a href="">(edit)</a> <a href="">(cancel)</a></li> -->
                               </ul>
 
                               <div></br></br></br></div>
@@ -304,199 +306,147 @@
                                             </div>
                                           </div>
                                             <!-- END OF STEP4 -->
-
-                                          </div>
-                                        </div>
-                                        <!-- START OF MODAL -->
-                                        <div class="modal fade bs-example-modal-lg" id="modalcheck" tabindex="-1" role="dialog" aria-hidden="true">
-                                          <div class="modal-dialog modal-lg">
-                                            <div class="modal-content">
-
-                                              <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
-                                                </button>
-                                                <h4 class="modal-title" id="myModalLabel"><?php echo $subtitle2; ?></h4>
-                                              </div>
-                                              <div class="modal-body">
-                                                <div class="x_content">
-                                                  <br />
-                                                  <div class="row" style="padding-top: 20px">
-                                                    <div class="col-lg-12">
-                                                      <!-- panel -->
-                                                      <div class="panel with-nav-tabs panel-info">
-                                                        <!-- panel heading -->
-                                                        <div class="panel-heading" id="tabs-head">
-                                                          <ul class="nav nav-tabs" id="tabs-list">
-                                                            <li><a href=#tabworkerdata data-toggle="tab"><strong>Worker Data</strong></a>
-                                                            </li>
-                                                            <li><a href=#tabphoto data-toggle="tab"><strong>Photo</strong></a>
-                                                            </li>
-                                                          </ul>
+                                            <div id="dlgAddTKI" style="padding:0px !important;">
+                                                  <div id="tabs">
+                                                    <ul>
+                                                      <li><a href="#data">WORKER DATA</a></li>
+                                                      <li><a href="#foto">PHOTO</a></li>
+                                                    </ul>
+                                                    <div id="foto">
+                                                      <img id="imgfoto" src=""/>
+                                                    </div>
+                                                    <div id="data">
+                                                      <form id="frmAddTki" method="POST" style="padding:10px !important;">
+                                                        <div class="row">
+                                                          <div class="name3">Nama TKI 勞方姓名 :</div>
+                                                          <div class="value label"><span id="tkinama"></span></div>
+                                                          <div class="end"></div>
                                                         </div>
-                                                        <!-- panel body -->
-                                                        <div class="panel-body" ng-controller="AgencyController">
-                                                          <div class="tab-content">
-
-                                                            <div class="tab-pane fade in active" id="tabworkerdata">
-                                                              <!-- panel body -->
-                                                              <div class="panel-body" ng-controller="AgencyController">
-                                                                <div class="tab-content">
-
-
-                                                                  <div class="col-md-12 center-margin">
-                                                                    <form class="form-horizontal form-label-left">
-                                                                      <div class="form-group">
-                                                                        <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Worker Name<span class="required">*</span></label>
-                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                          <p>Setyassida Novian Putra D</p>
-                                                                        </div>
-                                                                      </div><br /><br />
-                                                                      <div class="form-group">
-                                                                        <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Worker Address<span class="required">*</span></label>
-                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                          <p>Setyassida Novian Putra D</p>
-                                                                        </div>
-                                                                      </div><br /><br />
-                                                                      <div class="form-group">
-                                                                        <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">ID Pasport<span class="required">*</span></label>
-                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                          <p>Setyassida Novian Putra D</p>
-                                                                        </div>
-                                                                      </div><br /><br />
-                                                                      <div class="form-group">
-                                                                        <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Passport Release Date / KTP<span class="required">*</span></label>
-                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                          <p>Setyassida Novian Putra D</p>
-                                                                        </div>
-                                                                      </div><br /><br />
-                                                                      <div class="form-group">
-                                                                        <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Passport Release Place<span class="required">*</span></label>
-                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                          <input type="text" name="name" required="required" class="form-control">
-                                                                        </div>
-                                                                      </div><br /><br /><br />
-                                                                      <div class="form-group">
-                                                                        <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Birth Date<span class="required">*</span></label>
-                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                          <p>Setyassida Novian Putra D</p>
-                                                                        </div>
-                                                                      </div><br /><br />
-                                                                      <div class="form-group">
-                                                                        <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Birth Place<span class="required">*</span></label>
-                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                          <p>Setyassida Novian Putra D</p>
-                                                                        </div>
-                                                                      </div><br /><br />
-                                                                      <div class="form-group">
-                                                                        <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Gender<span class="required">*</span></label>
-                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                          <p>Setyassida Novian Putra D</p>
-                                                                        </div>
-                                                                      </div><br /><br />
-                                                                      <div class="form-group">
-                                                                        <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Married Status<span class="required">*</span></label>
-                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                          <div style="margin-top: -0.3em" class="radio">
-                                                                            <label>
-                                                                              <input type="radio" class="flat" name="iCheck3"> Married &nbsp
-                                                                              <input type="radio" class="flat" name="iCheck3"> Single &nbsp
-                                                                              <input type="radio" class="flat" name="iCheck3"> Divorced
-                                                                            </label>
-                                                                          </div>
-                                                                        </div>
-                                                                      </div><br /><br /><br />
-                                                                      <div class="form-group">
-                                                                        <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Total childs under 18 y.o<span class="required">*</span></label>
-                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                          <input type="text" name="name" required="required" class="form-control">
-                                                                        </div>
-                                                                      </div><br /><br /><br />
-                                                                      <div class="form-group">
-                                                                        <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Heirs Name<span class="required">*</span></label>
-                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                          <input type="text" name="name" required="required" class="form-control">
-                                                                        </div>
-                                                                      </div><br /><br /><br />
-                                                                      <div class="form-group">
-                                                                        <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Emergency Contact Person Name<span class="required">*</span></label>
-                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                          <input type="text" name="name" required="required" class="form-control">
-                                                                        </div>
-                                                                      </div><br /><br /><br />
-                                                                      <div class="form-group">
-                                                                        <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Emergency Contact Person Address<span class="required">*</span></label>
-                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                          <input type="text" name="name" required="required" class="form-control">
-                                                                        </div>
-                                                                      </div><br /><br /><br />
-                                                                      <div class="form-group">
-                                                                        <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Emergency Contact Person Number<span class="required">*</span></label>
-                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                          <input type="text" name="name" required="required" class="form-control">
-                                                                        </div>
-                                                                      </div><br /><br /><br />
-                                                                      <div class="form-group">
-                                                                        <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Emergency Contact Person Relation<span class="required">*</span></label>
-                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                          <input type="text" name="name" required="required" class="form-control">
-                                                                        </div>
-                                                                      </div><br /><br /><br />
-
-
-
-
-                                                                      <div></br></br></br></div>
-
-                                                                    </div>
-
-                                                                  </div>
-                                                                </div>
-                                                              </div>
-
-                                                              <!-- TAB PHOTO -->
-                                                              <div class="tab-pane fade in" id="tabphoto">
-                                                                <!-- panel body -->
-                                                                <div class="panel-body" ng-controller="AgencyController">
-                                                                  <div class="tab-content">
-                                                                    <div class="col-lg-4"> </div>
-                                                                    <div class="col-lg-4">
-                                                                      <h1>CONTENT</h1>
-                                                                    </div>
-                                                                    <div class="col-lg-4">
-                                                                    </div>
-                                                                  </div>
-
-                                                                </div>
-                                                              </div>
-
-
-                                                            </div>
-                                                          </div>
+                                                        <div class="row">
+                                                          <div class="name3">Alamat 印尼地址 :</div>
+                                                          <div class="value label"><span id="tkialmtid"></span></div>
+                                                          <div class="end"></div>
                                                         </div>
-                                                      </div>
+                                                        <div class="row">
+                                                          <div class="name3">No. Paspor/KTP 護照號碼/印尼身分證號碼 :</div>
+                                                          <div class="value label"><span id="tkipaspor"></span></div>
+                                                          <div class="end"></div>
+                                                        </div>
+                                                        <div class="row">
+                                                          <div class="name3">Tgl. Pengeluaran Paspor/ KTP 護照/ 印尼身分證發照日期 :</div>
+                                                          <div class="value label"><span id="tkitglkeluar"></span></div>
+                                                          <div class="end"></div>
+                                                        </div>
+                                                        <div class="row">
+                                                          <div class="name3">Tempat Pengeluaran Paspor/ KTP 護照/ 印尼身分證發照地點 :</div>
+                                                          <div class="value"><input name="tkitmptkeluar" type="text" size="30" maxlength="30"/>(*)</div>
+                                                          <div class="end"></div>
+                                                        </div>
+                                                        <div class="row">
+                                                          <div class="name3">Tgl. Lahir 出生日期 :</div>
+                                                          <div class="value label"><span id="tkitgllahir"></span></div>
+                                                          <div class="end"></div>
+                                                        </div>
+                                                        <div class="row">
+                                                          <div class="name3">Tempat Lahir 出生地點 :</div>
+                                                          <div class="value label"><span id="tkitmptlahir"></span></div>
+                                                          <div class="end"></div>
+                                                        </div>
+                                                        <div class="row">
+                                                          <div class="name3">Jenis Kelamin 性別 :</div>
+                                                          <div class="value label"><span id="tkitkjk"></span></div>
+                                                          <div class="end"></div>
+                                                        </div>
+                                                        <div class="row">
+                                                          <div class="name3">Status Perkawinan 婚姻狀況 :</div>
+                                                          <div class="value label"><input name="tkistatkwn" type="radio" value="0"/> Married <input name="tkistatkwn" type="radio" value="1"/> Single <input name="tkistatkwn" type="radio" value="2"/> Divorced (*)</div>
+                                                          <div class="end"></div>
+                                                        </div>
+                                                        <div class="row">
+                                                          <div class="name3">Jumlah anak dibawah umur 18 tahun dan belum menikah 十八歲以下未婚子女數目 :</div>
+                                                          <div class="value"><input name="tkijmlanaktanggungan" type="text" size="2" maxlength="2" style="text-align: right;"/>(*)</div>
+                                                          <div class="end"></div>
+                                                        </div>
+                                                        <div class="row">
+                                                          <div class="name3">Nama Ahli Waris 受益人姓名 :</div>
+                                                          <div class="value"><input name="tkiahliwaris" type="text" size="50" maxlength="50"/>(*)</div>
+                                                          <div class="end"></div>
+                                                        </div>
+                                                        <div class="row">
+                                                          <div class="name3">Nama Kontak Darurat 如遇意外時通知(姓名) :</div>
+                                                          <div class="value"><input name="tkinama2" type="text" size="50" maxlength="50"/>(*)</div>
+                                                          <div class="end"></div>
+                                                        </div>
+                                                        <div class="row">
+                                                          <div class="name3">Alamat Kontak Darurat 住址 :</div>
+                                                          <div class="value"><input name="tkialmt2" type="text" size="70" maxlength="120"/>(*)</div>
+                                                          <div class="end"></div>
+                                                        </div>
+                                                        <div class="row">
+                                                          <div class="name3">Telepon Kontak Darurat 電話 :</div>
+                                                          <div class="value"><input name="tkitelp" type="text" size="20"  maxlength="20"/>(*)</div>
+                                                          <div class="end"></div>
+                                                        </div>
+                                                        <div class="row">
+                                                          <div class="name3">Hubungan Kontak Darurat 關係 :</div>
+                                                          <div class="value"><input name="tkihub" type="text" size="30" maxlength="30"/>(*)</div>
+                                                          <div class="end"></div>
+                                                        </div>
+                                                        <div class="form-error"></div>
+                                                        <div class="spacer"></div>
+                                                        <div class="row">
+                                                          <div class="value_right"><input id="btnSubmitForm" type="button" value="Update" style="width:80px;"/></div>
+                                                          <div class="end"></div>
+                                                        </div>
+                                                      </form>
                                                     </div>
                                                   </div>
-                                                  <div class="clearfix"></div>
                                                 </div>
+                                        <!-- START OF MODAL -->
 
-                                                <div class="modal-footer">
-                                                  <button type="button" class="btn btn-primary" data-dismiss="modal">Update</button>
-                                                </div>
-
-                                              </div>
-                                            </div>
-                                          </div>
                                           <!-- END OF MODAL -->
 
                                           <script type="text/javascript">
 
                                           $(document).ready(function() {
+                                            var data;
+                                            var dlg = $("#dlgAddTKI");
+                                            var formAddTki = $("#frmAddTki");
+                                            var tkidata = [];
+                                            $(dlg).dialog({
+                                              title:"Worker Data",
+                                              autoOpen: false,
+                                              width: "850",
+                                              height: "auto",
+                                              resizable: false,
+                                              modal: true,
+                                              beforeClose: function( event, ui ) {
+                                                $(this).find("#btnSubmitForm").unbind();
+                                              },
+                                              open : function (event, ui) {
+                                                $("#tkinama").html(data.TKI_TKINAME);
+                                                $("#tkialmtid").html(data.TKI_TKIADDRESS);
+                                                $("#tkipaspor").html(data.TKI_PASPORNO);
+                                                $("#tkitglkeluar").html(data.TKI_PASPORDATE);
+                                                $("#tkitgllahir").html(data.TKI_TKIDOB);
+                                                $("#tkitmptlahir").html(data.TKI_TKIPOBDESC);
+                                                $("#tkitkjk").html(data.TKI_TKIGENDER == "L" ? "Male" : "Female");
+                                              }
+                                            });
                                             var wrap2nd = $("#wrap2nd");
                                             var wrap3rd = $("#wrap3rd");
                                             var wrap4th = $("#wrap4th");
                                             var cek1st = false;
                                             var cek2nd = false;
                                             var cek3rd = false;
+                                            var jpid = 0;
+                                            var ppkode = 0;
+                                            var laki = 0;
+                                            var perempuan = 0;
+                                            var campuran = 0;
+                                            var upperboundl = 0;
+                                            var upperboundp = 0;
+                                            var upperboundc = 0;
                                             var addTKI = $("#addTKI");
 
                                             $(wrap2nd).hide();
@@ -508,8 +458,183 @@
                                                 alert("Please input The Passport No. of Worker!");
                                                 return;
                                               }
+                                              else {
+                                                $("#loading2nd").mask("Loading...");
+                                                var paspor = $("#passport").val();
+                                                $.post("<?php echo base_url()?>Endorsement/requestTKI", {paspor: paspor, jpid: jpid}, function(xml,status){
+                                                  var json = $.parseJSON(xml);
+                                                  if(json == 0)
+                                                  {
+                                                    $("#loading2nd").unmask();
+                                                    alert("Passport is not found. Please contact your Indonesian agency (PPTKIS) partner.")
+                                                    return;
+                                                  }
+                                                  else {
+                                                    var agid = json.my_agid;
+                                                    var tki_agid = json.tki_agid;
+                                                    data = json.data;
+                                                    // var agid_mirip = json.tki_agid_mirip;
+                                                    var jpid3 = json.jpid;
+                                                    console.log(data);
+                                                    if (data.TKI_PJTKIID !== ppkode) {
+                                                      $("#loading2nd").unmask();
+                                                      alert("Passport " + data.TKI_PASPORNO + " (" + data.TKI_TKINAME + ") is found, but registered for " + data.TKI_PJTKADESC + " - PT. " + data.TKI_PJTKIDESC + ". Please contact your partner PPTKIS to revise it via SISKO System in Indonesia.");
+                                                      return;
+                                                    }
+                                                    else if (agid !== tki_agid) {
+                                                      // if (agid == agid_mirip) {
+                                                      //   failed = false;
+                                                      // }
+                                                      // else {failed = true;}
+                                                      $("#loading2nd").unmask();
+                                                      alert("Passport " + data.TKI_PASPORNO + " (" + data.TKI_TKINAME + ") is found, but registered for " + data.TKI_PJTKADESC + " - PT. " + data.TKI_PJTKIDESC + ". Please contact your partner PPTKIS to revise it via SISKO System in Indonesia.");
+                                                      return;
+                                                    }
+                                                    else if (typeof data.TKI_PASPORNO === "undefined")
+                                                    {
+                                                      $("#loading2nd").unmask();
+                                                      alert("The Indonesian migrant worker data is still not completed. Please contact your partner PPTKIS to complete it via SISKO System in Indonesia.");
+					                                            return;
+                                                    }
+                                                    else {
+                                                      var valid = 0;
+                                                      var undefinedsex = 0;
+
+                                                      // laki-laki
+                                                      if (data.TKI_TKIGENDER === "L") {
+                                                        if (laki == 0) {
+                                                          if (campuran > 0) {
+                                                            campuran--;
+                                                            valid = 1;
+                                                          }
+                                                        } else {
+                                                          laki--;
+                                                          valid = 1;
+                                                        }
+                                                      } else if (data.TKI_TKIGENDER === "P") {
+                                                        if (perempuan == 0) {
+                                                          if (campuran > 0) {
+                                                            campuran--;
+                                                            valid = 1;
+                                                          }
+                                                        } else {
+                                                          perempuan--;
+                                                          valid = 1;
+                                                        }
+                                                      }
+                                                      else {undefinedsex = 1;}
+                                                      if (valid) {
+                                                        $("#loading2nd").unmask();
+                                                        // editDialog(data);
+                                                        $("#kuota").text('(Your Quota\'s Remain: Male='+laki+',Female='+perempuan+',Mixed='+campuran+')');
+                                                        editDialog(data);
+                                                      } else if( undefinedsex == 1){
+                                                        $("#loading2nd").unmask();
+                                                        alert("Please contact your Indonesian Agency (PPTKIS) partner to input Gender Type (Male / Female) of "+ data.TKI_PASPORNO + " (" + data.TKI_TKINAME + ") in SISKO." );
+                                                      }
+                                                      else {
+                                                        $("#loading2nd").unmask();
+                                                        alert("You add " + (data.TKI_TKIGENDER === "L"? "a male worker.\n" : "a female worker.\n") + "Your quota has been used up!" );
+                                                      }
+                                                    }
+                                                  }
+                                                });
+                                              }
                                             });
 
+                                            function editDialog(data,isEdit)
+                                            {
+                                              isEdit = typeof isEdit === 'undefined' ? false : isEdit;
+                                              dlg.dialog('open');
+                                              dlg.mask("Loading...");
+                                              if (!isEdit) {
+                                                formAddTki.find("input[type=text]").each(function() {
+                                                  $(this).val("");
+                                                });
+
+                                                formAddTki.find("input[type=radio]").each(function() {
+                                                  $(this).prop('checked', false);
+                                                });
+                                              }
+
+
+
+                                              if (!isEdit) {
+                                                formAddTki.find("input[name=tkiahliwaris]").val(data.TKI_TKIFATHERNAME);
+                                                formAddTki.find("input[name=tkinama2]").val(data.TKI_TKIFATHERNAME);
+                                                formAddTki.find("input[name=tkialmt2]").val(data.TKI_ORTUADDR);
+                                                formAddTki.find("input[name=tkihub]").val("AYAH");
+                                                formAddTki.find("input[name=tkitmptkeluar]").val(data.TKI_PASPORISSUE);
+                                                formAddTki.find("input[name=tkijmlanaktanggungan]").val(data.TKI_JUMLAH_ANAK);
+                                                formAddTki.find("input[name=tkitelp]").val(data.TKI_TELPKELUARGA);
+                                                if (data.TKI_TKIMARITAL == "009.002") {tempkwn = 0;}
+                                                else if (data.TKI_TKIMARITAL == "009.003") {tempkwn = 1;}
+                                                else if (data.TKI_TKIMARITAL == "009.001") {tempkwn = 2;}
+                                                formAddTki.find("input:radio[name=tkistatkwn]").filter("[value=" + tempkwn + "]").prop('checked', true);
+                                              } else if (isEdit) {
+                                                formAddTki.find("input:radio[name=tkistatkwn]").filter("[value=" + data.tkistatkwn + "]").prop('checked', true);
+                                                formAddTki.find("input[name=tkitmptkeluar]").val(data.tkitmptkeluar);
+                                                formAddTki.find("input[name=tkijmlanaktanggungan]").val(data.tkijmlanaktanggungan);
+                                                formAddTki.find("input[name=tkiahliwaris]").val(data.tkiahliwaris);
+                                                formAddTki.find("input[name=tkinama2]").val(data.tkinama2);
+                                                formAddTki.find("input[name=tkialmt2]").val(data.tkialmt2);
+                                                formAddTki.find("input[name=tkitelp]").val(data.tkitelp);
+                                                formAddTki.find("input[name=tkihub]").val(data.tkihub);
+                                              }
+
+                                              $("#tabs").find("#foto").find("img#imgfoto").attr("src", "http://siskotkln.bnp2tki.go.id/function/get_image.php?img=" + data.TKI_TKIID);
+
+                                              dlg.unmask();
+                                              if (!isEdit)
+                                              tkidata.push(data);
+                                            }
+
+                                            $("#btnSubmitForm").click(function(){
+                                              drawTKI();
+                                              dlg.dialog('close');
+                                            });
+
+                                            function drawTKI()
+                                            {
+                                              $("#kuota").text('(Your Quota\'s Remain: Male='+laki+',Female='+perempuan+',Mixed='+campuran+')');
+                                              var el = $("#listtki");
+                                              el.empty();
+                                              if (tkidata.length > 0) {
+                                                _.each(tkidata, function(tki) {
+                                                  el.append("<li>"+ tki.TKI_PASPORNO + ", " + tki.TKI_TKINAME + ", " + (tki.TKI_TKIGENDER === "L" ? "Male" : "Female") + " <a edit paspor='" + tki.TKI_PASPORNO + "' href='javascript:void(0)'>(edit)</a>" + " <a delete paspor='" + tki.TKI_PASPORNO + "' href='javascript:void(0)'>(cancel)</a></li>");
+                                                });
+                                              } else {
+                                                el.html("Empty");
+                                              }
+
+                                              el.find("a[delete]").click(function() {
+                                                if (confirm("Are you sure to remove this worker?")) {
+                                                  var tmp = $(this).attr("tkiid");
+                                                  for (var i=0; i<tkidata.length; i++) {
+                                                    if (tkidata[i].tkiid == tmp) {
+                                                      if (tkidata[i].tkitkjk === "L") {
+                                                        if (laki <= 0 && campuran < upperboundc) {
+                                                          campuran++;
+                                                        } else {
+                                                          laki++;
+                                                        }
+                                                      } else if (tkidata[i].tkitkjk === "P") {
+                                                        if (perempuan <= 0 && campuran < upperboundc) {
+                                                          campuran++;
+                                                        } else {
+                                                          perempuan++;
+                                                        }
+                                                      }
+
+                                                      delete tkidata[i];
+                                                      break;
+                                                    }
+                                                  }
+                                                  tkidata = _.compact(tkidata);
+                                                  drawTKI();
+                                                }
+                                              });
+                                            }
 
                                             $("#next1st").click(function(e){
                                               if(cek1st == false)
@@ -595,6 +720,7 @@
                                               if(value != "")
                                               {
                                                 var splitter = value.split('/');
+                                                ppkode = splitter[0];
                                                 var jobid = splitter[1];
                                                 $.post("<?php echo base_url()?>Endorsement/getJodetail", {jobid: jobid}, function(data,status){
                                                   var obj = $.parseJSON(data);
@@ -613,9 +739,13 @@
                                             $("#jobtype").change(function(){
                                               var kuota = $("#jobtype").val();
                                               var kuotastripped = kuota.split('/');
-                                              var laki = kuotastripped[1];
-                                              var perempuan = kuotastripped[2];
-                                              var campuran = kuotastripped[3];
+                                              jpid = kuotastripped[0];
+                                              laki = kuotastripped[1];
+                                              perempuan = kuotastripped[2];
+                                              campuran = kuotastripped[3];
+                                              upperboundl = kuotastripped[1];
+                                              upperboundp = kuotastripped[2];
+                                              upperboundc = kuotastripped[3];
                                               $("#kuota").text('(Your Quota\'s Remain: Male='+laki+',Female='+perempuan+',Mixed='+campuran+')');
                                             });
 

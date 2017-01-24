@@ -1,6 +1,7 @@
 <?php
-set_magic_quotes_runtime(false);
-/*
+if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+    set_magic_quotes_runtime(false);
+}/*
 An XML-RPC implementation by Keith Devens, version 2.5f.
 http://www.keithdevens.com/software/xmlrpc/
 Release history available at:
@@ -355,7 +356,8 @@ $response .= fgets($conn, 1024);
 }
 fclose($conn);
 #strip headers off of response
-$data = XML_unserialize(substr($response, strpos($response, "\r\n\r\n")+4));
+$serialize = substr($response, strpos($response, "\r\n\r\n")+4);
+$data = XML_unserialize($serialize);
 if(defined('XMLRPC_DEBUG') and XMLRPC_DEBUG){
 XMLRPC_debug('XMLRPC_request', "<p>Received the following response:</p>\n\n" . XMLRPC_show($response, 'print_r', true) . "<p>Which was serialized into the following data:</p>\n\n" . XMLRPC_show($data, 'print_r', true));
 }

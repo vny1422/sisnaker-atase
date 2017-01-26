@@ -420,9 +420,6 @@
                                               height: "auto",
                                               resizable: false,
                                               modal: true,
-                                              beforeClose: function( event, ui ) {
-                                                $(this).find("#btnSubmitForm").unbind();
-                                              },
                                               open : function (event, ui) {
                                                 $("#tkinama").html(data.TKI_TKINAME);
                                                 $("#tkialmtid").html(data.TKI_TKIADDRESS);
@@ -454,13 +451,18 @@
                                             $(wrap4th).hide();
 
                                             $(addTKI).click(function(e){
-                                              if ($("#passport").val() == "") {
+                                              var paspor = $("#passport").val();
+                                              var search = _.find(tkidata, function(d) { return d.TKI_PASPORNO === paspor});
+                                              if (search !== undefined) {
+                                                alert("Worker already in the list!");
+                                                return;
+                                              }
+                                              else if (paspor == "") {
                                                 alert("Please input The Passport No. of Worker!");
                                                 return;
                                               }
                                               else {
                                                 $("#loading2nd").mask("Loading...");
-                                                var paspor = $("#passport").val();
                                                 $.post("<?php echo base_url()?>Endorsement/requestTKI", {paspor: paspor, jpid: jpid}, function(xml,status){
                                                   var json = $.parseJSON(xml);
                                                   if(json == 0)
@@ -525,7 +527,6 @@
                                                       else {undefinedsex = 1;}
                                                       if (valid) {
                                                         $("#loading2nd").unmask();
-                                                        // editDialog(data);
                                                         $("#kuota").text('(Your Quota\'s Remain: Male='+laki+',Female='+perempuan+',Mixed='+campuran+')');
                                                         editDialog(data);
                                                       } else if( undefinedsex == 1){
@@ -609,16 +610,16 @@
 
                                               el.find("a[delete]").click(function() {
                                                 if (confirm("Are you sure to remove this worker?")) {
-                                                  var tmp = $(this).attr("tkiid");
+                                                  var tmp = $(this).attr("paspor");
                                                   for (var i=0; i<tkidata.length; i++) {
-                                                    if (tkidata[i].tkiid == tmp) {
-                                                      if (tkidata[i].tkitkjk === "L") {
+                                                    if (tkidata[i].TKI_PASPORNO == tmp) {
+                                                      if (tkidata[i].TKI_TKIGENDER === "L") {
                                                         if (laki <= 0 && campuran < upperboundc) {
                                                           campuran++;
                                                         } else {
                                                           laki++;
                                                         }
-                                                      } else if (tkidata[i].tkitkjk === "P") {
+                                                      } else if (tkidata[i].TKI_TKIGENDER === "P") {
                                                         if (perempuan <= 0 && campuran < upperboundc) {
                                                           campuran++;
                                                         } else {
@@ -666,8 +667,14 @@
                                               }
                                               else {
                                                 e.preventDefault();
-                                                $('.input2nd').attr('disabled', 'disabled');
-                                                $('.input3rd').removeAttr('disabled');
+                                                if ($('#listtki li').length == 0)
+                                                {
+                                                  window.alert("Please enter TKI Passport first")
+                                                }
+                                                else {
+                                                  $('.input2nd').attr('disabled', 'disabled');
+                                                  $('.input3rd').removeAttr('disabled');
+                                                }
                                               }
 
                                             });

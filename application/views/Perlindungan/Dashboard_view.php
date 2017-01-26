@@ -19,7 +19,7 @@
         <br/><br/>
 
         <!-- Statistik Kasus -->
-        
+
         <div class="row">
 
           <!---- CAPAIAN ---->
@@ -152,10 +152,10 @@
               </div>
 
               <div class="panel-body">
-                <div class="row">             
+                <div class="row">
 
-                  <!-- KDEI Officer Performance -->  
-                  <?php foreach($officername as $username => $officer) {?>         
+                  <!-- KDEI Officer Performance -->
+                  <?php foreach($officername as $username => $officer) {?>
                     <div class="col-lg-4 col-md-6">
                       <div class="panel panel-info">
                         <div class="panel-heading">
@@ -173,7 +173,7 @@
                         <a href="<?php echo site_url('perlindungan/officer/'.$username)?>">
                           <div class="panel-footer">
                             <span class="pull-left">
-                              <?php echo $performance[$username][0]?> Kasus 
+                              <?php echo $performance[$username][0]?> Kasus
                               ( <i class="fa fa-check" style="color: green;"> <?php echo $performance[$username][2]?></i>
                                 <i></i>
                                 <i class="fa fa-close" style="color: red;padding-left:8px;"> <?php echo $performance[$username][3]?></i> )
@@ -310,7 +310,7 @@
                         <div class="panel-body">
                           <!-- Total Kasus Dalam Tahun Terpilih -->
                           <div class="row">
-                            <div class="col-lg-3">                            
+                            <div class="col-lg-3">
                               <div class="panel panel-primary">
                                 <div class="panel-heading">
                                   <div class="row">
@@ -343,7 +343,7 @@
                           </div>
                           <!-- Total Uang Diselamatkan Dalam Tahun Terpilih -->
                           <div class="row">
-                            <div class="col-lg-3">                            
+                            <div class="col-lg-3">
                               <div class="panel panel-warning">
                                 <div class="panel-heading">
                                   <div class="row">
@@ -376,7 +376,7 @@
 
                       </div>
                     </div>
-                  </div> 
+                  </div>
 
                   <!-- View Data Modal -->
                   <?php include 'modal_view.php' ?>
@@ -387,7 +387,7 @@
 
             </div>
           </div>
-          <br />
+
 
           <script>
 
@@ -496,7 +496,7 @@
               $("#downloadform").click(function() {
                 var idprob = $("#downloadform").val();
                 window.open("<?php echo site_url('perlindungan/convertToPDF') ?>"+"/"+idprob);
-              });   
+              });
 
               $('select').selectpicker();
 

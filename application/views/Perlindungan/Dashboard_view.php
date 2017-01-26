@@ -6,17 +6,18 @@
 
     <div class="col-md-12 col-sm-12 col-xs-12">
       <div class="dashboard_graph">
-
+        <div class="x_panel">
         <div class="row x_title">
           <div class="col-md-6">
             <h3>DASHBOARD <small><b><?php echo $subtitle; ?></b></small></h3>
           </div>
-          <div class="col-md-6">
-
-          </div>
+          <ul class="nav navbar-right panel_toolbox">
+            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </ul>
+          <div class="clearfix"></div>
         </div>
 
-        <br/><br/>
+        <div class="x_content">
 
         <!-- Statistik Kasus -->
         
@@ -377,6 +378,9 @@
                       </div>
                     </div>
                   </div> 
+
+                  </div>
+                  </div>
 
                   <!-- View Data Modal -->
                   <?php include 'modal_view.php' ?>

@@ -99,7 +99,7 @@ class Sadmin extends MY_Controller {
         }
 
 		$this->data['title'] = 'DASHBOARD';
-        $this->data['subtitle'] = 'ADMIN';
+        $this->data['subtitle'] = 'PERLINDUNGAN';
 		$this->load->view('templates/headerperlindungan', $this->data);
 		$this->load->view('Perlindungan/Dashboard_view', $this->data);
 		$this->load->view('templates/footerperlindungan');

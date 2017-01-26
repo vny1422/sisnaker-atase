@@ -290,6 +290,73 @@ class Endorsement extends MY_Controller {
     return $sisa;
   }
 
+  function requestTKI()
+  {
+    require_once("ws_kdei/xmlrpc-func.php");
+    $agensi = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
+    $paspor = $this->input->post('paspor', TRUE);
+    $jpid = $this->input->post('jpid', TRUE);
+    $xmlrpc_server_host     = 'siskotkln.bnp2tki.go.id';
+			$xml_rpc_server_path    = '/xmlrpc/siskotkln_ws/index.php';
+
+			define('XMLRPC_DEBUG', 1);
+
+			$USER_ID 			= "ws_twn";
+			$USER_PASS  		= "ws_twn";
+			$SERVICE_NAME 		= "request.tkibypaspor";
+			$SERVICE_PARAM		= $paspor;
+
+			$inputArray = array(
+				"USER_ID" => $USER_ID,
+				"USER_PASS" => $USER_PASS,
+				"SERVICE_NAME" => $SERVICE_NAME,
+				"SERVICE_PARAM" => $SERVICE_PARAM
+			);
+      $result = XMLRPC_request($xmlrpc_server_host,  $xml_rpc_server_path ,"siskotkln_ws" , array( XMLRPC_prepare( $inputArray ) ) );
+  			$r = new stdClass;
+  			$r->status = 0;
+  			$r->my_agid = $agensi->agid;
+  			$r->tki_agid = 0;
+  			$r->jpid = $jpid;
+
+        if ( $result[0] == 1 )
+			{
+				$result = XMLRPC_parse($result[1]);
+				if (isset($result['ws_response']['reqString']['record'])) {
+          $records = $result['ws_response']['reqString']['record'];
+					$r->status = 1;
+					if ($records["TKI_TKIID"] != NULL) {$r->data = $records;}
+
+
+					// $sql = "SELECT agid_induk FROM agensi_merge_map WHERE agid_kembar = '" . $r->data["TKI_PJTKAID"] . "'";
+					// $result = mysql_query($sql) or die($messages['err_query']);
+					// if(mysql_num_rows($result)>0){
+					// 	$row = mysql_fetch_array($result,MYSQL_ASSOC);
+					// 	$r->tki_agid = $row["agid_induk"];
+					// }
+					// else {
+						$r->tki_agid = $r->data["TKI_PJTKAID"];
+					//}
+
+					//antisipasi agensi mirip
+					// $sql = "SELECT agensi_dua FROM agensi_mirip_map WHERE agensi_satu = '" . $r->data["TKI_PJTKAID"] . "'";
+					// $result = mysql_query($sql) or die($messages['err_query']);
+					// if(mysql_num_rows($result)>0){
+					// 	$row = mysql_fetch_array($result,MYSQL_ASSOC);
+					// 	$r->tki_agid_mirip = $row["agensi_dua"];
+					// }
+					// else {
+					// 	$r->tki_agid_mirip = NULL;
+					// }
+          echo json_encode($r);
+				}
+        else {
+          echo json_encode("0");
+        }
+			}
+
+  }
+
 
 
 }

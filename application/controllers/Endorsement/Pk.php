@@ -43,6 +43,38 @@ class Pk extends MY_Controller {
     $this->load->view('templates/footerendorsement');
   }
 
+  public function uploadStamp()
+  {
+    if ($this->session->userdata('role') != 1)
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
+    
+    $config['upload_path'] = './uploads/';
+    $config['allowed_types'] = 'jpg';
+    $config['max_size']     = '100';
+    $config['max_width'] = '185';
+    $config['max_height'] = '78';
+    $config['overwrite'] = TRUE;
+    $config['remove_spaces'] = TRUE;
+    $config['file_name'] = 'stamp_dev.jpg';
+
+    $this->load->library('upload', $config);
+
+    if ( !$this->upload->do_upload('stamp'))
+    {
+      $this->data['error'] = $this->upload->display_errors('','');
+    } else {
+      $this->data['error'] = "";
+      $this->session->set_flashdata('information', 'Upload berhasil dilakukan');
+    }
+    
+    $this->data['title'] = 'Upload Stamp';
+    $this->load->view('templates/header', $this->data);
+    $this->load->view('SAdmin/UploadStamp_view', $this->data);
+    $this->load->view('templates/footer');
+  }
+
   function getDataRevisiPK()
   {
     $code = $this->input->post('barcode', TRUE);
@@ -213,7 +245,7 @@ class Pk extends MY_Controller {
 
   function printStamp()
   {
-    $imagepath=base_url('assets/template/stamp_dev.jpg');
+    $imagepath=base_url('uploads/stamp_dev.jpg');
     $image=imagecreatefromjpeg($imagepath);
     header('Content-Type: image/jpeg');
     imagejpeg($image);

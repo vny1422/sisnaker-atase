@@ -24,10 +24,10 @@ class Endorsement extends MY_Controller {
   public function index()
   {
     /// list tahun
-    //$this->data['tahunpenempatan'] = $this->Endorsement_model->get_all_year();
+    $this->data['tahunpenempatan'] = $this->Endorsement_model->get_all_year();
 
-    $this->data['title'] = 'Endorsement';
-    $this->data['subtitle'] = 'Agency Dashboard';
+    $this->data['title'] = 'DASHBOARD';
+    $this->data['subtitle'] = 'ENDORSEMENT';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/Endorsement_view', $this->data);
     $this->load->view('templates/footerendorsement');

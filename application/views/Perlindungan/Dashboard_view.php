@@ -19,6 +19,8 @@
 
         <div class="x_content">
 
+        <br />
+
         <!-- Statistik Kasus -->
 
         <div class="row">

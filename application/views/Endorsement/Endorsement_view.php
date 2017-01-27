@@ -4,23 +4,207 @@
 <!-- page content -->
 <div class="right_col" role="main">
 
-  <br />
   <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
       <div class="x_panel">
         <div class="x_title">
-          <h2><strong><?php echo $subtitle; ?></strong></h2>
+          <div class="col-md-3">
+            <h3>DASHBOARD <small><b><?php echo $subtitle; ?></b></small></h3>
+          </div>
+          <div class="col-lg-3">
+            <select class="form-control" name="" data-size="3" data-live-search="true" id="tahun">
+              <?php foreach ($tahunpenempatan as $row ) {?>
+              <option value="<?php echo $row->tahun?>"><?php echo $row->tahun?></option>
+              <?php }?>
+            </select>
+          </div>
+          <ul class="nav navbar-right panel_toolbox">
+            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </ul>
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
           <br />
-        <div class="col-md-12 col-sm-12 col-xs-12">
-          <div id="jo" class="row">
-            <h1 style="text-align:center;">AGENCY DASHBOARD</h1>
+          
+          <div class="row">
+
+            <div class="col-lg-4 col-md-6">
+              <div class="panel panel-success">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-xs-2">
+                      <i class="fa fa-venus-mars fa-5x"></i>
+                    </div>
+                    <div class="col-xs-10 text-right">
+                      <div><h2>Penempatan Tahun xxx</h2></div>
+                      <div><h5>(Jenis Kelamin)</h5></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel-body">
+                  <div style="height: 250px" id="donut-jktahun"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+              <div class="panel panel-success">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-xs-2">
+                      <i class="fa fa-venus-mars fa-5x"></i>
+                    </div>
+                    <div class="col-xs-10 text-right">
+                      <div><h2>Penempatan Bulan xxx</h2></div>
+                      <div><h5>(Jenis Kelamin)</h5></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel-body">
+                  <div style="height: 250px" id="donut-jkbulan"></div>
+                </div>
+              </div>
+            </div>
+
+        </div>
+        <br />
+
+        <div class="row">
+
+            <div class="col-lg-4 col-md-6">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-xs-2">
+                      <i class="fa fa-group fa-5x"></i>
+                    </div>
+                    <div class="col-xs-10 text-right">
+                      <div><h2>Penempatan Tahun xxx</h2></div>
+                      <div><h5>(Sektor)</h5></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel-body">
+                  <div style="height: 250px" id="donut-sektortahun"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-xs-2">
+                      <i class="fa fa-group fa-5x"></i>
+                    </div>
+                    <div class="col-xs-10 text-right">
+                      <div><h2>Penempatan Bulan xxx</h2></div>
+                      <div><h5>(Sektor)</h5></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel-body">
+                  <div style="height: 250px" id="donut-sektorbulan"></div>
+                </div>
+              </div>
+            </div>
+
+        </div>
+        <br />
+
+        <div class="row">
+
+          <div class="col-lg-12">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-1">
+                    <i class="fa fa-bar-chart-o fa-5x"></i>
+                  </div>
+                  <div class="col-xs-11">
+                    <h3>Statistik Penempatan Tahun xxx</h3><h5> (Jenis Pekerjaan)</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel-body">
+                <div id="graph-jptahun"></div>
+              </div>
+            </div>
           </div>
+
         </div>
 
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  $(document).ready(function () {
+    $('select').selectpicker();
+  });
+
+  var jktahun = Morris.Donut({
+    element: 'donut-jktahun',
+    data: [
+      {label: "Download Sales", value: 12},
+      {label: "In-Store Sales", value: 30},
+      {label: "Mail-Order Sales", value: 20}
+    ],
+    resize: true,
+    formatter: function (y, data) { return '$' + y }
+  });
+
+  var jkbulan = Morris.Donut({
+    element: 'donut-jkbulan',
+    data: [
+      {label: "Download Sales", value: 12},
+      {label: "In-Store Sales", value: 30},
+      {label: "Mail-Order Sales", value: 20}
+    ],
+    resize: true,
+    formatter: function (y, data) { return '$' + y }
+  });
+
+  var sektortahun = Morris.Donut({
+    element: 'donut-sektortahun',
+    data: [
+      {label: "Download Sales", value: 12},
+      {label: "In-Store Sales", value: 30},
+      {label: "Mail-Order Sales", value: 20}
+    ],
+    resize: true,
+    formatter: function (y, data) { return '$' + y }
+  });
+
+  var sektorbulan = Morris.Donut({
+    element: 'donut-sektorbulan',
+    data: [
+      {label: "Download Sales", value: 12},
+      {label: "In-Store Sales", value: 30},
+      {label: "Mail-Order Sales", value: 20}
+    ],
+    resize: true,
+    formatter: function (y, data) { return '$' + y }
+  });
+
+  var jptahun = Morris.Bar({
+    element: 'graph-jptahun',
+    data: [
+      { y: '2006', a: 100, b: 90 },
+      { y: '2007', a: 75,  b: 65 },
+      { y: '2008', a: 50,  b: 40 },
+      { y: '2009', a: 75,  b: 65 },
+      { y: '2010', a: 50,  b: 40 },
+      { y: '2011', a: 75,  b: 65 },
+      { y: '2012', a: 100, b: 90 }
+    ],
+    xkey: 'y',
+    ykeys: ['a', 'b'],
+    labels: ['Perawat', 'Petani'],
+    stacked: true,
+    resize: true
+  });
+
+</script>

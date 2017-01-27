@@ -34,6 +34,12 @@
     <!-- Datepicker CSS -->
     <link href="<?php echo base_url('assets/css/datepicker.css'); ?>" rel="stylesheet">
 
+    <!-- Select CSS -->
+    <link href="<?php echo base_url('assets/css/bootstrap-select.min.css'); ?>" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="<?php echo assets_url() ?>css/plugins/morris.css" rel="stylesheet">
+
     <!-- Loadmask -->
     <link href="<?php echo base_url('assets/css/jquery.loadmask.css'); ?>" rel="stylesheet">
 
@@ -47,6 +53,11 @@
 
     <!-- Bootstrap -->
     <script src="<?php echo base_url('assets/vendors/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/bootstrap-select.min.js') ?>"></script>
+
+    <!-- Morris JavaScript -->
+    <script src="<?php echo assets_url() ?>js/morris/raphael.min.js"></script>
+    <script src="<?php echo assets_url() ?>js/morris/morris.min.js"></script>
 
      <!-- Datepicker -->
     <script src="<?php echo base_url('assets/js/datepicker/bootstrap-datepicker.js'); ?>"></script>

@@ -240,25 +240,33 @@ class Endorsement_model extends CI_Model {
     	return $this->db->update('tki');
     }
 
-		//for jo Packet
+	//for jo Packet
 
-		function get_connected_pptkis($agid)
-		{
-			$this->db->where('agid',$agid);
-			$this->db->where('jobtglawal <= curdate() AND jobtglakhir >= curdate()');
-			$this->db->from('jo');
-			$this->db->join('mpptkis m', 'jo.ppkode = m.ppkode','left');
-			$this->db->select('m.ppkode,m.ppnama,jo.jobid');
-			return $this->db->get()->result();
-		}
+    function get_connected_pptkis($agid)
+    {
+    	$this->db->where('agid',$agid);
+    	$this->db->where('jobtglawal <= curdate() AND jobtglakhir >= curdate()');
+    	$this->db->from('jo');
+    	$this->db->join('mpptkis m', 'jo.ppkode = m.ppkode','left');
+    	$this->db->select('m.ppkode,m.ppnama,jo.jobid');
+    	return $this->db->get()->result();
+    }
 
-		function get_jodetail($jobid)
-		{
-			$this->db->select('j.*,jp.namajenispekerjaan as namajenispekerjaan');
-			$this->db->from('jodetail j');
-			$this->db->join('jenispekerjaan jp', 'j.idjenispekerjaan = jp.idjenispekerjaan','left');
-			$this->db->where('j.jobid',$jobid);
-			return $this->db->get()->result();
-		}
+    function get_jodetail($jobid)
+    {
+    	$this->db->select('j.*,jp.namajenispekerjaan as namajenispekerjaan');
+    	$this->db->from('jodetail j');
+    	$this->db->join('jenispekerjaan jp', 'j.idjenispekerjaan = jp.idjenispekerjaan','left');
+    	$this->db->where('j.jobid',$jobid);
+    	return $this->db->get()->result();
+    }
+
+    function get_all_year(){
+		$this->db->distinct();
+		$this->db->select('YEAR(ejtglendorsement) as tahun');
+		$this->db->from('entryjo');
+		$this->db->order_by('ejtglendorsement','desc');
+		return $this->db->get()->result();
+	}
 
 }

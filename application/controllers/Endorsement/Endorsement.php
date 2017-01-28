@@ -23,7 +23,7 @@ class Endorsement extends MY_Controller {
 
   public function index()
   {
-    $this->data['month']  = date('m');
+    $this->data['month'] = date('m');
 
     /// list tahun
     $this->data['tahunpenempatan'] = $this->Endorsement_model->get_all_year();
@@ -33,6 +33,47 @@ class Endorsement extends MY_Controller {
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/Endorsement_view', $this->data);
     $this->load->view('templates/footerendorsement');
+  }
+
+  public function get_info_year_dashboard(){
+    $year = $this->input->post('y');
+    $month = $this->input->post('m');
+    $all = array();
+
+    $year_jk = $this->Endorsement_model->get_jk_this_year($year);
+    $total_year_jk = 0;
+    foreach ($year_jk as $jk) {
+      $total_year_jk += $jk->total;
+    }
+
+    $month_jk = $this->Endorsement_model->get_jk_this_month($year,$month);
+    $total_month_jk = 0;
+    foreach ($month_jk as $jk) {
+      $total_month_jk += $jk->total;
+    }
+
+    $year_sektor = $this->Endorsement_model->get_sektor_this_year($year);
+    $total_year_sektor = 0;
+    foreach ($year_sektor as $sektor) {
+      $total_year_sektor += $sektor->total;
+    }
+
+    $month_sektor = $this->Endorsement_model->get_sektor_this_month($year,$month);
+    $total_month_sektor = 0;
+    foreach ($month_sektor as $sektor) {
+      $total_month_sektor += $sektor->total;
+    }
+
+    array_push($all,$total_year_jk);
+    array_push($all,$year_jk);
+    array_push($all,$total_month_jk);
+    array_push($all,$month_jk);
+    array_push($all,$total_year_sektor);
+    array_push($all,$year_sektor);
+    array_push($all,$total_month_sektor);
+    array_push($all,$month_sektor);
+
+    echo json_encode($all);
   }
 
   public function updateagency()

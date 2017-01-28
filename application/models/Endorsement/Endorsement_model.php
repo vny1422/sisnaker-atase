@@ -269,4 +269,62 @@ class Endorsement_model extends CI_Model {
 		return $this->db->get()->result();
 	}
 
+	function get_jk_this_year($tahun)
+	{
+		$this->db->select('tki.tkjk, COUNT(*) as total');
+		$this->db->from('entryjo');
+		$this->db->join('tki','entryjo.ejid = tki.ejid');
+		$this->db->where('tki.tkstat',0);
+		$this->db->where('tki.tkrevid',NULL);
+		$where = "tki.tktglendorsement LIKE '%".$tahun."-%'";
+		$this->db->where($where);
+		$this->db->where('entryjo.idinstitution',$this->session->userdata('institution'));
+		$this->db->group_by('tki.tkjk');
+		return $this->db->get()->result();
+	}
+
+	function get_jk_this_month($tahun,$bulan)
+	{
+		$this->db->select('tki.tkjk, COUNT(*) as total');
+		$this->db->from('entryjo');
+		$this->db->join('tki','entryjo.ejid = tki.ejid');
+		$this->db->where('tki.tkstat',0);
+		$this->db->where('tki.tkrevid',NULL);
+		$where = "tki.tktglendorsement LIKE '%".$tahun."-".$bulan."-%'";
+		$this->db->where($where);
+		$this->db->where('entryjo.idinstitution',$this->session->userdata('institution'));
+		$this->db->group_by('tki.tkjk');
+		return $this->db->get()->result();
+	}
+
+	function get_sektor_this_year($tahun)
+	{
+		$this->db->select('jenispekerjaan.sektor, COUNT(*) as total');
+		$this->db->from('entryjo');
+		$this->db->join('tki','entryjo.ejid = tki.ejid');
+		$this->db->join('jenispekerjaan','entryjo.idjenispekerjaan = jenispekerjaan.idjenispekerjaan');
+		$this->db->where('tki.tkstat',0);
+		$this->db->where('tki.tkrevid',NULL);
+		$where = "tki.tktglendorsement LIKE '%".$tahun."-%'";
+		$this->db->where($where);
+		$this->db->where('entryjo.idinstitution',$this->session->userdata('institution'));
+		$this->db->group_by('jenispekerjaan.sektor');
+		return $this->db->get()->result();
+	}
+
+	function get_sektor_this_month($tahun,$bulan)
+	{
+		$this->db->select('jenispekerjaan.sektor, COUNT(*) as total');
+		$this->db->from('entryjo');
+		$this->db->join('tki','entryjo.ejid = tki.ejid');
+		$this->db->join('jenispekerjaan','entryjo.idjenispekerjaan = jenispekerjaan.idjenispekerjaan');
+		$this->db->where('tki.tkstat',0);
+		$this->db->where('tki.tkrevid',NULL);
+		$where = "tki.tktglendorsement LIKE '%".$tahun."-".$bulan."-%'";
+		$this->db->where($where);
+		$this->db->where('entryjo.idinstitution',$this->session->userdata('institution'));
+		$this->db->group_by('jenispekerjaan.sektor');
+		return $this->db->get()->result();
+	}
+
 }

@@ -58,7 +58,10 @@
                   </div>
                 </div>
                 <div class="panel-body">
-                  <div style="height: 250px" id="donut-jktahun"></div>
+                  <div class="row">
+                    <div class="col-lg-8 col-xs-10" style="height: 250px" id="donut-jktahun"></div>
+                    <div class="col-lg-4 col-xs-2" style="text-align: right"><h1 id="sumjktahun"></h1></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -77,7 +80,10 @@
                   </div>
                 </div>
                 <div class="panel-body">
-                  <div style="height: 250px" id="donut-jkbulan"></div>
+                  <div class="row">
+                    <div class="col-lg-8 col-xs-10" style="height: 250px" id="donut-jkbulan"></div>
+                    <div class="col-lg-4 col-xs-2" style="text-align: right"><h1 id="sumjkbulan"></h1></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -101,7 +107,10 @@
                   </div>
                 </div>
                 <div class="panel-body">
-                  <div style="height: 250px" id="donut-sektortahun"></div>
+                  <div class="row">
+                    <div class="col-lg-8 col-xs-10" style="height: 250px" id="donut-sektortahun"></div>
+                    <div class="col-lg-4 col-xs-2" style="text-align: right"><h1 id="sumsektahun"></h1></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -120,7 +129,10 @@
                   </div>
                 </div>
                 <div class="panel-body">
-                  <div style="height: 250px" id="donut-sektorbulan"></div>
+                  <div class="row">
+                    <div class="col-lg-8 col-xs-10" style="height: 250px" id="donut-sektorbulan"></div>
+                    <div class="col-lg-4 col-xs-2" style="text-align: right"><h1 id="sumsekbulan"></h1></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -164,57 +176,275 @@
     $('.dbulan').html("Penempatan Bulan " + $("#bulan option:selected").text());
     $('#gtahun').html("Statistik Penempatan Tahun " + $("#tahun").val());
 
+    $.ajax({
+      url     : "<?php echo site_url('endorsement/get_info_year_dashboard')?>",
+      data    : {"y":$("#tahun").val(),"m":$("#bulan").val()},
+      type    : "post",
+      dataType  : "json",
+      success   : function(data){
+        $("#sumjktahun").html(data[0]);
+        $("#sumjkbulan").html(data[2]);
+        $("#sumsektahun").html(data[4]);
+        $("#sumsekbulan").html(data[6]);
+
+        var datajktahun = [];
+        for (i = 0; i < data[1].length; i++) { 
+          datajktahun.push({label: data[1][i].tkjk, value: data[1][i].total});
+        }
+
+        jktahun = Morris.Donut({
+          element: 'donut-jktahun',
+          data: datajktahun,
+          resize: true,
+          formatter: function (y, datas) { return y + " (" + Math.round(y/data[0]*100) + "%)"}
+        });
+
+        if(datajktahun.length > 1) {
+          jktahun.options.colors = ["blue","pink"];
+        } else if (datajktahun.length == 1 && datajktahun[0].label == "L") {
+          jktahun.options.colors = ["blue"];
+        } else if (datajktahun.length == 1 && datajktahun[0].label == "P") {
+          jktahun.options.colors = ["pink"];
+        }
+        jktahun.redraw();
+
+        var datajkbulan = [];
+        for (i = 0; i < data[3].length; i++) { 
+          datajkbulan.push({label: data[3][i].tkjk, value: data[3][i].total});
+        }
+
+        jkbulan = Morris.Donut({
+          element: 'donut-jkbulan',
+          data: datajkbulan,
+          resize: true,
+          formatter: function (y, datas) { return y + " (" + Math.round(y/data[2]*100) + "%)"}
+        });
+
+        if(datajkbulan.length > 1) {
+          jkbulan.options.colors = ["blue","pink"];
+        } else if (datajkbulan.length == 1 && datajkbulan[0].label == "L") {
+          jkbulan.options.colors = ["blue"];
+        } else if (datajkbulan.length == 1 && datajkbulan[0].label == "P") {
+          jkbulan.options.colors = ["pink"];
+        }
+        jkbulan.redraw();
+
+        var datasektortahun = [];
+        for (i = 0; i < data[5].length; i++) { 
+          if (data[5][i].sektor == '1') {
+            datasektortahun.push({label: 'Informal', value: data[5][i].total});
+          } else if (data[5][i].sektor == '2') {
+            datasektortahun.push({label: 'Formal', value: data[5][i].total});
+          }
+        }
+
+        sektortahun = Morris.Donut({
+          element: 'donut-sektortahun',
+          data: datasektortahun,
+          resize: true,
+          formatter: function (y, datas) { return y + " (" + Math.round(y/data[4]*100) + "%)"}
+        });
+
+        if(datasektortahun.length > 1) {
+          sektortahun.options.colors = ["red","green"];
+        } else if (datasektortahun.length == 1 && datasektortahun[0].label == "Informal") {
+          sektortahun.options.colors = ["red"];
+        } else if (datasektortahun.length == 1 && datasektortahun[0].label == "Formal") {
+          sektortahun.options.colors = ["green"];
+        }
+        sektortahun.redraw();
+
+        var datasektorbulan = [];
+        for (i = 0; i < data[7].length; i++) { 
+          if (data[7][i].sektor == '1') {
+            datasektorbulan.push({label: 'Informal', value: data[7][i].total});
+          } else if (data[7][i].sektor == '2') {
+            datasektorbulan.push({label: 'Formal', value: data[7][i].total});
+          }
+        }
+
+        sektorbulan = Morris.Donut({
+          element: 'donut-sektorbulan',
+          data: datasektorbulan,
+          resize: true,
+          formatter: function (y, datas) { return y + " (" + Math.round(y/data[6]*100) + "%)"}
+        });
+
+        if(datasektorbulan.length > 1) {
+          sektorbulan.options.colors = ["red","green"];
+        } else if (datasektorbulan.length == 1 && datasektorbulan[0].label == "Informal") {
+          sektorbulan.options.colors = ["red"];
+        } else if (datasektorbulan.length == 1 && datasektorbulan[0].label == "Formal") {
+          sektorbulan.options.colors = ["green"];
+        }
+        sektorbulan.redraw();
+
+      }
+    });
+
     $("#tahun").change(function(){
       $('.dtahun').html("Penempatan Tahun " + $("#tahun").val());
       $('#gtahun').html("Statistik Penempatan Tahun " + $("#tahun").val());
+
+      $.ajax({
+        url     : "<?php echo site_url('endorsement/get_info_year_dashboard')?>",
+        data    : {"y":$("#tahun").val(),"m":$("#bulan").val()},
+        type    : "post",
+        dataType  : "json",
+        success   : function(data){
+          $("#sumjktahun").html(data[0]);
+          $("#sumjkbulan").html(data[2]);
+          $("#sumsektahun").html(data[4]);
+          $("#sumsekbulan").html(data[6]);
+
+          var datajktahun = [];
+          for (i = 0; i < data[1].length; i++) { 
+            datajktahun.push({label: data[1][i].tkjk, value: data[1][i].total});
+          }
+
+          if(datajktahun.length > 1) {
+            jktahun.options.colors = ["blue","pink"];
+          } else if (datajktahun.length == 1 && datajktahun[0].label == "L") {
+            jktahun.options.colors = ["blue"];
+          } else if (datajktahun.length == 1 && datajktahun[0].label == "P") {
+            jktahun.options.colors = ["pink"];
+          }
+          jktahun.setData(datajktahun);
+
+          var datajkbulan = [];
+          for (i = 0; i < data[3].length; i++) { 
+            datajkbulan.push({label: data[3][i].tkjk, value: data[3][i].total});
+          }
+
+          if(datajkbulan.length > 1) {
+            jkbulan.options.colors = ["blue","pink"];
+          } else if (datajkbulan.length == 1 && datajkbulan[0].label == "L") {
+            jkbulan.options.colors = ["blue"];
+          } else if (datajkbulan.length == 1 && datajkbulan[0].label == "P") {
+            jkbulan.options.colors = ["pink"];
+          }
+          jkbulan.setData(datajkbulan);
+
+          var datasektortahun = [];
+          for (i = 0; i < data[5].length; i++) { 
+            if (data[5][i].sektor == '1') {
+              datasektortahun.push({label: 'Informal', value: data[5][i].total});
+            } else if (data[5][i].sektor == '2') {
+              datasektortahun.push({label: 'Formal', value: data[5][i].total});
+            }
+          }
+
+          if(datasektortahun.length > 1) {
+            sektortahun.options.colors = ["red","green"];
+          } else if (datasektortahun.length == 1 && datasektortahun[0].label == "Informal") {
+            sektortahun.options.colors = ["red"];
+          } else if (datasektortahun.length == 1 && datasektortahun[0].label == "Formal") {
+            sektortahun.options.colors = ["green"];
+          }
+          sektortahun.setData(datasektortahun);
+
+          var datasektorbulan = [];
+          for (i = 0; i < data[7].length; i++) { 
+            if (data[7][i].sektor == '1') {
+              datasektorbulan.push({label: 'Informal', value: data[7][i].total});
+            } else if (data[7][i].sektor == '2') {
+              datasektorbulan.push({label: 'Formal', value: data[7][i].total});
+            }
+          }
+
+          if(datasektorbulan.length > 1) {
+            sektorbulan.options.colors = ["red","green"];
+          } else if (datasektorbulan.length == 1 && datasektorbulan[0].label == "Informal") {
+            sektorbulan.options.colors = ["red"];
+          } else if (datasektorbulan.length == 1 && datasektorbulan[0].label == "Formal") {
+            sektorbulan.options.colors = ["green"];
+          }
+          sektorbulan.setData(datasektorbulan);
+
+        }
+      });
     });
 
     $("#bulan").change(function(){
       $('.dbulan').html("Penempatan Bulan " + $("#bulan option:selected").text());
-    });
 
-    var jktahun = Morris.Donut({
-      element: 'donut-jktahun',
-      data: [
-        {label: "Download Sales", value: 12},
-        {label: "In-Store Sales", value: 30},
-        {label: "Mail-Order Sales", value: 20}
-      ],
-      resize: true,
-      formatter: function (y, data) { return '$' + y }
-    });
+      $.ajax({
+        url     : "<?php echo site_url('endorsement/get_info_year_dashboard')?>",
+        data    : {"y":$("#tahun").val(),"m":$("#bulan").val()},
+        type    : "post",
+        dataType  : "json",
+        success   : function(data){
+          $("#sumjktahun").html(data[0]);
+          $("#sumjkbulan").html(data[2]);
+          $("#sumsektahun").html(data[4]);
+          $("#sumsekbulan").html(data[6]);
 
-    var jkbulan = Morris.Donut({
-      element: 'donut-jkbulan',
-      data: [
-        {label: "Download Sales", value: 12},
-        {label: "In-Store Sales", value: 30},
-        {label: "Mail-Order Sales", value: 20}
-      ],
-      resize: true,
-      formatter: function (y, data) { return '$' + y }
-    });
+          var datajktahun = [];
+          for (i = 0; i < data[1].length; i++) { 
+            datajktahun.push({label: data[1][i].tkjk, value: data[1][i].total});
+          }
 
-    var sektortahun = Morris.Donut({
-      element: 'donut-sektortahun',
-      data: [
-        {label: "Download Sales", value: 12},
-        {label: "In-Store Sales", value: 30},
-        {label: "Mail-Order Sales", value: 20}
-      ],
-      resize: true,
-      formatter: function (y, data) { return '$' + y }
-    });
+          if(datajktahun.length > 1) {
+            jktahun.options.colors = ["blue","pink"];
+          } else if (datajktahun.length == 1 && datajktahun[0].label == "L") {
+            jktahun.options.colors = ["blue"];
+          } else if (datajktahun.length == 1 && datajktahun[0].label == "P") {
+            jktahun.options.colors = ["pink"];
+          }
+          jktahun.setData(datajktahun);
 
-    var sektorbulan = Morris.Donut({
-      element: 'donut-sektorbulan',
-      data: [
-        {label: "Download Sales", value: 12},
-        {label: "In-Store Sales", value: 30},
-        {label: "Mail-Order Sales", value: 20}
-      ],
-      resize: true,
-      formatter: function (y, data) { return '$' + y }
+          var datajkbulan = [];
+          for (i = 0; i < data[3].length; i++) { 
+            datajkbulan.push({label: data[3][i].tkjk, value: data[3][i].total});
+          }
+
+          if(datajkbulan.length > 1) {
+            jkbulan.options.colors = ["blue","pink"];
+          } else if (datajkbulan.length == 1 && datajkbulan[0].label == "L") {
+            jkbulan.options.colors = ["blue"];
+          } else if (datajkbulan.length == 1 && datajkbulan[0].label == "P") {
+            jkbulan.options.colors = ["pink"];
+          }
+          jkbulan.setData(datajkbulan);
+
+          var datasektortahun = [];
+          for (i = 0; i < data[5].length; i++) { 
+            if (data[5][i].sektor == '1') {
+              datasektortahun.push({label: 'Informal', value: data[5][i].total});
+            } else if (data[5][i].sektor == '2') {
+              datasektortahun.push({label: 'Formal', value: data[5][i].total});
+            }
+          }
+
+          if(datasektortahun.length > 1) {
+            sektortahun.options.colors = ["red","green"];
+          } else if (datasektortahun.length == 1 && datasektortahun[0].label == "Informal") {
+            sektortahun.options.colors = ["red"];
+          } else if (datasektortahun.length == 1 && datasektortahun[0].label == "Formal") {
+            sektortahun.options.colors = ["green"];
+          }
+          sektortahun.setData(datasektortahun);
+
+          var datasektorbulan = [];
+          for (i = 0; i < data[7].length; i++) { 
+            if (data[7][i].sektor == '1') {
+              datasektorbulan.push({label: 'Informal', value: data[7][i].total});
+            } else if (data[7][i].sektor == '2') {
+              datasektorbulan.push({label: 'Formal', value: data[7][i].total});
+            }
+          }
+
+          if(datasektorbulan.length > 1) {
+            sektorbulan.options.colors = ["red","green"];
+          } else if (datasektorbulan.length == 1 && datasektorbulan[0].label == "Informal") {
+            sektorbulan.options.colors = ["red"];
+          } else if (datasektorbulan.length == 1 && datasektorbulan[0].label == "Formal") {
+            sektorbulan.options.colors = ["green"];
+          }
+          sektorbulan.setData(datasektorbulan);
+
+        }
+      });
     });
 
     var jptahun = Morris.Bar({
@@ -235,7 +465,5 @@
       resize: true
     });
   });
-
-  
 
 </script>

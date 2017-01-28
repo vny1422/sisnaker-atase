@@ -11,11 +11,27 @@
           <div class="col-md-3">
             <h3>DASHBOARD <small><b><?php echo $subtitle; ?></b></small></h3>
           </div>
-          <div class="col-lg-3">
+          <div class="col-md-1">
             <select class="form-control" name="" data-size="3" data-live-search="true" id="tahun">
               <?php foreach ($tahunpenempatan as $row ) {?>
               <option value="<?php echo $row->tahun?>"><?php echo $row->tahun?></option>
               <?php }?>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <select class="form-control" name="" data-size="3" data-live-search="true" id="bulan">
+              <option value="01" <?php echo '',($month == '01' ? 'selected' : '') ?>>January</option>
+              <option value="02" <?php echo '',($month == '02' ? 'selected' : '') ?>>February</option>
+              <option value="03" <?php echo '',($month == '03' ? 'selected' : '') ?>>March</option>
+              <option value="04" <?php echo '',($month == '04' ? 'selected' : '') ?>>April</option>
+              <option value="05" <?php echo '',($month == '05' ? 'selected' : '') ?>>May</option>
+              <option value="06" <?php echo '',($month == '06' ? 'selected' : '') ?>>June</option>
+              <option value="07" <?php echo '',($month == '07' ? 'selected' : '') ?>>July</option>
+              <option value="08" <?php echo '',($month == '08' ? 'selected' : '') ?>>August</option>
+              <option value="09" <?php echo '',($month == '09' ? 'selected' : '') ?>>September</option>
+              <option value="10" <?php echo '',($month == '10' ? 'selected' : '') ?>>October</option>
+              <option value="11" <?php echo '',($month == '11' ? 'selected' : '') ?>>November</option>
+              <option value="12" <?php echo '',($month == '12' ? 'selected' : '') ?>>December</option>
             </select>
           </div>
           <ul class="nav navbar-right panel_toolbox">
@@ -36,7 +52,7 @@
                       <i class="fa fa-venus-mars fa-5x"></i>
                     </div>
                     <div class="col-xs-10 text-right">
-                      <div><h2>Penempatan Tahun xxx</h2></div>
+                      <div><h2 class="dtahun"></h2></div>
                       <div><h5>(Jenis Kelamin)</h5></div>
                     </div>
                   </div>
@@ -55,7 +71,7 @@
                       <i class="fa fa-venus-mars fa-5x"></i>
                     </div>
                     <div class="col-xs-10 text-right">
-                      <div><h2>Penempatan Bulan xxx</h2></div>
+                      <div><h2 class="dbulan"></h2></div>
                       <div><h5>(Jenis Kelamin)</h5></div>
                     </div>
                   </div>
@@ -79,7 +95,7 @@
                       <i class="fa fa-group fa-5x"></i>
                     </div>
                     <div class="col-xs-10 text-right">
-                      <div><h2>Penempatan Tahun xxx</h2></div>
+                      <div><h2 class="dtahun"></h2></div>
                       <div><h5>(Sektor)</h5></div>
                     </div>
                   </div>
@@ -98,7 +114,7 @@
                       <i class="fa fa-group fa-5x"></i>
                     </div>
                     <div class="col-xs-10 text-right">
-                      <div><h2>Penempatan Bulan xxx</h2></div>
+                      <div><h2 class="dbulan"></h2></div>
                       <div><h5>(Sektor)</h5></div>
                     </div>
                   </div>
@@ -122,7 +138,7 @@
                     <i class="fa fa-bar-chart-o fa-5x"></i>
                   </div>
                   <div class="col-xs-11">
-                    <h3>Statistik Penempatan Tahun xxx</h3><h5> (Jenis Pekerjaan)</h5>
+                    <h3 id="gtahun"></h3><h5> (Jenis Pekerjaan)</h5>
                   </div>
                 </div>
               </div>
@@ -143,68 +159,83 @@
 <script>
   $(document).ready(function () {
     $('select').selectpicker();
+
+    $('.dtahun').html("Penempatan Tahun " + $("#tahun").val());
+    $('.dbulan').html("Penempatan Bulan " + $("#bulan option:selected").text());
+    $('#gtahun').html("Statistik Penempatan Tahun " + $("#tahun").val());
+
+    $("#tahun").change(function(){
+      $('.dtahun').html("Penempatan Tahun " + $("#tahun").val());
+      $('#gtahun').html("Statistik Penempatan Tahun " + $("#tahun").val());
+    });
+
+    $("#bulan").change(function(){
+      $('.dbulan').html("Penempatan Bulan " + $("#bulan option:selected").text());
+    });
+
+    var jktahun = Morris.Donut({
+      element: 'donut-jktahun',
+      data: [
+        {label: "Download Sales", value: 12},
+        {label: "In-Store Sales", value: 30},
+        {label: "Mail-Order Sales", value: 20}
+      ],
+      resize: true,
+      formatter: function (y, data) { return '$' + y }
+    });
+
+    var jkbulan = Morris.Donut({
+      element: 'donut-jkbulan',
+      data: [
+        {label: "Download Sales", value: 12},
+        {label: "In-Store Sales", value: 30},
+        {label: "Mail-Order Sales", value: 20}
+      ],
+      resize: true,
+      formatter: function (y, data) { return '$' + y }
+    });
+
+    var sektortahun = Morris.Donut({
+      element: 'donut-sektortahun',
+      data: [
+        {label: "Download Sales", value: 12},
+        {label: "In-Store Sales", value: 30},
+        {label: "Mail-Order Sales", value: 20}
+      ],
+      resize: true,
+      formatter: function (y, data) { return '$' + y }
+    });
+
+    var sektorbulan = Morris.Donut({
+      element: 'donut-sektorbulan',
+      data: [
+        {label: "Download Sales", value: 12},
+        {label: "In-Store Sales", value: 30},
+        {label: "Mail-Order Sales", value: 20}
+      ],
+      resize: true,
+      formatter: function (y, data) { return '$' + y }
+    });
+
+    var jptahun = Morris.Bar({
+      element: 'graph-jptahun',
+      data: [
+        { y: '2006', a: 100, b: 90 },
+        { y: '2007', a: 75,  b: 65 },
+        { y: '2008', a: 50,  b: 40 },
+        { y: '2009', a: 75,  b: 65 },
+        { y: '2010', a: 50,  b: 40 },
+        { y: '2011', a: 75,  b: 65 },
+        { y: '2012', a: 100, b: 90 }
+      ],
+      xkey: 'y',
+      ykeys: ['a', 'b'],
+      labels: ['Perawat', 'Petani'],
+      stacked: true,
+      resize: true
+    });
   });
 
-  var jktahun = Morris.Donut({
-    element: 'donut-jktahun',
-    data: [
-      {label: "Download Sales", value: 12},
-      {label: "In-Store Sales", value: 30},
-      {label: "Mail-Order Sales", value: 20}
-    ],
-    resize: true,
-    formatter: function (y, data) { return '$' + y }
-  });
-
-  var jkbulan = Morris.Donut({
-    element: 'donut-jkbulan',
-    data: [
-      {label: "Download Sales", value: 12},
-      {label: "In-Store Sales", value: 30},
-      {label: "Mail-Order Sales", value: 20}
-    ],
-    resize: true,
-    formatter: function (y, data) { return '$' + y }
-  });
-
-  var sektortahun = Morris.Donut({
-    element: 'donut-sektortahun',
-    data: [
-      {label: "Download Sales", value: 12},
-      {label: "In-Store Sales", value: 30},
-      {label: "Mail-Order Sales", value: 20}
-    ],
-    resize: true,
-    formatter: function (y, data) { return '$' + y }
-  });
-
-  var sektorbulan = Morris.Donut({
-    element: 'donut-sektorbulan',
-    data: [
-      {label: "Download Sales", value: 12},
-      {label: "In-Store Sales", value: 30},
-      {label: "Mail-Order Sales", value: 20}
-    ],
-    resize: true,
-    formatter: function (y, data) { return '$' + y }
-  });
-
-  var jptahun = Morris.Bar({
-    element: 'graph-jptahun',
-    data: [
-      { y: '2006', a: 100, b: 90 },
-      { y: '2007', a: 75,  b: 65 },
-      { y: '2008', a: 50,  b: 40 },
-      { y: '2009', a: 75,  b: 65 },
-      { y: '2010', a: 50,  b: 40 },
-      { y: '2011', a: 75,  b: 65 },
-      { y: '2012', a: 100, b: 90 }
-    ],
-    xkey: 'y',
-    ykeys: ['a', 'b'],
-    labels: ['Perawat', 'Petani'],
-    stacked: true,
-    resize: true
-  });
+  
 
 </script>

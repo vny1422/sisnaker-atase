@@ -23,6 +23,8 @@ class Endorsement extends MY_Controller {
 
   public function index()
   {
+    $this->data['month']  = date('m');
+
     /// list tahun
     $this->data['tahunpenempatan'] = $this->Endorsement_model->get_all_year();
 

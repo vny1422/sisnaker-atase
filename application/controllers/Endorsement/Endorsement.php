@@ -64,6 +64,26 @@ class Endorsement extends MY_Controller {
       $total_month_sektor += $sektor->total;
     }
 
+    $iterm = range(1,12);
+    $nm_month = array(1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr',
+      5 => 'Mei', 6 => 'Jun', 7 => 'Jul', 8 => 'Agu',
+      9 => 'Sep', 10 => 'Okt', 11 => 'Nop', 12=> 'Des'
+      );
+    $listjp = [];
+    $listjpdb = $this->Endorsement_model->get_list_jp_this_year($year);
+    foreach ($listjpdb as $jp) {
+      array_push($listjp, $jp->namajenispekerjaan);
+    }
+
+    $jppermonth = [];
+    for($i=0;$i<count($iterm);$i++){
+      $temp_1 = array('bulan' => $nm_month[$iterm[$i]]);
+      foreach($listjp as $jp){
+        $temp_1[$jp] = $this->Endorsement_model->count_jp_this_month($year,$iterm[$i],$jp);
+      }
+      array_push($jppermonth, $temp_1);
+    }
+
     array_push($all,$total_year_jk);
     array_push($all,$year_jk);
     array_push($all,$total_month_jk);
@@ -72,6 +92,8 @@ class Endorsement extends MY_Controller {
     array_push($all,$year_sektor);
     array_push($all,$total_month_sektor);
     array_push($all,$month_sektor);
+    array_push($all,$listjp);
+    array_push($all,$jppermonth);
 
     echo json_encode($all);
   }

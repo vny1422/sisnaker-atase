@@ -327,4 +327,34 @@ class Endorsement_model extends CI_Model {
 		return $this->db->get()->result();
 	}
 
+	function get_list_jp_this_year($tahun)
+	{
+		$this->db->distinct();
+		$this->db->select('jenispekerjaan.namajenispekerjaan');
+		$this->db->from('entryjo');
+		$this->db->join('tki','entryjo.ejid = tki.ejid');
+		$this->db->join('jenispekerjaan','entryjo.idjenispekerjaan = jenispekerjaan.idjenispekerjaan');
+		$this->db->where('tki.tkstat',0);
+		$this->db->where('tki.tkrevid',NULL);
+		$where = "tki.tktglendorsement LIKE '%".$tahun."-%'";
+		$this->db->where($where);
+		$this->db->where('entryjo.idinstitution',$this->session->userdata('institution'));
+		return $this->db->get()->result();
+	}
+
+	function count_jp_this_month($tahun,$bulan,$namajp)
+	{
+		$this->db->select('*');
+		$this->db->from('entryjo');
+		$this->db->join('tki','entryjo.ejid = tki.ejid');
+		$this->db->join('jenispekerjaan','entryjo.idjenispekerjaan = jenispekerjaan.idjenispekerjaan');
+		$this->db->where('tki.tkstat',0);
+		$this->db->where('tki.tkrevid',NULL);
+		$this->db->where('MONTH(tki.tktglendorsement)',$bulan);
+		$this->db->where('YEAR(tki.tktglendorsement)',$tahun);
+		$this->db->where('jenispekerjaan.namajenispekerjaan',$namajp);
+		$this->db->where('entryjo.idinstitution',$this->session->userdata('institution'));
+		return $this->db->count_all_results();
+	}
+
 }

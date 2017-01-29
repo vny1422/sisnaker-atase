@@ -182,6 +182,8 @@
       type    : "post",
       dataType  : "json",
       success   : function(data){
+        //console.log(data);
+
         $("#sumjktahun").html(data[0]);
         $("#sumjkbulan").html(data[2]);
         $("#sumsektahun").html(data[4]);
@@ -279,6 +281,26 @@
         }
         sektorbulan.redraw();
 
+        var datajptahun = [];
+        for (i = 0; i < data[9].length; i++) {
+          var datajpmonth = {month: data[9][i].bulan};
+          for (j = 0; j < data[8].length; j++) {
+            datajpmonth[data[8][j]] = data[9][i][data[8][j]];
+          }
+          datajptahun.push(datajpmonth);
+        }
+
+        jptahun = Morris.Bar({
+          element: 'graph-jptahun',
+          data: datajptahun,
+          xkey: 'month',
+          ykeys: data[8],
+          yLabelFormat: function(y){return y != Math.round(y)?'':y;},
+          labels: data[8],
+          stacked: true,
+          resize: true
+        });
+
       }
     });
 
@@ -361,6 +383,18 @@
           }
           sektorbulan.setData(datasektorbulan);
 
+          var datajptahun = [];
+          for (i = 0; i < data[9].length; i++) {
+            var datajpmonth = {month: data[9][i].bulan};
+            for (j = 0; j < data[8].length; j++) {
+              datajpmonth[data[8][j]] = data[9][i][data[8][j]];
+            }
+            datajptahun.push(datajpmonth);
+          }
+          jptahun.options.ykeys = data[8];
+          jptahun.options.labels = data[8];
+          jptahun.setData(datajptahun);
+
         }
       });
     });
@@ -374,24 +408,8 @@
         type    : "post",
         dataType  : "json",
         success   : function(data){
-          $("#sumjktahun").html(data[0]);
           $("#sumjkbulan").html(data[2]);
-          $("#sumsektahun").html(data[4]);
           $("#sumsekbulan").html(data[6]);
-
-          var datajktahun = [];
-          for (i = 0; i < data[1].length; i++) { 
-            datajktahun.push({label: data[1][i].tkjk, value: data[1][i].total});
-          }
-
-          if(datajktahun.length > 1) {
-            jktahun.options.colors = ["blue","pink"];
-          } else if (datajktahun.length == 1 && datajktahun[0].label == "L") {
-            jktahun.options.colors = ["blue"];
-          } else if (datajktahun.length == 1 && datajktahun[0].label == "P") {
-            jktahun.options.colors = ["pink"];
-          }
-          jktahun.setData(datajktahun);
 
           var datajkbulan = [];
           for (i = 0; i < data[3].length; i++) { 
@@ -406,24 +424,6 @@
             jkbulan.options.colors = ["pink"];
           }
           jkbulan.setData(datajkbulan);
-
-          var datasektortahun = [];
-          for (i = 0; i < data[5].length; i++) { 
-            if (data[5][i].sektor == '1') {
-              datasektortahun.push({label: 'Informal', value: data[5][i].total});
-            } else if (data[5][i].sektor == '2') {
-              datasektortahun.push({label: 'Formal', value: data[5][i].total});
-            }
-          }
-
-          if(datasektortahun.length > 1) {
-            sektortahun.options.colors = ["red","green"];
-          } else if (datasektortahun.length == 1 && datasektortahun[0].label == "Informal") {
-            sektortahun.options.colors = ["red"];
-          } else if (datasektortahun.length == 1 && datasektortahun[0].label == "Formal") {
-            sektortahun.options.colors = ["green"];
-          }
-          sektortahun.setData(datasektortahun);
 
           var datasektorbulan = [];
           for (i = 0; i < data[7].length; i++) { 
@@ -447,23 +447,6 @@
       });
     });
 
-    var jptahun = Morris.Bar({
-      element: 'graph-jptahun',
-      data: [
-        { y: '2006', a: 100, b: 90 },
-        { y: '2007', a: 75,  b: 65 },
-        { y: '2008', a: 50,  b: 40 },
-        { y: '2009', a: 75,  b: 65 },
-        { y: '2010', a: 50,  b: 40 },
-        { y: '2011', a: 75,  b: 65 },
-        { y: '2012', a: 100, b: 90 }
-      ],
-      xkey: 'y',
-      ykeys: ['a', 'b'],
-      labels: ['Perawat', 'Petani'],
-      stacked: true,
-      resize: true
-    });
   });
 
 </script>

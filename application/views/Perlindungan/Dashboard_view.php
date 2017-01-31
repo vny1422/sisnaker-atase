@@ -26,7 +26,7 @@
         <div class="row">
 
           <!---- CAPAIAN ---->
-          <div class="col-lg-4 col-md-6">
+          <div class="col-lg-6 col-md-6">
             <div class="panel <?php echo $panel_color?>">
               <div class="panel-heading">
                 <div class="row">
@@ -86,7 +86,7 @@
           </div>
 
           <!---- KASUS BULAN INI ---->
-          <div class="col-lg-4 col-md-6">
+          <div class="col-lg-6 col-md-6">
             <div class="panel panel-info">
               <div class="panel-heading">
                 <div class="row">

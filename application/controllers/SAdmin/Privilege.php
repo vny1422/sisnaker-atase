@@ -175,7 +175,7 @@ class Privilege extends MY_Controller {
     }
     else
     {
-      $this->Privilege_model->update_dp();
+      $this->Privilege_model->update_dp($id);
       redirect('Privilege/viewDP');
     }
   }

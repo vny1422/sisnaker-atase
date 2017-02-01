@@ -88,6 +88,22 @@
                       </div>
                       <br /><br /><br />
 
+                      <div class="form-group">
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12">JO Download URL</label>
+                          <div class="col-md-5 col-sm-5 col-xs-12">
+                              <input type="text" name="jourl" class="form-control required">
+                      </div>
+                  </div>
+                  <br /><br /><br />
+
+                  <div class="form-group">
+                      <label class="control-label col-md-2 col-sm-2 col-xs-12">TKI Download URL</label>
+                      <div class="col-md-5 col-sm-5 col-xs-12">
+                          <input type="text" name="tkiurl" class="form-control required">
+                  </div>
+              </div>
+              <br /><br /><br />
+
                             <div class="form-group">
                                 <label class="control-label col-md-2 col-sm-2 col-xs-12" for="active">Is Active </label>
                                 <div class="col-md-1 col-sm-1 col-xs-2">

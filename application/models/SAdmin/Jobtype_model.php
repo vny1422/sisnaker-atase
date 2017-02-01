@@ -22,6 +22,8 @@ class Jobtype_model extends CI_Model {
         'idpekerjaan_bnp2tki' => $this->input->post('bnptki',TRUE),
         'sektor' => $this->input->post('sektor',TRUE),
         'jpgaji' => $this->input->post('gaji',TRUE),
+        'curjodownloadurl' => $this->input->post('jourl',TRUE),
+        'curtkidownloadurl' => $this->input->post('tkiurl',TRUE),
 		    'isactive' => $active
 		);
 
@@ -57,6 +59,8 @@ class Jobtype_model extends CI_Model {
             'idinstitution' => $this->input->post('institution',TRUE),
             'isactive' => $active,
             'jpgaji' => $this->input->post('gaji',TRUE),
+            'curjodownloadurl' => $this->input->post('jourl',TRUE),
+            'curtkidownloadurl' => $this->input->post('tkiurl',TRUE),
             'idpekerjaan_bnp2tki' => $this->input->post('bnptki',TRUE)
         );
         $this->db->where('idjenispekerjaan',$id);

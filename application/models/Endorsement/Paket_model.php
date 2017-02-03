@@ -12,7 +12,7 @@ class Paket_model extends CI_Model {
         } else if ($this->session->userdata('role') == 4) {
             $sql = "SELECT * FROM magensi WHERE idinstitution = ".$idinstitution." AND username = '".$this->session->userdata('user')."' AND agid not in (select distinct agid_kembar as agid from agensi_merge_map)".$wh." ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
         }
-        
+
         $query = $this->db->query($sql);
 
         $result = $query->result();
@@ -57,7 +57,7 @@ class Paket_model extends CI_Model {
 
     function checkJO($agid,$ppkode)
     {
-        $sql = "SELECT MAX(jobtglakhir) as jobtglakhir FROM jo WHERE agid = ".$agid." AND ppkode = ".$ppkode." AND jobenable = 1";
+        $sql = "SELECT MAX(jobtglakhir) as jobtglakhir FROM jo WHERE agid = ".$agid." AND ppkode = '".$ppkode."' AND jobenable = 1";
         $query = $this->db->query($sql);
 
         return $query;
@@ -77,7 +77,7 @@ class Paket_model extends CI_Model {
 
     function getJO_ForTable($agid,$ppkode,$start,$limit,$sidx,$sord,$wh)
     {
-        $sql = "SELECT *, DATE_FORMAT(jobtglawal, '%d/%m/%Y') as jobtglawal, DATE_FORMAT(jobtglakhir, '%d/%m/%Y') as jobtglakhir FROM jo WHERE ppkode = ".$ppkode." AND agid = ".$agid."".$wh." ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
+        $sql = "SELECT *, DATE_FORMAT(jobtglawal, '%d/%m/%Y') as jobtglawal, DATE_FORMAT(jobtglakhir, '%d/%m/%Y') as jobtglakhir FROM jo WHERE ppkode = '".$ppkode."' AND agid = ".$agid."".$wh." ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
         $query = $this->db->query($sql);
 
         $result = $query->result();
@@ -87,7 +87,7 @@ class Paket_model extends CI_Model {
 
     function countJO($agid,$ppkode,$wh)
     {
-        $sql = "SELECT COUNT(*) AS count FROM jo WHERE ppkode = ".$ppkode." AND agid = ".$agid."".$wh;
+        $sql = "SELECT COUNT(*) AS count FROM jo WHERE ppkode = '".$ppkode."' AND agid = ".$agid."".$wh;
         $query = $this->db->query($sql);
 
         $num = $query->result()[0];
@@ -112,7 +112,7 @@ class Paket_model extends CI_Model {
             'jobenable' => $this->input->post('jobenable', TRUE),
             'username' => $this->session->userdata('user')
         );
-        
+
         return $this->db->insert('jo', $data);
     }
 
@@ -131,7 +131,7 @@ class Paket_model extends CI_Model {
             'jobenable' => $this->input->post('jobenable', TRUE),
             'username' => $this->session->userdata('user')
         );
-        
+
         $this->db->where('jobid',$id);
         return $this->db->update('jo', $data);
     }
@@ -151,7 +151,7 @@ class Paket_model extends CI_Model {
             'jobdp' => $this->input->post('jobdp', TRUE),
             'jobdc' => $this->input->post('jobdc', TRUE)
         );
-        
+
         return $this->db->insert('jodetail', $data);
     }
 
@@ -163,7 +163,7 @@ class Paket_model extends CI_Model {
             'jobdp' => $this->input->post('jobdp', TRUE),
             'jobdc' => $this->input->post('jobdc', TRUE)
         );
-        
+
         $this->db->where('jobdid',$id);
         return $this->db->update('jodetail', $data);
     }

@@ -95,10 +95,15 @@ class Paket extends MY_Controller {
   {
     $agid = $this->input->post('agid', TRUE);
 
+
     $page = $this->input->post('page', TRUE); // get the requested page
     $limit = $this->input->post('rows', TRUE); // get how many rows we want to have into the grid
     $sidx = $this->input->post('sidx', TRUE); // get index row - i.e. user click to sort
     $sord = $this->input->post('sord', TRUE); // get the direction
+    // $page = '1'; // get the requested page
+    // $limit = '20'; // get how many rows we want to have into the grid
+    // $sidx = 'ppnama'; // get index row - i.e. user click to sort
+    // $sord = 'ASC'; // get the direction
     if(!$sidx) $sidx = 1;
 
     $wh = "";
@@ -133,6 +138,7 @@ class Paket extends MY_Controller {
     $i=0;
     foreach ($query as $row):
       $query = $this->Paket_model->checkJO($agid,$row->ppkode);
+
       $jobtglakhir = $query->result()[0]->jobtglakhir;
 
       if($query->num_rows() < 1) {
@@ -176,6 +182,7 @@ class Paket extends MY_Controller {
     $limit = $this->input->post('rows', TRUE); // get how many rows we want to have into the grid
     $sidx = $this->input->post('sidx', TRUE); // get index row - i.e. user click to sort
     $sord = $this->input->post('sord', TRUE); // get the direction
+
     if(!$sidx) $sidx = 1;
 
     $wh = "";

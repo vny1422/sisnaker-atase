@@ -78,9 +78,12 @@ class Endorsement extends MY_Controller {
     $jppermonth = [];
     for($i=0;$i<count($iterm);$i++){
       $temp_1 = array('bulan' => $nm_month[$iterm[$i]]);
+      $tot = 0;
       foreach($listjp as $jp){
         $temp_1[$jp] = $this->Endorsement_model->count_jp_this_month($year,$iterm[$i],$jp);
+        $tot += $temp_1[$jp];
       }
+      $temp_1['total'] = $tot;
       array_push($jppermonth, $temp_1);
     }
 

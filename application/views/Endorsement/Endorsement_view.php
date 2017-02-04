@@ -191,14 +191,17 @@
 
         var datajktahun = [];
         for (i = 0; i < data[1].length; i++) { 
-          datajktahun.push({label: data[1][i].tkjk, value: data[1][i].total});
+          datajktahun.push({label: data[1][i].tkjk, value: data[1][i].total, total: data[0]});
+        }
+        if (datajktahun.length == 0) {
+          datajktahun.push({label: "", value: ""});
         }
 
         jktahun = Morris.Donut({
           element: 'donut-jktahun',
           data: datajktahun,
           resize: true,
-          formatter: function (y, datas) { return y + " (" + Math.round(y/data[0]*100) + "%)"}
+          formatter: function (y, datas) { return y + " (" + Math.round(y/datas.total*100) + "%)"}
         });
 
         if(datajktahun.length > 1) {
@@ -212,14 +215,17 @@
 
         var datajkbulan = [];
         for (i = 0; i < data[3].length; i++) { 
-          datajkbulan.push({label: data[3][i].tkjk, value: data[3][i].total});
+          datajkbulan.push({label: data[3][i].tkjk, value: data[3][i].total, total: data[2]});
+        }
+        if (datajkbulan.length == 0) {
+          datajkbulan.push({label: "", value: ""});
         }
 
         jkbulan = Morris.Donut({
           element: 'donut-jkbulan',
           data: datajkbulan,
           resize: true,
-          formatter: function (y, datas) { return y + " (" + Math.round(y/data[2]*100) + "%)"}
+          formatter: function (y, datas) { return y + " (" + Math.round(y/datas.total*100) + "%)"}
         });
 
         if(datajkbulan.length > 1) {
@@ -234,17 +240,20 @@
         var datasektortahun = [];
         for (i = 0; i < data[5].length; i++) { 
           if (data[5][i].sektor == '1') {
-            datasektortahun.push({label: 'Informal', value: data[5][i].total});
+            datasektortahun.push({label: 'Informal', value: data[5][i].total, total: data[4]});
           } else if (data[5][i].sektor == '2') {
-            datasektortahun.push({label: 'Formal', value: data[5][i].total});
+            datasektortahun.push({label: 'Formal', value: data[5][i].total, total: data[4]});
           }
+        }
+        if (datasektortahun.length == 0) {
+          datasektortahun.push({label: "", value: ""});
         }
 
         sektortahun = Morris.Donut({
           element: 'donut-sektortahun',
           data: datasektortahun,
           resize: true,
-          formatter: function (y, datas) { return y + " (" + Math.round(y/data[4]*100) + "%)"}
+          formatter: function (y, datas) { return y + " (" + Math.round(y/datas.total*100) + "%)"}
         });
 
         if(datasektortahun.length > 1) {
@@ -259,17 +268,20 @@
         var datasektorbulan = [];
         for (i = 0; i < data[7].length; i++) { 
           if (data[7][i].sektor == '1') {
-            datasektorbulan.push({label: 'Informal', value: data[7][i].total});
+            datasektorbulan.push({label: 'Informal', value: data[7][i].total, total: data[6]});
           } else if (data[7][i].sektor == '2') {
-            datasektorbulan.push({label: 'Formal', value: data[7][i].total});
+            datasektorbulan.push({label: 'Formal', value: data[7][i].total, total: data[6]});
           }
+        }
+        if (datasektorbulan.length == 0) {
+          datasektorbulan.push({label: "", value: ""});
         }
 
         sektorbulan = Morris.Donut({
           element: 'donut-sektorbulan',
           data: datasektorbulan,
           resize: true,
-          formatter: function (y, datas) { return y + " (" + Math.round(y/data[6]*100) + "%)"}
+          formatter: function (y, datas) { return y + " (" + Math.round(y/datas.total*100) + "%)"}
         });
 
         if(datasektorbulan.length > 1) {
@@ -283,7 +295,7 @@
 
         var datajptahun = [];
         for (i = 0; i < data[9].length; i++) {
-          var datajpmonth = {month: data[9][i].bulan};
+          var datajpmonth = {month: data[9][i].bulan, total: data[9][i].total};
           for (j = 0; j < data[8].length; j++) {
             datajpmonth[data[8][j]] = data[9][i][data[8][j]];
           }
@@ -296,6 +308,23 @@
           xkey: 'month',
           ykeys: data[8],
           yLabelFormat: function(y){return y != Math.round(y)?'':y;},
+          hoverCallback: function(index, options, content, row) {
+            var contents = $.trim(content);
+            contents = contents.replace(/\n/g, "");
+            var total = row.total;
+            for (key in row) {
+              if(key != "month" && key != "total") {
+                var replaced = "  " + key + ":  " + row[key];
+                if(total == 0) {
+                  newf = "  " + key + ":  " + row[key] + " (0%)";
+                } else {
+                  newf = "  " + key + ":  " + row[key] + " (" + (row[key]/total*100) + '%)';
+                }
+                contents = contents.replace(replaced,newf);
+              }
+            }
+            return contents;
+          },
           labels: data[8],
           stacked: true,
           resize: true
@@ -321,7 +350,10 @@
 
           var datajktahun = [];
           for (i = 0; i < data[1].length; i++) { 
-            datajktahun.push({label: data[1][i].tkjk, value: data[1][i].total});
+            datajktahun.push({label: data[1][i].tkjk, value: data[1][i].total, total: data[0]});
+          }
+          if (datajktahun.length == 0) {
+            datajktahun.push({label: "", value: ""});
           }
 
           if(datajktahun.length > 1) {
@@ -335,7 +367,10 @@
 
           var datajkbulan = [];
           for (i = 0; i < data[3].length; i++) { 
-            datajkbulan.push({label: data[3][i].tkjk, value: data[3][i].total});
+            datajkbulan.push({label: data[3][i].tkjk, value: data[3][i].total, total: data[2]});
+          }
+          if (datajkbulan.length == 0) {
+            datajkbulan.push({label: "", value: ""});
           }
 
           if(datajkbulan.length > 1) {
@@ -350,10 +385,13 @@
           var datasektortahun = [];
           for (i = 0; i < data[5].length; i++) { 
             if (data[5][i].sektor == '1') {
-              datasektortahun.push({label: 'Informal', value: data[5][i].total});
+              datasektortahun.push({label: 'Informal', value: data[5][i].total, total: data[4]});
             } else if (data[5][i].sektor == '2') {
-              datasektortahun.push({label: 'Formal', value: data[5][i].total});
+              datasektortahun.push({label: 'Formal', value: data[5][i].total, total: data[4]});
             }
+          }
+          if (datasektortahun.length == 0) {
+            datasektortahun.push({label: "", value: ""});
           }
 
           if(datasektortahun.length > 1) {
@@ -368,10 +406,13 @@
           var datasektorbulan = [];
           for (i = 0; i < data[7].length; i++) { 
             if (data[7][i].sektor == '1') {
-              datasektorbulan.push({label: 'Informal', value: data[7][i].total});
+              datasektorbulan.push({label: 'Informal', value: data[7][i].total, total: data[6]});
             } else if (data[7][i].sektor == '2') {
-              datasektorbulan.push({label: 'Formal', value: data[7][i].total});
+              datasektorbulan.push({label: 'Formal', value: data[7][i].total, total: data[6]});
             }
+          }
+          if (datasektorbulan.length == 0) {
+            datasektorbulan.push({label: "", value: ""});
           }
 
           if(datasektorbulan.length > 1) {
@@ -385,7 +426,7 @@
 
           var datajptahun = [];
           for (i = 0; i < data[9].length; i++) {
-            var datajpmonth = {month: data[9][i].bulan};
+            var datajpmonth = {month: data[9][i].bulan, total: data[9][i].total};
             for (j = 0; j < data[8].length; j++) {
               datajpmonth[data[8][j]] = data[9][i][data[8][j]];
             }
@@ -413,7 +454,10 @@
 
           var datajkbulan = [];
           for (i = 0; i < data[3].length; i++) { 
-            datajkbulan.push({label: data[3][i].tkjk, value: data[3][i].total});
+            datajkbulan.push({label: data[3][i].tkjk, value: data[3][i].total, total: data[2]});
+          }
+          if (datajkbulan.length == 0) {
+            datajkbulan.push({label: "", value: ""});
           }
 
           if(datajkbulan.length > 1) {
@@ -428,10 +472,13 @@
           var datasektorbulan = [];
           for (i = 0; i < data[7].length; i++) { 
             if (data[7][i].sektor == '1') {
-              datasektorbulan.push({label: 'Informal', value: data[7][i].total});
+              datasektorbulan.push({label: 'Informal', value: data[7][i].total, total: data[6]});
             } else if (data[7][i].sektor == '2') {
-              datasektorbulan.push({label: 'Formal', value: data[7][i].total});
+              datasektorbulan.push({label: 'Formal', value: data[7][i].total, total: data[6]});
             }
+          }
+          if (datasektorbulan.length == 0) {
+            datasektorbulan.push({label: "", value: ""});
           }
 
           if(datasektorbulan.length > 1) {

@@ -30,7 +30,7 @@ class Institution extends MY_Controller {
     		$this->data['list'] = $this->Institution_model->list_all_institution();
 				$this->data['listnama'] = array();
 				foreach ($this->data['list'] as $row):
-					array_push($this->data['listnama'],$this->Currency_model->get_currency_name($row->idinstitution));
+					array_push($this->data['listnama'],$this->Currency_model->get_currency_name($row->idcurrency));
 				endforeach;
 				$this->data['title'] = 'Tabel Institusi';
         $this->load->view('templates/header', $this->data);

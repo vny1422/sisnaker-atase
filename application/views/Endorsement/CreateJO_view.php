@@ -171,7 +171,7 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Update</button>
+        <button type="submit" class="btn btn-primary" id="btnSubmitForm">Update</button>
       </div>
 
     </div>
@@ -319,31 +319,31 @@
                                         <div class="form-group">
                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">ID Card No.<span class="required">*</span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="name" required="required" class="form-control input3rd 3rdrequired">
+                                            <input type="text" name="name" id="firstinput3rd" required="required" class="form-control input3rd 3rdrequired">
                                           </div>
                                         </div><br /><br /><br />
                                         <div class="form-group">
                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Company / Employer Name <span class="required">*</span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="name" required="required" class="form-control input3rd 3rdrequired">
+                                            <input type="text" name="tesad" required="required" id="secondinput3rd" class="form-control input3rd 3rdrequired">
                                           </div>
                                         </div><br /><br /><br />
                                         <div class="form-group">
                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Company / Employer Name (Local Languange)<span class="required">*</span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="name" required="required" class="form-control input3rd 3rdrequired">
+                                            <input type="text" name="name" required="required" id="thirdinput3rd" class="form-control input3rd 3rdrequired">
                                           </div>
                                         </div><br /><br /><br />
                                         <div class="form-group">
                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Address<span class="required">*</span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="name" required="required" class="form-control input3rd 3rdrequired">
+                                            <input type="text" name="name" required="required" id="fourthinput3rd" class="form-control input3rd 3rdrequired">
                                           </div>
                                         </div><br /><br /><br />
                                         <div class="form-group">
                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Address (Local Languange)<span class="required">*</span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="name" required="required" class="form-control input3rd 3rdrequired">
+                                            <input type="text" name="name" required="required" id="fifthinput3rd" class="form-control input3rd 3rdrequired">
                                           </div>
                                         </div><br /><br /><br />
                                         <div class="form-group">
@@ -427,9 +427,9 @@
                                                     </div>
                                                   </div><br /><br /><br />
                                                   <div class="form-group">
-                                                    <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Jumlah Tenaga Kerja yang dibutuhkan<span class="required">*</span></label>
+                                                      <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Jumlah Tenaga Kerja yang dibutuhkan<span class="required">*</span></label>
                                                     <div class="col-md-5 col-sm-5 col-xs-12">
-                                                      <input type="text" name="name" required="required" class="form-control input4th">
+                                                      <input type="text" name="jojmltki" id="jojmltki" required="required" class="form-control input4th">
                                                     </div>
                                                   </div><br /><br /><br />
                                                   <div class="form-group">
@@ -478,7 +478,7 @@
                                                     <div class="col-md-8 col-sm-6 col-xs-12">
                                                     </div>
                                                     <div class="col-md-4 col-sm-6 col-xs-12">
-                                                      <button class="btn btn-primary">Back</button>
+                                                      <button class="btn btn-primary" id="back4th">Back</button>
                                                       <button type="submit" name="submit" class="btn btn-success">Submit</button>
                                                     </div>
                                                   </div>
@@ -647,7 +647,7 @@
                                                 formAddTki.find("input[name=tkialmt2]").val(data.TKI_ORTUADDR);
                                                 formAddTki.find("input[name=tkihub]").val("AYAH");
                                                 formAddTki.find("input[name=tkitmptkeluar]").val(data.TKI_PASPORISSUE);
-                                                formAddTki.find("input[name=tkijmlanaktanggungan]").val(data.TKI_JUMLAH_ANAK);
+                                                formAddTki.find("input[name=tkijmlhanaktanggungan]").val(data.TKI_JUMLAH_ANAK);
                                                 formAddTki.find("input[name=tkitelp]").val(data.TKI_TELPKELUARGA);
                                                 if (data.TKI_TKIMARITAL == "009.002") {tempkwn = 0;}
                                                 else if (data.TKI_TKIMARITAL == "009.003") {tempkwn = 1;}
@@ -667,16 +667,29 @@
                                               $("#imgfoto").attr("src", "http://siskotkln.bnp2tki.go.id/function/get_image.php?img=" + data.TKI_TKIID);
 
                                               $("#modalcheck").unmask();
-                                              if (!isEdit)
-                                              {
-                                                tkidata.push(data);
-                                                drawTKI();
-                                              }
+                                              $("#btnSubmitForm").click(function(){
+                                                if (formAddTki.find("input[name=tkitelp]").val() !== "" && formAddTki.find("input[name=tkijmlhanaktanggungan]").val() !== "" && formAddTki.find("input[name=tkiahliwaris]").val() !== "" && formAddTki.find("input[name=tkinama2]").val() !== "" && formAddTki.find("input[name=tkitelp]").val() !== "") {
+                                                  data.tkistatkwn = formAddTki.find("input[name=tkistatkwn]:checked").val();
+                                                  data.tkitmptkeluar = formAddTki.find("input[name=tkitmptkeluar]").val();
+                                                  data.tkijmlanaktanggungan = formAddTki.find("input[name=tkijmlhanaktanggungan]").val();
+                                                  data.tkiahliwaris = formAddTki.find("input[name=tkiahliwaris]").val();
+                                                  data.tkinama2 = formAddTki.find("input[name=tkinama2]").val();
+                                                  data.tkialmt2 = formAddTki.find("input[name=tkialmt2]").val();
+                                                  data.tkitelp = formAddTki.find("input[name=tkitelp]").val();
+                                                  data.tkihub = formAddTki.find("input[name=tkihub]").val();
+
+                                                  if (!isEdit) tkidata.push(data);
+                                                  drawTKI();
+
+                                                  $("#jojmltki").val(tkidata.length);
+                                                  $("#modalcheck").modal('toggle');
+                                                }
+                                              else {
+                                                window.alert('Pastikan semua data terisi!');
+                                              }});
                                             }
 
-                                            $("#btnSubmitForm").click(function(){
-                                              $("#modalcheck").modal('toggle');
-                                            });
+
 
                                             function drawTKI()
                                             {
@@ -765,7 +778,7 @@
                                             $("#next3rd").click(function(e){
                                               if(cek3rd == false)
                                               {
-                                                if($('.3rdrequired').val() != "")
+                                                if($('#firstinput3rd').val() != "" && $('#secondinput3rd').val() != "" && $('#thirdinput3rd').val() != "" && $('#fourthinput3rd').val() != "" && $('#fifthinput3rd').val() != "")
                                                 {
                                                   cek3rd = true;
                                                   e.preventDefault();

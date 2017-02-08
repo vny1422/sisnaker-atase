@@ -15,6 +15,13 @@ class Kuitansi_model extends CI_Model {
     return $this->db->get()->result();
   }
 
+  public function getKuitansiByDate($tglfix)
+  {
+    $this->db->where('kutglmasuk', $tglfix);
+    $this->db->join('tipe t', 'kuitansi.idtipe = t.idtipe', 'left');
+    return $this->db->get($this->table)->result();
+  }
+
   public function list_dokumen_kuitansi(){
     return $this->db->get('tipe')->result();
   }

@@ -29,6 +29,39 @@ class Kuitansi extends MY_Controller {
 
   }
 
+  public function ubah()
+  {
+    $this->data['title'] = 'Ubah Kuitansi';
+    $this->data['subtitle'] = 'Pencatatan Kuitansi';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/UbahKuitansi_view', $this->data);
+    $this->load->view('templates/footerendorsement');
+  }
+
+  public function edit()
+  {
+    $this->data['title'] = 'Edit Data Kuitansi';
+    $this->data['subtitle'] = 'Pencatatan Kuitansi';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/EditKuitansi_view', $this->data);
+    $this->load->view('templates/footerendorsement');
+  }
+
+  public function cetak()
+  {
+    # code...
+  }
+
+  public function getKuitansiByDate()
+  {
+    $fieldtgl = $this->input->post('fieldtgl',TRUE);
+    $tglsplitted = explode("/", $fieldtgl);
+    $tglfix = $tglsplitted[0]."-".$tglsplitted[1]."-".$tglsplitted[2];
+    $datakuitansi = $this->Kuitansi_model->getKuitansiByDate($tglfix);
+
+    echo json_encode($datakuitansi);
+  }
+
   public function catat()
   {
     $this->form_validation->set_rules('start', 'Tanggal Masuk', 'required|trim');

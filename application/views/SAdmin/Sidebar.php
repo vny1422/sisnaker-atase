@@ -1,6 +1,6 @@
 <!-- menu profile quick info -->
 <div class="profile">
-  <div class="profile_pic">
+  <div class="profile_pic"  style="padding-top:18px">
     <img src="<?php echo base_url('assets/images/user.png'); ?>" alt="..." class="img-circle profile_img">
   </div>
   <div class="profile_info" style="padding-top:17px">
@@ -10,9 +10,10 @@
       {
         echo $_SESSION['name'];
         ?>
-        <br>
-        <?php
-        echo $namainstitusi;
+        <br/>
+        <?php echo "<h5>Kantor/Institusi</h5>"; ?>
+        <?php 
+        echo "<h6><strong>".$namainstitusi."</strong></h6>";
       }
       ?></strong></h2>
     </div>

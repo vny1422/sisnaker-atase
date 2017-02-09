@@ -1,0 +1,214 @@
+
+
+<!--<div class="row">
+        <div class="card six columns rowmargin inner-pad label-B">
+                <span class="fa-stack">
+                        <i class="fa fa-circle fa-stack-2x" style="color: #049372"></i>
+                        <i class="fa fa-bolt fa-stack-1x fa-inverse"></i>
+                </span>
+                {{speed}}</br>
+                <div class="label-A twelve columns"> <span>Aduan Terselesaikan / Minggu</span></div>
+        </div>
+</div>-->
+
+<div class="row">
+        <!-- ADUAN BULANAN -->
+        <div class="card six columns rowmargin">
+                <div class="twelve columns inner-pad">
+                        <canvas  id="line1" class="chart chart-line"
+                                chart-data="dataChart['kasus'].data" chart-options="dataChart['kasus'].opts" chart-labels="dataChart['kasus'].labels"
+                                chart-series="dataChart['kasus'].series" chart-colours="dataChart['kasus'].colors" chart-legend="true">
+                        </canvas>
+                </div>
+                <div class="twelve columns card" style="background-color: #22313F">
+                        <div class="inner-pad label-A" style="color: white">
+                                Jumlah Aduan Setiap Bulan
+                        </div>
+                </div>
+        </div>
+        <!-- UANG -->
+        <div class="card six columns rowmargin">
+                <div class="twelve columns inner-pad" style="margin-bottom: 10px">
+                        <canvas id="line2" class="chart chart-bar"
+                                chart-data="dataChart['uang'].data" chart-options="dataChart['uang'].opts" chart-labels="dataChart['uang'].labels"
+                                chart-series="dataChart['uang'].series" chart-colours="dataChart['uang'].colors">
+                        </canvas>
+                </div>
+                <div class="twelve columns card" style="background-color: #22313F">
+                        <div class="inner-pad label-A" style="color: white;">
+                                Hak Milik TKI Yang Terupayakan</br>
+                                <i style="font-size: 70%">mencakup asuransi, kompensasi, gaji, dan potongan sejenis yang menjadi hak TKI</i>
+                        </div>
+                </div>
+        </div>
+</div>
+
+<div class="row">
+        <div class="four columns rowmargin ">
+                <div class="card twelve columns ">
+                        <div class="card twelve columns label-B" style="background-color: #F62459;">
+                              <div class=" inner-pad">
+                                <span class="fa-stack">
+                                        <i class="fa fa-circle fa-stack-2x" style="color: white" ></i>
+                                        <i class="fa fa-folder fa-stack-1x fa-inverse" style="color: #F62459"></i>
+                                </span>
+                                <font style="color: white">{{total}}</font>
+                                </div>
+                        </div>
+                        <div class="twelve columns inner-pad label-A">
+                                <i>Pengaduan diproses</i>
+                        </div>
+                </div>
+                <div class="card twelve columns rowmargin ">
+                        <div class="card twelve columns label-B" style="background-color: #4183D7;">
+                              <div class=" inner-pad">
+                                <span class="fa-stack">
+                                        <i class="fa fa-circle fa-stack-2x" style="color: white" ></i>
+                                        <i class="fa fa-check fa-stack-1x fa-inverse" style="color: #4183D7"></i>
+                                </span>
+                                <font style="color: white">{{ratio}} %</font>
+                                </div>
+                        </div>
+                        <div class="twelve columns inner-pad label-A">
+                                <i>Aduan Terselesaikan</i>
+                        </div>
+                </div>
+                <div class="card twelve columns rowmargin">
+                        <div class="card twelve columns label-B" style="background-color: #663399;">
+                              <div class=" inner-pad">
+                                <span class="fa-stack">
+                                        <i class="fa fa-circle fa-stack-2x" style="color: white" ></i>
+                                        <i class="fa fa-bolt fa-stack-1x fa-inverse" style="color: #663399"></i>
+                                </span>
+                                <font style="color: white">{{speed}}</font>
+                                </div>
+                        </div>
+                        <div class="twelve columns inner-pad label-A">
+                                <i>Aduan Terselesaikan / Minggu</i>
+                        </div>
+                </div>
+                <div class="card twelve columns rowmargin ">
+                        <div class="card twelve columns label-B" style="background-color: #049372;">
+                              <div class=" inner-pad">
+                                <span class="fa-stack">
+                                        <i class="fa fa-circle fa-stack-2x" style="color: white" ></i>
+                                        <i class="fa fa-money fa-stack-1x fa-inverse" style="color: #049372"></i>
+                                </span>
+                                <font style="color: white">NT$ {{totaluang}}</font>
+                                </div>
+                        </div>
+                        <div class="twelve columns inner-pad label-A">
+                                <i>Hak Milik TKI Terupayakan</i>
+                        </div>
+                </div>
+        </div>
+        <!-- Distribusi Aduan -->
+        <div class="card eight columns rowmargin">
+                <div class="twelve columns card" style="background-color: #22313F">
+                        <div class="inner-pad label-A" style="color: white;">
+                                Kategori Aduan Yang Masuk
+                        </div>
+                </div>
+                <div class="twelve columns inner-pad">
+                        <canvas id="line3" class="chart chart-bar"
+                                chart-data="dataChart['kategori'].data" chart-options="dataChart['kategori'].opts" chart-labels="dataChart['kategori'].labels"
+                                chart-series="dataChart['kategori'].series" chart-colours="dataChart['kategori'].colors">
+                        </canvas>
+                </div>
+                <div class="twelve columns inner-pad2">
+                        <div class="six columns">
+                                <ul style="list-style-type: none;">
+                                        <li ng-repeat="cat in listkategori" ng-show="$index<(listkategori.length/2)" style="padding-bottom: 2px; margin-bottom: 0px !important">
+                                            <strong>{{cat.alpha}}</strong> : {{cat.text}}
+                                        </li>
+                                </ul>
+                        </div>
+                        <div class="six columns">
+                                <ul style="list-style-type: none;">
+                                        <li ng-repeat="cat in listkategori" ng-show="$index>=(listkategori.length/2)" style="padding-bottom: 2px;margin-bottom: 0px !important">
+                                            <strong>{{cat.alpha}}</strong> : {{cat.text}}
+                                        </li>
+                                </ul>
+                        </div>
+                </div>
+        </div>
+</div>
+
+<div class="row">
+        <div class="twelve columns card rowmargin ">
+                <div class="twelve columns card" style="background-color: #22313F">
+                        <div class="inner-pad label-A" style="color: white;">
+                                Detail Penanganan Aduan (2014 - {{nowYear}})
+                        </div>
+                </div>
+                <div class="twelve columns inner-pad">
+                        <div class="eight columns" style="text-align: right">
+                                <div class="eight columns">
+                                        <h4>{{dataStats}}</h4>
+                                </div>
+                                <div class="four columns">
+                                        <h4>{{queryState}}</h4>
+                                </div>
+                        </div>
+                        <div class="four columns">
+                                <form ng-submit="verifyID()">
+                                        <input type="password" ng-model="authID" placeholder="authentication code" ng-hide="url!=null" class="six columns">
+                                        <div class="six columns" ng-show="url!=null" style="text-align: center"><h4 style="color:#22313F">AUTHORIZED</h4></div>
+                                        <div class="offset-by-one five columns">
+                                              <button type="submit" ng-disabled="lockedV">{{vbLabel}}</button>
+                                        </div>
+                                </form>
+                        </div>
+                        <div class="twelve columns rowmargin inner-pad" ng-hide="(url==null)">
+                                <table st-table="displistAduan" st-safe-src="listAduan" class="table">
+                                        <thead>
+                                        <tr>
+                                                <th style="text-align: center" st-sort="namatki">Nama TKI</th>
+                                                <th style="text-align: center" st-sort="paspor">Paspor</th>
+                                                <th style="text-align: center" st-sort="klasifikasi">Klasifikasi Aduan</th>
+                                                <th style="text-align: center" st-sort="tanggalpengaduan">Tanggal Pengaduan</th>
+                                                <th style="text-align: center">Status Penyelesaian</th>
+                                        </tr>
+                                        <tr>
+                                                <th>
+                                                    <input st-search="namatki" placeholder="cari nama" class="input-sm form-control" type="search"/>
+                                                </th>
+                                                <th>
+                                                    <input st-search="paspor" placeholder="cari paspor" class="input-sm form-control" type="search"/>
+                                                </th>
+                                                <th>
+                                                    <input st-search="klasifikasi" placeholder="cari klasifikasi aduan" class="input-sm form-control" type="search"/>
+                                                </th>
+                                                <th>
+                                                    <input st-search="tanggalpengaduan" placeholder="cari tanggal" class="input-sm form-control" type="search"/>
+                                                </th>
+                                                <th>
+                                                    <select st-search="statusmasalah" st-input-event='change'>
+                                                        <option value="">Semua</option>
+                                                        <option value="1">Proses</option>
+                                                        <option value="2">Selesai</option>
+                                                    </select>
+                                                </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="row in displistAduan">
+                                                <td><a ng-click="querykasus(row.idmasalah)" style="cursor: pointer">{{row.namatki}}</a></td>
+                                                <td style="text-align: center">{{row.paspor}}</td>
+                                                <td>{{row.klasifikasi}}</td>
+                                                <td style="text-align: center">{{row.tanggalpengaduan}}</td>
+                                                <td >{{row.statusmasalah==2 ? "Selesai ("+row.tanggalpenyelesaian+")" : "Proses"}}</td>
+                                        </tr>
+                                        </tbody>
+                                        <tfoot>
+                                                <tr>
+                                                    <td colspan="5" class="text-center">
+                                                        <div st-pagination="" st-items-by-page="12" st-template="/sisnaker-atase/assets/template/custom.pagination.html"></div>
+                                                    </td>
+                                                </tr>
+                                        </tfoot>
+                            </table>
+                        </div>
+                </div>
+        </div>
+</div>

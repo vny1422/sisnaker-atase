@@ -205,11 +205,11 @@
         });
 
         if(datajktahun.length > 1) {
-          jktahun.options.colors = ["blue","pink"];
+          jktahun.options.colors = ["#0A4C20","#58CC7E"];
         } else if (datajktahun.length == 1 && datajktahun[0].label == "L") {
-          jktahun.options.colors = ["blue"];
+          jktahun.options.colors = ["#0A4C20"];
         } else if (datajktahun.length == 1 && datajktahun[0].label == "P") {
-          jktahun.options.colors = ["pink"];
+          jktahun.options.colors = ["#58CC7E"];
         }
         jktahun.redraw();
 
@@ -229,11 +229,11 @@
         });
 
         if(datajkbulan.length > 1) {
-          jkbulan.options.colors = ["blue","pink"];
+          jkbulan.options.colors = ["#0A4C20","#58CC7E"];
         } else if (datajkbulan.length == 1 && datajkbulan[0].label == "L") {
-          jkbulan.options.colors = ["blue"];
+          jkbulan.options.colors = ["#0A4C20"];
         } else if (datajkbulan.length == 1 && datajkbulan[0].label == "P") {
-          jkbulan.options.colors = ["pink"];
+          jkbulan.options.colors = ["#58CC7E"];
         }
         jkbulan.redraw();
 
@@ -257,11 +257,11 @@
         });
 
         if(datasektortahun.length > 1) {
-          sektortahun.options.colors = ["red","green"];
+          sektortahun.options.colors = ["#58A8CC","#0A384C"];
         } else if (datasektortahun.length == 1 && datasektortahun[0].label == "Informal") {
-          sektortahun.options.colors = ["red"];
+          sektortahun.options.colors = ["#58A8CC"];
         } else if (datasektortahun.length == 1 && datasektortahun[0].label == "Formal") {
-          sektortahun.options.colors = ["green"];
+          sektortahun.options.colors = ["#0A384C"];
         }
         sektortahun.redraw();
 
@@ -285,11 +285,11 @@
         });
 
         if(datasektorbulan.length > 1) {
-          sektorbulan.options.colors = ["red","green"];
+          sektorbulan.options.colors = ["#58A8CC","#0A384C"];
         } else if (datasektorbulan.length == 1 && datasektorbulan[0].label == "Informal") {
-          sektorbulan.options.colors = ["red"];
+          sektorbulan.options.colors = ["#58A8CC"];
         } else if (datasektorbulan.length == 1 && datasektorbulan[0].label == "Formal") {
-          sektorbulan.options.colors = ["green"];
+          sektorbulan.options.colors = ["#0A384C"];
         }
         sektorbulan.redraw();
 
@@ -357,11 +357,11 @@
           }
 
           if(datajktahun.length > 1) {
-            jktahun.options.colors = ["blue","pink"];
+            jktahun.options.colors = ["#0A4C20","#58CC7E"];
           } else if (datajktahun.length == 1 && datajktahun[0].label == "L") {
-            jktahun.options.colors = ["blue"];
+            jktahun.options.colors = ["#0A4C20"];
           } else if (datajktahun.length == 1 && datajktahun[0].label == "P") {
-            jktahun.options.colors = ["pink"];
+            jktahun.options.colors = ["#58CC7E"];
           }
           jktahun.setData(datajktahun);
 
@@ -374,11 +374,11 @@
           }
 
           if(datajkbulan.length > 1) {
-            jkbulan.options.colors = ["blue","pink"];
+            jkbulan.options.colors = ["#0A4C20","#58CC7E"];
           } else if (datajkbulan.length == 1 && datajkbulan[0].label == "L") {
-            jkbulan.options.colors = ["blue"];
+            jkbulan.options.colors = ["#0A4C20"];
           } else if (datajkbulan.length == 1 && datajkbulan[0].label == "P") {
-            jkbulan.options.colors = ["pink"];
+            jkbulan.options.colors = ["#58CC7E"];
           }
           jkbulan.setData(datajkbulan);
 
@@ -395,11 +395,11 @@
           }
 
           if(datasektortahun.length > 1) {
-            sektortahun.options.colors = ["red","green"];
+            sektortahun.options.colors = ["#58A8CC","#0A384C"];
           } else if (datasektortahun.length == 1 && datasektortahun[0].label == "Informal") {
-            sektortahun.options.colors = ["red"];
+            sektortahun.options.colors = ["#58A8CC"];
           } else if (datasektortahun.length == 1 && datasektortahun[0].label == "Formal") {
-            sektortahun.options.colors = ["green"];
+            sektortahun.options.colors = ["#0A384C"];
           }
           sektortahun.setData(datasektortahun);
 
@@ -416,11 +416,11 @@
           }
 
           if(datasektorbulan.length > 1) {
-            sektorbulan.options.colors = ["red","green"];
+            sektorbulan.options.colors = ["#58A8CC","#0A384C"];
           } else if (datasektorbulan.length == 1 && datasektorbulan[0].label == "Informal") {
-            sektorbulan.options.colors = ["red"];
+            sektorbulan.options.colors = ["#58A8CC"];
           } else if (datasektorbulan.length == 1 && datasektorbulan[0].label == "Formal") {
-            sektorbulan.options.colors = ["green"];
+            sektorbulan.options.colors = ["#0A384C"];
           }
           sektorbulan.setData(datasektorbulan);
 
@@ -461,11 +461,11 @@
           }
 
           if(datajkbulan.length > 1) {
-            jkbulan.options.colors = ["blue","pink"];
+            jkbulan.options.colors = ["#0A4C20","#58CC7E"];
           } else if (datajkbulan.length == 1 && datajkbulan[0].label == "L") {
-            jkbulan.options.colors = ["blue"];
+            jkbulan.options.colors = ["#0A4C20"];
           } else if (datajkbulan.length == 1 && datajkbulan[0].label == "P") {
-            jkbulan.options.colors = ["pink"];
+            jkbulan.options.colors = ["#58CC7E"];
           }
           jkbulan.setData(datajkbulan);
 
@@ -482,11 +482,11 @@
           }
 
           if(datasektorbulan.length > 1) {
-            sektorbulan.options.colors = ["red","green"];
+            sektorbulan.options.colors = ["#58A8CC","#0A384C"];
           } else if (datasektorbulan.length == 1 && datasektorbulan[0].label == "Informal") {
-            sektorbulan.options.colors = ["red"];
+            sektorbulan.options.colors = ["#58A8CC"];
           } else if (datasektorbulan.length == 1 && datasektorbulan[0].label == "Formal") {
-            sektorbulan.options.colors = ["green"];
+            sektorbulan.options.colors = ["#0A384C"];
           }
           sektorbulan.setData(datasektorbulan);
 

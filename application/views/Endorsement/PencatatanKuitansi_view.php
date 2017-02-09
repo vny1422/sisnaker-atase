@@ -179,6 +179,34 @@
   </div>
 </div>
 
+<script>
+  openlabel = function(verb, url, data, target) {
+    var form = document.createElement("form");
+    form.action = url;
+    form.method = verb;
+    form.target = target;
+    if (data) {
+      for (var key in data) {
+        var input = document.createElement("textarea");
+        input.name = key;
+        input.value = typeof data[key] === "object" ? JSON.stringify(data[key]) : data[key];
+        form.appendChild(input);
+      }
+    }
+    form.style.display = 'none';
+    document.body.appendChild(form);
+    map = window.open("", "Label", "width=400,height=300");
+    form.submit();
+  };
+</script>
+
+<?php if($this->session->flashdata('print') != ""): ?>
+  <script type="text/javascript">
+    var code = '<?php echo $bc; ?>';
+    openlabel('POST',"<?php echo base_url()?>kuitansi/printLabel",{barcode: code},'Label');
+  </script>
+<?php endif; ?>
+
 <script type="text/javascript">
 
 $(document).ready(function() {

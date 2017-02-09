@@ -1,6 +1,6 @@
 <!-- menu profile quick info -->
 <div class="profile">
-  <div class="profile_pic">
+  <div class="profile_pic"  style="padding-top:18px">
     <img src="<?php echo base_url('assets/images/user.png'); ?>" alt="..." class="img-circle profile_img">
   </div>
   <div class="profile_info" style="padding-top:17px">
@@ -10,9 +10,10 @@
       {
         echo $_SESSION['name'];
         ?>
-        <br>
-        <?php
-        echo $namainstitusi;
+        <br/>
+        <?php echo "<h5>Kantor/Institusi</h5>"; ?>
+        <?php 
+        echo "<h6><strong>".$namainstitusi."</strong></h6>";
       }
       ?></strong></h2>
     </div>
@@ -28,16 +29,14 @@
 
       <ul class="nav side-menu">
         <?php
-        if ($_SESSION['role'] == 1 || $_SESSION['role'] == 2) {
+        if (sizeof($usedmpg) > 1) {
           foreach ($usedmpg as $rowmpg) {
             echo
             "<li><a> ".$rowmpg->masterprivilegegroupname." <span class=\"fa fa-chevron-down\"></span></a>";
-            if ($rowmpg->masterprivilegegroupid == 1) {
-              echo "<ul class=\"nav child_menu\">";
-            }
+            echo "<ul class=\"nav child_menu\">";
             foreach ($usedpg as $rowpg) {
               if($rowpg->masterprivilegegroupid == $rowmpg->masterprivilegegroupid) {
-                if ($rowpg->masterprivilegegroupid == 1) {
+                if ($rowpg->idprivilegegroup != 10 && $rowpg->idprivilegegroup != 11) {
                   echo
                   "<li><a> ".$rowpg->privilegegroupname." <span class=\"fa fa-chevron-down\"></span></a>";
                 }
@@ -50,16 +49,45 @@
                 echo "</ul></li>";
               }
             }
-            if ($rowmpg->masterprivilegegroupid == 1) {
-              echo "</ul></li>";
-            }
+            echo "</ul></li>";
           }
         }
-        elseif ($_SESSION['role'] == 3 || $_SESSION['role'] == 4) {
+        else {
           foreach ($listdp as $rowdp) {
             echo "<li><a href=".base_url($rowdp->pageurl).">".$rowdp->menuname."</a></li>";
           }
         }
+        //   foreach ($usedmpg as $rowmpg) {
+        //     echo
+        //     "<li><a> ".$rowmpg->masterprivilegegroupname." <span class=\"fa fa-chevron-down\"></span></a>";
+        //     if ($rowmpg->masterprivilegegroupid == 1) {
+        //       echo "<ul class=\"nav child_menu\">";
+        //     }
+        //     foreach ($usedpg as $rowpg) {
+        //       if($rowpg->masterprivilegegroupid == $rowmpg->masterprivilegegroupid) {
+        //         if ($rowpg->masterprivilegegroupid == 1) {
+        //           echo
+        //           "<li><a> ".$rowpg->privilegegroupname." <span class=\"fa fa-chevron-down\"></span></a>";
+        //         }
+        //         echo "<ul class=\"nav child_menu\" style=\"display: none\">";
+        //         foreach ($listdp as $rowdp) {
+        //           if($rowdp->idprivilegegroup == $rowpg->idprivilegegroup) {
+        //             echo "<li><a href=".base_url($rowdp->pageurl).">".$rowdp->menuname."</a></li>";
+        //           }
+        //         }
+        //         echo "</ul></li>";
+        //       }
+        //     }
+        //     if ($rowmpg->masterprivilegegroupid == 1) {
+        //       echo "</ul></li>";
+        //     }
+        //   }
+        // }
+        // elseif ($_SESSION['role'] == 3 || $_SESSION['role'] == 4) {
+        //   foreach ($listdp as $rowdp) {
+        //     echo "<li><a href=".base_url($rowdp->pageurl).">".$rowdp->menuname."</a></li>";
+        //   }
+        // }
         ?>
       </ul>
     </div>

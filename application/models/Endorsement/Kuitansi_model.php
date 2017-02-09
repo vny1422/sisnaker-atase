@@ -40,6 +40,7 @@ class Kuitansi_model extends CI_Model {
         'kukode' => $barcode,
         'kujmlbayar' => $this->input->post('jmlterbayar',TRUE),
         'kupemohon' => $this->input->post('pemohon',TRUE),
+        'kukode' => $barcode
     );
     $this->db->insert($this->table, $data);
     $id = $this->db->insert_id();

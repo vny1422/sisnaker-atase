@@ -149,6 +149,8 @@ class Kuitansi extends MY_Controller {
         $username = $this->session->userdata('user');
         $institusi = $this->session->userdata('institution');
         $this->Kuitansi_model->catat_kuitansi($username,$institusi,$barcodeku);
+        //ini ganti stiker barcode
+        // $barcodeku
         $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
         $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;
         $currencyname = $this->Currency_model->get_currency_name($currencyid);

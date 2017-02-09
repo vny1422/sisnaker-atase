@@ -77,4 +77,44 @@ class Kuitansi_model extends CI_Model {
     $this->db->where('idtipe <> 1');
     return $this->db->get($this->table)->row();
   }
+
+  public function update_kuitansi($id)
+  {
+    $this->data['values'] = $this->Kuitansi_model->get_kuitansi($id);
+      $tgl = explode("-", $this->data['values']->kutglmasuk);
+      $tglkuisplit = explode("-", $this->data['values']->kutglkuitansi);
+      $tglkui = $tglkuisplit[0]."/".$tglkuisplit[1]."/".$tglkuisplit[2];
+      $tglkuisplittime = explode(" ", $tglkui);
+      $this->data['values']->kutglmasuk = $tgl[0]."/".$tgl[1]."/".$tgl[2];
+      $this->data['values']->kutglkuitansi = $tglkuisplittime[0];
+      //var_dump($this->data['values']->kutglmasuk);
+      $this->data['listtipe'] = $this->Kuitansi_model->list_all_tipe();
+      //var_dump($this->data['values']);
+      //var_dump($this->data['listtipe']);
+
+      $tglmasuk = $this->input->post('kutglmasuk', TRUE);
+      $splittglmasuk = explode("/", $tglmasuk);
+      $tglmasukfix = $splittglmasuk[0]."-".splittglmasuk[1]."-".splittglmasuk[2];
+    $data = array(
+      'kutglmasuk' => $this->input->post('kutglmasuk', TRUE),
+      'kutglkuitansi' => $this->input->post('kutglkuitansi', TRUE),
+      'idtipe'=> $this->input->post('idtipe', TRUE),
+      'noku' => $this->input->post('noku', TRUE),
+      'kujmlbayar' => $this->input->post('kujmlbayar', TRUE),
+      'kupemohon' => $this->input->post('kupemohon', TRUE)
+      );
+    $this->db->where('kuid', $id);
+    return $this->db->update('kuitansi', $data);
+  }
+
+  public function get_kuitansi($id)
+  {
+    return $this->db->get_where('kuitansi', array('kuid' => $id))->row();
+  }
+
+  public function list_all_tipe()
+  {
+    $query = $this->db->get('tipe');
+    return $query->result(); 
+  }
 }

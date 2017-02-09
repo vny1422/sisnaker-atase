@@ -38,13 +38,41 @@ class Kuitansi extends MY_Controller {
     $this->load->view('templates/footerendorsement');
   }
 
-  public function edit()
+  public function edit($id)
   {
-    $this->data['title'] = 'Edit Data Kuitansi';
-    $this->data['subtitle'] = 'Pencatatan Kuitansi';
-    $this->load->view('templates/headerendorsement', $this->data);
-    $this->load->view('Endorsement/EditKuitansi_view', $this->data);
-    $this->load->view('templates/footerendorsement');
+    $this->form_validation->set_rules('kutglmasuk', 'Tanggal Masuk Kuitansi', 'required|trim');
+    $this->form_validation->set_rules('kutglkuitansi', 'Tanggal Kuitansi', 'required|trim');
+    $this->form_validation->set_rules('idtipe', 'Jenis Dokumen', 'required|trim');
+    $this->form_validation->set_rules('noku', 'Nomor Kuitansi', 'required|trim');
+    $this->form_validation->set_rules('kujmlbayar', 'Jumlah Terbayar', 'required|trim');
+    $this->form_validation->set_rules('kupemohon', 'Nama Pemohon', 'required|trim');
+
+    if ($this->form_validation->run() === FALSE) {
+      $this->data['values'] = $this->Kuitansi_model->get_kuitansi($id);
+      $tgl = explode("-", $this->data['values']->kutglmasuk);
+      $tglkuisplit = explode("-", $this->data['values']->kutglkuitansi);
+      $tglkui = $tglkuisplit[0]."/".$tglkuisplit[1]."/".$tglkuisplit[2];
+      $tglkuisplittime = explode(" ", $tglkui);
+      $this->data['values']->kutglmasuk = $tgl[0]."/".$tgl[1]."/".$tgl[2];
+      $this->data['values']->kutglkuitansi = $tglkuisplittime[0];
+      //var_dump($this->data['values']->kutglmasuk);
+      $this->data['listtipe'] = $this->Kuitansi_model->list_all_tipe();
+      //var_dump($this->data['values']);
+      //var_dump($this->data['listtipe']);
+
+      $this->data['title'] = 'Edit Data Kuitansi';
+      $this->data['subtitle'] = 'Pencatatan Kuitansi';
+      $this->load->view('templates/headerendorsement', $this->data);
+      $this->load->view('Endorsement/EditKuitansi_view', $this->data);
+      $this->load->view('templates/footerendorsement');  
+    }
+    else{
+      $this->Kuitansi_model->update_kuitansi($id);
+      redirect('Endorsement/Ubah');
+    }
+
+
+    
   }
 
   public function cetak()

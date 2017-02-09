@@ -126,3 +126,5 @@ $route['(?i)cekal/(:any)/(:any)'] = 'Endorsement/Cekal/$1/$2';
 $route['(?i)rekapendorsement/(:any)/(:any)'] = 'Endorsement/RekapEndorsement/$1/$2';
 $route['(?i)endorsement/(:any)/(:any)'] = 'Endorsement/Endorsement/$1/$2';
 $route['(?i)pk/(:any)/(:any)'] = 'Endorsement/Pk/$1/$2';
+$route['(?i)kuitansi/(:any)/(:any)'] = 'Endorsement/Kuitansi/$1/$2';
+

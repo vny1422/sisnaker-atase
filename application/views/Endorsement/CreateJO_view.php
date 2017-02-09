@@ -519,6 +519,8 @@
                                             var upperboundp = 0;
                                             var upperboundc = 0;
                                             var addTKI = $("#addTKI");
+                                            var cek = false;
+
 
                                             $(wrap2nd).hide();
                                             $(wrap3rd).hide();
@@ -654,6 +656,7 @@
                                                 else if (data.TKI_TKIMARITAL == "009.001") {tempkwn = 2;}
                                                 formAddTki.find("input:radio[name=tkistatkwn]").filter("[value=" + tempkwn + "]").prop('checked', true);
                                               } else if (isEdit) {
+                                                cek = true;
                                                 formAddTki.find("input:radio[name=tkistatkwn]").filter("[value=" + data.tkistatkwn + "]").prop('checked', true);
                                                 formAddTki.find("input[name=tkitmptkeluar]").val(data.tkitmptkeluar);
                                                 formAddTki.find("input[name=tkijmlanaktanggungan]").val(data.tkijmlanaktanggungan);
@@ -665,7 +668,6 @@
                                               }
 
                                               $("#imgfoto").attr("src", "http://siskotkln.bnp2tki.go.id/function/get_image.php?img=" + data.TKI_TKIID);
-
                                               $("#modalcheck").unmask();
                                               $("#btnSubmitForm").click(function(){
                                                 if (formAddTki.find("input[name=tkitelp]").val() !== "" && formAddTki.find("input[name=tkijmlhanaktanggungan]").val() !== "" && formAddTki.find("input[name=tkiahliwaris]").val() !== "" && formAddTki.find("input[name=tkinama2]").val() !== "" && formAddTki.find("input[name=tkitelp]").val() !== "") {
@@ -678,11 +680,13 @@
                                                   data.tkitelp = formAddTki.find("input[name=tkitelp]").val();
                                                   data.tkihub = formAddTki.find("input[name=tkihub]").val();
 
-                                                  if (!isEdit) tkidata.push(data);
-                                                  drawTKI();
-
+                                                  if (!cek)
+                                                  {
+                                                    tkidata.push(data);
+                                                    drawTKI();
+                                                  }
                                                   $("#jojmltki").val(tkidata.length);
-                                                  $("#modalcheck").modal('toggle');
+                                                  $("#modalcheck").modal('hide');
                                                 }
                                               else {
                                                 window.alert('Pastikan semua data terisi!');
@@ -703,6 +707,11 @@
                                               } else {
                                                 el.html("Empty");
                                               }
+
+                                              el.find("a[edit]").click(function() {
+                                                var tmp = $(this).attr("paspor");
+                                                editDialog(_.find(tkidata, function(a) { return a.TKI_PASPORNO == tmp }), true);
+                                              });
 
                                               el.find("a[delete]").click(function() {
                                                 if (confirm("Are you sure to remove this worker?")) {

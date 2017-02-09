@@ -319,62 +319,62 @@
                                         <div class="form-group">
                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">ID Card No.<span class="required">*</span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="name" id="firstinput3rd" required="required" class="form-control input3rd 3rdrequired">
+                                            <input type="text" name="name" id="idno" required="required" class="form-control input3rd 3rdrequired">
                                           </div>
                                         </div><br /><br /><br />
                                         <div class="form-group">
                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Company / Employer Name <span class="required">*</span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="tesad" required="required" id="secondinput3rd" class="form-control input3rd 3rdrequired">
+                                            <input type="text" name="tesad" required="required" id="employer" class="form-control input3rd 3rdrequired">
                                           </div>
                                         </div><br /><br /><br />
                                         <div class="form-group">
                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Company / Employer Name (Local Languange)<span class="required">*</span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="name" required="required" id="thirdinput3rd" class="form-control input3rd 3rdrequired">
+                                            <input type="text" name="name" required="required" id="employer2" class="form-control input3rd 3rdrequired">
                                           </div>
                                         </div><br /><br /><br />
                                         <div class="form-group">
                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Address<span class="required">*</span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="name" required="required" id="fourthinput3rd" class="form-control input3rd 3rdrequired">
+                                            <input type="text" name="name" required="required" id="address" class="form-control input3rd 3rdrequired">
                                           </div>
                                         </div><br /><br /><br />
                                         <div class="form-group">
                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Address (Local Languange)<span class="required">*</span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="name" required="required" id="fifthinput3rd" class="form-control input3rd 3rdrequired">
+                                            <input type="text" name="name" required="required" id="address2" class="form-control input3rd 3rdrequired">
                                           </div>
                                         </div><br /><br /><br />
                                         <div class="form-group">
                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Phone<span class="required"></span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="name" required="required" class="form-control input3rd">
+                                            <input type="text" name="name" id="phone" class="form-control input3rd">
                                           </div>
                                         </div><br /><br /><br />
                                         <div class="form-group">
                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Fax<span class="required"></span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="name" required="required" class="form-control input3rd">
+                                            <input type="text" name="name" id="fax" class="form-control input3rd">
                                           </div>
                                         </div><br /><br /><br />
                                         <div class="form-group">
                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Authorized Person Name<span class="required"></span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="name" required="required" class="form-control input3rd">
+                                            <input type="text" name="name" id="pngjwb" class="form-control input3rd">
                                           </div>
                                         </div><br /><br /><br />
                                         <div class="form-group">
                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Authorized Person Name (Local Languange)<span class="required">*</span></label>
                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <input type="text" name="name" required="required" class="form-control input3rd">
+                                            <input type="text" name="name" id="pngjwb2" class="form-control input3rd">
                                           </div>
                                         </div><br /><br /><br />
                                         <?php foreach($employer as $row): ?>
                                           <div class="form-group">
                                             <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name"><?php echo $row->nameinputdetail ?></label>
                                             <div class="col-md-5 col-sm-5 col-xs-12">
-                                              <input type="text" name="<?php echo $row->fieldname ?>" class="form-control input3rd">
+                                              <input type="text" id="<?php echo $row->fieldname ?>" class="form-control input3rd">
                                             </div>
                                           </div><br /><br /><br />
                                         <?php endforeach; ?>
@@ -417,37 +417,40 @@
                                                   <div class="form-group">
                                                     <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">CLA Recruitment Letter No.<span class="required">*</span></label>
                                                     <div class="col-md-5 col-sm-5 col-xs-12">
-                                                      <input type="text" name="name" required="required" class="form-control input4th">
+                                                      <input type="text" name="name" required="required" id="clano" class="form-control input4th">
                                                     </div>
                                                   </div><br /><br /><br />
-                                                  <div class="form-group">
-                                                    <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Company / Employer Name <span class="required">*</span></label>
-                                                    <div class="col-md-5 col-sm-5 col-xs-12">
-                                                      <input type="text" name="name" required="required" class="form-control input4th">
+                                                  <div class="form-group" >
+                                                      <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">CLA Recruitment Letter Date<span class="required">*</span></label>
+                                                      <div class="col-md-5 col-sm-5 col-xs-12">
+                                                      <div class="input-group date datepicker col-md-12 col-xs-12" data-provide="datepicker" ng-class="{'has-error':(pst && shForm.inDate.$invalid)}">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                        <input id="cladate" type="text" class="form-control tglformat" required></input>
+                                                      </div>
                                                     </div>
                                                   </div><br /><br /><br />
                                                   <div class="form-group">
                                                       <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Jumlah Tenaga Kerja yang dibutuhkan<span class="required">*</span></label>
                                                     <div class="col-md-5 col-sm-5 col-xs-12">
-                                                      <input type="text" name="jojmltki" id="jojmltki" required="required" class="form-control input4th">
+                                                      <input type="text" readonly name="jojmltki" id="jojmltki" required="required" class="form-control input4th">
                                                     </div>
                                                   </div><br /><br /><br />
                                                   <div class="form-group">
                                                     <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Masa Kontrak<span class="required">*</span></label>
                                                     <div class="col-md-1 col-sm-1 col-xs-12">
-                                                      <input type="text" name="name" required="required" class="form-control input4th">
+                                                      <input type="text" id="tahun" required="required" class="form-control input4th">
                                                     </div>
                                                     <div style="margin-left: -1.5em; margin-top: 0.5em" class="col-md-1 col-sm-1 col-xs-12">
                                                       <p>Tahun</p>
                                                     </div>
                                                     <div class="col-md-1 col-sm-1 col-xs-12">
-                                                      <input type="number" max="100" name="tahun" required="required" class="form-control input4th">
+                                                      <input type="number" id="bulan" required="required" class="form-control input4th">
                                                     </div>
                                                     <div style="margin-left: -1.5em; margin-top: 0.5em" class="col-md-1 col-sm-1 col-xs-12">
                                                       <p>Bulan</p>
                                                     </div>
                                                     <div class="col-md-1 col-sm-1 col-xs-12">
-                                                      <input type="number" max="100" name="bulan" required="required" class="form-control input4th">
+                                                      <input type="number" id="hari" required="required" class="form-control input4th">
                                                     </div>
                                                     <div style="margin-left: -1.5em; margin-top: 0.5em" class="col-md-1 col-sm-1 col-xs-12">
                                                       <p>Hari</p>
@@ -456,20 +459,20 @@
                                                   <div class="form-group">
                                                     <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Gaji <span class="required">*</span></label>
                                                     <div class="col-md-5 col-sm-5 col-xs-12">
-                                                      <input type="number" max="100" name="hari" required="required" class="form-control input4th">
+                                                      <input type="number" required="required" id="jogaji" class="form-control input4th">
                                                     </div>
                                                   </div><br /><br /><br />
                                                   <div class="form-group">
                                                     <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Catatan </label>
                                                     <div class="col-md-5 col-sm-5 col-xs-12">
-                                                      <textarea class="resizable_textarea form-control input4th" name="catatan"></textarea>
+                                                      <textarea class="resizable_textarea form-control input4th" id="catatan"></textarea>
                                                     </div>
                                                   </div><br /><br /><br />
                                                   <?php foreach($joborder as $row): ?>
                                                     <div class="form-group">
                                                       <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name"><?php echo $row->nameinputdetail ?></label>
                                                       <div class="col-md-5 col-sm-5 col-xs-12">
-                                                        <input type="text" name="<?php echo $row->fieldname ?>" class="form-control input4th">
+                                                        <input type="text" id="<?php echo $row->fieldname ?>" class="form-control input4th">
                                                       </div>
                                                     </div><br /><br /><br />
                                                   <?php endforeach; ?>
@@ -479,7 +482,7 @@
                                                     </div>
                                                     <div class="col-md-4 col-sm-6 col-xs-12">
                                                       <button class="btn btn-primary" id="back4th">Back</button>
-                                                      <button type="submit" name="submit" class="btn btn-success">Submit</button>
+                                                      <button name="submit" class="btn btn-success" id="submitpost">Submit</button>
                                                     </div>
                                                   </div>
                                                 </div>
@@ -682,6 +685,7 @@
 
                                                   if (!cek)
                                                   {
+                                                    $("#jogaji").val(data.TKI_GAJI);
                                                     tkidata.push(data);
                                                     drawTKI();
                                                   }
@@ -787,7 +791,7 @@
                                             $("#next3rd").click(function(e){
                                               if(cek3rd == false)
                                               {
-                                                if($('#firstinput3rd').val() != "" && $('#secondinput3rd').val() != "" && $('#thirdinput3rd').val() != "" && $('#fourthinput3rd').val() != "" && $('#fifthinput3rd').val() != "")
+                                                if($('#idno').val() != "" && $('#employer').val() != "" && $('#employer2').val() != "" && $('#address').val() != "" && $('#address2').val() != "")
                                                 {
                                                   cek3rd = true;
                                                   e.preventDefault();
@@ -820,6 +824,15 @@
                                               $('.input1st').removeAttr('disabled');
                                               $('.input2nd').attr('disabled','disabled');
                                             });
+
+                                            $("#submitpost").click(function(e){
+
+                                              $.post("<?php echo base_url()?>Endorsement/insertEJ", {}, function(data, status){
+                                                // window.location.replace("<?php echo base_url()?>Endorsement/printDokumen");
+                                              })
+                                            });
+
+
 
                                             $("#pptkis").change(function(){
                                               $("#loading1st").mask("Loading...");

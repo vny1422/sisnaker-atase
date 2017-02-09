@@ -429,6 +429,28 @@ class Endorsement extends MY_Controller {
 
   }
 
+  function randomString($length) {
+  $data = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  $data .= "0123456789";
+
+  srand((double) microtime() * 1000000);
+
+  for ($i=0; $i<$length; $i++) {
+    $tmp .= substr($data, (rand()%(strlen($data))), 1);
+  }
+
+  return $tmp;
+}
+
+function createUID($tipe, $length = 3) {
+  return $tipe.date("y").date("m").randomString($length);
+}
+
+public function insertEJ()
+{
+  redirect('Endorsement');
+}
+
 
 
 }

@@ -78,4 +78,23 @@ class Kantor_model extends CI_Model {
         $this->db->where('idkantor',$id);
         return $this->db->delete($this->table);
     }
+
+    public function get_kantoragensi_name($user)
+    {
+      $this->db->select('agnama as nama');
+      $this->db->where('username', $user);
+      $query = $this->db->get('magensi');
+      if ( $query->num_rows() > 0 )
+      {
+        return $query->row();
+      }
+      else
+      {
+        $this->db->select('idkantor');
+        $result = $this->db->get_where('user',array('username' => $user))->row();
+        $this->db->select('namakantor as nama');
+        return $this->db->get_where($this->table, array('idkantor' => $result->idkantor))->row();
+      }
+
+    }
 }

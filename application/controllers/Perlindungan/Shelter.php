@@ -16,6 +16,7 @@ class Shelter extends MY_Controller {
     $this->data['usedpg'] = $this->usedpg;
     $this->data['usedmpg'] = $this->usedmpg;
     $this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
+    $this->data['namakantor'] = $this->namakantor->nama;
     $this->data['sidebar'] = 'SAdmin/Sidebar';
   }
 

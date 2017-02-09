@@ -17,6 +17,7 @@ class Perlindungan extends MY_Controller {
     	$this->data['listdp'] = $this->listdp;
     	$this->data['usedpg'] = $this->usedpg;
 			$this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
+			$this->data['namakantor'] = $this->namakantor->nama;
     	$this->data['usedmpg'] = $this->usedmpg;
     	$this->data['sidebar'] = 'SAdmin/Sidebar';
     }
@@ -50,7 +51,7 @@ class Perlindungan extends MY_Controller {
         list($offname, $offperform)           = $this->Perlindungan_model->get_officer_performance($data['year'], $petugas);
         $this->data['officername']            = $offname;
         $this->data['performance']            = $offperform;
-        
+
         $this->data['year_performance']       = $this->Perlindungan_model->get_year_performance($data['year']);
 
         /// list tahun

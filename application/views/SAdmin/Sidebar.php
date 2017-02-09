@@ -11,8 +11,8 @@
         echo $_SESSION['name'];
         ?>
         <br/>
-        <?php echo "<h5>Kantor/Institusi</h5>"; ?>
-        <?php 
+        <?php echo "<h5>".$namakantor."</h5>"; ?>
+        <?php
         echo "<h6><strong>".$namainstitusi."</strong></h6>";
       }
       ?></strong></h2>

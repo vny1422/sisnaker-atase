@@ -18,6 +18,7 @@ class Pk extends MY_Controller {
     $this->data['usedpg'] = $this->usedpg;
     $this->data['usedmpg'] = $this->usedmpg;
     $this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
+    $this->data['namakantor'] = $this->namakantor->nama;
     $this->data['sidebar'] = 'SAdmin/Sidebar';
   }
 
@@ -49,7 +50,7 @@ class Pk extends MY_Controller {
     {
       show_error("Access is forbidden.",403,"403 Forbidden");
     }
-    
+
     $config['upload_path'] = './uploads/';
     $config['allowed_types'] = 'jpg';
     $config['max_size']     = '100';
@@ -68,7 +69,7 @@ class Pk extends MY_Controller {
       $this->data['error'] = "";
       $this->session->set_flashdata('information', 'Upload berhasil dilakukan');
     }
-    
+
     $this->data['title'] = 'Upload Stamp';
     $this->load->view('templates/header', $this->data);
     $this->load->view('SAdmin/UploadStamp_view', $this->data);
@@ -133,7 +134,7 @@ class Pk extends MY_Controller {
               if (isset($tks[$i]['tktglendorsement'])) {
                 $found++;
               }
-                
+
               $loop = 1;
               $tks[$i]['visited'] = 1;
               $tkid = $tks[$i]['tkid'];
@@ -155,7 +156,7 @@ class Pk extends MY_Controller {
           $tmp = array();
           $tmp['success'] = false;
           $tmp['message'] = "Anda melebihi batas maksimal penggantian perjanjian kerja!!!";
-        } else if (!isset($tmp["tklama"]["tkid"])) {          
+        } else if (!isset($tmp["tklama"]["tkid"])) {
           $tmp = array();
           $tmp['success'] = false;
           $tmp['message'] = "Barcode tidak valid!!!";

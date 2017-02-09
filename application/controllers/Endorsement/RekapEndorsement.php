@@ -31,6 +31,7 @@ class RekapEndorsement extends MY_Controller {
 		$this->data['usedpg'] = $this->usedpg;
 		$this->data['usedmpg'] = $this->usedmpg;
 		$this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
+		$this->data['namakantor'] = $this->namakantor->nama;
 		$this->data['sidebar'] = 'SAdmin/Sidebar';
 	}
 
@@ -38,14 +39,14 @@ class RekapEndorsement extends MY_Controller {
 	{
 		$this->data['startMonth'] = 12; // bulan mulai laporan
 		$this->data['startYear'] = 2015; // tahun mulai laporan
-		
+
 		$minShowReport = 4; // tanggal minimum menampilkan laporan
-		
+
 		// today
 		$this->data['day'] = date('j');
 		$this->data['month'] = date('n');
 		$this->data['year'] = date('Y');
-		
+
 		if ($this->data['day'] < $minShowReport)
 			$this->data['month'] -= 1;
 
@@ -74,23 +75,23 @@ class RekapEndorsement extends MY_Controller {
 						->setCellValue('E1', 'Jenis Endorsement')
 						->setCellValue('F1', 'Jumlah Setoran')
 						->setCellValue('G1', 'Barcode');
-							
+
 			// set column width & basic style
 			$widths = array(
-				"A" => 14, 
-				"B"	=> 17, 
-				"C" => 16.29, 
-				"D" => 17.71, 
-				"E" => 31.86, 
-				"F" => 13.14, 
+				"A" => 14,
+				"B"	=> 17,
+				"C" => 16.29,
+				"D" => 17.71,
+				"E" => 31.86,
+				"F" => 13.14,
 				"G" => 27.71
 			);
-						
+
 			foreach ($widths as $key => $value) {
 				$objPHPExcel->getActiveSheet()->getColumnDimension($key)->setWidth(($value+0.71));
 			}
 
-			// apply style					
+			// apply style
 			$style_header = array(
 				'font'    => array(
 					'bold'      => true
@@ -104,7 +105,7 @@ class RekapEndorsement extends MY_Controller {
 					)
 				)
 			);
-						
+
 			$style_cell = array(
 				'borders' => array(
 					'allborders'     => array(
@@ -135,15 +136,15 @@ class RekapEndorsement extends MY_Controller {
 			$objPHPExcel->setActiveSheetIndex(0)
 				->setCellValue('E'.($i-1), 'JUMLAH')
 				->setCellValue('F'.($i-1), "=SUM(F2:F".($i-2).")");
-							
+
 			$objPHPExcel->getActiveSheet()->getStyle("A1:G1")->applyFromArray($style_header);
 			$objPHPExcel->getActiveSheet()->getStyle("A2:G".($i-2))->applyFromArray($style_cell);
 			$objPHPExcel->getActiveSheet()->getStyle("E".($i-1).":F".($i-1))->applyFromArray($style_cell);
-						
+
 			header('Content-Type: application/vnd.ms-excel');
 			header('Content-Disposition: attachment;filename="Rekap Penerimaan Endorsement ('.$this->monthDict[$tanggal[1]-1].' '.$tahun.').xls"');
 			header('Cache-Control: max-age=0');
-						
+
 			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 			$objWriter->save('php://output');
 		}
@@ -167,23 +168,23 @@ class RekapEndorsement extends MY_Controller {
 				->setCellValue('E1', 'Nama Majikan')
 				->setCellValue('F1', 'Jumlah TKI')
 				->setCellValue('G1', 'Barcode');
-							
+
 			// set column width & basic style
 			$widths = array(
-				"A" => 12.71, 
-				"B"	=> 23.43,  
-				"C" => 21.86, 
-				"D" => 21, 
-				"E" => 24.43, 
+				"A" => 12.71,
+				"B"	=> 23.43,
+				"C" => 21.86,
+				"D" => 21,
+				"E" => 24.43,
 				"F" => 10.57,
 				"G" => 10.57
-			);					
-						
+			);
+
 			foreach ($widths as $key => $value) {
 				$objPHPExcel->getActiveSheet()->getColumnDimension($key)->setWidth(($value+0.71));
 			}
-						
-			// apply style					
+
+			// apply style
 			$style_header = array(
 				'font'    => array(
 					'bold'      => true
@@ -227,11 +228,11 @@ class RekapEndorsement extends MY_Controller {
 
 	    	$objPHPExcel->getActiveSheet()->getStyle("A1:G1")->applyFromArray($style_header);
 			$objPHPExcel->getActiveSheet()->getStyle("A2:G".($i-1))->applyFromArray($style_cell);
-						
+
 			header('Content-Type: application/vnd.ms-excel');
 			header('Content-Disposition: attachment;filename="Rekap Job Order ('.$this->monthDict[$tanggal[1]-1].' '.$tahun.').xls"');
 			header('Cache-Control: max-age=0');
-						
+
 			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 			$objWriter->save('php://output');
 		}
@@ -272,11 +273,11 @@ class RekapEndorsement extends MY_Controller {
 
 			// set column width & basic style
 			$widths = array(
-				"A"	=> 27.43, 
-				"B" => 9.14, 
-				"C" => 22.43, 
-				"D" => 20.71, 
-				"E" => 2.14, 
+				"A"	=> 27.43,
+				"B" => 9.14,
+				"C" => 22.43,
+				"D" => 20.71,
+				"E" => 2.14,
 				"F" => 20.89,
 				"G" => 11.71,
 				"H" => 29,
@@ -293,13 +294,13 @@ class RekapEndorsement extends MY_Controller {
 				"S" => 27.43,
 				"T" => 29,
 				"U" => 26
-			);					
+			);
 
 			foreach ($widths as $key => $value) {
 				$objPHPExcel->getActiveSheet()->getColumnDimension($key)->setWidth(($value+0.71));
 			}
 
-			// apply style					
+			// apply style
 			$style_header = array(
 				'font'    => array(
 					'bold' => true
@@ -358,11 +359,11 @@ class RekapEndorsement extends MY_Controller {
 
 	    	$objPHPExcel->getActiveSheet()->getStyle("A1:U1")->applyFromArray($style_header);
 			$objPHPExcel->getActiveSheet()->getStyle("A2:U".($i-1))->applyFromArray($style_cell);
-						
+
 			header('Content-Type: application/vnd.ms-excel');
 			header('Content-Disposition: attachment;filename="Rekap Data TKI Masuk di Endorsement ('.$this->monthDict[$tanggal[1]-1].' '.$tahun.').xls"');
 			header('Cache-Control: max-age=0');
-						
+
 			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 			$objWriter->save('php://output');
 		}

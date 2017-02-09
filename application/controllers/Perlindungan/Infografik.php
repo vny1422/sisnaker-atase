@@ -16,6 +16,7 @@ class Infografik extends MY_Controller {
     $this->data['sidebar'] = 'SAdmin/Sidebar';
     $this->load->model('Perlindungan/TKI_model');
     $this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
+    $this->data['namakantor'] = $this->namakantor->nama;
     $this->load->model('Perlindungan/Infografik_model');
     $this->load->model('Perlindungan/Perlindungan_model');
   }
@@ -96,7 +97,7 @@ class Infografik extends MY_Controller {
       'fin' => $fin,
       'pro' => $pro
     );
-    
+
     $temp_money = array(
       'bulan' => $nm_month[$month[$i]],
       'uang'	=> $uang['uang'],

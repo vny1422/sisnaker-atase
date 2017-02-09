@@ -17,6 +17,7 @@ class AgensiPPTKIS extends MY_Controller {
 			$this->load->model('SAdmin/Institution_model');
 			$this->load->model('SAdmin/User_model');
 			$this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
+			$this->data['namakantor'] = $this->namakantor->nama;
 			$this->load->model('Perlindungan/Agency_model');
 			$this->load->model('Perlindungan/Pptkis_model');
     }

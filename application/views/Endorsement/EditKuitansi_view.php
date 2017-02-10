@@ -21,7 +21,7 @@
                 echo "</div>";
             }
             ?>
-            <?php echo form_open(base_url('Kuitansi/edit/'.$values->kuid)) ?>
+            <?php echo form_open(base_url('kuitansi/edit/'.$values->kuid)) ?>
 
             <div class="form-group">
               <label>Tanggal Masuk</label>

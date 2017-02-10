@@ -96,11 +96,34 @@ class Kuitansi_model extends CI_Model {
       $tglmasuk = $this->input->post('kutglmasuk', TRUE);
       $splittglmasuk = explode("/", $tglmasuk);
       $tglmasukfix = $splittglmasuk[0]."-".splittglmasuk[1]."-".splittglmasuk[2];
+      $tglkuitansinya = $this->input->post('kutglkuitansi', TRUE);
+      $splittglkuitansinya = explode("/", $tglkuitansinya);
+      $tglkuitansinyafix = $splittglkuitansinya[0]."-".splittglkuitansinya[1]."-".splittglkuitansinya[2];
+
     $data = array(
-      'kutglmasuk' => $this->input->post('kutglmasuk', TRUE),
-      'kutglkuitansi' => $this->input->post('kutglkuitansi', TRUE),
+      'kutglmasuk' => $this->input->post('$tglmasukfix', TRUE),
+      'kutglkuitansi' => $this->input->post('$tglkuitansinyafix', TRUE),
       'idtipe'=> $this->input->post('idtipe', TRUE),
       'noku' => $this->input->post('noku', TRUE),
+      'kujmlbayar' => $this->input->post('kujmlbayar', TRUE),
+      'kupemohon' => $this->input->post('kupemohon', TRUE)
+      );
+    $this->db->where('kuid', $id);
+    return $this->db->update('kuitansi', $data);
+  }
+
+  public function updatekuiCoba($id){
+     $tglmasuk = $this->input->post('kutglmasuk', TRUE);
+      $splittglmasuk = explode("/", $tglmasuk);
+      $tglmasukfix = $splittglmasuk[0]."-".$splittglmasuk[1]."-".$splittglmasuk[2]." 00:00:00";
+      $tglkuitansinya = $this->input->post('kutglkuitansi', TRUE);
+      $splittglkuitansinya = explode("/", $tglkuitansinya);
+      $tglkuitansinyafix = $splittglkuitansinya[0]."-".$splittglkuitansinya[1]."-".$splittglkuitansinya[2]." 00:00:00";
+    $data = array(
+      'kutglmasuk' => $this->input->post('$tglmasukfix', TRUE),
+      'kutglkuitansi' => $this->input->post('$tglkuitansinyafix', TRUE),
+      'idtipe'=> $this->input->post('idtipe', TRUE),
+      'kuno' => $this->input->post('noku', TRUE),
       'kujmlbayar' => $this->input->post('kujmlbayar', TRUE),
       'kupemohon' => $this->input->post('kupemohon', TRUE)
       );

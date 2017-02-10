@@ -1,3 +1,12 @@
+<style type="text/css">
+  .fielddata{
+    padding-top: 1%;
+  }
+  .fieldtitle{
+    margin-top: -5%;
+  }
+</style>
+
 <!-- start of modal -->
 <div class="modal fade bs-example-modal-lg" id="modalcheck" tabindex="-1" role="dialog" aria-hidden="true">
 <div class="modal-dialog modal-lg">
@@ -38,53 +47,53 @@
                           <form class="form-horizontal form-label-left" id="frmAddTki">
                             <div class="form-group">
                               <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Worker Name<span class="required">*</span></label>
-                              <div class="col-md-6 col-sm-6 col-xs-12">
+                              <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
                                 <p id="tkinama"></p>
                               </div>
                             </div><br /><br />
-                            <div class="form-group">
+                            <div class="form-group fieldtitle">
                               <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Worker Address<span class="required">*</span></label>
-                              <div class="col-md-6 col-sm-6 col-xs-12">
+                              <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
                                 <p id="tkialmtid"></p>
                               </div>
                             </div><br /><br />
-                            <div class="form-group">
+                            <div class="form-group fieldtitle">
                               <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">ID Passport<span class="required">*</span></label>
-                              <div class="col-md-6 col-sm-6 col-xs-12">
+                              <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
                                 <p id="tkipaspor"></p>
                               </div>
                             </div><br /><br />
-                            <div class="form-group">
+                            <div class="form-group fieldtitle">
                               <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Passport Release Date / KTP<span class="required">*</span></label>
-                              <div class="col-md-6 col-sm-6 col-xs-12">
+                              <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
                                 <p id="tkitglkeluar"></p>
                               </div>
                             </div><br /><br />
-                            <div class="form-group">
+                            <div class="form-group fieldtitle">
                               <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Passport Release Place<span class="required">*</span></label>
                               <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="text" id="tkitmptkeluar" name="tkitmptkeluar" required="required" class="form-control">
                               </div>
                             </div><br /><br /><br />
-                            <div class="form-group">
+                            <div class="form-group fieldtitle">
                               <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Birth Date<span class="required">*</span></label>
-                              <div class="col-md-6 col-sm-6 col-xs-12">
+                              <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
                                 <p id="tkitgllahir"></p>
                               </div>
                             </div><br /><br />
-                            <div class="form-group">
+                            <div class="form-group fieldtitle">
                               <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Birth Place<span class="required">*</span></label>
-                              <div class="col-md-6 col-sm-6 col-xs-12">
+                              <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
                                 <p id="tkitmptlahir"></p>
                               </div>
                             </div><br /><br />
-                            <div class="form-group">
+                            <div class="form-group fieldtitle">
                               <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Gender<span class="required">*</span></label>
-                              <div class="col-md-6 col-sm-6 col-xs-12">
+                              <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
                                 <p id="tkitkjk"></p>
                               </div>
                             </div><br /><br />
-                            <div class="form-group">
+                            <div class="form-group fieldtitle">
                               <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Married Status<span class="required">*</span></label>
                               <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div style="margin-top: -0.3em" class="radio">
@@ -96,47 +105,47 @@
                                 </div>
                               </div>
                             </div><br /><br /><br />
-                            <div class="form-group">
+                            <div class="form-group fieldtitle">
                               <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Total childs under 18 y.o<span class="required">*</span></label>
                               <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="text" name="tkijmlhanaktanggungan" required="required" class="form-control">
                               </div>
                             </div><br /><br /><br />
-                            <div class="form-group">
+                            <div class="form-group fieldtitle">
                               <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Heirs Name<span class="required">*</span></label>
                               <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="text" name="tkiahliwaris" required="required" class="form-control">
                               </div>
                             </div><br /><br /><br />
-                            <div class="form-group">
+                            <div class="form-group fieldtitle">
                               <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Emergency Contact Person Name<span class="required">*</span></label>
                               <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="text" name="tkinama2" required="required" class="form-control">
                               </div>
                             </div><br /><br /><br />
-                            <div class="form-group">
+                            <div class="form-group fieldtitle">
                               <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Emergency Contact Person Address<span class="required">*</span></label>
                               <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="text" name="tkialmt2" required="required" class="form-control">
                               </div>
                             </div><br /><br /><br />
-                            <div class="form-group">
+                            <div class="form-group fieldtitle">
                               <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Emergency Contact Person Number<span class="required">*</span></label>
                               <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="text" name="tkitelp" required="required" class="form-control">
                               </div>
                             </div><br /><br /><br />
-                            <div class="form-group">
+                            <div class="form-group fieldtitle">
                               <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Emergency Contact Person Relation<span class="required">*</span></label>
                               <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="text" name="tkihub" required="required" class="form-control">
                               </div>
-                            </div><br /><br /><br />
+                            </div>
                           </form>
 
 
 
-                            <div></br></br></br></div>
+                            <div></br></div>
 
                           </div>
 

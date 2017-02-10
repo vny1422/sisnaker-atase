@@ -70,8 +70,8 @@ class Kuitansi extends MY_Controller {
       $this->load->view('templates/footerendorsement');
     }
     else{
-      $this->Kuitansi_model->update_kuitansi($id);
-      redirect('Endorsement/Ubah');
+      $this->Kuitansi_model->updatekuiCoba($id);
+      redirect('Kuitansi/Ubah');
     }
 
 

@@ -115,13 +115,14 @@ class Kuitansi_model extends CI_Model {
   public function updatekuiCoba($id){
      $tglmasuk = $this->input->post('kutglmasuk', TRUE);
       $splittglmasuk = explode("/", $tglmasuk);
-      $tglmasukfix = $splittglmasuk[0]."-".$splittglmasuk[1]."-".$splittglmasuk[2]." 00:00:00";
+      $tglmasukfix = $splittglmasuk[0]."-".$splittglmasuk[1]."-".$splittglmasuk[2];
       $tglkuitansinya = $this->input->post('kutglkuitansi', TRUE);
       $splittglkuitansinya = explode("/", $tglkuitansinya);
+      //$tglkuitansinyafix = date('Y-m-d H:i:s');
       $tglkuitansinyafix = $splittglkuitansinya[0]."-".$splittglkuitansinya[1]."-".$splittglkuitansinya[2]." 00:00:00";
     $data = array(
-      'kutglmasuk' => $this->input->post('$tglmasukfix', TRUE),
-      'kutglkuitansi' => $this->input->post('$tglkuitansinyafix', TRUE),
+      'kutglmasuk' => $tglmasukfix,
+      'kutglkuitansi' => $tglkuitansinyafix,
       'idtipe'=> $this->input->post('idtipe', TRUE),
       'kuno' => $this->input->post('noku', TRUE),
       'kujmlbayar' => $this->input->post('kujmlbayar', TRUE),

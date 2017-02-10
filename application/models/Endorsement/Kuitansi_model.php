@@ -95,10 +95,10 @@ class Kuitansi_model extends CI_Model {
 
       $tglmasuk = $this->input->post('kutglmasuk', TRUE);
       $splittglmasuk = explode("/", $tglmasuk);
-      $tglmasukfix = $splittglmasuk[0]."-".splittglmasuk[1]."-".splittglmasuk[2];
+      $tglmasukfix = $splittglmasuk[0]."-".$splittglmasuk[1]."-".$splittglmasuk[2];
       $tglkuitansinya = $this->input->post('kutglkuitansi', TRUE);
       $splittglkuitansinya = explode("/", $tglkuitansinya);
-      $tglkuitansinyafix = $splittglkuitansinya[0]."-".splittglkuitansinya[1]."-".splittglkuitansinya[2];
+      $tglkuitansinyafix = $splittglkuitansinya[0]."-".$splittglkuitansinya[1]."-".$splittglkuitansinya[2];
 
     $data = array(
       'kutglmasuk' => $this->input->post('$tglmasukfix', TRUE),
@@ -140,6 +140,6 @@ class Kuitansi_model extends CI_Model {
   public function list_all_tipe()
   {
     $query = $this->db->get('tipe');
-    return $query->result(); 
+    return $query->result();
   }
 }

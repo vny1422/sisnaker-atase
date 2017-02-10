@@ -143,7 +143,7 @@ class Endorsement extends MY_Controller {
   {
     $this->data['title'] = 'Endorsement';
     $this->data['subtitle'] = 'Check Barcode';
-    $this->data['subtitle2'] = 'Pencatatan Kuitansi';
+    $this->data['subtitle2'] = 'Check Barcode';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/CheckBarcode_view', $this->data);
     $this->load->view('templates/footerendorsement');
@@ -448,7 +448,32 @@ function createUID($tipe, $length = 3) {
 
 public function insertEJ()
 {
-  redirect('Endorsement');
+  //insert logic
+}
+
+public function printDokumen($md5ej)
+{
+  $this->data['title'] = 'Endorsement';
+  $this->data['subtitle'] = 'Print Dokumen';
+  $this->data['subtitle2'] = 'Entry JO';
+  $this->load->view('templates/headerendorsement', $this->data);
+  $this->load->view('Endorsement/PrintDokumen_view', $this->data);
+  $this->load->view('templates/footerendorsement');
+}
+
+public function printJO($md5ej)
+{
+  //code pdf job order
+}
+
+public function printSK($md5ej)
+{
+  //code pdf Surat Kuasa
+}
+
+public function printPKTKI($md5tki)
+{
+  //code pdf Perjanjian Kerja
 }
 
 

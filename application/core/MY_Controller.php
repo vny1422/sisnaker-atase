@@ -9,6 +9,7 @@ class MY_Controller extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('SAdmin/Institution_model');
+        $this->load->model('SAdmin/Kantor_model');
         $this->load->model('SAdmin/Privilege_model');
         $this->load->model('SAdmin/Level_model');
 
@@ -21,6 +22,7 @@ class MY_Controller extends CI_Controller {
     public function load_sidebar()
     {
         $this->namainstitusi = $this->Institution_model->get_institution_name($this->session->userdata('institution'));
+        $this->namakantor = $this->Kantor_model->get_kantoragensi_name($this->session->userdata('user'));
         $data['listlevelpriv'] = $this->Level_model->sidebar_level_detail($this->session->userdata('role'));
         $data['countdp'] = $this->Level_model->count_level_detail($this->session->userdata('role'));
         $this->listdp = array();

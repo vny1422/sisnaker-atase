@@ -13,6 +13,7 @@ class Kuitansi extends MY_Controller {
     $this->data['usedpg'] = $this->usedpg;
     $this->data['usedmpg'] = $this->usedmpg;
     $this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
+    $this->data['namakantor'] = $this->namakantor->nama;
     $this->data['sidebar'] = 'SAdmin/Sidebar';
     $this->load->model('SAdmin/Currency_model');
     $this->load->model('SAdmin/Institution_model');
@@ -66,7 +67,7 @@ class Kuitansi extends MY_Controller {
       $this->data['subtitle'] = 'Pencatatan Kuitansi';
       $this->load->view('templates/headerendorsement', $this->data);
       $this->load->view('Endorsement/EditKuitansi_view', $this->data);
-      $this->load->view('templates/footerendorsement');  
+      $this->load->view('templates/footerendorsement');
     }
     else{
       $this->Kuitansi_model->update_kuitansi($id);
@@ -74,7 +75,7 @@ class Kuitansi extends MY_Controller {
     }
 
 
-    
+
   }
 
   public function cetak()

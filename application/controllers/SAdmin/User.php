@@ -18,6 +18,7 @@ class User extends MY_Controller {
 		$this->data['usedpg'] = $this->usedpg;
 		$this->data['usedmpg'] = $this->usedmpg;
 		$this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
+		$this->data['namakantor'] = $this->namakantor->nama;
 		$this->data['sidebar'] = 'SAdmin/Sidebar';
 
 		if ($this->session->userdata('role') != 1 && $this->session->userdata('role') != 2)
@@ -32,7 +33,7 @@ class User extends MY_Controller {
 			$this->data['list'] = $this->User_model->list_all_user();
 		}
 		else {
-			$this->data['list'] = $this->User_model->list_all_user_by_institution($this->session->userdata('institution'));		
+			$this->data['list'] = $this->User_model->list_all_user_by_institution($this->session->userdata('institution'));
 		}
 		$this->data['listnamainstitusi'] = array();
 		foreach ($this->data['list'] as $row):

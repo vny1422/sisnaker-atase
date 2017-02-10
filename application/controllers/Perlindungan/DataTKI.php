@@ -15,6 +15,7 @@ class Datatki extends MY_Controller {
     $this->data['usedmpg'] = $this->usedmpg;
     $this->data['sidebar'] = 'SAdmin/Sidebar';
     $this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
+    $this->data['namakantor'] = $this->namakantor->nama;
     $this->load->model('Perlindungan/TKI_model');
   }
 

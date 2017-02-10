@@ -11,8 +11,8 @@
         echo $_SESSION['name'];
         ?>
         <br/>
-        <?php echo "<h5>Kantor/Institusi</h5>"; ?>
-        <?php 
+        <?php echo "<h5>".$namakantor."</h5>"; ?>
+        <?php
         echo "<h6><strong>".$namainstitusi."</strong></h6>";
       }
       ?></strong></h2>
@@ -39,55 +39,44 @@
                 if ($rowpg->idprivilegegroup != 10 && $rowpg->idprivilegegroup != 11) {
                   echo
                   "<li><a> ".$rowpg->privilegegroupname." <span class=\"fa fa-chevron-down\"></span></a>";
-                }
-                echo "<ul class=\"nav child_menu\" style=\"display: none\">";
-                foreach ($listdp as $rowdp) {
-                  if($rowdp->idprivilegegroup == $rowpg->idprivilegegroup) {
-                    echo "<li><a href=".base_url($rowdp->pageurl).">".$rowdp->menuname."</a></li>";
+                  echo "<ul class=\"nav child_menu\" style=\"display: none\">";
+                  foreach ($listdp as $rowdp) {
+                    if($rowdp->idprivilegegroup == $rowpg->idprivilegegroup) {
+                      echo "<li><a href=".base_url($rowdp->pageurl).">".$rowdp->menuname."</a></li>";
+                    }
+                  }
+                  echo "</ul></li>";
+                } else {
+                  foreach ($listdp as $rowdp) {
+                    if($rowdp->idprivilegegroup == $rowpg->idprivilegegroup) {
+                      echo "<li><a href=".base_url($rowdp->pageurl).">".$rowdp->menuname."</a></li>";
+                    }
                   }
                 }
-                echo "</ul></li>";
               }
             }
             echo "</ul></li>";
           }
         }
         else {
-          foreach ($listdp as $rowdp) {
-            echo "<li><a href=".base_url($rowdp->pageurl).">".$rowdp->menuname."</a></li>";
+          foreach ($usedpg as $rowpg) {
+            if ($rowpg->idprivilegegroup != 10 && $rowpg->idprivilegegroup != 11) {
+              echo
+              "<li><a> ".$rowpg->privilegegroupname." <span class=\"fa fa-chevron-down\"></span></a>";
+              echo "<ul class=\"nav child_menu\" style=\"display: none\">";
+              foreach ($listdp as $rowdp) {
+                if($rowdp->idprivilegegroup == $rowpg->idprivilegegroup) {
+                  echo "<li><a href=".base_url($rowdp->pageurl).">".$rowdp->menuname."</a></li>";
+                }
+              }
+              echo "</ul></li>";
+            } else {
+              foreach ($listdp as $rowdp) {
+                echo "<li><a href=".base_url($rowdp->pageurl).">".$rowdp->menuname."</a></li>";
+              }
+            }
           }
         }
-        //   foreach ($usedmpg as $rowmpg) {
-        //     echo
-        //     "<li><a> ".$rowmpg->masterprivilegegroupname." <span class=\"fa fa-chevron-down\"></span></a>";
-        //     if ($rowmpg->masterprivilegegroupid == 1) {
-        //       echo "<ul class=\"nav child_menu\">";
-        //     }
-        //     foreach ($usedpg as $rowpg) {
-        //       if($rowpg->masterprivilegegroupid == $rowmpg->masterprivilegegroupid) {
-        //         if ($rowpg->masterprivilegegroupid == 1) {
-        //           echo
-        //           "<li><a> ".$rowpg->privilegegroupname." <span class=\"fa fa-chevron-down\"></span></a>";
-        //         }
-        //         echo "<ul class=\"nav child_menu\" style=\"display: none\">";
-        //         foreach ($listdp as $rowdp) {
-        //           if($rowdp->idprivilegegroup == $rowpg->idprivilegegroup) {
-        //             echo "<li><a href=".base_url($rowdp->pageurl).">".$rowdp->menuname."</a></li>";
-        //           }
-        //         }
-        //         echo "</ul></li>";
-        //       }
-        //     }
-        //     if ($rowmpg->masterprivilegegroupid == 1) {
-        //       echo "</ul></li>";
-        //     }
-        //   }
-        // }
-        // elseif ($_SESSION['role'] == 3 || $_SESSION['role'] == 4) {
-        //   foreach ($listdp as $rowdp) {
-        //     echo "<li><a href=".base_url($rowdp->pageurl).">".$rowdp->menuname."</a></li>";
-        //   }
-        // }
         ?>
       </ul>
     </div>

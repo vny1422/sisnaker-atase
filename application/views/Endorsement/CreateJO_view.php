@@ -828,7 +828,7 @@
                                             $("#submitpost").click(function(e){
 
                                               $.post("<?php echo base_url()?>Endorsement/insertEJ", {}, function(data, status){
-                                                // window.location.replace("<?php echo base_url()?>Endorsement/printDokumen");
+                                                window.location.replace("<?php echo base_url()?>Endorsement/printDokumen/eccbc87e4b5ce2fe28308fd9f2a7baf3");
                                               })
                                             });
 

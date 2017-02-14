@@ -8,9 +8,9 @@ class Paket_model extends CI_Model {
     function getAgensi_ForTable($idinstitution,$start,$limit,$sidx,$sord,$wh)
     {
         if ($this->session->userdata('role') == 2) {
-            $sql = "SELECT * FROM magensi WHERE idinstitution = ".$idinstitution." AND agid not in (select distinct agid_kembar as agid from agensi_merge_map)".$wh." ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
+            $sql = "SELECT * FROM magensi WHERE idinstitution = ".$idinstitution." AND agid not in (select distinct agid_kembar as agid from agensi_merge_map) AND agid not in (select c.agid from cekalagensi c where c.enable=1 AND (c.caend IS NULL OR c.caend >= NOW()))".$wh." ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
         } else if ($this->session->userdata('role') == 4) {
-            $sql = "SELECT * FROM magensi WHERE idinstitution = ".$idinstitution." AND username = '".$this->session->userdata('user')."' AND agid not in (select distinct agid_kembar as agid from agensi_merge_map)".$wh." ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
+            $sql = "SELECT * FROM magensi WHERE idinstitution = ".$idinstitution." AND username = '".$this->session->userdata('user')."' AND agid not in (select distinct agid_kembar as agid from agensi_merge_map) AND agid not in (select c.agid from cekalagensi c where c.enable=1 AND (c.caend IS NULL OR c.caend >= NOW()))".$wh." ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
         }
 
         $query = $this->db->query($sql);
@@ -23,9 +23,9 @@ class Paket_model extends CI_Model {
     function countAgensi($idinstitution,$wh)
     {
         if ($this->session->userdata('role') == 2) {
-            $sql = "SELECT COUNT(*) as count FROM magensi WHERE idinstitution = ".$idinstitution." AND agid not in (select distinct agid_kembar as agid from agensi_merge_map)".$wh;
+            $sql = "SELECT COUNT(*) as count FROM magensi WHERE idinstitution = ".$idinstitution." AND agid not in (select distinct agid_kembar as agid from agensi_merge_map) AND agid not in (select c.agid from cekalagensi c where c.enable=1 AND (c.caend IS NULL OR c.caend >= NOW()))".$wh;
         } else if ($this->session->userdata('role') == 4) {
-            $sql = "SELECT COUNT(*) as count FROM magensi WHERE idinstitution = ".$idinstitution." AND username = '".$this->session->userdata('user')."' AND agid not in (select distinct agid_kembar as agid from agensi_merge_map)".$wh;
+            $sql = "SELECT COUNT(*) as count FROM magensi WHERE idinstitution = ".$idinstitution." AND username = '".$this->session->userdata('user')."' AND agid not in (select distinct agid_kembar as agid from agensi_merge_map) AND agid not in (select c.agid from cekalagensi c where c.enable=1 AND (c.caend IS NULL OR c.caend >= NOW()))".$wh;
         }
 
         $query = $this->db->query($sql);
@@ -37,7 +37,7 @@ class Paket_model extends CI_Model {
 
     function getPPTKIS_ForTable($agid,$start,$limit,$sidx,$sord,$wh)
     {
-        $sql = "SELECT * FROM jo JOIN mpptkis ON mpptkis.ppkode = jo.ppkode WHERE agid = ".$agid."".$wh." GROUP BY jo.ppkode ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
+        $sql = "SELECT * FROM jo JOIN mpptkis ON mpptkis.ppkode = jo.ppkode WHERE agid = ".$agid." AND mpptkis.ppkode not in (select c.ppkode from cekalpptkis c where c.enable=1 AND (c.cpend IS NULL OR c.cpend >= NOW()))".$wh." GROUP BY jo.ppkode ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
         $query = $this->db->query($sql);
 
         $result = $query->result();
@@ -47,7 +47,7 @@ class Paket_model extends CI_Model {
 
     function countPPTKIS($agid,$wh)
     {
-        $sql = "SELECT COUNT(*) as count FROM jo JOIN mpptkis ON mpptkis.ppkode = jo.ppkode WHERE agid = ".$agid."".$wh;
+        $sql = "SELECT COUNT(*) as count FROM jo JOIN mpptkis ON mpptkis.ppkode = jo.ppkode WHERE agid = ".$agid." AND mpptkis.ppkode not in (select c.ppkode from cekalpptkis c where c.enable=1 AND (c.cpend IS NULL OR c.cpend >= NOW()))".$wh;
         $query = $this->db->query($sql);
 
         $num = $query->result()[0];

@@ -78,9 +78,9 @@
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Nama Tabel <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-              <input type="text" name="namatabel" class="form-control">
+              <input type="text" name="namatabel" class="form-control">*Tabel harus mempunyai field id dan name
             </div>
-          </div><br /><br /><br />
+          </div><br /><br /><br /><br />
         </div>
 
           <div class="input_fields_wrap" id="wrapopsi">

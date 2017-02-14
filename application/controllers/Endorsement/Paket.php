@@ -511,4 +511,29 @@ class Paket extends MY_Controller {
      echo json_encode($r);
    }
 
+   public function checkCekal()
+   {
+    $idagensi = $this->input->post('idag', TRUE);
+    $idpptkis = $this->input->post('idpp', TRUE);
+
+    $tmp['success'] = true;
+    $tmp['message'] = "";
+
+    $query = $this->Agency_model->get_cekalagid($idagensi);
+    $query2 = $this->Pptkis_model->get_cekalppkode($idpptkis);
+
+    if(!empty($query) && !empty($query2)) {
+      $tmp['success'] = false;
+      $tmp['message'] = "Agensi dan PPTKIS terkena cekal";
+    } elseif(!empty($query)) {
+      $tmp['success'] = false;
+      $tmp['message'] = "Agensi terkena cekal";
+    } elseif(!empty($query2)) {
+      $tmp['success'] = false;
+      $tmp['message'] = "PPTKIS terkena cekal";
+    }
+    
+    echo json_encode($tmp);
+   }
+
 }

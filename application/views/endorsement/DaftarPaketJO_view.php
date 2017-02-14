@@ -64,15 +64,24 @@
         return;
       }
 
-      agensi.attr("disabled", "");
-      pptkis.attr("disabled", "");
+      $.post("<?php echo base_url()?>paket/checkCekal", {idag: idagensi, idpp: idpptkis}, function(data,status){
+        var obj = $.parseJSON(data);
+        if(!obj.success) {
+          alert(obj.message);
+          return;
+        } else {
+          agensi.attr("disabled", "");
+          pptkis.attr("disabled", "");
 
-      $("#grid").jqGrid('setGridParam', {
-        url: "<?php echo base_url()?>paket/listJO",
-        postData: { ppkode: idpptkis,agid: idagensi }
-      }).trigger('reloadGrid');
+          $("#grid").jqGrid('setGridParam', {
+            url: "<?php echo base_url()?>paket/listJO",
+            postData: { ppkode: idpptkis,agid: idagensi }
+          }).trigger('reloadGrid');
 
-      divjo.show();
+          divjo.show();
+        }
+      });
+
     });
 
     $(remove_button).click(function(){

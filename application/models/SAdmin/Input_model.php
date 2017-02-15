@@ -10,6 +10,25 @@ class Input_model extends CI_Model {
     {
         if ($param == 'penempatan'){
             $table = 'inputdetail_penempatan';
+              $this->db->select('COLUMN_NAME');
+              $this->db->where('table_name','entryjo');
+              $this->db->where('table_schema','sisnaker');
+              $this->db->where('column_name',$this->input->post('fieldname',TRUE));
+              $rows = $this->db->get('INFORMATION_SCHEMA.COLUMNS')->num_rows();
+              if($rows == 0)
+              {
+                $checktype = $this->db->get_where('inputtype', array('idinputtype' => $this->input->post('inputtype',TRUE)))->row();
+                if($checktype->nameinputtype != 'date' && $checktype->nameinputtype != 'Date' && $checktype->nameinputtype != 'DATE')
+                {
+                  $this->db->query('ALTER TABLE masalah ADD COLUMN '.$this->input->post('fieldname',TRUE).' VARCHAR(45)');
+                }
+                elseif ($checktype->nameinputtype != 'textarea' && $checktype->nameinputtype != 'Textarea' && $checktype->nameinputtype != 'TEXTAREA') {
+                  $this->db->query('ALTER TABLE masalah ADD COLUMN '.$this->input->post('fieldname',TRUE).' text');
+                }
+                else {
+                  $this->db->query('ALTER TABLE masalah ADD COLUMN '.$this->input->post('fieldname',TRUE).' date');
+                }
+              }
 
         } else {
             $table = 'inputdetail_perlindungan';

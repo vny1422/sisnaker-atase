@@ -112,7 +112,7 @@ class Kuitansi_model extends CI_Model {
     return $this->db->update('kuitansi', $data);
   }
 
-  public function updatekuiCoba($id){
+  public function updatekui($id){
      $tglmasuk = $this->input->post('kutglmasuk', TRUE);
       $splittglmasuk = explode("/", $tglmasuk);
       $tglmasukfix = $splittglmasuk[0]."-".$splittglmasuk[1]."-".$splittglmasuk[2];

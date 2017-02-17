@@ -357,4 +357,66 @@ class Endorsement_model extends CI_Model {
 		return $this->db->count_all_results();
 	}
 
+	function randomString($length) {
+		$data = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		$data .= "0123456789";
+		$tmp = "";
+
+		srand((double) microtime() * 1000000);
+
+		for ($i=0; $i<$length; $i++) {
+			$tmp .= substr($data, (rand()%(strlen($data))), 1);
+		}
+
+		return $tmp;
+	}
+
+	function createUID($tipe, $length = 3) {
+		return $tipe.date("y").date("m").$this->randomString($length);
+	}
+
+	function insert_ej($data)
+	{
+		$this->db->select('MAX(ejid) as ejid');
+		$this->db->from('entryjo');
+		$ejid = $this->db->get()->row()->ejid;
+		$ejid = $ejid + 1;
+		$ejid = md5($ejid);
+		$data["md5ej"] = $ejid;
+		for ($i=0; $i < 101; $i++) {
+			$data["ejbcsp"] = $this->createUID('J',4);
+			$this->db->from('entryjo');
+			$this->db->where('ejbcsp', $data["ejbcsp"]);
+			$total = $this->db->get()->num_rows();
+			if($total == 0)
+			{
+				break;
+			}
+		}
+		for ($i=0; $i < 101; $i++) {
+			$data["ejbcform"] = $this->createUID('I',4);
+			$this->db->from('entryjo');
+			$this->db->where('ejbcform', $data["ejbcform"]);
+			$total = $this->db->get()->num_rows();
+			if($total == 0)
+			{
+				break;
+			}
+		}
+		for ($i=0; $i < 101; $i++) {
+			$data["ejbcsk"] = $this->createUID('K',4);
+			var_dump($data["ejbcsk"]);
+			$this->db->from('entryjo');
+			$this->db->where('ejbcsk', $data["ejbcsk"]);
+			$total = $this->db->get()->num_rows();
+			if($total == 0)
+			{
+				break;
+			}
+		}
+		$this->db->insert('entryjo',$data);
+	}
+
+
+
 }

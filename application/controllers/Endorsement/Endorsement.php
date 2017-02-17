@@ -429,26 +429,24 @@ class Endorsement extends MY_Controller {
 
   }
 
-  function randomString($length) {
-  $data = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  $data .= "0123456789";
-
-  srand((double) microtime() * 1000000);
-
-  for ($i=0; $i<$length; $i++) {
-    $tmp .= substr($data, (rand()%(strlen($data))), 1);
-  }
-
-  return $tmp;
-}
-
-function createUID($tipe, $length = 3) {
-  return $tipe.date("y").date("m").randomString($length);
-}
 
 public function insertEJ()
 {
-  //insert logic
+  $postdata = $this->input->post('postdata', TRUE);
+  $posttki = $this->input->post('posttki', TRUE);
+  $postdata = json_decode($postdata);
+  $posttki = json_decode($posttki);
+  $data = array();
+  foreach(get_object_vars($postdata) as $prop => $val)
+  {
+    $data["$prop"] = $val;
+  }
+  $splittgl = explode("/", $data["joclatgl"]);
+  $data["joclatgl"] = $splittgl[0]."-".$splittgl[1]."-".$splittgl[2];
+  $data["agid"] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'))->agid;
+  $data["idinstitution"] = $this->session->userdata('institution');
+  $this->Endorsement_model->insert_ej($data);
+  echo json_encode($data);
 }
 
 public function printDokumen($md5ej)
@@ -461,14 +459,9 @@ public function printDokumen($md5ej)
   $this->load->view('templates/footerendorsement');
 }
 
-public function printJO($md5ej)
+public function printJOSK($md5ej)
 {
   //code pdf job order
-}
-
-public function printSK($md5ej)
-{
-  //code pdf Surat Kuasa
 }
 
 public function printPKTKI($md5tki)

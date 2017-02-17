@@ -27,7 +27,7 @@
               <!-- panel heading -->
               <div class="panel-heading" id="tabs-head">
                 <ul class="nav nav-tabs" id="tabs-list">
-                  <li><a href=#tabworkerdata data-toggle="tab"><strong>Worker Data</strong></a>
+                  <li class="active"><a href=#tabworkerdata data-toggle="tab"><strong>Worker Data</strong></a>
                   </li>
                   <li><a href=#tabphoto data-toggle="tab"><strong>Photo</strong></a>
                   </li>
@@ -240,7 +240,7 @@
                         <div class="form-group">
                           <label>Job Type</label>
                           <div>
-                            <select class="form-control input1st"  id="jobtype" toggle-dropdown ng-disabled="disableAll">
+                            <select class="form-control input1st"  id="jobtype" toggle-dropdown>
                               <option></option>
                           </select>
                         </div>
@@ -468,7 +468,7 @@
                                                   <div class="form-group">
                                                     <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Gaji <span class="required">*</span></label>
                                                     <div class="col-md-5 col-sm-5 col-xs-12">
-                                                      <input type="number" required="required" id="jogaji" class="form-control input4th">
+                                                      <input type="number" readonly required="required" id="jogaji" class="form-control input4th">
                                                     </div>
                                                   </div><br /><br /><br />
                                                   <div class="form-group">
@@ -835,10 +835,39 @@
                                             });
 
                                             $("#submitpost").click(function(e){
-
-                                              $.post("<?php echo base_url()?>Endorsement/insertEJ", {}, function(data, status){
-                                                window.location.replace("<?php echo base_url()?>Endorsement/printDokumen/eccbc87e4b5ce2fe28308fd9f2a7baf3");
+                                              e.preventDefault();
+                                              var ppkode = $('#pptkis').val().split('/')[0];
+                                              var jobid = $('#jobtype').val().split('/')[0];
+                                              $('jobtype').val()
+                                              var postdata = {
+                                                mjktp:$('#idno').val(),
+                                                mjnama:$('#employer').val(),
+                                                mjnamacn:$('#employer2').val(),
+                                                mjalmt:$('#address').val(),
+                                                mjalmtcn:$('#address2').val(),
+                                                mjtelp:$('#phone').val(),
+                                                mjfax:$('#fax').val(),
+                                                mjpngjwb:$('#pngjwb').val(),
+                                                mjpngjwbcn:$('#pngjwb2').val(),
+                                                joclano:$('#clano').val(),
+                                                joclatgl:$('#cladate').val(),
+                                                jojmltki:$('#jojmltki').val(),
+                                                jomkthn:$('#tahun').val(),
+                                                jomkbln:$('#bulan').val(),
+                                                jomkhr:$('#hari').val(),
+                                                jpgaji:$('#jogaji').val(),
+                                                jocatatan:$('#catatan').val(),
+                                                ppkode:ppkode,
+                                                idjenispekerjaan:jobid
+                                              };
+                                              var jsondata = JSON.stringify(postdata);
+                                              var posttki = JSON.stringify(tkidata);
+                                              $.post("<?php echo base_url()?>Endorsement/insertEJ", {postdata: jsondata, posttki: posttki}, function(data, status){
+                                                var obj = $.parseJSON(data);
+                                                console.log(obj);
+                                                // window.location.replace("<?php echo base_url()?>Endorsement/printDokumen/eccbc87e4b5ce2fe28308fd9f2a7baf3");
                                               })
+
                                             });
 
 

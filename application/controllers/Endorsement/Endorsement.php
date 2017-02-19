@@ -441,12 +441,19 @@ public function insertEJ()
   {
     $data["$prop"] = $val;
   }
+  $url = $this->Endorsement_model->geturlpekerjaan($data["idjenispekerjaan"]);
+  $data["jodownloadurl"] = $url->curjodownloadurl;
   $splittgl = explode("/", $data["joclatgl"]);
   $data["joclatgl"] = $splittgl[0]."-".$splittgl[1]."-".$splittgl[2];
   $data["agid"] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'))->agid;
   $data["idinstitution"] = $this->session->userdata('institution');
-  $this->Endorsement_model->insert_ej($data);
-  echo json_encode($data);
+  $ejid = $this->Endorsement_model->insert_ej($data);
+  foreach($posttki as $tki)
+  {
+    var_dump($tki);
+    var_dump($tki->TKI_TKIID);
+  }
+  echo json_encode(md5($ejid));
 }
 
 public function printDokumen($md5ej)

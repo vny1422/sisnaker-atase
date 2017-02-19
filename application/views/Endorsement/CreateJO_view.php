@@ -98,7 +98,7 @@
                               <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div style="margin-top: -0.3em" class="radio">
                                   <label>
-                                    <input type="radio" class="flat" name="tkistatkwn" value="0"> Married &nbsp
+                                    <input type="radio" class="flat" name="tkistatkwn" value="0" checked="true"> Married &nbsp
                                     <input type="radio" class="flat" name="tkistatkwn" value="1"> Single &nbsp
                                     <input type="radio" class="flat" name="tkistatkwn" value="2"> Divorced
                                   </label>

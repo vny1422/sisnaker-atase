@@ -375,14 +375,24 @@ class Endorsement_model extends CI_Model {
 		return $tipe.date("y").date("m").$this->randomString($length);
 	}
 
+	function uuid() {
+
+		// The field names refer to RFC 4122 section 4.1.2
+
+		return sprintf('%04x%04x%04x%03x4%04x%04x%04x%04x',
+			mt_rand(0, 65535), mt_rand(0, 65535), // 32 bits for "time_low"
+			mt_rand(0, 65535), // 16 bits for "time_mid"
+			mt_rand(0, 4095),  // 12 bits before the 0100 of (version) 4 for "time_hi_and_version"
+			bindec(substr_replace(sprintf('%016b', mt_rand(0, 65535)), '01', 6, 2)),
+				// 8 bits, the last two of which (positions 6 and 7) are 01, for "clk_seq_hi_res"
+				// (hence, the 2nd hex digit after the 3rd hyphen can only be 1, 5, 9 or d)
+				// 8 bits for "clk_seq_low"
+			mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535) // 48 bits for "node"
+		);
+	}
+
 	function insert_ej($data)
 	{
-		$this->db->select('MAX(ejid) as ejid');
-		$this->db->from('entryjo');
-		$ejid = $this->db->get()->row()->ejid;
-		$ejid = $ejid + 1;
-		$ejid = md5($ejid);
-		$data["md5ej"] = $ejid;
 		for ($i=0; $i < 101; $i++) {
 			$data["ejbcsp"] = $this->createUID('J',4);
 			$this->db->from('entryjo');
@@ -405,7 +415,6 @@ class Endorsement_model extends CI_Model {
 		}
 		for ($i=0; $i < 101; $i++) {
 			$data["ejbcsk"] = $this->createUID('K',4);
-			var_dump($data["ejbcsk"]);
 			$this->db->from('entryjo');
 			$this->db->where('ejbcsk', $data["ejbcsk"]);
 			$total = $this->db->get()->num_rows();
@@ -414,7 +423,54 @@ class Endorsement_model extends CI_Model {
 				break;
 			}
 		}
+		for ($i=0; $i < 101; $i++) {
+			$data["ejtoken"] = $this->uuid();
+			$this->db->from('entryjo');
+			$this->db->where('ejtoken', $data["ejtoken"]);
+			$total = $this->db->get()->num_rows();
+			if($total == 0)
+			{
+				break;
+			}
+		}
 		$this->db->insert('entryjo',$data);
+		$id = $this->db->insert_id();
+		$updatemd5 = array(
+			'md5ej' => md5($id)
+		);
+		$this->db->where('ejid', $id);
+		$this->db->update('entryjo', $updatemd5);
+		return $id;
+	}
+
+	function insert_tki($data)
+	{
+		for ($i=0; $i < 101; $i++) {
+			$data["tkbc"] = $this->createUID('T',4);
+			$this->db->from('tki');
+			$this->db->where('tkbc', $data["tkbc"]);
+			$total = $this->db->get()->num_rows();
+			if($total == 0)
+			{
+				break;
+			}
+		}
+		$this->db->insert('tki',$data);
+		$id = $this->db->insert_id();
+		$updatemd5 = array(
+			'md5tki' => md5($id)
+		);
+		$this->db->where('tkid', $id);
+		$this->db->update('tki', $updatemd5);
+		return $id;
+	}
+
+	function geturlpekerjaan($idjp)
+	{
+		$this->db->select('curjodownloadurl,curtkidownloadurl');
+		$this->db->from('jenispekerjaan');
+		$this->db->where('idjenispekerjaan',$idjp);
+		return $this->db->get()->row();
 	}
 
 

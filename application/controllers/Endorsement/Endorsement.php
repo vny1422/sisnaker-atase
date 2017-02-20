@@ -441,12 +441,39 @@ public function insertEJ()
   {
     $data["$prop"] = $val;
   }
+  $url = $this->Endorsement_model->geturlpekerjaan($data["idjenispekerjaan"]);
+  $data["jodownloadurl"] = $url->curjodownloadurl;
   $splittgl = explode("/", $data["joclatgl"]);
   $data["joclatgl"] = $splittgl[0]."-".$splittgl[1]."-".$splittgl[2];
   $data["agid"] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'))->agid;
   $data["idinstitution"] = $this->session->userdata('institution');
-  $this->Endorsement_model->insert_ej($data);
-  echo json_encode($data);
+  $ejid = $this->Endorsement_model->insert_ej($data);
+  $datatki = array();
+  foreach($posttki as $tki)
+  {
+      $datatki["ejid"] = $ejid;
+      $datatki["tknama"] = $tki->TKI_TKINAME;
+      $datatki["tkalmtid"] = $tki->TKI_TKIADDRESS;
+      $datatki["tkpaspor"] = $tki->TKI_PASPORNO;
+      $datatki["tktglkeluar"] = $tki->TKI_KELUARBLKDATE;
+      $datatki["tktmptkeluar"] = $tki->tkitmptkeluar;
+      $datatki["tktgllahir"] = $tki->TKI_TKIDOB;
+      $datatki["tktmptlahir"] = $tki->TKI_TKIPOBDESC;
+      $datatki["tkjk"] = $tki->TKI_TKIGENDER;
+      $datatki["tkstatkwn"] = $tki->tkistatkwn;
+      $datatki["tkjmlanaktanggungan"] = $tki->tkijmlanaktanggungan;
+      $datatki["tkahliwaris"] = $tki->tkiahliwaris;
+      $datatki["tknama2"] = $tki->tkinama2;
+      $datatki["tkalmt2"] = $tki->tkialmt2;
+      $datatki["tktelp"] = $tki->tkitelp;
+      $datatki["tkhub"] = $tki->tkihub;
+      $datatki["tkstat"] = 0;
+      $datatki["tkiid"] = $tki->TKI_TKIID;
+      $datatki["tkidownloadurl"] = $url->curtkidownloadurl;
+      $datatki["md5ej"] = md5($ejid);
+      $this->Endorsement_model->insert_tki($datatki);
+  }
+  echo json_encode(md5($ejid));
 }
 
 public function printDokumen($md5ej)

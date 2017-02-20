@@ -885,6 +885,7 @@
                                                 var splitter = value.split('/');
                                                 ppkode = splitter[0];
                                                 var jobid = splitter[1];
+                                                console.log(jobid);
                                                 $.post("<?php echo base_url()?>Endorsement/getJodetail", {jobid: jobid}, function(data,status){
                                                   var obj = $.parseJSON(data);
                                                   $.each(obj, function (i, item) {

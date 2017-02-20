@@ -443,6 +443,28 @@ class Endorsement_model extends CI_Model {
 		return $id;
 	}
 
+	function insert_tki($data)
+	{
+		for ($i=0; $i < 101; $i++) {
+			$data["tkbc"] = $this->createUID('T',4);
+			$this->db->from('tki');
+			$this->db->where('tkbc', $data["tkbc"]);
+			$total = $this->db->get()->num_rows();
+			if($total == 0)
+			{
+				break;
+			}
+		}
+		$this->db->insert('tki',$data);
+		$id = $this->db->insert_id();
+		$updatemd5 = array(
+			'md5tki' => md5($id)
+		);
+		$this->db->where('tkid', $id);
+		$this->db->update('tki', $updatemd5);
+		return $id;
+	}
+
 	function geturlpekerjaan($idjp)
 	{
 		$this->db->select('curjodownloadurl,curtkidownloadurl');

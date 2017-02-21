@@ -19,12 +19,18 @@
             <label class="control-label col-md-4 col-sm-4 col-xs-12" for="barcode">Silahkan download halaman berikut, dan cetaklah.</label>
             <br /><br />
             <div class="col-md-3 col-sm-3 col-xs-12">
-              <a href="<?php echo base_url()?>Endorsement/printJOSK/eccbc87e4b5ce2fe28308fd9f2a7baf3"><button class="ladda-button" data-style="expand-right" data-color="blue" data-size="xs"><span class="ladda-label" style="color:white">Job Order & Surat Kuasa</span></button></a>
+              <a href="<?php echo base_url()?>Endorsement/printJOSK/<?php echo $md5ej ?>"><button class="ladda-button" data-style="expand-right" data-color="blue" data-size="xs"><span class="ladda-label" style="color:white">Job Order & Surat Kuasa</span></button></a>
             </div>
           </div><br /><br />
+          <?php foreach($listtki as $tki)
+          {
+          ?>
           <div class="col-md-3 col-sm-3 col-xs-12">
-            <a href="<?php echo base_url()?>Endorsement/printPKTKI/c81e728d9d4c2f636f067f89cc14862c"><button class="ladda-button" data-style="expand-right" data-color="green" data-size="xs"><span class="ladda-label" style="color:white">Surat PK DEWI RATNANINGSIH</span></button></a>
+            <a href="<?php echo base_url()?>Endorsement/printPKTKI/<?php echo $tki->md5tki ?>"><button class="ladda-button" data-style="expand-right" data-color="green" data-size="xs"><span class="ladda-label" style="color:white">Surat PK <?php echo $tki->tknama ?></span></button></a>
           </div>
+          <?php
+          }
+          ?>
         </div>
     </div>
     <br />

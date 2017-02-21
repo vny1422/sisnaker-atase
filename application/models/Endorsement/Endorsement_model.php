@@ -473,6 +473,29 @@ class Endorsement_model extends CI_Model {
 		return $this->db->get()->row();
 	}
 
+	function get_tki_byej($md5ej)
+	{
+		$this->db->select('md5tki,tknama');
+		$this->db->from('tki');
+		$this->db->where('md5ej',$md5ej);
+		return $this->db->get()->result();
+	}
+
+	function update_kuota($jo,$job,$laki,$perempuan,$campuran)
+	{
+		$this->db->select('jobdl,jobdp,jobdc');
+		$this->db->where('jobid', $jo);
+		$this->db->where('idjenispekerjaan', $job);
+		$jodetail = $this->db->get('jodetail')->row();
+		$data = array(
+			'jobdl' => $jodetail->jobdl - $laki,
+			'jobdp' => $jodetail->jobdp - $perempuan,
+			'jobdc' => $jodetail->jobdc - $campuran
+		);
+		$this->db->where('jobid', $jo);
+		$this->db->where('idjenispekerjaan', $job);
+		$this->db->update('jodetail',$data);
+	}
 
 
 }

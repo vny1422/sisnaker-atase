@@ -505,6 +505,7 @@
 
                                           $(document).ready(function() {
                                             var data;
+                                            var jo;
                                             var dlg = $("#dlgAddTKI");
                                             var formAddTki = $("#frmAddTki");
                                             var tkidata = [];
@@ -565,7 +566,6 @@
                                                     data = json.data;
                                                     // var agid_mirip = json.tki_agid_mirip;
                                                     var jpid3 = json.jpid;
-                                                    console.log(data);
                                                     if (data.TKI_PJTKIID !== ppkode) {
                                                       $("#loading2nd").unmask();
                                                       alert("Passport " + data.TKI_PASPORNO + " (" + data.TKI_TKINAME + ") is found, but registered for " + data.TKI_PJTKADESC + " - PT. " + data.TKI_PJTKIDESC + ". Please contact your partner PPTKIS to revise it via SISKO System in Indonesia.");
@@ -838,6 +838,9 @@
                                               e.preventDefault();
                                               var ppkode = $('#pptkis').val().split('/')[0];
                                               var jobid = $('#jobtype').val().split('/')[0];
+                                              var selisihl = upperboundl-laki;
+                                              var selisihp = upperboundp-perempuan;
+                                              var selisihc = upperboundc-campuran;
                                               $('jobtype').val()
                                               var postdata = {
                                                 mjktp:$('#idno').val(),
@@ -862,10 +865,9 @@
                                               };
                                               var jsondata = JSON.stringify(postdata);
                                               var posttki = JSON.stringify(tkidata);
-                                              $.post("<?php echo base_url()?>Endorsement/insertEJ", {postdata: jsondata, posttki: posttki}, function(data, status){
+                                              $.post("<?php echo base_url()?>Endorsement/insertEJ", {postdata: jsondata, posttki: posttki, jo: jo, job: jobid,laki: selisihl, perempuan: selisihp, campuran: selisihc}, function(data, status){
                                                 var obj = $.parseJSON(data);
-                                                console.log(obj);
-                                                // window.location.replace("<?php echo base_url()?>Endorsement/printDokumen/eccbc87e4b5ce2fe28308fd9f2a7baf3");
+                                                window.location.replace("<?php echo base_url()?>Endorsement/printDokumen/"+obj);
                                               })
 
                                             });
@@ -878,16 +880,16 @@
                                               .find('option')
                                               .remove()
                                               .end()
-                                              .append('<option></option>');                                              ;
+                                              .append('<option></option>');;
                                               var value = $("#pptkis").val();
                                               if(value != "")
                                               {
                                                 var splitter = value.split('/');
                                                 ppkode = splitter[0];
-                                                var jobid = splitter[1];
-                                                console.log(jobid);
-                                                $.post("<?php echo base_url()?>Endorsement/getJodetail", {jobid: jobid}, function(data,status){
+                                                jo = splitter[1];
+                                                $.post("<?php echo base_url()?>Endorsement/getJodetail", {jobid: jo}, function(data,status){
                                                   var obj = $.parseJSON(data);
+                                                  console.log(data);
                                                   $.each(obj, function (i, item) {
                                                     $('#jobtype').append($('<option>', {
                                                       value: item[1]+'/'+item[3]+'/'+item[4]+'/'+item[5],

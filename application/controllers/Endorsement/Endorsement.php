@@ -434,8 +434,18 @@ public function insertEJ()
 {
   $postdata = $this->input->post('postdata', TRUE);
   $posttki = $this->input->post('posttki', TRUE);
+  $jo = $this->input->post('jo', TRUE);
+  $job = $this->input->post('job', TRUE);
+  $laki = $this->input->post('laki', TRUE);
+  $perempuan = $this->input->post('perempuan', TRUE);
+  $campuran = $this->input->post('campuran', TRUE);
   $postdata = json_decode($postdata);
   $posttki = json_decode($posttki);
+  $jo = json_decode($jo);
+  $job = json_decode($job);
+  $laki = json_decode($laki);
+  $perempuan = json_decode($perempuan);
+  $campuran = json_decode($campuran);
   $data = array();
   foreach(get_object_vars($postdata) as $prop => $val)
   {
@@ -448,6 +458,7 @@ public function insertEJ()
   $data["agid"] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'))->agid;
   $data["idinstitution"] = $this->session->userdata('institution');
   $ejid = $this->Endorsement_model->insert_ej($data);
+  $this->Endorsement_model->update_kuota($jo,$job,$laki,$perempuan,$campuran);
   $datatki = array();
   foreach($posttki as $tki)
   {
@@ -478,6 +489,8 @@ public function insertEJ()
 
 public function printDokumen($md5ej)
 {
+  $this->data["md5ej"] = $md5ej;
+  $this->data["listtki"] = $this->Endorsement_model->get_tki_byej($md5ej);
   $this->data['title'] = 'Endorsement';
   $this->data['subtitle'] = 'Print Dokumen';
   $this->data['subtitle2'] = 'Entry JO';

@@ -681,7 +681,7 @@
 
                                               $("#imgfoto").attr("src", "http://siskotkln.bnp2tki.go.id/function/get_image.php?img=" + data.TKI_TKIID);
                                               $("#modalcheck").unmask();
-                                              $("#btnSubmitForm").click(function(){
+                                              $("#btnSubmitForm").unbind('click').click(function(){
                                                 if (formAddTki.find("input[name=tkitelp]").val() !== "" && formAddTki.find("input[name=tkijmlhanaktanggungan]").val() !== "" && formAddTki.find("input[name=tkiahliwaris]").val() !== "" && formAddTki.find("input[name=tkinama2]").val() !== "" && formAddTki.find("input[name=tkitelp]").val() !== "") {
                                                   data.tkistatkwn = formAddTki.find("input[name=tkistatkwn]:checked").val();
                                                   data.tkitmptkeluar = formAddTki.find("input[name=tkitmptkeluar]").val();
@@ -691,7 +691,6 @@
                                                   data.tkialmt2 = formAddTki.find("input[name=tkialmt2]").val();
                                                   data.tkitelp = formAddTki.find("input[name=tkitelp]").val();
                                                   data.tkihub = formAddTki.find("input[name=tkihub]").val();
-
                                                   if (!cek)
                                                   {
                                                     $("#jogaji").val(data.TKI_GAJI);
@@ -746,6 +745,7 @@
                                                       }
 
                                                       delete tkidata[i];
+                                                      console.log(tkidata);
                                                       break;
                                                     }
                                                   }
@@ -781,6 +781,7 @@
                                                   cek2nd = true;
                                                   $(wrap3rd).show();
                                                   $('.input2nd').attr('disabled', 'disabled');
+                                                  document.getElementById('wrap3rd').scrollIntoView();
                                                 }
                                               }
                                               else {
@@ -792,6 +793,7 @@
                                                 else {
                                                   $('.input2nd').attr('disabled', 'disabled');
                                                   $('.input3rd').removeAttr('disabled');
+                                                  document.getElementById('wrap3rd').scrollIntoView();
                                                 }
                                               }
 
@@ -806,12 +808,14 @@
                                                   e.preventDefault();
                                                   $('.input3rd').attr('disabled', 'disabled');
                                                   $(wrap4th).show();
+                                                  document.getElementById('clano').scrollIntoView();
                                                 }
                                               }
                                               else {
                                                 e.preventDefault();
                                                 $('.input3rd').attr('disabled', 'disabled');
                                                 $('.input4th').removeAttr('disabled');
+                                                document.getElementById('clano').scrollIntoView();
                                               }
 
                                             });

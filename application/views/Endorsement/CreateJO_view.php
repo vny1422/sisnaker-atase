@@ -407,6 +407,8 @@
                                   <!-- END OF STEP3 -->
 
                                   <!-- START OF STEP4 -->
+                                  <div id="scroll4th">
+                                  </div>
                                   <div class="input_fields_wrap"  id="wrap4th">
                                   <div class="row" >
                                     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -420,7 +422,7 @@
                                               <h4><strong>FOURTH-STEP:</strong> JOB ORDER DATA</h4>
                                               <div class="clearfix"></div>
                                             </div>
-                                            <div class="x_content">
+                                            <div class="x_content" >
                                               <div class="col-md-10 center-margin">
                                                 <form class="form-horizontal form-label-left">
                                                   <div class="form-group">
@@ -504,6 +506,35 @@
                                           <script type="text/javascript">
 
                                           $(document).ready(function() {
+                                            window.smoothScrollTo = (function () {
+                                              var timer, start, factor;
+
+                                              return function (target, duration) {
+                                                var offset = window.pageYOffset,
+                                                delta  = target - window.pageYOffset; // Y-offset difference
+                                                duration = duration || 500;              // default 1 sec animation
+                                                start = Date.now();                       // get start time
+                                                factor = 0;
+
+                                                if( timer ) {
+                                                  clearInterval(timer); // stop any running animations
+                                                }
+
+                                                function step() {
+                                                  var y;
+                                                  factor = (Date.now() - start) / duration; // get interpolation factor
+                                                  if( factor >= 1 ) {
+                                                    clearInterval(timer); // stop animation
+                                                    factor = 1;           // clip to max 1.0
+                                                  }
+                                                  y = factor * delta + offset;
+                                                  window.scrollBy(0, y - window.pageYOffset);
+                                                }
+
+                                                timer = setInterval(step, 10);
+                                                return timer;
+                                              };
+                                            }());
                                             var data;
                                             var jo;
                                             var dlg = $("#dlgAddTKI");
@@ -781,7 +812,7 @@
                                                   cek2nd = true;
                                                   $(wrap3rd).show();
                                                   $('.input2nd').attr('disabled', 'disabled');
-                                                  document.getElementById('wrap3rd').scrollIntoView();
+                                                  smoothScrollTo(document.getElementById('wrap3rd').offsetTop);
                                                 }
                                               }
                                               else {
@@ -793,7 +824,7 @@
                                                 else {
                                                   $('.input2nd').attr('disabled', 'disabled');
                                                   $('.input3rd').removeAttr('disabled');
-                                                  document.getElementById('wrap3rd').scrollIntoView();
+                                                  smoothScrollTo(document.getElementById('wrap3rd').offsetTop);
                                                 }
                                               }
 
@@ -805,9 +836,9 @@
                                                 if($('#idno').val() != "" && $('#employer').val() != "" && $('#employer2').val() != "" && $('#address').val() != "" && $('#address2').val() != "")
                                                 {
                                                   cek3rd = true;
+                                                  $(wrap4th).show();
                                                   e.preventDefault();
                                                   $('.input3rd').attr('disabled', 'disabled');
-                                                  $(wrap4th).show();
                                                   document.getElementById('clano').scrollIntoView();
                                                 }
                                               }

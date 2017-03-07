@@ -166,6 +166,19 @@ class Endorsement extends MY_Controller {
     $this->load->view('templates/footerendorsement');
   }
 
+  public function createJOv2()
+  {
+    $this->data['listconnag'] =  $this->Agency_model->get_all_agency();
+    $this->data['employer'] = $this->Input_model->get_input_dataworker($this->session->userdata('institution'));
+    $this->data['joborder'] = $this->Input_model->get_input_joborder($this->session->userdata('institution'));
+    $this->data['title'] = 'Endorsement';
+    $this->data['subtitle'] = 'Create JO Packet';
+    $this->data['subtitle2'] = 'Worker Data';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/CreateJOv2_view', $this->data);
+    $this->load->view('templates/footerendorsement');
+  }
+
   public function viewJO()
   {
   	$agensi = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
@@ -286,6 +299,13 @@ class Endorsement extends MY_Controller {
       );
       $i++;
     endforeach;
+    echo json_encode($rows);
+  }
+
+  function getConnPPTKIS()
+  {
+    $agid = $this->input->post('agid', TRUE);
+    $rows = $this->Endorsement_model->get_connected_pptkis($agid);
     echo json_encode($rows);
 
   }

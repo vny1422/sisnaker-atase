@@ -67,7 +67,6 @@ class Rekap_model extends CI_Model {
 		$this->db->where('u.username  = m.petugaspenanganan');
 		$this->db->where('me.id  = m.idmedia');
 		$this->db->where('k.id = m.idklasifikasi');
-		//$this->db->where('m.recap < 2');
 		
 		if(!is_null($kelas)){			
 			$this->db->like('k.name AS klasifikasi',$kelas,'after');
@@ -119,7 +118,6 @@ class Rekap_model extends CI_Model {
 		$this->db->where('m.idklasifikasi',$class);
 		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
-		//$this->db->where('m.recap < 2');
 		$this->db->where('m.enable', 1);
 		$jumlah = $this->db->count_all_results();
 		
@@ -135,7 +133,6 @@ class Rekap_model extends CI_Model {
 		}
 		$this->db->where($field,$field_val);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
-		//$this->db->where('m.recap < 2');
 		$this->db->where('m.enable', 1);
 		$this->db->stop_cache();
 		
@@ -188,7 +185,6 @@ class Rekap_model extends CI_Model {
 		$this->db->where('sektor',$sector);
 		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
-		//$this->db->where('m.recap < 2');
 		$this->db->where('m.enable', 1);
 		$jumlah = $this->db->count_all_results();
 				
@@ -203,7 +199,6 @@ class Rekap_model extends CI_Model {
 		$this->db->where('sektor',$sector);
 		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
-		//$this->db->where('m.recap < 2');
 		$this->db->where('m.enable', 1);
 		$this->db->stop_cache();
 		
@@ -212,7 +207,6 @@ class Rekap_model extends CI_Model {
 			$this->db->where('m.idklasifikasi',$oneClass);
 			$val = $this->db->count_all_results();
 			array_push($jumlah, $val);
-			//$jumlah[$oneClass] = $val;
 		}
 		
 		$this->db->flush_cache();
@@ -226,7 +220,6 @@ class Rekap_model extends CI_Model {
 		$this->db->where('m.statustki',$status);
 		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
-		//$this->db->where('m.recap < 2');
 		$this->db->where('m.enable', 1);
 		$jumlah = $this->db->count_all_results();
 		
@@ -240,7 +233,6 @@ class Rekap_model extends CI_Model {
 		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		if(!is_null($lingkup)) $this->db->where('idshelter',$lingkup);
-		//$this->db->where('m.recap < 2');
 		$this->db->where('m.enable', 1);
 		
 		$jumlah = $this->db->count_all_results();
@@ -256,7 +248,6 @@ class Rekap_model extends CI_Model {
 		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		if(!is_null($lingkup)) $this->db->where('idshelter',$lingkup);
-		//$this->db->where('m.recap < 2');
 		$this->db->where('m.enable', 1);
 		
 		$this->db->stop_cache();
@@ -285,7 +276,6 @@ class Rekap_model extends CI_Model {
 		$this->db->where('m.idklasifikasi',$class);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		if(!is_null($lingkup)) $this->db->where('idshelter',$lingkup);
-		//$this->db->where('m.recap < 2');
 		$this->db->where('m.enable', 1);
 		
 		$this->db->stop_cache();
@@ -319,7 +309,6 @@ class Rekap_model extends CI_Model {
 		if(!is_null($statustki)) $this->db->where('m.statustki',$statustki);
 		if(!is_null($month)) $this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
-		//$this->db->where('recap < 2');
 		$this->db->where('m.enable', 1);
 		
 		/// if complete --> all, pro, fin
@@ -356,7 +345,6 @@ class Rekap_model extends CI_Model {
 		if(isset($param['lingkup']))	$this->db->where('m.idshelter',$param['lingkup']);
 		if(!is_null($month)) 			$this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
-		//$this->db->where('recap < 2');
 		$this->db->where('m.enable', 1);
 		
 		/// if complete --> all, pro, fin

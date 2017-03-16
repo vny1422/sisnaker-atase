@@ -10,6 +10,7 @@ class Rekap extends MY_Controller {
 		parent::__construct();
 		$this->load->model('Perlindungan/Shelter_model');
 		$this->load->model('Perlindungan/Perlindungan_model');
+		$this->load->model('SAdmin/Currency_model');
 		$this->load->library('Pelaporan');
 
 		$this->load_sidebar();
@@ -41,7 +42,7 @@ class Rekap extends MY_Controller {
 			$time  = $this->input->post('time-bulanrekap');
 
 			$laporan = new Pelaporan();
-			$laporan->generateBulanan($time,$dasar);
+			$laporan->generateBulananv2($time,$dasar,$this->data['namainstitusi']);
 		}
 
 		if(isset($_POST['submit-tahunrekap'])){
@@ -52,14 +53,15 @@ class Rekap extends MY_Controller {
 			if($lingkup==0) $lingkup=null;
 
 			$laporan = new Pelaporan();
-			$laporan->generateTahunan($time,$lingkup,$list_shelter);
+			$laporan->generateTahunanv2($time,$lingkup,$list_shelter,$this->data['namainstitusi']);
 		}
 
 		if(isset($_POST['submit-uangrekap'])){
 			$time = $this->input->post('time-uangrekap');
+			$currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
 
 			$laporan = new Pelaporan();
-			$laporan->generateUang($time);
+			$laporan->generateUang($time,$this->data['namainstitusi'],$currency->currencyname);
 		}
 
 		if(isset($_POST['submit-kelasrekap'])){
@@ -67,7 +69,7 @@ class Rekap extends MY_Controller {
 			$katg = $this->input->post('status-kelasrekap');
 
 			$laporan = new Pelaporan();
-			$laporan->generateKelas($time,$katg);
+			$laporan->generateKelasv2($time,$katg,$this->data['namainstitusi']);
 		}
 
 		if(isset($_POST['submit-shelterrekap'])){

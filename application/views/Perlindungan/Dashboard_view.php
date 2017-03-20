@@ -369,7 +369,7 @@
 
                             <div class="col-lg-9">
                               <div class="text-center">
-                                <h4><label><u>Jumlah Uang Yang Diselamatkan (NT$)</u></label></h4>
+                                <h4><label><u>Jumlah Uang Yang Diselamatkan (<?php echo $namacurrency?>)</u></label></h4>
                                 <div id="graph-money"></div>
                               </div>
 

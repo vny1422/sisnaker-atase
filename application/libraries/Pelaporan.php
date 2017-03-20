@@ -957,7 +957,7 @@ class Pelaporan{
 		$task = array('tahunan','jenis','sektor','status');
 		$namalingkup = "SEMUA SHELTER";
 
-		if ($lingkup != null) {
+		if ($lingkup != NULL) {
 			foreach($list_shelter as $row) {
 				if ($row->id == $lingkup) {
 					$namalingkup = strtoupper($row->name);

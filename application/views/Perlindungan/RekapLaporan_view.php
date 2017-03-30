@@ -19,12 +19,6 @@
             <div class="row" style="padding-top: 20px">
               <div class="col-lg-12">
                 <div class="panel with-nav-tabs panel-danger">
-                  <div class="panel-heading" id="tabs-head">
-                    <ul class="nav nav-tabs" id="tabs-list">
-                      <li role="presentation" class="active"><a href="#self" role="tab" data-toggle="tab">Rekap Manual</a></li>
-                      <li role="presentation"><a href="#auto" role="tab" data-toggle="tab">Rekap Periodik (Auto)</a></li>
-                    </ul>
-                  </div>
                   <div class="panel-body">
                     <div class="tab-content">
                       <div role="tabpanel" class="tab-pane fade in active" id="self">
@@ -340,23 +334,6 @@
             <!-- ./ Row -->
           </div>
 
-          <!-- ./ tabpanel -->
-          <div role="tabpanel" class="tab-pane fade in" id="auto">
-            <div class="col-12" style="padding: 16px">
-              Rekap kasus secara otomatis pada tanggal 6 setiap bulan. Mencakup:
-              <ul>
-                <li>Rekap Bulan</li>
-                <li>Rekap Tahun</li>
-                <li>Rekap Uang Selamat</li>
-              </ul>
-            </div>
-            <div class="col-lg-6" >
-              <div id="filetree-basic" class="well">
-
-              </div>
-            </div>
-
-          </div>
         </div>
 
       </div>
@@ -370,17 +347,6 @@
 </div>
 
 <script type="text/javascript">
-
-  $('#filetree-basic').fileTree({
-    script: window.location.protocol+'jFT.php',
-    root: '/sisnaker-atase/assets/rekap/',
-    multiFolder: true
-  }, function(file) {
-    window.open(window.location.protocol+file, '_blank');
-  });
-
-  $('#tabs-list').css('border-bottom','0px');
-  $('#tabs-head').css('padding-bottom','0px');
 
   $("#time-detailrekap").datepicker({
     minViewMode : 1,

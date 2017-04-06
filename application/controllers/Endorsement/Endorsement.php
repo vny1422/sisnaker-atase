@@ -407,7 +407,11 @@ class Endorsement extends MY_Controller {
       $result = XMLRPC_request($xmlrpc_server_host,  $xml_rpc_server_path ,"siskotkln_ws" , array( XMLRPC_prepare( $inputArray ) ) );
   			$r = new stdClass;
   			$r->status = 0;
-  			$r->my_agid = $agensi->agid;
+        if(isset($agensi)){
+          $r->my_agid = $agensi->agid;
+        } else {
+          $r->my_agid = '';
+        }
   			$r->tki_agid = 0;
   			$r->jpid = $jpid;
 

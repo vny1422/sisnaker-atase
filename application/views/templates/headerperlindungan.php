@@ -62,6 +62,9 @@
     <!-- Bootstrap Progressbar CSS -->
     <link href="<?php echo assets_url() ?>css/progressbar/bootstrap-progressbar-3.3.0.css" rel="stylesheet">
 
+    <!-- Ladda -->
+    <link href="<?php echo base_url('assets/css/ladda.min.css'); ?>" rel="stylesheet">
+
     <!-- css for input kasus -->
     <link href="<?php echo base_url('assets/css/fileinput.min.css'); ?>" rel="stylesheet">
 

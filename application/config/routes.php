@@ -71,6 +71,7 @@ $route['(?i)datatki'] = 'Perlindungan/DataTKI';
 $route['(?i)agensipptkis'] = 'Perlindungan/AgensiPPTKIS';
 $route['(?i)Rekap'] = 'Perlindungan/Rekap';
 $route['(?i)Log'] = 'Perlindungan/Log';
+$route['(?i)pemulangantki'] = 'Perlindungan/PemulanganTKI';
 $route['(?i)classification'] = 'SAdmin/Classification';
 $route['(?i)media'] = 'SAdmin/Media';
 $route['(?i)wilayah'] = 'SAdmin/Wilayah';

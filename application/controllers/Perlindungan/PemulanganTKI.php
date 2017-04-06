@@ -21,7 +21,13 @@ class PemulanganTKI extends MY_Controller {
 
   public function index()
   {
+    $this->data['list'] = $this->PemulanganTKI_model->query_pemulangan_institution($this->session->userdata('institution'));
 
+    $this->data['title'] = 'Pemulangan TKI';
+    $this->data['subtitle'] = 'Tabel Pemulangan TKI';
+    $this->load->view('templates/headerperlindungan', $this->data);
+    $this->load->view('Perlindungan/PemulanganTKI_view', $this->data);
+    $this->load->view('templates/footerperlindungan');
   }
 
   public function add()

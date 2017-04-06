@@ -215,7 +215,7 @@
 <script>
   $(document).ready(function () {
     var l = $("#check").ladda();
-    var tbtki = $('#tabletki').DataTable({"bSort" : false,"bLengthChange": false});
+    var tbtki = $('#tabletki').DataTable({"bSort" : false,"bLengthChange": false,"scrollX": true});
 
     $('#tabletki_filter').html("\
       <form class='form-inline' style='margin-bottom:10px'>\

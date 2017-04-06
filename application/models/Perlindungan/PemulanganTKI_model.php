@@ -13,4 +13,9 @@ class PemulanganTKI_model extends CI_Model {
       		return false;
       	}
     }
+
+    public function query_pemulangan_institution($id){
+		$q = $this->db->get_where('tki_pulang', array('idinstitution' => $id));
+		return $q->result();
+	}
 }

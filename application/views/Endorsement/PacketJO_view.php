@@ -244,7 +244,7 @@
 <script>
   $(document).ready(function () {
     var table = $('#datatable-responsive').DataTable({"columnDefs": [{"targets": [ 0 ],"visible": false,"searchable": false}]});
-    var tbtki = $('#tabletki').DataTable({"bSort" : false,"bLengthChange": false});
+    var tbtki = $('#tabletki').DataTable({"bSort" : false,"bLengthChange": false,"scrollX": true});
 
     $('#tabletki_filter').html("\
       <form class='form-inline' style='margin-bottom:10px'>\

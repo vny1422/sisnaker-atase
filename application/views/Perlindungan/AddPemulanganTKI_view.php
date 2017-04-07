@@ -18,7 +18,7 @@
               <div class="form-group">
                 <label>No. Paspor :</label> <br />
                 <div class="input-group">
-                  <input type="text" class="form-control required-entry" id="paspor" name="paspor" placeholder="Masukkan No. Paspor">
+                  <input type="text" class="form-control required-entry" id="paspor" name="paspor" placeholder="Masukkan No. Paspor" value="<?php if(isset($list)) {echo $list->paspor;} else echo ""; ?>">
                   <span class="input-group-btn">
                     <button id="search-paspor" class="ladda-button" data-style="expand-right" data-color="green" data-size="xs"><span class="ladda-label" style="color:white">Search <i class="fa fa-search"></i></span></button>
                   </span>
@@ -32,16 +32,16 @@
                 <div>
                   <select name="jenispemulangan" id="jenispemulangan" class="form-control required-entry" tabindex="0">
                     <option value=""></option>
-                    <option value="1">Jenazah</option>
-                    <option value="2">Sakit</option>
-                    <option value="3">Repatriasi</option>
+                    <option value="1" <?php if(isset($list)) {echo $list->jeniskepulangan == 'Jenazah' ? 'selected' : '';}?>>Jenazah</option>
+                    <option value="2" <?php if(isset($list)) {echo $list->jeniskepulangan == 'Sakit' ? 'selected' : '';}?>>Sakit</option>
+                    <option value="3" <?php if(isset($list)) {echo $list->jeniskepulangan == 'Repatriasi' ? 'selected' : '';}?>>Repatriasi</option>
                   </select>
                 </div>
               </div>
 
               <div class="form-group">
                 <label>Nama TKI</label>
-                <input type="text" class="form-control required-entry" placeholder="Nama TKI" id="namatki" name="namatki">
+                <input type="text" class="form-control required-entry" placeholder="Nama TKI" id="namatki" name="namatki" value="<?php if(isset($list)) {echo $list->namatki;} else echo ""; ?>">
               </div>
 
               <div class="form-group">
@@ -52,19 +52,19 @@
                    <input type="button" class="btn" value="Perempuan" id="buttonP">
                  </div>
                 </div>
-                <input type="hidden" name="gender" id="gender" value="L">
+                <input type="hidden" name="gender" id="gender" value="<?php if(isset($list)) {echo $list->jk;} else echo "L"; ?>">
               </div>
 
               <div class="form-group">
                 <label>Alamat di Indonesia</label>
-                <input type="text" class="form-control" placeholder="Alamat di Indonesia" id="alamatid" name="alamatid">
+                <input type="text" class="form-control" placeholder="Alamat di Indonesia" id="alamatid" name="alamatid" value="<?php if(isset($list)) {echo $list->alamatid;} else echo ""; ?>">
               </div>
 
               <div class="form-group">
                 <label>Kronologis</label>
                 <div>
                   <textarea class="form-control" rows="3" placeholder="Kronologis"
-                  style="resize: vertical" id="kronologis" name="kronologis"></textarea>
+                  style="resize: vertical" id="kronologis" name="kronologis"><?php if(isset($list)) {echo $list->kronologis;} else echo ""; ?></textarea>
                 </div>
               </div>
 
@@ -72,7 +72,8 @@
                 <label>Tanggal Pemulangan</label>
                 <div class="input-group date datepicker col-md-12 col-xs-12" data-provide="datepicker">
                   <span class="glyphicon glyphicon-th input-group-addon"></span>
-                  <input type="text" class="form-control required-entry" id="tglpemulangan" name="tglpemulangan">
+                  <input type="text" class="form-control required-entry" id="tglpemulangan" name="tglpemulangan" value="<?php if(isset($list)) {$splittgl = explode("-", $list->tanggalpemulangan);
+                    echo $splittgl[0]."/".$splittgl[1]."/".$splittgl[2];} else echo ""; ?>">
                 </div>
               </div>
 
@@ -84,7 +85,7 @@
                     <input type="button" class="btn btn-success" value="Dalam Proses" id="buttonProses">
                   </div>
                 </div>
-                <input type="hidden" name="statuspemulangan" id="statuspemulangan" value="1">
+                <input type="hidden" name="statuspemulangan" id="statuspemulangan" value="<?php if(isset($list)) {echo $list->statuspemulangan;} else echo "1"; ?>">
               </div>
 
               <br />
@@ -111,17 +112,17 @@
             <div class="col-md-8 center-margin">
                 <div class="form-group">
                   <label>Nama Agensi</label>
-                  <input type="text" class="form-control required-entry" placeholder="Nama Agensi" id="namaagensi" name="namaagensi">
+                  <input type="text" class="form-control required-entry" placeholder="Nama Agensi" id="namaagensi" name="namaagensi" value="<?php if(isset($list)) {echo $list->namaagensi;} else echo ""; ?>">
                 </div>
 
                 <div class="form-group">
                   <label>Nama PPTKIS</label>
-                  <input type="text" class="form-control required-entry" placeholder="Nama PPTKIS" id="namapptkis" name="namapptkis">
+                  <input type="text" class="form-control required-entry" placeholder="Nama PPTKIS" id="namapptkis" name="namapptkis" value="<?php if(isset($list)) {echo $list->namapptkis;} else echo ""; ?>">
                 </div>
 
                 <div class="form-group">
                   <label>Nama Majikan</label>
-                  <input type="text" class="form-control required-entry" placeholder="Nama Majikan" id="namamajikan" name="namamajikan">
+                  <input type="text" class="form-control required-entry" placeholder="Nama Majikan" id="namamajikan" name="namamajikan" value="<?php if(isset($list)) {echo $list->namamajikan;} else echo ""; ?>">
                 </div>
             </div>
             <div class="ln_solid"></div>
@@ -140,7 +141,16 @@
 <script type="text/javascript">
   $(document).ready(function () {
     var l = $("#search-paspor").ladda();
-    var tkiid = null;
+    var idtkipulang = "<?php if(isset($list)) {echo $list->idtkipulang;} else null; ?>";
+    var tkiid = "<?php if(isset($list)) {echo $list->tkiid;} else null; ?>";
+
+    if(tkiid == ""){
+      tkiid = null;
+    }
+
+    if(idtkipulang != ""){
+      $(".checked").show();
+    }
 
     $("#search-paspor").click(function() {
       l.ladda('start');
@@ -218,7 +228,7 @@
           tkiid:tkiid
         };
         var jsondata = JSON.stringify(postdata);
-        $.post("<?php echo base_url()?>PemulanganTKI/insertData", {postdata: jsondata}, function(data, status){
+        $.post("<?php echo base_url()?>PemulanganTKI/insertData", {postdata: jsondata, id:idtkipulang}, function(data, status){
           alert(data);
         });
       }

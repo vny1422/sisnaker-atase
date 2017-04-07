@@ -39,9 +39,41 @@ class PemulanganTKI extends MY_Controller {
     $this->load->view('templates/footerperlindungan');
   }
 
+  public function edit($id)
+  {
+    $this->data['list'] = $this->PemulanganTKI_model->get_pemulangan($id);
+    if($this->data['list']->idinstitution == $this->session->userdata('institution'))
+    {
+      $this->data['title'] = 'Pemulangan TKI';
+      $this->data['subtitle'] = 'Edit Pemulangan TKI';
+      $this->load->view('templates/headerperlindungan', $this->data);
+      $this->load->view('Perlindungan/AddPemulanganTKI_view', $this->data);
+      $this->load->view('templates/footerperlindungan');
+    }
+    else
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
+  }
+
+  public function delete($id)
+  {
+    $this->data['list'] = $this->PemulanganTKI_model->get_pemulangan($id);
+    if($this->data['list']->idinstitution == $this->session->userdata('institution'))
+    {
+      $this->PemulanganTKI_model->delete_pemulangan($id);
+      redirect('pemulangantki');
+    }
+    else
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
+  }
+
   public function insertData()
   {
     $postdata = $this->input->post('postdata', TRUE);
+    $idtkipulang = $this->input->post('id', TRUE);
     $postdata = json_decode($postdata);
     $datas = array();
     foreach(get_object_vars($postdata) as $prop => $val)
@@ -51,7 +83,13 @@ class PemulanganTKI extends MY_Controller {
     $splittgl = explode("/", $datas["tanggalpemulangan"]);
     $datas["tanggalpemulangan"] = $splittgl[0]."-".$splittgl[1]."-".$splittgl[2];
     $datas["idinstitution"] = $this->session->userdata('institution');
-    $status = $this->PemulanganTKI_model->post_new_pemulangan($datas);
+
+    if($idtkipulang != ""){
+      $status = $this->PemulanganTKI_model->update_pemulangan($idtkipulang, $datas);
+    } else {
+      $status = $this->PemulanganTKI_model->post_new_pemulangan($datas);
+    }
+    
     if($status){
       $message = "Data berhasil dimasukkan";
     } else {

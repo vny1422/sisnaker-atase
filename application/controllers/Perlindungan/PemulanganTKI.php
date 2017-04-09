@@ -98,4 +98,12 @@ class PemulanganTKI extends MY_Controller {
     echo json_encode($message);
   }
 
+  public function checkPaspor()
+  {
+    $paspor = $this->input->post('paspor', TRUE);
+    $data = $this->PemulanganTKI_model->query_pemulangan_paspor($paspor);
+    
+    echo json_encode($data);
+  }
+
 }

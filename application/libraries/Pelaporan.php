@@ -42,17 +42,34 @@ class Pelaporan{
 			array_push($arr_y, $y);
 		}
 
-		$this->format_detailrekap($arr_data, $m_name, $arr_m, $arr_y);
+		$this->format_detailrekap($arr_data, $m_name, $arr_m, $arr_y, $status);
 	}
 
-	private function format_detailrekap($data, $m_name, $month, $year) {
-
+	private function format_detailrekap($data, $m_name, $month, $year, $status) {
+		$sjudul = array('1'=>'DalamProses','2'=>'Selesai','all'=>'All');
 		$m_statusmasalah = array('1'=>'Dalam Proses','2'=>'Selesai');
-		
+		$maxm = 0;
+		$maxy = 0;
+		$mjudul = "";
+		$yjudul = "";
+
 		$objPHPExcel = new PHPExcel();
 		$count = count($data);
 		for($i=0; $i<$count; $i++) {
 			$time_info = $m_name[$month[$i]].' '.$year[$i];
+			$tempm = (int)$month[$i];
+			$tempy = (int)$year[$i];
+			if($tempy > $maxy){
+				$maxy = $tempy;
+				$maxm = 0;
+				$yjudul = $year[$i];
+				$mjudul = $m_name[$month[$i]];
+			} else if($tempy == $maxy){
+				if($tempm > $maxm){
+					$maxm = $tempm;
+					$mjudul = $m_name[$month[$i]];
+				}
+			}
 			
 			$objPHPExcel->setActiveSheetIndex($i)
 			->setCellValue('A1', 'DATA KASUS ')
@@ -147,10 +164,12 @@ class Pelaporan{
 		$objPHPExcel->getActiveSheet()->getPageSetup()->setFitToPage(true);
 		$objPHPExcel->getActiveSheet()->getPageSetup()->setFitToWidth(1);
 		$objPHPExcel->getActiveSheet()->getPageSetup()->setFitToHeight(0);
+
+		$fname = "rekap_Kasus_".$sjudul[$status]."_".$mjudul."_".$yjudul.".xlsx";
 		
 		// Redirect output to a client(Excel2007)
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-		header('Content-Disposition: attachment;filename="rekap_Kasus.xlsx"');
+		header('Content-Disposition: attachment;filename="'.$fname.'"');
 		header('Cache-Control: max-age=0');
 		// If you're serving to IE 9, then the following may be needed
 		header('Cache-Control: max-age=1');
@@ -172,6 +191,10 @@ class Pelaporan{
 			'06' => 'JUNI','07' => 'JULI','08' => 'AGUSTUS',
 			'09' => 'SEPTEMBER','10' => 'OKTOBER','11' => 'NOVEMBER',
 			'12' => 'DESEMBER');
+		$maxm = 0;
+		$maxy = 0;
+		$mjudul = "";
+		$yjudul = "";
 
 		$objPHPExcel = new PHPExcel();
         $objPHPExcel->removeSheetByIndex(0);
@@ -184,6 +207,20 @@ class Pelaporan{
 				$m 		  = $get_date[1];
 				$d 		  = $get_date[2];
 				$y 		  = $get_date[0];
+
+				$tempm = (int)$m;
+				$tempy = (int)$y;
+				if($tempy > $maxy){
+					$maxy = $tempy;
+					$maxm = 0;
+					$yjudul = $y;
+					$mjudul = $m_name[$m];
+				} else if($tempy == $maxy){
+					if($tempm > $maxm){
+						$maxm = $tempm;
+						$mjudul = $m_name[$m];
+					}
+				}
 
 				switch ($info) {
 					case 'jenis':							
@@ -210,7 +247,8 @@ class Pelaporan{
 			}
 		}
 
-		$this->aggregate_rekap($objPHPExcel,'Bulan', FALSE);
+		$fname = "rekap_Bulan_".$mjudul."_".$yjudul.".xlsx";
+		$this->aggregate_rekap($objPHPExcel,$fname,FALSE);
 	}
 
 	private function get_jenis_basedv2($month,$year) {
@@ -953,6 +991,8 @@ class Pelaporan{
 			'06' => 'JUNI','07' => 'JULI','08' => 'AGUSTUS',
 			'09' => 'SEPTEMBER','10' => 'OKTOBER','11' => 'NOVEMBER',
 			'12' => 'DESEMBER');
+		$maxy = 0;
+		$yjudul = "";
 
 		$task = array('tahunan','jenis','sektor','status');
 		$namalingkup = "SEMUA SHELTER";
@@ -978,6 +1018,12 @@ class Pelaporan{
 			foreach ($get_time as $month_info) {
 				$get_date = explode('/',$month_info);
 				$y 		  = $get_date[0];
+
+				$tempy = (int)$y;
+				if($tempy > $maxy){
+					$maxy = $tempy;
+					$yjudul = $y;
+				}
 
 				switch ($info) {
 					case 'jenis':
@@ -1013,7 +1059,9 @@ class Pelaporan{
                 }								
             }	
         }
-        $this->aggregate_rekap($objPHPExcel,'Tahun', FALSE);	
+
+        $fname = "rekap_Tahun_".$namalingkup."_".$yjudul.".xlsx";
+        $this->aggregate_rekap($objPHPExcel,$fname,FALSE);	
     }
 
     private function get_yeardata_bySubjectv2($subject,$year,$lingkup=null){		
@@ -1561,6 +1609,14 @@ class Pelaporan{
     
     
     public function generateUang($time,$namainstitusi,$currency) {
+    	$m_name = array('01' => 'JANUARI', '02' => 'FEBRUARI',
+			'03' => 'MARET','04' => 'APRIL','05' => 'MEI',
+			'06' => 'JUNI','07' => 'JULI','08' => 'AGUSTUS',
+			'09' => 'SEPTEMBER','10' => 'OKTOBER','11' => 'NOVEMBER',
+			'12' => 'DESEMBER');
+    	$maxy = 0;
+    	$yjudul = "";
+
     	$objPHPExcel = new PHPExcel();
     	$objPHPExcel->removeSheetByIndex(0);
     	$objReader = PHPExcel_IOFactory::createReader('Excel2007');
@@ -1570,12 +1626,21 @@ class Pelaporan{
     	foreach ($get_time as $month_info) {
     		$get_date = explode('/',$month_info);
     		$y 		  = $get_date[0];
+
+    		$tempy = (int)$y;
+    		if($tempy > $maxy){
+    			$maxy = $tempy;
+    			$yjudul = $y;
+    		}
+
     		$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker-atase/assets/template/RekapUang.xlsx');
     		list($totaluang,$uangbulanan) = $this->get_money($y);
 
-    		$objPHPExcel = $this->format_money($namainstitusi,$objPHPExcel,$objPHPtemplate,$totaluang,$uangbulanan,$y,$currency);	
+    		$objPHPExcel = $this->format_money($namainstitusi,$objPHPExcel,$objPHPtemplate,$m_name,$totaluang,$uangbulanan,$y,$currency);	
     	}
-    	$this->aggregate_rekap($objPHPExcel,'Uang',TRUE);
+
+    	$fname = "rekap_Uang_".$yjudul.".xlsx";
+    	$this->aggregate_rekap($objPHPExcel,$fname,TRUE);
     }
 
     private function get_money($year){
@@ -1607,13 +1672,9 @@ class Pelaporan{
     	return array($year_total_money['uang'],$month_money);		
     }
 
-    private function format_money($namainstitusi,$phpexcelpool,$phpexceltemplate,
+    private function format_money($namainstitusi,$phpexcelpool,$phpexceltemplate,$m_name,
 		$total,$bulanan,$year,$currency){
-		$m_name = array('01' => 'JANUARI', '02' => 'FEBRUARI',
-			'03' => 'MARET','04' => 'APRIL','05' => 'MEI',
-			'06' => 'JUNI','07' => 'JULI','08' => 'AGUSTUS',
-			'09' => 'SEPTEMBER','10' => 'OKTOBER','11' => 'NOVEMBER',
-			'12' => 'DESEMBER');
+		
 		$number  = 7;
 		$numrow1 = count($bulanan);
 		
@@ -1692,6 +1753,14 @@ class Pelaporan{
 	}
 
     public function generateKelasv2($time,$katg,$namainstitusi) {
+    	$m_name = array('01' => 'JANUARI', '02' => 'FEBRUARI',
+			'03' => 'MARET','04' => 'APRIL','05' => 'MEI',
+			'06' => 'JUNI','07' => 'JULI','08' => 'AGUSTUS',
+			'09' => 'SEPTEMBER','10' => 'OKTOBER','11' => 'NOVEMBER',
+			'12' => 'DESEMBER');
+    	$maxy = 0;
+    	$yjudul = "";
+
     	$objPHPExcel = new PHPExcel();
     	$objPHPExcel->removeSheetByIndex(0);
     	$objReader = PHPExcel_IOFactory::createReader('Excel2007');
@@ -1700,6 +1769,12 @@ class Pelaporan{
     	foreach ($get_time as $time_info) {
     		$get_date = explode('/',$time_info);
     		$y 		  = $get_date[0];
+
+    		$tempy = (int)$y;
+    		if($tempy > $maxy){
+    			$maxy = $tempy;
+    			$yjudul = $y;
+    		}
 
     		//formal=2, informal=1
     		$klasquery = $this->CI->Rekap_model->get_classification($katg)->result_array();		
@@ -1712,14 +1787,16 @@ class Pelaporan{
     		$katDetail = $this->get_yeardata_Categoryv2($klasKategori,$y);				
     		$katStatistik = $this->get_yearstatistik_Categoryv2($klasKategori,$y);				
     		$data = array($katDetail,$katStatistik);					
-    		$objPHPExcel = $this->format_emptyv2($objPHPExcel,$namainstitusi,$data,$y,$katg);
+    		$objPHPExcel = $this->format_emptyv2($objPHPExcel,$m_name,$namainstitusi,$data,$y,$katg);
 
 			//// Detail
 			$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker-atase/assets/template/DetailKategori.xlsx');
     		$katDetail = $this->get_detail_Categoryv2($klasKategori,$y);
     		$objPHPExcel = $this->format_emptyDetail($objPHPExcel,$objPHPtemplate,$katDetail,$y,$katg);
     	}
-    	$this->aggregate_rekap($objPHPExcel,$katg,FALSE);
+
+    	$fname = "rekap_".$katg."_".$yjudul.".xlsx";
+    	$this->aggregate_rekap($objPHPExcel,$fname,FALSE);
     }
 
     private function get_yeardata_Categoryv2($klasKategori,$year){
@@ -1772,13 +1849,7 @@ class Pelaporan{
 		return $data;
 	}
 
-	private function format_emptyv2($phpexcelpool,$namainstitusi,$data,$year,$katname){
-		$m_name = array('01' => 'JANUARI', '02' => 'FEBRUARI',
-			'03' => 'MARET','04' => 'APRIL','05' => 'MEI',
-			'06' => 'JUNI','07' => 'JULI','08' => 'AGUSTUS',
-			'09' => 'SEPTEMBER','10' => 'OKTOBER','11' => 'NOVEMBER',
-			'12' => 'DESEMBER');
-		
+	private function format_emptyv2($phpexcelpool,$m_name,$namainstitusi,$data,$year,$katname){
 		$objPHPExcel = new PHPExcel();
 
 		$objPHPExcel->getActiveSheet()->setCellValue('A1','LAPORAN TAHUNAN PENGADUAN KASUS (PERMASALAHAN) TKI INSTITUSI '.strtoupper($namainstitusi));
@@ -2046,6 +2117,16 @@ class Pelaporan{
     // }
     
     public function generateShelter($time,$org) {
+    	$m_name = array('01' => 'JANUARI', '02' => 'FEBRUARI',
+			'03' => 'MARET','04' => 'APRIL','05' => 'MEI',
+			'06' => 'JUNI','07' => 'JULI','08' => 'AGUSTUS',
+			'09' => 'SEPTEMBER','10' => 'OKTOBER','11' => 'NOVEMBER',
+			'12' => 'DESEMBER');
+    	$maxm = 0;
+		$maxy = 0;
+		$mjudul = "";
+		$yjudul = "";
+
     	$objPHPExcel = new PHPExcel();
     	$objPHPExcel->removeSheetByIndex(0);
 
@@ -2059,13 +2140,29 @@ class Pelaporan{
     		$d 		  = $get_date[2];
     		$y 		  = $get_date[0];
 
+    		$tempm = (int)$m;
+    		$tempy = (int)$y;
+    		if($tempy > $maxy){
+    			$maxy = $tempy;
+    			$maxm = 0;
+    			$yjudul = $y;
+    			$mjudul = $m_name[$m];
+    		} else if($tempy == $maxy){
+    			if($tempm > $maxm){
+    				$maxm = $tempm;
+    				$mjudul = $m_name[$m];
+    			}
+    		}
+
     		$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker-atase/assets/template/RekapShelter.xlsx');
 
     		$shelterdetail = $this->get_data_shelter($org,$m,$y);
 
-    		$objPHPExcel = $this->format_shelter($objPHPExcel,$objPHPtemplate,$shelterdetail,$m,$y,$org);			
+    		$objPHPExcel = $this->format_shelter($objPHPExcel,$objPHPtemplate,$m_name,$shelterdetail,$m,$y,$org);
     	}
-    	$this->aggregate_rekap($objPHPExcel,'Shelter',FALSE);
+
+    	$fname = "rekap_Shelter_".$shelterdetail[0]['name']."_".$mjudul."_".$yjudul.".xlsx";
+    	$this->aggregate_rekap($objPHPExcel,$fname,FALSE);
     }
     
     private function get_data_shelter($shelter,$month,$year){
@@ -2074,12 +2171,7 @@ class Pelaporan{
     	return $result;
     }
 
-    private function format_shelter($phpexcelpool,$phpexceltemplate,$shelterdetail,$m,$y,$org){
-		$m_name = array('01' => 'JANUARI', '02' => 'FEBRUARI',
-			'03' => 'MARET','04' => 'APRIL','05' => 'MEI',
-			'06' => 'JUNI','07' => 'JULI','08' => 'AGUSTUS',
-			'09' => 'SEPTEMBER','10' => 'OKTOBER','11' => 'NOVEMBER',
-			'12' => 'DESEMBER');
+    private function format_shelter($phpexcelpool,$phpexceltemplate,$m_name,$shelterdetail,$m,$y,$org){
 		$org_name = $shelterdetail[0]['name'];
 		$sheetname = $m_name[$m].'_'.$y;
 		
@@ -2132,7 +2224,7 @@ class Pelaporan{
 		return $phpexcelpool;
 	}
 
-	private function aggregate_rekap($objPHPExcel,$level, $potrait=FALSE) {
+	private function aggregate_rekap($objPHPExcel,$fname,$potrait=FALSE) {
 		
 		$sheetcount = $objPHPExcel->getSheetCount();
 		for ($i=0;$i<$sheetcount;$i++) {
@@ -2156,8 +2248,6 @@ class Pelaporan{
 		}
 		
 		$objPHPExcel->setActiveSheetIndex(0);
-		
-		$fname = "rekap_".$level.".xlsx";
 		
 		//// Redirect output to a client(Excel2007)
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

@@ -62,44 +62,27 @@ class User extends MY_Controller {
 		$this->form_validation->set_rules('level', 'Level', 'required');
 		$this->form_validation->set_rules('kantor', 'Kantor', 'required');
 
-		if ($this->form_validation->run() === FALSE)
-		{
-			if($this->session->userdata('role') == '1')
-			{
-				$this->data['listinstitution'] = $this->Institution_model->list_active_institution();
-				$this->data['listkantor'] = $this->Kantor_model->list_all_kantor();
-			}
-			else {
-				$this->data['listinstitution'] = array();
-				array_push($this->data['listinstitution'],$this->Institution_model->get_institution($this->session->userdata('institution')));
-				$this->data['listkantor'] = $this->Kantor_model->list_all_kantor_institution($this->session->userdata('institution'));
-			}
-			$this->data['listlevel'] = $this->Level_model->list_all_level();
-			$this->data['title'] = 'Add New User';
-			$this->load->view('templates/header', $this->data);
-			$this->load->view('SAdmin/AddUser_view', $this->data);
-			$this->load->view('templates/footer');
-		}
-		else
+		if ($this->form_validation->run() !== FALSE)
 		{
 			$this->User_model->post_new_user();
 			$this->session->set_flashdata('information', 'Data berhasil dimasukkan');
-			if($this->session->userdata('role') == '1')
-			{
-				$this->data['listinstitution'] = $this->Institution_model->list_active_institution();
-				$this->data['listkantor'] = $this->Kantor_model->list_all_kantor();
-			}
-			else {
-				$this->data['listinstitution'] = array();
-				array_push($this->data['listinstitution'],$this->Institution_model->get_institution($this->session->userdata('institution')));
-				$this->data['listkantor'] = $this->Kantor_model->list_all_kantor_institution($this->session->userdata('institution'));
-			}
-			$this->data['listlevel'] = $this->Level_model->list_all_level();
-			$this->data['title'] = 'Add New User';
-			$this->load->view('templates/header', $this->data);
-			$this->load->view('SAdmin/AddUser_view', $this->data);
-			$this->load->view('templates/footer');
 		}
+
+		if($this->session->userdata('role') == '1')
+		{
+			$this->data['listinstitution'] = $this->Institution_model->list_active_institution();
+			$this->data['listkantor'] = $this->Kantor_model->list_all_kantor();
+		}
+		else {
+			$this->data['listinstitution'] = array();
+			array_push($this->data['listinstitution'],$this->Institution_model->get_institution($this->session->userdata('institution')));
+			$this->data['listkantor'] = $this->Kantor_model->list_all_kantor_institution($this->session->userdata('institution'));
+		}
+		$this->data['listlevel'] = $this->Level_model->list_all_level();
+		$this->data['title'] = 'Add New User';
+		$this->load->view('templates/header', $this->data);
+		$this->load->view('SAdmin/AddUser_view', $this->data);
+		$this->load->view('templates/footer');
 	}
 
 	public function edit($username)

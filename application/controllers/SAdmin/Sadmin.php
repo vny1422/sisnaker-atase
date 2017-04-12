@@ -12,6 +12,7 @@ class Sadmin extends MY_Controller {
 		$this->load->model('SAdmin/Institution_model');
 		$this->load->model('Perlindungan/Perlindungan_model');
         $this->load->model('SAdmin/Kantor_model');
+        $this->load->model('SAdmin/Currency_model');
 
         $this->load_sidebar();
     	$this->data['listdp'] = $this->listdp;
@@ -98,6 +99,9 @@ class Sadmin extends MY_Controller {
         } else if ($this->data['year_performance'] <= 50) {
             $this->data['panel_color'] = 'panel-danger';
         }
+
+        $currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
+        $this->data['namacurrency'] = strtoupper($currency->currencyname);
 
 		$this->data['title'] = 'DASHBOARD';
         $this->data['subtitle'] = 'PERLINDUNGAN';

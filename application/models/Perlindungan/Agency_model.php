@@ -81,13 +81,28 @@ class Agency_model extends CI_Model {
         $this->db->where('c.agid = m.agid AND c.enable=1 AND (c.caend IS NULL OR c.caend >= NOW())');
         return $this->db->get()->result();
       }
-
     }
 
-    function get_cekalagency()
+    function get_agency_from_institution($id,$cekal=false) {
+      if($cekal==false){
+        return $this->db->get_where($this->table, array('idinstitution' => $id))->result_array();
+      }
+      else{
+        $this->db->select('c.*,m.agnama as agnama');
+        $this->db->from('magensi m, cekalagensi c');
+        $this->db->where('m.idinstitution',$id);
+        $this->db->where('c.agid = m.agid AND c.enable=1 AND (c.caend IS NULL OR c.caend >= NOW())');
+        return $this->db->get()->result();
+      }
+    }
+
+    function get_cekalagency($idinstitution=null)
     {
       $this->db->select('c.*,m.agnama as agnama, m.agnamaoth as agnamaoth, m.agpngjwb as agpngjwb, m.agpngjwboth as agpngjwboth');
       $this->db->from('magensi m, cekalagensi c');
+      if($idinstitution != null){
+        $this->db->where('m.idinstitution',$idinstitution);
+      }
       $this->db->where('c.agid = m.agid AND c.enable=1 AND (c.caend IS NULL OR c.caend >= NOW())');
       return $this->db->get()->result_array();
     }

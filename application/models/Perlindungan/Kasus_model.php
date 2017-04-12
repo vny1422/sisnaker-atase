@@ -15,8 +15,19 @@ class Kasus_model extends CI_Model {
 				$data[$key] = $value;
 			}
 		return $this->db->insert('masalah', $data);
+		}
 	}
-}
+
+	public function get_kasus($id)
+	{
+		return $this->db->get_where('masalah', array('idmasalah' => $id))->row();
+	}
+
+	public function delete_kasus($id)
+	{
+		$this->db->where('idmasalah',$id);
+        return $this->db->delete('masalah');
+	}
 
 	function list_category($id)
 	{

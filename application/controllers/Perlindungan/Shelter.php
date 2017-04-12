@@ -10,6 +10,7 @@ class Shelter extends MY_Controller {
     parent::__construct();
     $this->load->model('SAdmin/Institution_model');
     $this->load->model('Perlindungan/Shelter_model');
+    $this->load->model('Perlindungan/Kasus_model');
 
     $this->load_sidebar();
     $this->data['listdp'] = $this->listdp;
@@ -179,6 +180,20 @@ class Shelter extends MY_Controller {
     }
 
     echo json_encode($resident);
+  }
+
+  function delKasus(){
+    $input = $this->getJSONpost();
+    $id = intval($input['idmasalah']);
+
+    $values = $this->Kasus_model->get_kasus($id);
+    if($values->idinstitution == $this->session->userdata('institution')){
+      $message = $this->Kasus_model->delete_kasus($id);
+    } else {
+      $message = false;
+    }
+
+    echo json_encode($message);
   }
 
   function getJSONpost(){

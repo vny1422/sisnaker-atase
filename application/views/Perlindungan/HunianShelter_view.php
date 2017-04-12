@@ -4,7 +4,8 @@
   </div>
   <br />
 
-  <div class="row" ng-controller="shelterCtrl">
+  <div ng-controller="shelterCtrl">
+  <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
       <div class="x_panel">
         <div class="x_title">
@@ -54,7 +55,7 @@
                 <tr ng-repeat="query in queries" ng-cloak>
                   <td class="text-center">{{query.idx}}</td>
                   <td class="">
-                    <a href ng-click="justTest(query.idmasalah)" data-toggle="modal" id="{{query.idmasalah}}">
+                    <a href ng-click="showKasus(query)" data-toggle="modal" id="{{query.idmasalah}}">
                       {{query.namatki}}
                     </a>
                   </td>
@@ -85,6 +86,7 @@
 <!-- View Data Modal -->
 <?php include 'modal_view_angular_friendly.php'; ?>
 
+</div>
 </div>
 
 <script type="text/javascript">
@@ -190,6 +192,7 @@
       $scope.viewAll  = true;
       $scope.query_result = [];
       $scope.queries = [];
+      $scope.query = null;
       var idinstitution = "<?php echo $this->session->userdata('institution');?>";
 
       DataService.getShelter(idinstitution).success(function(res){
@@ -207,15 +210,35 @@
         DataService.getResident($scope.datacontrol).success(function(res){
           $scope.query_result = [];
           if (res!==0) {
-            $scope.query_result.push(res[0]);
+            for(i=0;i<res.length;i++){
+              $scope.query_result.push(res[i]);
+            }
           }
         });
-        console.log($scope.query_result);
       };
 
       /// binding for modal popup
-      $scope.justTest = function(input){
-        popupMasalah(input);
+      $scope.showKasus = function(input){
+        $scope.query = input;
+        popupMasalah(input.idmasalah);
+      };
+
+      $scope.delKasus = function(){
+        var r = confirm('Benar ingin menghapus kasus ini ?');
+        if(r == true){
+          DataService.delKasus($scope.query.idmasalah).success(function(message){
+            if(message == 'true'){
+              var index = $scope.query_result.indexOf($scope.query);
+              if (index !== -1) {
+                $scope.query_result.splice(index,1);
+              }
+            } else {
+              alert('Maaf telah terjadi kesalahan. Silahkan coba kembali.');
+            }
+            
+            $('#windowModal').modal('hide');
+          });
+        }
       };
 
 
@@ -228,6 +251,9 @@
       this.getResident = function(pass){
         var tdate = moment(pass.dateyear,"MMMM-YYYYY").format("MM/YYYY");
         return $http.post("<?php echo site_url('shelter/getResident') ?>",{shelter:pass.shelter,dateyear:tdate});
-      }
+      };
+      this.delKasus = function(idmasalah){
+        return $http.post("<?php echo site_url('shelter/delKasus') ?>",{idmasalah:idmasalah});
+      };
     });
   </script>

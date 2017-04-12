@@ -114,12 +114,26 @@ class Wilayah extends MY_Controller {
 
   		public function addWilayahInstitution()
   		{
-  				$this->Wilayah_model->post_new_wilayah_institution();
+          $idinstitution = $this->input->post('idinstitution',TRUE);
+
+          if($this->session->userdata('role') == '1' || $idinstitution == $this->session->userdata('institution')){
+            $this->Wilayah_model->post_new_wilayah_institution($idinstitution);
+          }
+          else {
+            show_error("Access is forbidden.",403,"403 Forbidden");
+          }
   		}
 
   		public function delWilayahInstitution()
   		{
-  				$this->Wilayah_model->delete_wilayah_institution();
+          $idinstitution = $this->input->post('idinstitution',TRUE);
+
+          if($this->session->userdata('role') == '1' || $idinstitution == $this->session->userdata('institution')){
+            $this->Wilayah_model->delete_wilayah_institution($idinstitution);
+          }
+          else {
+            show_error("Access is forbidden.",403,"403 Forbidden");
+          }
   		}
 
       public function checkWilayahInstitution()

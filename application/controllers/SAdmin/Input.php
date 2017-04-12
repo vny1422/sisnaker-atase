@@ -263,12 +263,26 @@ public function getPenempatanInstitution()
 
 public function addPenempatanInstitution()
 {
-  $this->Input_model->post_new_input_institution('penempatan');
+  $idinstitution = $this->input->post('idinstitution',TRUE);
+
+  if($this->session->userdata('role') == '1' || $idinstitution == $this->session->userdata('institution')){
+    $this->Input_model->post_new_input_institution('penempatan',$idinstitution);
+  }
+  else {
+    show_error("Access is forbidden.",403,"403 Forbidden");
+  }
 }
 
 public function delPenempatanInstitution()
 {
-  $this->Input_model->delete_input_institution('penempatan');
+  $idinstitution = $this->input->post('idinstitution',TRUE);
+
+  if($this->session->userdata('role') == '1' || $idinstitution == $this->session->userdata('institution')){
+    $this->Input_model->delete_input_institution('penempatan',$idinstitution);
+  }
+  else {
+    show_error("Access is forbidden.",403,"403 Forbidden");
+  }
 }
 
 public function checkPenempatanInstitution()
@@ -308,12 +322,26 @@ public function getPerlindunganInstitution()
 
 public function addPerlindunganInstitution()
 {
-  $this->Input_model->post_new_input_institution('perlindungan');
+  $idinstitution = $this->input->post('idinstitution',TRUE);
+
+  if($this->session->userdata('role') == '1' || $idinstitution == $this->session->userdata('institution')){
+    $this->Input_model->post_new_input_institution('perlindungan',$idinstitution);
+  }
+  else {
+    show_error("Access is forbidden.",403,"403 Forbidden");
+  }
 }
 
 public function delPerlindunganInstitution()
 {
-  $this->Input_model->delete_input_institution('perlindungan');
+  $idinstitution = $this->input->post('idinstitution',TRUE);
+
+  if($this->session->userdata('role') == '1' || $idinstitution == $this->session->userdata('institution')){
+    $this->Input_model->delete_input_institution('perlindungan',$idinstitution);
+  }
+  else {
+    show_error("Access is forbidden.",403,"403 Forbidden");
+  }
 }
 
 public function checkPerlindunganInstitution()

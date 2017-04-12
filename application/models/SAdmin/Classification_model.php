@@ -44,10 +44,10 @@ class Classification_model extends CI_Model {
         return $this->db->get_where($this->table, array('id' => $id))->row();
     }
 
-    public function post_new_klasifikasi_institution()
+    public function post_new_klasifikasi_institution($idinstitution)
     {
         $data = array(
-            'idinstitution' => $this->input->post('idinstitution',TRUE),
+            'idinstitution' => $idinstitution,
             'id' => $this->input->post('idklasifikasi',TRUE),
             'isactive' => '1'
         );
@@ -59,9 +59,8 @@ class Classification_model extends CI_Model {
         $idinstitution = $this->input->post('idinstitution',TRUE);
         return $this->db->get_where('institution_has_klasifikasi', array('idinstitution' => $idinstitution))->result();
     }
-    public function delete_klasifikasi_institution()
+    public function delete_klasifikasi_institution($idinstitution)
     {
-        $idinstitution = $this->input->post('idinstitution',TRUE);
         $idklasifikasi = $this->input->post('idklasifikasi',TRUE);
 
         $this->db->where('idinstitution',$idinstitution);

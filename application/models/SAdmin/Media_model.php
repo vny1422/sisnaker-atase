@@ -44,10 +44,10 @@ class Media_model extends CI_Model {
         return $this->db->get_where($this->table, array('id' => $id))->row();
     }
 
-    public function post_new_media_institution()
+    public function post_new_media_institution($idinstitution)
     {
         $data = array(
-            'idinstitution' => $this->input->post('idinstitution',TRUE),
+            'idinstitution' => $idinstitution,
             'id' => $this->input->post('idMedia',TRUE),
             'isactive' => '1'
         );
@@ -59,9 +59,8 @@ class Media_model extends CI_Model {
         $idinstitution = $this->input->post('idinstitution',TRUE);
         return $this->db->get_where('institution_has_media', array('idinstitution' => $idinstitution))->result();
     }
-    public function delete_media_institution()
+    public function delete_media_institution($idinstitution)
     {
-        $idinstitution = $this->input->post('idinstitution',TRUE);
         $idmedia = $this->input->post('idMedia',TRUE);
 
         $this->db->where('idinstitution',$idinstitution);

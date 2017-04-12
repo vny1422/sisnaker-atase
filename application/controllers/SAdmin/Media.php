@@ -114,12 +114,26 @@ class Media extends MY_Controller {
 
   		public function addMediaInstitution()
   		{
-  				$this->Media_model->post_new_media_institution();
+          $idinstitution = $this->input->post('idinstitution',TRUE);
+
+          if($this->session->userdata('role') == '1' || $idinstitution == $this->session->userdata('institution')){
+            $this->Media_model->post_new_media_institution($idinstitution);
+          }
+          else {
+            show_error("Access is forbidden.",403,"403 Forbidden");
+          }
   		}
 
   		public function delMediaInstitution()
   		{
-  				$this->Media_model->delete_media_institution();
+          $idinstitution = $this->input->post('idinstitution',TRUE);
+
+          if($this->session->userdata('role') == '1' || $idinstitution == $this->session->userdata('institution')){
+            $this->Media_model->delete_media_institution($idinstitution);
+          }
+          else {
+            show_error("Access is forbidden.",403,"403 Forbidden");
+          }
   		}
 
       public function checkMediaInstitution()

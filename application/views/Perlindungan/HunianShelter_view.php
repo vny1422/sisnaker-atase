@@ -189,7 +189,7 @@
       $scope.datacontrol = {};
       $scope.viewAll  = true;
       $scope.query_result = [];
-      $scope.queries = [].concat($scope.query_result);
+      $scope.queries = [];
       var idinstitution = "<?php echo $this->session->userdata('institution');?>";
 
       DataService.getShelter(idinstitution).success(function(res){
@@ -205,14 +205,12 @@
           $scope.datacontrol.dateyear = moment().format("MMMM - YYYY");
         }
         DataService.getResident($scope.datacontrol).success(function(res){
-          if (res===0) {
-            $scope.query_result = [];
-          }
-          else{
-            angular.copy(res,$scope.query_result);
+          $scope.query_result = [];
+          if (res!==0) {
+            $scope.query_result.push(res[0]);
           }
         });
-
+        console.log($scope.query_result);
       };
 
       /// binding for modal popup

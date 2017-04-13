@@ -9,7 +9,7 @@ class Perlindungan_model extends CI_Model {
 		$this->db->select('username');
 		$this->db->from('user');
 		$this->db->where('idinstitution',$idinstitution);
-		$where = '(idlevel > 2)';
+		$where = '(idlevel = 3)';
 		$this->db->where($where);
 		$query = $this->db->get();
 		

@@ -13,6 +13,7 @@ class Sadmin extends MY_Controller {
 		$this->load->model('Perlindungan/Perlindungan_model');
         $this->load->model('SAdmin/Kantor_model');
         $this->load->model('SAdmin/Currency_model');
+        $this->load->model('Endorsement/Endorsement_model');
 
         $this->load_sidebar();
     	$this->data['listdp'] = $this->listdp;
@@ -55,6 +56,7 @@ class Sadmin extends MY_Controller {
 
 	public function local()
 	{
+        /// PARAMETER PERLINDUNGAN
 		$data['month']  = date('m');
         $data['year']   = date('Y');
         $petugas = array();
@@ -101,10 +103,16 @@ class Sadmin extends MY_Controller {
         $currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
         $this->data['namacurrency'] = strtoupper($currency->currencyname);
 
+        /// PARAMETER PENEMPATAN
+        $this->data['month'] = date('m');
+        /// list tahun
+        $this->data['tahunpenempatan'] = $this->Endorsement_model->get_all_year();
+
 		$this->data['title'] = 'DASHBOARD';
         $this->data['subtitle'] = 'PERLINDUNGAN';
+        $this->data['subtitle2'] = 'ENDORSEMENT';
 		$this->load->view('templates/headerperlindungan', $this->data);
-		$this->load->view('Perlindungan/Dashboard_view', $this->data);
+		$this->load->view('SAdmin/Dashboard_view', $this->data);
 		$this->load->view('templates/footerperlindungan');
 	}
 }

@@ -17,6 +17,11 @@ class PemulanganTKI extends MY_Controller {
     $this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
     $this->data['namakantor'] = $this->namakantor->nama;
     $this->data['sidebar'] = 'SAdmin/Sidebar';
+
+    if ($this->session->userdata('role') > 3)
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
   }
 
   public function index()
@@ -85,7 +90,12 @@ class PemulanganTKI extends MY_Controller {
     $datas["idinstitution"] = $this->session->userdata('institution');
 
     if($idtkipulang != ""){
-      $status = $this->PemulanganTKI_model->update_pemulangan($idtkipulang, $datas);
+      $val = $this->PemulanganTKI_model->get_pemulangan($idtkipulang);
+      if($val->idinstitution == $this->session->userdata('institution')){
+        $status = $this->PemulanganTKI_model->update_pemulangan($idtkipulang, $datas);
+      } else {
+        $status = false;
+      }
     } else {
       $status = $this->PemulanganTKI_model->post_new_pemulangan($datas);
     }

@@ -104,6 +104,9 @@ class Perlindungan extends MY_Controller {
                 break;
         }
 
+        $currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
+        $this->data['namacurrency'] = strtoupper($currency->currencyname);
+
         $this->data['title'] = 'Data Kasus';
         $this->load->view('templates/headerperlindungan', $this->data);
         $this->load->view('Perlindungan/ViewData_view',$this->data);
@@ -130,6 +133,9 @@ class Perlindungan extends MY_Controller {
         for($i=0;$i<$limit;$i++){
             array_push($this->data['kasusselesai'],$tmp1[$i]);
         }
+
+        $currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
+        $this->data['namacurrency'] = strtoupper($currency->currencyname);
 
         $this->data['title'] = 'Data Kasus';
         $this->load->view('templates/headerperlindungan', $this->data);

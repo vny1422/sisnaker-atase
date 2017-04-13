@@ -231,7 +231,7 @@
 										</div>
 										
 										<div class="form-group">
-											<label for="inputtglmasuktw" class="col-sm-3 control-label">Nominal Yang Diselamatkan (NT$) :</label>
+											<label for="inputtglmasuktw" class="col-sm-3 control-label">Nominal Yang Diselamatkan (<?php echo $namacurrency ?>) :</label>
 											<div class="col-sm-4">
 												<p class="form-control-static" id="Anominal" name="nominal"></p>
 											</div>

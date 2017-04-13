@@ -11,6 +11,7 @@ class Kasus extends MY_Controller {
     $this->load->model('Perlindungan/Kasus_model');
     $this->load->model('SAdmin/Jobtype_model');
     $this->load->model('SAdmin/User_model');
+    $this->load->model('SAdmin/Currency_model');
     $this->load->helper('string');
     $this->load_sidebar();
     $this->data['listdp'] = $this->listdp;
@@ -55,6 +56,9 @@ class Kasus extends MY_Controller {
 
   public function search()
   {
+    $currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
+    $this->data['namacurrency'] = strtoupper($currency->currencyname);
+
     $this->data['title'] = 'Pencarian Kasus';
     $this->data['subtitle'] = 'Pencarian Aduan';
     $this->load->view('templates/headerperlindungan', $this->data);

@@ -11,6 +11,7 @@ class Shelter extends MY_Controller {
     $this->load->model('SAdmin/Institution_model');
     $this->load->model('Perlindungan/Shelter_model');
     $this->load->model('Perlindungan/Kasus_model');
+    $this->load->model('SAdmin/Currency_model');
 
     $this->load_sidebar();
     $this->data['listdp'] = $this->listdp;
@@ -48,6 +49,9 @@ class Shelter extends MY_Controller {
 
   public function hunian()
   {
+    $currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
+    $this->data['namacurrency'] = strtoupper($currency->currencyname);
+
     $this->data['title'] = 'Shelter';
     $this->data['subtitle'] = 'Daftar Penghuni Shelter';
     $this->load->view('templates/headerperlindungan', $this->data);

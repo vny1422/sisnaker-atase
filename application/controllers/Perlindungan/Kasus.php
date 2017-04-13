@@ -24,6 +24,11 @@ class Kasus extends MY_Controller {
 
   public function index($adid = '')
   {
+    if ($this->session->userdata('role') > 3)
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
+    
     $this->data['title'] = 'Kasus';
     $this->data['subtitle'] = 'Input Kasus Baru';
     $this->data['listcategory'] = $this->Kasus_model->list_category($this->session->userdata('institution'));
@@ -56,6 +61,11 @@ class Kasus extends MY_Controller {
 
   public function search()
   {
+    if ($this->session->userdata('role') > 3)
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
+
     $currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
     $this->data['namacurrency'] = strtoupper($currency->currencyname);
 

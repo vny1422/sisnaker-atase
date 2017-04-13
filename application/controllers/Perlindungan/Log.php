@@ -22,6 +22,11 @@ class Log extends MY_Controller {
 
   public function index()
   {
+    if ($this->session->userdata('role') > 3)
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
+    
     $this->data['title'] = 'Catatan Aktivitas';
     $this->data['subtitle'] = 'Catatan Aktivitas Petugas Penanganan';
 

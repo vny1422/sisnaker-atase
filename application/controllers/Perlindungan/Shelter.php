@@ -49,6 +49,11 @@ class Shelter extends MY_Controller {
 
   public function hunian()
   {
+    if ($this->session->userdata('role') > 3)
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
+
     $currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
     $this->data['namacurrency'] = strtoupper($currency->currencyname);
 

@@ -24,6 +24,11 @@ class Rekap extends MY_Controller {
 
 	public function index()
 	{
+		if ($this->session->userdata('role') > 3)
+		{
+			show_error("Access is forbidden.",403,"403 Forbidden");
+		}
+		
 		$this->data['listshelter'] = $this->Shelter_model->query_shelter_institution($_SESSION['institution']);
 		$this->data['listklasifikasi'] = $this->Perlindungan_model->get_klasifikasi_institution($_SESSION['institution']);
 

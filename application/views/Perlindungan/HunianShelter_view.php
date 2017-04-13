@@ -253,7 +253,7 @@
         return $http.post("<?php echo site_url('shelter/getResident') ?>",{shelter:pass.shelter,dateyear:tdate});
       };
       this.delKasus = function(idmasalah){
-        return $http.post("<?php echo site_url('shelter/delKasus') ?>",{idmasalah:idmasalah});
+        return $http.post("<?php echo site_url('kasus/delKasus') ?>",{idmasalah:idmasalah});
       };
     });
   </script>

@@ -4,7 +4,8 @@
   </div>
   <br />
 
-  <div class="row" ng-controller="FormController">
+  <div ng-controller="FormController"> 
+  <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
       <div class="x_panel">
         <div class="x_title">
@@ -20,7 +21,7 @@
                 <span class="col-lg-3"><h3>Rentang aduan <b>{{slideTahun[0]}} - {{slideTahun[1]}}</b></h3></span>
                 <span class="col-lg-4" style="vertical-align: middle; padding-top: 22px"
                 slider ng-model="slideTahun" min="2012" step="1" max="<?php echo date('Y'); ?>"
-                range="true" value="[2014,2016]">
+                range="true" value="[2014,<?php echo date('Y'); ?>]">
               </span>
               <span class="col-lg-2" ng-show="query_result.length==0" style="text-align: center">
                 <h3><i class="fa fa-refresh fa-spin "> </i><i class=""> refreshing</i></h3>
@@ -61,12 +62,11 @@
                     <input st-search="petugas" placeholder="Filter PETUGAS" class="input-sm form-control" type="search"/>
                   </th>
                   <th>
-                    <select st-search="statusmasalah" class="input-sm form-control" type="search" style="margin-bottom: 5px">
+                    <select st-search="statusmasalah" class="input-sm form-control" type="search" style="margin-bottom: 5px; width:100px">
                       <option value="">-- Semua --</option>
                       <option value="selesai">Selesai</option>
                       <option value="proses">Proses</option>
                     </select>
-                    <input st-search="tanggalpenyelesaian" placeholder="Filter TANGGAL" class="input-sm form-control" type="search"/>
                   </th>
                 </tr>
                 <tr class="btn-danger">
@@ -82,7 +82,7 @@
               <tbody class="table-hover " >
                 <tr ng-repeat="query in queries" ng-cloak>
                   <td class="text-left">
-                    <a href ng-click="justTest(query.idmasalah)" data-toggle="modal" id="{{query.idmasalah}}">{{query.namatki}}
+                    <a href ng-click="showKasus(query)" data-toggle="modal" id="{{query.idmasalah}}">{{query.namatki}}
                     </a>
                   </td>
                   <td class="text-left">
@@ -119,6 +119,7 @@
 <!-- View Data Modal -->
 <?php include 'modal_view_angular_friendly.php'; ?>
 
+</div>
 </div>
 
 <script type="text/javascript">
@@ -210,38 +211,57 @@
     /////////////////// ANGULAR CONTROLLER
     var app = angular.module('searchApp', ['smart-table','angular-bootstrap-select','ui.bootstrap-slider']);
     app.controller('FormController', function($scope,$http) {
-      $scope.slideTahun = [2014,2016];
+      $scope.slideTahun = [2014,<?php echo date('Y'); ?>];
       $scope.oldslideTahun = $scope.slideTahun;
+      $scope.query_result = [];
+      $scope.query = null;
 
-        /// binding for modal popup
-        $scope.justTest = function(input){
-          popupMasalah(input);
-        };
+      /// binding for modal popup
+      $scope.showKasus = function(input){
+        $scope.query = input;
+        popupMasalah(input.idmasalah);
+      };
 
-        $scope.query_result = [];
-
-        $scope.getData = function(year){
+      $scope.getData = function(year){
           $scope.query_result = []; ///to force dirty check
           $http({
             method  : "post",
             url   : "<?php echo site_url("kasus/get_table"); ?>",
             data  : {'from':year[0], 'to':year[1]}
           }).success(function(response){
-              angular.copy(response,$scope.query_result);
+            angular.copy(response,$scope.query_result);
           });
         };
 
-        $scope.getData($scope.slideTahun);
+      $scope.getData($scope.slideTahun);
 
-        $scope.refreshTable = function(){
-          if ($scope.slideTahun[0] == $scope.oldslideTahun[0] && $scope.slideTahun[1] == $scope.oldslideTahun[1]) {
-            return;
-          }
-          $scope.oldslideTahun = $scope.slideTahun;
-          $scope.getData($scope.slideTahun);
+      $scope.refreshTable = function(){
+        if ($scope.slideTahun[0] == $scope.oldslideTahun[0] && $scope.slideTahun[1] == $scope.oldslideTahun[1]) {
+          return;
         }
+        $scope.oldslideTahun = $scope.slideTahun;
+        $scope.getData($scope.slideTahun);
+      }
 
-      });
+      $scope.delKasus = function(){
+        var r = confirm('Benar ingin menghapus kasus ini ?');
+        if(r == true){
+          $.post("<?php echo site_url()?>kasus/delKasus", {idmasalah:$scope.query.idmasalah}, function(message){
+            if(message == 'true'){
+              var index = $scope.query_result.indexOf($scope.query);
+              if (index !== -1) {
+                $scope.query_result.splice(index,1);
+              }
+            } else {
+              alert('Maaf telah terjadi kesalahan. Silahkan coba kembali.');
+            }
+            
+            $('#windowModal').modal('hide');
+          });
+        }
+      };
+
+    });
 
     app.directive('pageSelect', function() {
       return {

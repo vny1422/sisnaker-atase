@@ -122,6 +122,20 @@ class Kasus extends MY_Controller {
 
   }
 
+  function delKasus(){
+    $input = $this->getJSONpost();
+    $id = intval($input['idmasalah']);
+
+    $values = $this->Kasus_model->get_kasus($id);
+    if($values->idinstitution == $this->session->userdata('institution')){
+      $message = $this->Kasus_model->delete_kasus($id);
+    } else {
+      $message = false;
+    }
+
+    echo json_encode($message);
+  }
+
   public function getParam(){
     $collection = array();
     $collection['worktype'] 	= $this->Kasus_model->get_work_type();

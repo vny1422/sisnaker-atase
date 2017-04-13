@@ -12,6 +12,7 @@ class Perlindungan extends MY_Controller {
         $this->load->model('Perlindungan/Perlindungan_model');
         $this->load->model('Perlindungan/Infografik_model');
         $this->load->model('Perlindungan/View_model');
+        $this->load->model('Perlindungan/Kasus_model');
         $this->load->model('SAdmin/Currency_model');
 
         $this->load_sidebar();
@@ -239,6 +240,11 @@ class Perlindungan extends MY_Controller {
 
     public function convertToPDF($idproblem)
     {
+        $values = $this->Kasus_model->get_kasus($idproblem);
+        if($values->idinstitution != $this->session->userdata('institution')){
+            show_error("Access is forbidden.",403,"403 Forbidden");
+        }
+
         $this->load->library('Pdf');
         $Objdata = $this->Formulir_model->formulir_pengaduan($idproblem);
         $data = $Objdata->row();

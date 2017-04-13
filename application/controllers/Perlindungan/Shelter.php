@@ -182,20 +182,6 @@ class Shelter extends MY_Controller {
     echo json_encode($resident);
   }
 
-  function delKasus(){
-    $input = $this->getJSONpost();
-    $id = intval($input['idmasalah']);
-
-    $values = $this->Kasus_model->get_kasus($id);
-    if($values->idinstitution == $this->session->userdata('institution')){
-      $message = $this->Kasus_model->delete_kasus($id);
-    } else {
-      $message = false;
-    }
-
-    echo json_encode($message);
-  }
-
   function getJSONpost(){
     $input = $this->input->post();
     if( isset( $_SERVER['CONTENT_TYPE'] ) && strpos( $_SERVER['CONTENT_TYPE'], "application/json" ) !== false )

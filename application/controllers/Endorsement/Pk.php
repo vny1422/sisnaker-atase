@@ -24,24 +24,24 @@ class Pk extends MY_Controller {
 
   public function index()
   {
-    $this->data['title'] = 'Catatan Aktivitas';
-    $this->data['subtitle'] = 'Catatan Aktivitas Petugas Penanganan';
 
-    $this->data['result_log'] = array();
-
-    $this->load->view('templates/headerperlindungan', $this->data);
-    $this->load->view('Perlindungan/CatatanAktivitas_view', $this->data);
-    $this->load->view('templates/footerperlindungan');
   }
 
   public function revisi()
   {
-    $this->data['title'] = 'Perjanjian Kerja';
-    $this->data['subtitle'] = 'Revisi Perjanjian Kerja';
-    $this->data['subtitle2'] = 'Pencatatan Kuitansi';
-    $this->load->view('templates/headerendorsement', $this->data);
-    $this->load->view('Endorsement/RevisiPK_view', $this->data);
-    $this->load->view('templates/footerendorsement');
+    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2)
+    {
+      $this->data['title'] = 'Perjanjian Kerja';
+      $this->data['subtitle'] = 'Revisi Perjanjian Kerja';
+      $this->data['subtitle2'] = 'Pencatatan Kuitansi';
+      $this->load->view('templates/headerendorsement', $this->data);
+      $this->load->view('Endorsement/RevisiPK_view', $this->data);
+      $this->load->view('templates/footerendorsement');
+    }
+    else
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
   }
 
   public function uploadStamp()
@@ -184,42 +184,46 @@ class Pk extends MY_Controller {
       $ejid = $query[0]['ejid'];
       $tkid = $query[0]['tkid'];
 
-      // hitung banyak perubahan revisi
-      $query = $this->Endorsement_model->countRevisiTKI($ejid);
-      $tks = array();
-      $i = 0;
-      foreach ($query as $row):
-        $tks[$i] = $row;
-      $tks[$i]['visited'] = 0;
-      $i++;
-      endforeach;
+      $pass = $this->Endorsement_model->getEntryJO($ejid);
 
-      $found = 0;
-      $loop = 1;
-      while ($loop) {
-        $loop = 0;
-        for ($i = 0; $i < count($tks); $i++) {
-          if ($tks[$i]['tkrevid'] == $tkid && !$tks[$i]['visited']) {
-            if (isset($tks[$i]['tktglendorsement'])) {
-              $found++;
+      if(!empty($pass)){
+        // hitung banyak perubahan revisi
+        $query = $this->Endorsement_model->countRevisiTKI($ejid);
+        $tks = array();
+        $i = 0;
+        foreach ($query as $row):
+          $tks[$i] = $row;
+        $tks[$i]['visited'] = 0;
+        $i++;
+        endforeach;
+
+        $found = 0;
+        $loop = 1;
+        while ($loop) {
+          $loop = 0;
+          for ($i = 0; $i < count($tks); $i++) {
+            if ($tks[$i]['tkrevid'] == $tkid && !$tks[$i]['visited']) {
+              if (isset($tks[$i]['tktglendorsement'])) {
+                $found++;
+              }
+
+              $loop = 1;
+              $tks[$i]['visited'] = 1;
+              $tkid = $tks[$i]['tkid'];
+              break;
             }
-
-            $loop = 1;
-            $tks[$i]['visited'] = 1;
-            $tkid = $tks[$i]['tkid'];
-            break;
           }
         }
-      }
 
-      if ($found > $maks_penggantian_pk) {
-        $tmp['success'] = false;
-        $tmp['message'] = "Anda melebihi batas maksimal penggantian perjanjian kerja!!!";
-      } else {
-        $query = $this->Endorsement_model->updateEndorseTKI($code);
+        if ($found > $maks_penggantian_pk) {
+          $tmp['success'] = false;
+          $tmp['message'] = "Anda melebihi batas maksimal penggantian perjanjian kerja!!!";
+        } else {
+          $query = $this->Endorsement_model->updateEndorseTKI($code);
 
-        $tmp['success'] = true;
-        $tmp['message'] = "Updated!";
+          $tmp['success'] = true;
+          $tmp['message'] = "Updated!";
+        }
       }
     }
 

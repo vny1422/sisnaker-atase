@@ -75,6 +75,11 @@ class Paket_model extends CI_Model {
     	return $result;
     }
 
+    function getJobOrder_from_jobid($jobid)
+    {
+        return $this->db->get_where('jo', array('jobid' => $jobid))->row();
+    }
+
     function getJO_ForTable($agid,$ppkode,$start,$limit,$sidx,$sord,$wh)
     {
         $sql = "SELECT *, DATE_FORMAT(jobtglawal, '%d/%m/%Y') as jobtglawal, DATE_FORMAT(jobtglakhir, '%d/%m/%Y') as jobtglakhir FROM jo WHERE ppkode = '".$ppkode."' AND agid = ".$agid."".$wh." ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;

@@ -104,23 +104,11 @@ class Endorsement extends MY_Controller {
 
   public function updateagency()
   {
-    $this->form_validation->set_rules('name', 'Agency Name', 'required|trim');
-    if ($this->form_validation->run() === FALSE)
+    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2 || $this->session->userdata('role') == 4)
     {
-      $this->data['values'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
-      $this->data['title'] = 'Endorsement';
-      $this->data['subtitle'] = 'Update Agency';
-      $this->load->view('templates/headerendorsement', $this->data);
-      $this->load->view('Endorsement/UpdateAgency_view', $this->data);
-      $this->load->view('templates/footerendorsement');
-    }
-    else {
-      $this->data['values'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
-      $cek = $this->Agency_model->update_agency($this->data['values']->agid,true);
-      if($cek != false)
+      $this->form_validation->set_rules('name', 'Agency Name', 'required|trim');
+      if ($this->form_validation->run() === FALSE)
       {
-        $this->Endorsement_model->catat_logagensi($this->data['values']->agid);
-        $this->session->set_flashdata('information', 'Profile Updated!');
         $this->data['values'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
         $this->data['title'] = 'Endorsement';
         $this->data['subtitle'] = 'Update Agency';
@@ -129,24 +117,50 @@ class Endorsement extends MY_Controller {
         $this->load->view('templates/footerendorsement');
       }
       else {
-        $this->session->set_flashdata('warning', 'You can only EDIT THRICE a YEAR!');
-        $this->data['title'] = 'Endorsement';
-        $this->data['subtitle'] = 'Update Agency';
-        $this->load->view('templates/headerendorsement', $this->data);
-        $this->load->view('Endorsement/UpdateAgency_view', $this->data);
-        $this->load->view('templates/footerendorsement');
+        $this->data['values'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
+        $cek = $this->Agency_model->update_agency($this->data['values']->agid,true);
+        if($cek != false)
+        {
+          $this->Endorsement_model->catat_logagensi($this->data['values']->agid);
+          $this->session->set_flashdata('information', 'Profile Updated!');
+          $this->data['values'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
+          $this->data['title'] = 'Endorsement';
+          $this->data['subtitle'] = 'Update Agency';
+          $this->load->view('templates/headerendorsement', $this->data);
+          $this->load->view('Endorsement/UpdateAgency_view', $this->data);
+          $this->load->view('templates/footerendorsement');
+        }
+        else {
+          $this->session->set_flashdata('warning', 'You can only EDIT THRICE a YEAR!');
+          $this->data['title'] = 'Endorsement';
+          $this->data['subtitle'] = 'Update Agency';
+          $this->load->view('templates/headerendorsement', $this->data);
+          $this->load->view('Endorsement/UpdateAgency_view', $this->data);
+          $this->load->view('templates/footerendorsement');
+        }
       }
+    }
+    else
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
     }
   }
 
   public function checkBarcode()
   {
-    $this->data['title'] = 'Endorsement';
-    $this->data['subtitle'] = 'Check Barcode';
-    $this->data['subtitle2'] = 'Check Barcode';
-    $this->load->view('templates/headerendorsement', $this->data);
-    $this->load->view('Endorsement/CheckBarcode_view', $this->data);
-    $this->load->view('templates/footerendorsement');
+    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2)
+    {
+      $this->data['title'] = 'Endorsement';
+      $this->data['subtitle'] = 'Check Barcode';
+      $this->data['subtitle2'] = 'Check Barcode';
+      $this->load->view('templates/headerendorsement', $this->data);
+      $this->load->view('Endorsement/CheckBarcode_view', $this->data);
+      $this->load->view('templates/footerendorsement');
+    }
+    else
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
   }
 
 
@@ -181,28 +195,35 @@ class Endorsement extends MY_Controller {
 
   public function viewJO()
   {
-  	$agensi = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
-  	if(!empty($agensi)) {
-  		$query = $this->Endorsement_model->getEntryJO_Agensi($agensi->agid);
-  		$i=0;
-    	foreach ($query as $row):
-    		$this->data['rows'][$i] = array(
-    			$row->ejid,
-		      	$row->ejdatefilled,
-		      	$row->ppnama,
-		      	$row->namajenispekerjaan,
-		      	$row->ejbcsp,
-		      	$row->ejtglendorsement
-    		);
-    		$i++;
-    	endforeach;
-  	}
-    $this->data['title'] = 'Endorsement';
-    $this->data['subtitle'] = 'History of JO Packet';
-    $this->data['subtitle2'] = 'JO Packet Detail';
-    $this->load->view('templates/headerendorsement', $this->data);
-    $this->load->view('Endorsement/PacketJO_view', $this->data);
-    $this->load->view('templates/footerendorsement');
+    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2 || $this->session->userdata('role') == 4)
+    {
+    	$agensi = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
+    	if(!empty($agensi)) {
+    		$query = $this->Endorsement_model->getEntryJO_Agensi($agensi->agid);
+    		$i=0;
+      	foreach ($query as $row):
+      		$this->data['rows'][$i] = array(
+      			$row->ejid,
+  		      	$row->ejdatefilled,
+  		      	$row->ppnama,
+  		      	$row->namajenispekerjaan,
+  		      	$row->ejbcsp,
+  		      	$row->ejtglendorsement
+      		);
+      		$i++;
+      	endforeach;
+    	}
+      $this->data['title'] = 'Endorsement';
+      $this->data['subtitle'] = 'History of JO Packet';
+      $this->data['subtitle2'] = 'JO Packet Detail';
+      $this->load->view('templates/headerendorsement', $this->data);
+      $this->load->view('Endorsement/PacketJO_view', $this->data);
+      $this->load->view('templates/footerendorsement');
+    }
+    else
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
   }
 
   //post function

@@ -27,6 +27,7 @@
             </thead>
             <tbody>
               <?php
+                if(isset($rows)){
                 foreach($rows as $row): ?>
                   <tr>
                     <td style="display:none;"><?php echo $row[0] ?></td>
@@ -36,7 +37,7 @@
                     <td><?php echo $row[4] ?></td>
                     <td><?php echo $row[5] ?></td>
                   </tr>
-              <?php endforeach; ?>
+              <?php endforeach; }?>
             </tbody>
           </table>
         </div>

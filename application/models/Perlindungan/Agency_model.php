@@ -180,7 +180,7 @@ class Agency_model extends CI_Model {
     }
 
     function get_agency_info($id) {
-      $this->db->select('agnama,agnamaoth,agalmtkantor,agalmtkantoroth,agpngjwb,agpngjwboth,agtelp,agfax,agnoijincla');
+      $this->db->select('agnama,agnamaoth,agalmtkantor,agalmtkantoroth,agpngjwb,agpngjwboth,agtelp,agfax,agnoijincla,idinstitution');
       $this->db->from('magensi');
       $this->db->where('agid', $id);
       $query = $this->db->get();

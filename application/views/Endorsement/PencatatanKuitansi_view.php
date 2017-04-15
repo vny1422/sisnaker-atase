@@ -259,16 +259,16 @@ $(document).ready(function() {
                   obj[key]["idtipe"],
                   obj[key]["kujmlbayar"],
                   obj[key]["kuno"]
-                  ] ).draw();
+                ] ).draw();
               }
             }
             $("#modalcheck").modal();
-            }
-            else {
-              window.alert("No. Kuitansi siap digunakan");
-            }
-          });
-        }
+          }
+          else {
+            window.alert("No. Kuitansi siap digunakan");
+          }
+        });
+      }
       else {
         $(errorku).show();
       }
@@ -320,6 +320,11 @@ $(document).ready(function() {
       $("#modalcheck").modal('toggle');
     })
 
+    $(".jualyes").change(function(){
 
-});
-</script>
+      window.alert(5+6);
+    });
+
+
+  });
+  </script>

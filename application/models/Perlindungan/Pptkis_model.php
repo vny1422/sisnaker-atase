@@ -99,6 +99,17 @@ class PPTKIS_model extends CI_Model {
       return $this->db->get($this->table)->result();
     }
 
+    function get_pptkis_from_agency($id){
+  $qtext = "SELECT mpptkis.ppnama, jobtglawal, jobtglakhir,namajenispekerjaan
+        FROM jo, jodetail, magensi, mpptkis, jenispekerjaan
+        WHERE jodetail.idjenispekerjaan = jenispekerjaan.idjenispekerjaan AND jo.jobid = jodetail.jobid
+          AND jo.agid = magensi.agid AND jo.ppkode = mpptkis.ppkode AND jo.jobenable = 1 AND magensi.agid=".$id."
+          AND (jobtglakhir IS NULL OR jobtglakhir >= NOW())
+        ORDER BY ppnama asc";
+  $query = $this->db->query($qtext);
+  return $query->result_array();
+}
+
     public function update_pptkis($id)
     {
       $active = $this->input->post('active',TRUE);

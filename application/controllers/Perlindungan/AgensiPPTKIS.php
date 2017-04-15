@@ -243,7 +243,7 @@ class AgensiPPTKIS extends MY_Controller {
 
 		function get_agency_info($id) {
 	$agency_info = $this->Agency_model->get_agency_info($id);
-	// $pptkis_con = $this->Agency_model->get_pptkis_from_agency($id);
+	$pptkis_con = $this->Pptkis_model->get_pptkis_from_agency($id);
 	$return = array();
 	$return['agen'] = array();
 	$return['list'] = array();
@@ -255,15 +255,15 @@ class AgensiPPTKIS extends MY_Controller {
 	$return['agen']['Telp. / Fax'] = $agency_info['agtelp']." / ".$agency_info['agfax'];
 	$return['agen']['No Ijin CLA'] = $agency_info['agnoijincla'];
 
-	/// rephrasing list
-	// for($i=0;$i<count($pptkis_con);$i++){
-	// 	$tmp = array();
-	// 	$tmp['pptkis'] = $pptkis_con[$i]['ppnama'];
-	// 	$tmp['pekerjaan'] = $pptkis_con[$i]['jpnama'];
-	// 	$tmp['awal'] = $pptkis_con[$i]['jobtglawal'];
-	// 	$tmp['akhir'] = $pptkis_con[$i]['jobtglakhir'];
-	// 	array_push($return['list'],$tmp);
-	// }
+	// / rephrasing list
+	for($i=0;$i<count($pptkis_con);$i++){
+		$tmp = array();
+		$tmp['pptkis'] = $pptkis_con[$i]['ppnama'];
+		$tmp['pekerjaan'] = $pptkis_con[$i]['jpnama'];
+		$tmp['awal'] = $pptkis_con[$i]['jobtglawal'];
+		$tmp['akhir'] = $pptkis_con[$i]['jobtglakhir'];
+		array_push($return['list'],$tmp);
+	}
 
 	echo json_encode($return);
 }
@@ -272,7 +272,7 @@ class AgensiPPTKIS extends MY_Controller {
 function get_pptkis_info($id) {
 
 	$pptkis 	= $this->Pptkis_model->get_pptkis_info($id);
-	// $agencylist = $this->Agencytw_model->get_agency_from_pptkis($id);
+	$agencylist = $this->Agency_model->get_agency_from_pptkis($id);
 
 	$return = array();
 	$return['pt'] = array();
@@ -284,14 +284,14 @@ function get_pptkis_info($id) {
 	$return['pt']['Telp. / Fax'] = $pptkis['pptelp']." / ".$pptkis['ppfax'];
 
 	// rephrasing list
-	// for($i=0;$i<count($agencylist);$i++){
-	// 	$tmp = array();
-	// 	$tmp['agen'] = $agencylist[$i]['agnama'];
-	// 	$tmp['pekerjaan'] = $agencylist[$i]['jpnama'];
-	// 	$tmp['awal'] = $agencylist[$i]['jobtglawal'];
-	// 	$tmp['akhir'] = $agencylist[$i]['jobtglakhir'];
-	// 	array_push($return['list'],$tmp);
-	// }
+	for($i=0;$i<count($agencylist);$i++){
+		$tmp = array();
+		$tmp['agen'] = $agencylist[$i]['agnama'];
+		$tmp['pekerjaan'] = $agencylist[$i]['jpnama'];
+		$tmp['awal'] = $agencylist[$i]['jobtglawal'];
+		$tmp['akhir'] = $agencylist[$i]['jobtglakhir'];
+		array_push($return['list'],$tmp);
+	}
 
 	echo json_encode($return);
 }

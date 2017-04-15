@@ -125,6 +125,8 @@
 				$http.get("<?php echo site_url('agensipptkis/get_agency_info') ?>"+"/"+agenid).then(function(response){
 						//console.log(response);
 						angular.copy(response.data['list'],$scope.buffer2);
+            console.log(response.data['list']);
+            console.log(response.data['agen']);
 						var agen_info = response.data['agen'];
 						for(var key in agen_info){
 							$scope.buffer.push({field:key,value:agen_info[key]});

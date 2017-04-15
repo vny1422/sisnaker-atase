@@ -182,6 +182,19 @@ class Agency_model extends CI_Model {
       return $query->row();
     }
 
+
+function get_agency_from_pptkis($id){
+  $qtext = "SELECT magensi.agnama, jobtglawal, jobtglakhir,namajenispekerjaan
+        FROM jo, jodetail, magensi, mpptkis, jenispekerjaan
+        WHERE jodetail.idjenispekerjaan = jenispekerjaan.idjenispekerjaan AND jo.jobid = jodetail.jobid
+          AND jo.agid = magensi.agid AND jo.ppkode = mpptkis.ppkode AND jo.jobenable = 1 AND mpptkis.ppkode='".$id."'
+          AND (jobtglakhir IS NULL OR jobtglakhir >= NOW())
+        ORDER BY agnama asc";
+  $query = $this->db->query($qtext);
+  return $query->result_array();
+}
+
+
     function get_agency_cekal($id) {
       $this->db->select('*');
       $this->db->from('cekalagensi');

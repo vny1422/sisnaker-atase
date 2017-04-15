@@ -27,6 +27,7 @@
             </thead>
             <tbody>
               <?php
+                if(isset($rows)){
                 foreach($rows as $row): ?>
                   <tr>
                     <td style="display:none;"><?php echo $row[0] ?></td>
@@ -36,7 +37,7 @@
                     <td><?php echo $row[4] ?></td>
                     <td><?php echo $row[5] ?></td>
                   </tr>
-              <?php endforeach; ?>
+              <?php endforeach; }?>
             </tbody>
           </table>
         </div>
@@ -244,7 +245,7 @@
 <script>
   $(document).ready(function () {
     var table = $('#datatable-responsive').DataTable({"columnDefs": [{"targets": [ 0 ],"visible": false,"searchable": false}]});
-    var tbtki = $('#tabletki').DataTable({"bSort" : false,"bLengthChange": false});
+    var tbtki = $('#tabletki').DataTable({"bSort" : false,"bLengthChange": false,"scrollX": true});
 
     $('#tabletki_filter').html("\
       <form class='form-inline' style='margin-bottom:10px'>\

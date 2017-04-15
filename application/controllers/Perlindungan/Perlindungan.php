@@ -12,6 +12,8 @@ class Perlindungan extends MY_Controller {
         $this->load->model('Perlindungan/Perlindungan_model');
         $this->load->model('Perlindungan/Infografik_model');
         $this->load->model('Perlindungan/View_model');
+        $this->load->model('Perlindungan/Kasus_model');
+        $this->load->model('SAdmin/Currency_model');
 
         $this->load_sidebar();
     	$this->data['listdp'] = $this->listdp;
@@ -67,6 +69,9 @@ class Perlindungan extends MY_Controller {
             $this->data['panel_color'] = 'panel-danger';
         }
 
+        $currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
+        $this->data['namacurrency'] = strtoupper($currency->currencyname);
+
 		$this->data['title'] = 'DASHBOARD';
         $this->data['subtitle'] = 'STAFF PERLINDUNGAN';
 		$this->load->view('templates/headerperlindungan', $this->data);
@@ -99,6 +104,9 @@ class Perlindungan extends MY_Controller {
                 break;
         }
 
+        $currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
+        $this->data['namacurrency'] = strtoupper($currency->currencyname);
+
         $this->data['title'] = 'Data Kasus';
         $this->load->view('templates/headerperlindungan', $this->data);
         $this->load->view('Perlindungan/ViewData_view',$this->data);
@@ -125,6 +133,9 @@ class Perlindungan extends MY_Controller {
         for($i=0;$i<$limit;$i++){
             array_push($this->data['kasusselesai'],$tmp1[$i]);
         }
+
+        $currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
+        $this->data['namacurrency'] = strtoupper($currency->currencyname);
 
         $this->data['title'] = 'Data Kasus';
         $this->load->view('templates/headerperlindungan', $this->data);
@@ -235,6 +246,11 @@ class Perlindungan extends MY_Controller {
 
     public function convertToPDF($idproblem)
     {
+        $values = $this->Kasus_model->get_kasus($idproblem);
+        if($values->idinstitution != $this->session->userdata('institution')){
+            show_error("Access is forbidden.",403,"403 Forbidden");
+        }
+
         $this->load->library('Pdf');
         $Objdata = $this->Formulir_model->formulir_pengaduan($idproblem);
         $data = $Objdata->row();

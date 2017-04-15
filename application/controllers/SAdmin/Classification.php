@@ -114,12 +114,26 @@ class Classification extends MY_Controller {
 
   		public function addKlasifikasiInstitution()
   		{
-  				$this->Classification_model->post_new_klasifikasi_institution();
+          $idinstitution = $this->input->post('idinstitution',TRUE);
+
+          if($this->session->userdata('role') == '1' || $idinstitution == $this->session->userdata('institution')){
+            $this->Classification_model->post_new_klasifikasi_institution($idinstitution);
+          }
+  				else {
+            show_error("Access is forbidden.",403,"403 Forbidden");
+          }
   		}
 
   		public function delKlasifikasiInstitution()
   		{
-  				$this->Classification_model->delete_klasifikasi_institution();
+          $idinstitution = $this->input->post('idinstitution',TRUE);
+
+          if($this->session->userdata('role') == '1' || $idinstitution == $this->session->userdata('institution')){
+            $this->Classification_model->delete_klasifikasi_institution($idinstitution);
+          }
+          else {
+            show_error("Access is forbidden.",403,"403 Forbidden");
+          }
   		}
 
       public function checkKlasifikasiInstitution()

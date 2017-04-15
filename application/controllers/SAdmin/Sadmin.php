@@ -12,6 +12,8 @@ class Sadmin extends MY_Controller {
 		$this->load->model('SAdmin/Institution_model');
 		$this->load->model('Perlindungan/Perlindungan_model');
         $this->load->model('SAdmin/Kantor_model');
+        $this->load->model('SAdmin/Currency_model');
+        $this->load->model('Endorsement/Endorsement_model');
 
         $this->load_sidebar();
     	$this->data['listdp'] = $this->listdp;
@@ -54,6 +56,7 @@ class Sadmin extends MY_Controller {
 
 	public function local()
 	{
+        /// PARAMETER PERLINDUNGAN
 		$data['month']  = date('m');
         $data['year']   = date('Y');
         $petugas = array();
@@ -81,9 +84,7 @@ class Sadmin extends MY_Controller {
         list($offname, $offperform)           = $this->Perlindungan_model->get_officer_performance($data['year'], $petugas);
         $this->data['officername']            = $offname;
         $this->data['performance']            = $offperform;
-        list($shelname, $shelperform)   = $this->Perlindungan_model->get_shelter_performance($data['year'], $shelter);
-        $this->data['sheltername']            = $shelname;
-        $this->data['shelter_performance']    = $shelperform;
+        
         $this->data['year_performance']       = $this->Perlindungan_model->get_year_performance($data['year']);
 
         /// list tahun
@@ -99,10 +100,19 @@ class Sadmin extends MY_Controller {
             $this->data['panel_color'] = 'panel-danger';
         }
 
+        $currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
+        $this->data['namacurrency'] = strtoupper($currency->currencyname);
+
+        /// PARAMETER PENEMPATAN
+        $this->data['month'] = date('m');
+        /// list tahun
+        $this->data['tahunpenempatan'] = $this->Endorsement_model->get_all_year();
+
 		$this->data['title'] = 'DASHBOARD';
         $this->data['subtitle'] = 'PERLINDUNGAN';
+        $this->data['subtitle2'] = 'ENDORSEMENT';
 		$this->load->view('templates/headerperlindungan', $this->data);
-		$this->load->view('Perlindungan/Dashboard_view', $this->data);
+		$this->load->view('SAdmin/Dashboard_view', $this->data);
 		$this->load->view('templates/footerperlindungan');
 	}
 }

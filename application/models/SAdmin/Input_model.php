@@ -69,7 +69,7 @@ class Input_model extends CI_Model {
         $this->db->insert_batch($table, $data);
     }
 
-    public function post_new_input_institution($param)
+    public function post_new_input_institution($param,$idinstitution)
     {
         if ($param == 'penempatan'){
             $table = 'institution_has_inputdetail_penempatan';
@@ -80,7 +80,7 @@ class Input_model extends CI_Model {
         }
 
         $data = array(
-            'idinstitution' => $this->input->post('idinstitution',TRUE),
+            'idinstitution' => $idinstitution,
             $idinput => $this->input->post('idinputdetail',TRUE),
             'isactive' => 1
         );
@@ -126,7 +126,7 @@ class Input_model extends CI_Model {
         return $this->db->get($table)->result();
     }
 
-    public function delete_input_institution($param)
+    public function delete_input_institution($param,$idinstitution)
     {
         if ($param == 'penempatan'){
             $table = 'institution_has_inputdetail_penempatan';
@@ -136,7 +136,6 @@ class Input_model extends CI_Model {
             $idinput = 'idinputdetail_perlindungan';
         }
 
-        $idinstitution = $this->input->post('idinstitution',TRUE);
         $idinputdetail = $this->input->post('idinputdetail',TRUE);
 
         $this->db->where('idinstitution',$idinstitution);

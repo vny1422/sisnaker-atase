@@ -9,6 +9,7 @@ class Log extends MY_Controller {
   {
     parent::__construct();
     $this->load->model('Perlindungan/Log_model');
+    $this->load->model('SAdmin/Currency_model');
 
     $this->load_sidebar();
     $this->data['listdp'] = $this->listdp;
@@ -21,6 +22,11 @@ class Log extends MY_Controller {
 
   public function index()
   {
+    if ($this->session->userdata('role') > 3)
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
+    
     $this->data['title'] = 'Catatan Aktivitas';
     $this->data['subtitle'] = 'Catatan Aktivitas Petugas Penanganan';
 
@@ -33,6 +39,9 @@ class Log extends MY_Controller {
       $history = $row;
       array_push($this->data['result_log'], array($user[0]->name,strtoupper($namatki[0]->namatki),$history));
     endforeach;
+
+    $currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
+    $this->data['namacurrency'] = strtoupper($currency->currencyname);
 
     $this->load->view('templates/headerperlindungan', $this->data);
     $this->load->view('Perlindungan/CatatanAktivitas_view', $this->data);

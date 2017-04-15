@@ -103,10 +103,9 @@ li{
           <h2>
             <strong><?php echo $subtitle; ?></strong>
             <select class="heading nbselect" ng-model="slYear">
-              <option>2014</option>
-              <option>2015</option>
-              <option>2016</option>
-              <option>2017</option>
+              <?php for($i=2014;$i<=date('Y');$i++){
+                echo '<option>'.$i.'</option>';
+              }?>
             </select>
           </h2>
           <ul class="nav navbar-right panel_toolbox">
@@ -173,13 +172,14 @@ li{
       $rootScope.slYear = $scope.slYear;
       $rootScope.$emit('refreshData',newValue);
     });
-    $timeout(function(){$scope.slYear="2016"},200);
+    $timeout(function(){$scope.slYear="<?php echo date('Y'); ?>"},200);
   }]);
 
   app.controller('SimpatiController',['$scope', '$document','$http','$timeout','$rootScope','ngDialog',function($scope,$document,$http,$timeout,$rootScope,ngDialog){
 
     $scope.total = 0;
-    $scope.totaluang = "13,000,000";
+    $scope.totaluang = "";
+    $scope.namacurrency = "<?php echo $namacurrency ?>";
     $scope.ratio = 90;
     $scope.ratioW = 90;
     $scope.speed = 5;
@@ -285,9 +285,9 @@ li{
       };
       scalestep = max/5;
       chartOBJ.opts = {
-        scaleLabel: function(label){return  ' NT$ ' + label.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");},
+        scaleLabel: function(label){return  " <?php echo $namacurrency ?> " + label.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");},
         // String - Template string for  tooltips
-        tooltipTemplate : function (label) {return 'NT$ ' + label.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");}
+        tooltipTemplate : function (label) {return "<?php echo $namacurrency ?> " + label.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");}
       };
       chartOBJ.colors = ['#38852d'];
       chartOBJ.data.push(dar);

@@ -33,6 +33,11 @@ class RekapEndorsement extends MY_Controller {
 		$this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
 		$this->data['namakantor'] = $this->namakantor->nama;
 		$this->data['sidebar'] = 'SAdmin/Sidebar';
+
+		if ($this->session->userdata('role') != 1 && $this->session->userdata('role') != 2)
+		{
+			show_error("Access is forbidden.",403,"403 Forbidden");
+		}
 	}
 
 	public function index()
@@ -51,10 +56,10 @@ class RekapEndorsement extends MY_Controller {
 			$this->data['month'] -= 1;
 
 		$this->data['title'] = 'Rekap';
-	    $this->data['subtitle'] = 'Download Laporan Rekap';
-	    $this->load->view('templates/headerendorsement', $this->data);
-	    $this->load->view('Endorsement/RekapLaporan_view', $this->data);
-	    $this->load->view('templates/footerendorsement');
+		$this->data['subtitle'] = 'Download Laporan Rekap';
+		$this->load->view('templates/headerendorsement', $this->data);
+		$this->load->view('Endorsement/RekapLaporan_view', $this->data);
+		$this->load->view('templates/footerendorsement');
 	}
 
 	public function rekapKuitansi($tanggal = NULL)

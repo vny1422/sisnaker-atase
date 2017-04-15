@@ -234,7 +234,7 @@
           {edit:true, add:true, del:true, search:true, view:false, refresh:true, beforeRefresh: function() {$(this).clearGridData(true);}},
           {url: '<?php echo base_url()?>paket/editJODetail',editData: { jobid: function () { return row_id; }},jqModal:true, width: 450, checkOnSubmit:true, closeAfterEdit:true, afterComplete:reload, recreateForm:true, beforeShowForm:initCustom2, bottominfo:"Fields marked with (*) are required"}, // edit
           {url: '<?php echo base_url()?>paket/editJODetail',editData: { jobid: function () { return row_id; }},jqModal:true, width: 450, closeOnEscape:true, checkOnUpdate:true, clearAfterAdd:true, closeAfterAdd:true, afterComplete:reload, recreateForm:true, beforeShowForm:initCustom2, bottominfo:"Fields marked with (*) are required"}, // add
-          {url: '<?php echo base_url()?>paket/editJODetail',closeOnEscape:true,afterComplete:reload}, // del
+          {url: '<?php echo base_url()?>paket/editJODetail',delData: { jobid: function () { return row_id; }}, closeOnEscape:true,afterComplete:reload}, // del
           {multipleSearch:true},
           {}
         );
@@ -251,7 +251,7 @@
         {edit:true, add:true, del:true, search:true, view:false, refresh:true, beforeRefresh: function() {$(this).clearGridData(true);}},
         {url: '<?php echo base_url()?>paket/editJO',editData: { ppkode: function () { return idpptkis; }, agid: function () { return idagensi; }},jqModal:true, width: 450, closeOnEscape:true, checkOnSubmit:true, closeAfterEdit:true, afterComplete:reload, recreateForm:true, beforeShowForm:initCustom, bottominfo:"Fields marked with (*) are required"}, // edit
         {url: '<?php echo base_url()?>paket/editJO',editData: { ppkode: function () { return idpptkis; }, agid: function () { return idagensi; }},jqModal:true, width: 450, closeOnEscape:true, checkOnUpdate:true, clearAfterAdd:true, closeAfterAdd:true, afterComplete:reload, beforeShowForm:initCustom, recreateForm:true, bottominfo:"Fields marked with (*) are required"}, // add
-        {url: '<?php echo base_url()?>paket/editJO',closeOnEscape:true,afterComplete:reload}, // del
+        {url: '<?php echo base_url()?>paket/editJO',delData: { ppkode: function () { return idpptkis; }, agid: function () { return idagensi; }}, closeOnEscape:true,afterComplete:reload}, // del
         {multipleSearch:true},
         {}
     );

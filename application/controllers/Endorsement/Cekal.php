@@ -17,25 +17,16 @@ class Cekal extends MY_Controller {
     $this->data['sidebar'] = 'SAdmin/Sidebar';
     $this->load->model('Perlindungan/Agency_model');
     $this->load->model('Perlindungan/Pptkis_model');
+
+    if ($this->session->userdata('role') != 1 && $this->session->userdata('role') != 2)
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
   }
 
   public function index()
   {
-    $this->data['title'] = 'Catatan Aktivitas';
-    $this->data['subtitle'] = 'Catatan Aktivitas Petugas Penanganan';
-
-    $this->data['result_log'] = array();
-
-    foreach($listlog as $row):
-      $user = $this->Log_model->get_namapetugas($row->user_username);
-      $namatki = $this->Log_model->get_namatki($row->idmasalah);
-      $history = $row;
-      array_push($this->data['result_log'], array($user[0]->name,strtoupper($namatki[0]->namatki),$history));
-    endforeach;
-
-    $this->load->view('templates/headerperlindungan', $this->data);
-    $this->load->view('Perlindungan/CatatanAktivitas_view', $this->data);
-    $this->load->view('templates/footerperlindungan');
+    
   }
 
   public function agensi()

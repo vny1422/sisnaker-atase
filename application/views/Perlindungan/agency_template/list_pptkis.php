@@ -7,8 +7,10 @@
             <th class="text-center" style="width:20%">Penanggung Jawab</th>
             <th class="text-center" style="width:25%">Telepon / Fax</th>
             <th class="text-center" style="width:20%">No Ijin</th>
-            <th class="text-center" style="width:7.5%">Edit</th>
-            <th class="text-center" style="width:7.5%">Delete</th>
+            <?php if($this->session->userdata('role') == 1){
+            echo '<th class="text-center" style="width:7.5%">Edit</th>
+            <th class="text-center" style="width:7.5%">Delete</th>';
+            } ?>
         </tr>
         <tr class="text-center">
             <th></th>
@@ -16,8 +18,10 @@
             <th><input st-search="pppngjwb" placeholder="penanggung jawab" class="input-sm form-control" type="search"/></th>
             <th><input st-search="pptelp || ppfax" placeholder="telepon" class="input-sm form-control" type="search"/></th>
             <th><input st-search="ppijin" placeholder="ijin" class="input-sm form-control" type="search"/></th>
-            <th></th>
-            <th></th>
+            <?php if($this->session->userdata('role') == 1){
+            echo '<th></th>
+            <th></th>';
+            } ?>
         </tr>
     </thead>
     <tbody class="table-hover " >
@@ -27,12 +31,12 @@
             <td >{{pt.pppngjwb}}</td>
             <td class="text-center">{{pt.pptelp}} / {{pt.ppfax}}</td>
             <td class="text-center">{{pt.ppijin}}</td>
+            <?php if($this->session->userdata('role') == 1){
+            echo '<td><div class="center-button"><a href="'.base_url().'AgensiPPTKIS/editPPTKIS/{{pt.ppkode}}"><button class="btn btn-info" type="button" name="button">Edit</button></a></div></td>
             <td>
-              <div class="center-button"><a href=" <?php echo base_url() ?>AgensiPPTKIS/editPPTKIS/{{pt.ppkode}}"><button class="btn btn-info" type="button" name="button">Edit</button></a></div>
-            </td>
-            <td>
-              <div class="center-button"><a href=" <?php echo base_url() ?>AgensiPPTKIS/deletePPTKIS/{{pt.ppkode}}"><button class="btn btn-danger" type="button" name="button">Hapus</button></a></div>
-            </td>
+              <div class="center-button"><a href="'.base_url().'AgensiPPTKIS/deletePPTKIS/{{pt.ppkode}}"><button class="btn btn-danger" type="button" name="button">Hapus</button></a></div>
+            </td>';
+            } ?>
         </tr>
     </tbody>
     <tfoot>

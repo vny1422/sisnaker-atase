@@ -23,20 +23,34 @@ class Paket extends MY_Controller {
 
   public function index()
   {
-    $this->data['title'] = 'Paket PK';
-    $this->data['subtitle'] = 'View Quota';
-    $this->load->view('templates/headerendorsement', $this->data);
-    $this->load->view('Endorsement/RekapPaketJO_view');
-    $this->load->view('templates/footerendorsement');
+    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2 || $this->session->userdata('role') == 4)
+    {
+      $this->data['title'] = 'Paket PK';
+      $this->data['subtitle'] = 'View Quota';
+      $this->load->view('templates/headerendorsement', $this->data);
+      $this->load->view('Endorsement/RekapPaketJO_view');
+      $this->load->view('templates/footerendorsement');
+    }
+    else
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
   }
 
   public function add()
   {
-    $this->data['title'] = 'Paket PK';
-    $this->data['subtitle'] = 'Register Quota';
-    $this->load->view('templates/headerendorsement', $this->data);
-    $this->load->view('Endorsement/DaftarPaketJO_view');
-    $this->load->view('templates/footerendorsement');
+    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2)
+    {
+      $this->data['title'] = 'Paket PK';
+      $this->data['subtitle'] = 'Register Quota';
+      $this->load->view('templates/headerendorsement', $this->data);
+      $this->load->view('Endorsement/DaftarPaketJO_view');
+      $this->load->view('templates/footerendorsement');
+    }
+    else
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
   }
 
   public function listAgensi()
@@ -242,19 +256,31 @@ class Paket extends MY_Controller {
     $agid = $this->input->post('agid', TRUE);
     $id = $this->input->post('id', TRUE);
 
-    if ($oper === "add") {
-      if (!empty($ppkode) && !empty($agid)) {
-        $this->Paket_model->addJO($ppkode,$agid);
-        $r->status = 1;
+    $values = $this->Agency_model->get_agency_info($agid);
+
+    if($values['idinstitution'] == $this->session->userdata('institution')){
+      if ($oper === "add") {
+        if (!empty($ppkode) && !empty($agid)) {
+          $this->Paket_model->addJO($ppkode,$agid);
+          $r->status = 1;
+        }
+      } else if ($oper === "edit") {
+        if (!empty($ppkode) && !empty($agid)) {
+          $this->Paket_model->updateJO($id);
+          $r->status = 1;
+        }      
+      } else if ($oper === "del") {
+        if($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2){
+          $this->Paket_model->deleteJO($id);
+          $r->status = 1;
+        } else {
+          $val = $this->Paket_model->getJobOrder_from_jobid($id);
+          if($val->username == $this->session->userdata('user')){
+            $this->Paket_model->deleteJO($id);
+            $r->status = 1;
+          }
+        }  
       }
-    } else if ($oper === "edit") {
-      if (!empty($ppkode) && !empty($agid)) {
-        $this->Paket_model->updateJO($id);
-        $r->status = 1;
-      }
-    } else if ($oper === "del") {
-      $this->Paket_model->deleteJO($id);
-      $r->status = 1;
     }
 
     echo json_encode($r);
@@ -329,19 +355,36 @@ class Paket extends MY_Controller {
     $jobid = $this->input->post('jobid', TRUE);
     $id = $this->input->post('id', TRUE);
 
-    if ($oper === "add") {
-      if (!empty($jobid)) {
-        $this->Paket_model->addJODetail($jobid);
-        $r->status = 1;
+    $val = $this->Paket_model->getJobOrder_from_jobid($jobid);
+    $values = $this->Agency_model->get_agency_info($val->agid);
+
+    if($values['idinstitution'] == $this->session->userdata('institution')){
+      if ($oper === "add") {
+        if (!empty($jobid)) {
+          $this->Paket_model->addJODetail($jobid);
+          $r->status = 1;
+        }
+      } else if ($oper === "edit") {
+        if($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2){
+          if (!empty($jobid)) {
+            $this->Paket_model->updateJODetail($id);
+            $r->status = 1;
+          }
+        } else if($val->username == $this->session->userdata('user')){
+          if (!empty($jobid)) {
+            $this->Paket_model->updateJODetail($id);
+            $r->status = 1;
+          }
+        }
+      } else if ($oper === "del") {
+        if($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2){
+          $this->Paket_model->deleteJODetail($id);
+          $r->status = 1;
+        } else if($val->username == $this->session->userdata('user')){
+          $this->Paket_model->deleteJODetail($id);
+          $r->status = 1;
+        }
       }
-    } else if ($oper === "edit") {
-      if (!empty($jobid)) {
-        $this->Paket_model->updateJODetail($id);
-        $r->status = 1;
-      }
-    } else if ($oper === "del") {
-      $this->Paket_model->deleteJODetail($id);
-      $r->status = 1;
     }
 
     echo json_encode($r);

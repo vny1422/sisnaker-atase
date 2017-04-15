@@ -21,36 +21,25 @@ class Jobtype extends MY_Controller {
 
 		if ($this->session->userdata('role') != 1 && $this->session->userdata('role') != 2)
 		{
-				show_error("Access is forbidden.",403,"403 Forbidden");
+			show_error("Access is forbidden.",403,"403 Forbidden");
 		}
 	}
 
 	public function index()
 	{
-
 		if($this->session->userdata('role') == '1'){
 			$this->data['list'] = $this->Jobtype_model->list_all_jobtype();
-			$this->data['listnama'] = array();
-			foreach ($this->data['list'] as $row):
-				array_push($this->data['listnama'],$this->Institution_model->get_institution_name($row->idinstitution));
-			endforeach;
-			$this->data['title'] = 'Tabel Jenis Pekerjaan';
-			$this->load->view('templates/header', $this->data);
-			$this->load->view('SAdmin/JobType_view', $this->data);
-			$this->load->view('templates/footer');
-		}
-		else{
+		} else {
 			$this->data['list'] = $this->Jobtype_model->list_all_jobtype_by_institution($this->session->userdata('institution'));
-			$this->data['listnama'] = array();
-			foreach ($this->data['list'] as $row):
-				array_push($this->data['listnama'],$this->Institution_model->get_institution_name($row->idinstitution));
-			endforeach;
-			$this->data['title'] = 'Tabel Jenis Pekerjaan';
-			$this->load->view('templates/header', $this->data);
-			$this->load->view('SAdmin/JobType_view', $this->data);
-			$this->load->view('templates/footer');
 		}
-
+		$this->data['listnama'] = array();
+		foreach ($this->data['list'] as $row):
+			array_push($this->data['listnama'],$this->Institution_model->get_institution_name($row->idinstitution));
+		endforeach;
+		$this->data['title'] = 'Tabel Jenis Pekerjaan';
+		$this->load->view('templates/header', $this->data);
+		$this->load->view('SAdmin/JobType_view', $this->data);
+		$this->load->view('templates/footer');
 	}
 
 	public function add()
@@ -59,48 +48,25 @@ class Jobtype extends MY_Controller {
 		$this->form_validation->set_rules('institution', 'Institution', 'required');
 		$this->form_validation->set_rules('gaji', 'Gaji', 'required');
 
-		if ($this->form_validation->run() === FALSE)
-		{
-
-
-			if($this->session->userdata('role') == '1')
-			{
-				$this->data['listinstitution'] = $this->Institution_model->list_active_institution();
-				$this->data['title'] = 'Add New Job Type';
-				$this->load->view('templates/header', $this->data);
-				$this->load->view('SAdmin/AddJobType_view', $this->data);
-				$this->load->view('templates/footer');
-			}
-			else {
-				$this->data['listinstitution'] = array();
-				array_push($this->data['listinstitution'],$this->Institution_model->get_institution($this->session->userdata('institution')));
-				$this->data['title'] = 'Add New Job Type';
-				$this->load->view('templates/header', $this->data);
-				$this->load->view('SAdmin/AddJobType_view', $this->data);
-				$this->load->view('templates/footer');
-			}
-		}
-		else
+		if ($this->form_validation->run() !== FALSE)
 		{
 			$this->Jobtype_model->post_new_jobtype();
 			$this->session->set_flashdata('information', 'Data berhasil dimasukkan');
-			if($this->session->userdata('role') == '1')
-			{
-				$this->data['listinstitution'] = $this->Institution_model->list_active_institution();
-				$this->data['title'] = 'Add New Job Type';
-				$this->load->view('templates/header', $this->data);
-				$this->load->view('SAdmin/AddJobType_view', $this->data);
-				$this->load->view('templates/footer');
-			}
-			else {
-				$this->data['listinstitution'] = array();
-				array_push($this->data['listinstitution'],$this->Institution_model->get_institution($this->session->userdata('institution')));
-				$this->data['title'] = 'Add New Job Type';
-				$this->load->view('templates/header', $this->data);
-				$this->load->view('SAdmin/AddJobType_view', $this->data);
-				$this->load->view('templates/footer');
-			}
 		}
+		
+		if($this->session->userdata('role') == '1')
+		{
+			$this->data['listinstitution'] = $this->Institution_model->list_active_institution();
+		}
+		else
+		{
+			$this->data['listinstitution'] = array();
+			array_push($this->data['listinstitution'],$this->Institution_model->get_institution($this->session->userdata('institution')));
+		}	
+		$this->data['title'] = 'Add New Job Type';
+		$this->load->view('templates/header', $this->data);
+		$this->load->view('SAdmin/AddJobType_view', $this->data);
+		$this->load->view('templates/footer');
 	}
 
 
@@ -111,12 +77,27 @@ class Jobtype extends MY_Controller {
 
 		if ($this->form_validation->run() === FALSE)
 		{
-			$this->data['listinstitution'] = $this->Institution_model->list_active_institution();
 			$this->data['values'] = $this->Jobtype_model->get_jobtype($id);
-			$this->data['title'] = 'Edit Tipe Pekerjaan';
-			$this->load->view('templates/header', $this->data);
-			$this->load->view('SAdmin/EditJobtype_view', $this->data);
-			$this->load->view('templates/footer');
+			if($this->session->userdata('role') == '1' || $this->data['values']->idinstitution == $this->session->userdata('institution'))
+            {
+            	if($this->session->userdata('role') == '1')
+            	{
+            		$this->data['listinstitution'] = $this->Institution_model->list_active_institution();
+            	}
+            	else
+            	{
+            		$this->data['listinstitution'] = array();
+					array_push($this->data['listinstitution'],$this->Institution_model->get_institution($this->session->userdata('institution')));
+            	}
+				$this->data['title'] = 'Edit Tipe Pekerjaan';
+				$this->load->view('templates/header', $this->data);
+				$this->load->view('SAdmin/EditJobtype_view', $this->data);
+				$this->load->view('templates/footer');
+			}
+			else
+            {
+                show_error("Access is forbidden.",403,"403 Forbidden");
+            }
 		}
 		else
 		{
@@ -127,8 +108,17 @@ class Jobtype extends MY_Controller {
 
 	public function delete($id)
 	{
-		$this->Jobtype_model->delete_jobtype($id);
-		redirect('Jobtype');
+		$this->data['values'] = $this->Jobtype_model->get_jobtype($id);
+
+		if($this->session->userdata('role') == '1' || $this->data['values']->idinstitution == $this->session->userdata('institution'))
+        {
+			$this->Jobtype_model->delete_jobtype($id);
+			redirect('Jobtype');
+		}
+		else
+        {
+        	show_error("Access is forbidden.",403,"403 Forbidden");
+        }
 	}
 
 }

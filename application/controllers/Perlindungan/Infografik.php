@@ -19,10 +19,14 @@ class Infografik extends MY_Controller {
     $this->data['namakantor'] = $this->namakantor->nama;
     $this->load->model('Perlindungan/Infografik_model');
     $this->load->model('Perlindungan/Perlindungan_model');
+    $this->load->model('SAdmin/Currency_model');
   }
 
   public function index()
   {
+    $currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
+    $this->data['namacurrency'] = strtoupper($currency->currencyname);
+    
     $this->data['title'] = 'Infografik';
     $this->data['subtitle'] = 'Statistik Ketenagakerjaan Indonesia';
     $this->load->view('templates/headerperlindungan', $this->data);

@@ -231,7 +231,7 @@
 										</div>
 										
 										<div class="form-group">
-											<label for="inputtglmasuktw" class="col-sm-3 control-label">Nominal Yang Diselamatkan (NT$) :</label>
+											<label for="inputtglmasuktw" class="col-sm-3 control-label">Nominal Yang Diselamatkan (<?php echo $namacurrency ?>) :</label>
 											<div class="col-sm-4">
 												<p class="form-control-static" id="Anominal" name="nominal"></p>
 											</div>
@@ -263,12 +263,9 @@
 				                    <button type="button" class="btn btn-primary" id="editkasus">
 				                    	<i class="fa fa-pencil"></i> <strong>Edit</strong>
 				                    </button>
-				                    
-				                    <?php if($_SESSION['role'] <= 3) {?>
-				                    	<a href="#" class="btn btn-danger" id="delkasus" onclick="return confirm('Benar ingin menghapus kasus ini ?')">
-				                    		<i class="fa fa-trash-o"></i> <strong>Hapus</strong>
-				                    	</a>
-				                    <?php }?>
+				                    <button type="button" class="btn btn-danger" id="delkasus" ng-click="delKasus()">
+				                    	<i class="fa fa-trash-o"></i> <strong>Hapus</strong>
+				                    </button>
 				                </div>
 			                </form>
 				    	</div>

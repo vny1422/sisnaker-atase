@@ -40,6 +40,11 @@
     <!-- Select -->
     <script src="<?php echo base_url('assets/js/select/select2.full.min.js'); ?>"></script>
 
+    <!-- Ladda -->
+    <script src="<?php echo base_url('assets/js/spin.min.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/ladda.min.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/ladda.jquery.min.js'); ?>"></script>
+
     <!-- Custom Theme Scripts -->
     <script src="<?php echo base_url('assets/build/js/custom.min.js'); ?>"></script>
 

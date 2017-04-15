@@ -7,8 +7,10 @@
             <th class="text-center" style="width:15%">Penanggung Jawab</th>
             <th class="text-center" style="width:25%">Telp / Fax</th>
             <th class="text-center" style="width:20%">No Ijin</th>
-            <th class="text-center" style="width:7.5%">Edit</th>
-            <th class="text-center" style="width:7.5%">Delete</th>
+            <?php if($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2){
+            echo '<th class="text-center" style="width:7.5%">Edit</th>
+            <th class="text-center" style="width:7.5%">Delete</th>';
+            } ?>
         </tr>
         <tr class="text-center">
             <th></th>
@@ -16,8 +18,10 @@
             <th><input st-search="agpngjwb" placeholder="penanggung jawab" class="input-sm form-control" type="search"/></th>
             <th><input st-search="agtelp" placeholder="telepon" class="input-sm form-control" type="search"/></th>
             <th><input st-search="agnoijincla" placeholder="no ijin" class="input-sm form-control" type="search"/></th>
-            <th></th>
-            <th></th>
+            <?php if($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2){
+            echo '<th></th>
+            <th></th>';
+            } ?>
         </tr>
     </thead>
     <tbody class="table-hover " >
@@ -27,12 +31,12 @@
             <td class="text-center">{{agen.agpngjwb}} </br> {{agen.agpngjwboth}}</td>
             <td class="text-center">{{agen.agtelp}} / {{agen.agfax}}</td>
             <td class="text-center">{{agen.agnoijincla}}</td>
+            <?php if($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2){
+            echo '<td><div class="center-button"><a href="'.base_url().'AgensiPPTKIS/editAgensi/{{agen.agid}}"><button class="btn btn-info" type="button" name="button">Edit</button></a></div></td>
             <td>
-              <div class="center-button"><a href=" <?php echo base_url() ?>AgensiPPTKIS/editAgensi/{{agen.agid}}"><button class="btn btn-info" type="button" name="button">Edit</button></a></div>
-            </td>
-            <td>
-              <div class="center-button"><a href=" <?php echo base_url() ?>AgensiPPTKIS/deleteAgensi/{{agen.agid}}"><button class="btn btn-danger" type="button" name="button">Hapus</button></a></div>
-            </td>
+              <div class="center-button"><a href="'.base_url().'AgensiPPTKIS/deleteAgensi/{{agen.agid}}"><button class="btn btn-danger" type="button" name="button">Hapus</button></a></div>
+            </td>';
+            } ?>
         </tr>
     </tbody>
     <tfoot>

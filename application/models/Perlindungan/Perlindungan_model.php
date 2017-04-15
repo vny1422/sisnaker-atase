@@ -9,7 +9,7 @@ class Perlindungan_model extends CI_Model {
 		$this->db->select('username');
 		$this->db->from('user');
 		$this->db->where('idinstitution',$idinstitution);
-		$where = '(idlevel > 2)';
+		$where = '(idlevel = 3)';
 		$this->db->where($where);
 		$query = $this->db->get();
 		
@@ -407,7 +407,6 @@ class Perlindungan_model extends CI_Model {
 		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		$this->db->where('m.enable', 1);		
-		//$this->db->where('(m.recap=1 OR m.recap=0)');
 		$query = $this->db->get();
 		
 		return $query;
@@ -422,7 +421,6 @@ class Perlindungan_model extends CI_Model {
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		$this->db->where('m.enable', 1);
 		$this->db->where('m.sektor', 1);		
-		//$this->db->where('(m.recap=1 OR m.recap=0)');
 		$query = $this->db->get();
 		$tmp = $query->row_array();
 			if ($tmp['uang'] == ''){
@@ -452,7 +450,6 @@ class Perlindungan_model extends CI_Model {
 		$this->db->from('masalah m');
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		$this->db->where('m.enable', 1);
-		//$this->db->where('(m.recap=1 OR m.recap=0)');
 		
 		$query = $this->db->get();
 		

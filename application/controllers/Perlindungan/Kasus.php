@@ -11,6 +11,7 @@ class Kasus extends MY_Controller {
     $this->load->model('Perlindungan/Kasus_model');
     $this->load->model('SAdmin/Jobtype_model');
     $this->load->model('SAdmin/User_model');
+    $this->load->model('SAdmin/Currency_model');
     $this->load->helper('string');
     $this->load_sidebar();
     $this->data['listdp'] = $this->listdp;
@@ -23,6 +24,11 @@ class Kasus extends MY_Controller {
 
   public function index($adid = '')
   {
+    if ($this->session->userdata('role') > 3)
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
+    
     $this->data['title'] = 'Kasus';
     $this->data['subtitle'] = 'Input Kasus Baru';
     $this->data['listcategory'] = $this->Kasus_model->list_category($this->session->userdata('institution'));
@@ -55,6 +61,14 @@ class Kasus extends MY_Controller {
 
   public function search()
   {
+    if ($this->session->userdata('role') > 3)
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
+
+    $currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
+    $this->data['namacurrency'] = strtoupper($currency->currencyname);
+
     $this->data['title'] = 'Pencarian Kasus';
     $this->data['subtitle'] = 'Pencarian Aduan';
     $this->load->view('templates/headerperlindungan', $this->data);
@@ -120,6 +134,20 @@ class Kasus extends MY_Controller {
         //echo $similar;
         echo json_encode($similar);
 
+  }
+
+  function delKasus(){
+    $input = $this->getJSONpost();
+    $id = intval($input['idmasalah']);
+
+    $values = $this->Kasus_model->get_kasus($id);
+    if($values->idinstitution == $this->session->userdata('institution')){
+      $message = $this->Kasus_model->delete_kasus($id);
+    } else {
+      $message = false;
+    }
+
+    echo json_encode($message);
   }
 
   public function getParam(){

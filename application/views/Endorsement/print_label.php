@@ -1,7 +1,13 @@
-<?php 
+<?php
 	ob_start();
 ?>
-
+<style type="text/css" media="print">
+    @page
+    {
+        size: auto;   /* auto is the initial value */
+        margin: 0mm;  /* this affects the margin in the printer settings */
+    }
+</style>
 <html>
 	<head>
 		<title>LABEL</title>
@@ -12,7 +18,7 @@
 					window.print();
 				}, 400);
 			});
-		</script> 
+		</script>
 	</head>
 	<body>
 		<div id="printArea" style="font-size:8pt; width: 210px;">

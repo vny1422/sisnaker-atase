@@ -97,11 +97,15 @@
                               <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Married Status<span class="required">*</span></label>
                               <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div style="margin-top: -0.3em" class="radio">
-                                  <label>
-                                    <input type="radio" class="flat" name="tkistatkwn" value="0"> Married &nbsp
-                                    <input type="radio" class="flat" name="tkistatkwn" value="1"> Single &nbsp
-                                    <input type="radio" class="flat" name="tkistatkwn" value="2"> Divorced
-                                  </label>
+                                    <span style="margin-left: 5%; color: black;">
+                                      <input type="radio" name="tkistatkwn" value="0"> Married &nbsp
+                                    </span>
+                                    <span style="margin-left: 5%; color: black;">
+                                      <input type="radio" name="tkistatkwn" value="1"> Single &nbsp
+                                    </span>
+                                    <span style="margin-left: 5%; color: black;">
+                                      <input type="radio" name="tkistatkwn" value="2"> Divorced 
+                                    </span>
                                 </div>
                               </div>
                             </div><br /><br /><br />

@@ -1,3 +1,192 @@
+<!-- start of modal -->
+<div class="modal fade bs-example-modal-lg" id="modaltki" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+      </button>
+      <h4 class="modal-title" id="myModalLabel">Pilih Versi</h4>
+    </div>
+    <div class="modal-body">
+      <div class="x_content">
+        <br />
+        <div class="row" style="padding-top: 10px">
+          <div class="col-lg-12">
+            <!-- panel -->
+            <div class="panel with-nav-tabs panel-info">
+              <!-- panel heading -->
+              <div class="panel-heading" id="tabs-head">
+                <ul class="nav nav-tabs" id="tabs-list">
+                  <li class="active"><a href=#tablokal data-toggle="tab"><strong>Versi Lokal</strong></a>
+                  </li>
+                  <li><a href=#tabbnp2tki data-toggle="tab"><strong>Versi BNP2TKI</strong></a>
+                  </li>
+                </ul>
+              </div>
+              <!-- panel body -->
+              <div class="panel-body">
+                <div class="tab-content">
+
+                  <!-- TAB LOKAL -->
+                  <div class="tab-pane fade in active" id="tablokal">
+                    <div class="panel-body">
+                      <div class="tab-content">
+                        <div class="col-md-12 left-margin">
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="namatki">Nama TKI :</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
+                              <p id="namatkilokal"></p>
+                            </div>
+                          </div><br /><br />
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="jk">Jenis Kelamin :</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
+                              <p id="jklokal"></p>
+                            </div>
+                          </div><br /><br />
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="alamatid">Alamat di Indonesia :</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
+                              <p id="alamatidlokal"></p>
+                            </div>
+                          </div><br /><br />
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="alamat">Alamat :</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
+                              <p id="alamatlokal"></p>
+                            </div>
+                          </div><br /><br />
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pekerjaan">Pekerjaan :</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
+                              <p id="pekerjaanlokal"></p>
+                            </div>
+                          </div><br /><br />
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="agensi">Agensi :</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
+                              <p id="agensilokal"></p>
+                            </div>
+                          </div><br /><br />
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="kontakagensi">Kontak Agensi :</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
+                              <p id="kontakagensilokal"></p>
+                            </div>
+                          </div><br /><br />
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telpagensi">Telp. Agensi :</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
+                              <p id="telpagensilokal"></p>
+                            </div>
+                          </div><br /><br />
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pptkis">PPTKIS :</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
+                              <p id="pptkislokal"></p>
+                            </div>
+                          </div><br /><br />
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="majikan">Majikan :</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
+                              <p id="majikanlokal"></p>
+                            </div>
+                          </div><br />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- TAB BNP2TKI -->
+                  <div class="tab-pane fade in" id="tabbnp2tki">
+                    <div class="panel-body">
+                      <div class="tab-content">
+                        <div class="col-md-12 left-margin">
+                          <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="namatki">Nama TKI :</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
+                              <p id="namatkibnp2tki"></p>
+                            </div>
+                          </div><br /><br />
+                          <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="jk">Jenis Kelamin :</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
+                              <p id="jkbnp2tki"></p>
+                            </div>
+                          </div><br /><br />
+                          <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="alamatid">Alamat di Indonesia :</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
+                              <p id="alamatidbnp2tki"></p>
+                            </div>
+                          </div><br /><br />
+                          <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="alamat">Alamat :</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
+                              <p id="alamatbnp2tki"></p>
+                            </div>
+                          </div><br /><br />
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pekerjaan">Pekerjaan :</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
+                              <p id="pekerjaanbnp2tki"></p>
+                            </div>
+                          </div><br /><br />
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="agensi">Agensi :</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
+                              <p id="agensibnp2tki"></p>
+                            </div>
+                          </div><br /><br />
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="kontakagensi">Kontak Agensi :</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
+                              <p id="kontakagensibnp2tki"></p>
+                            </div>
+                          </div><br /><br />
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telpagensi">Telp. Agensi :</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
+                              <p id="telpagensibnp2tki"></p>
+                            </div>
+                          </div><br /><br />
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pptkis">PPTKIS :</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
+                              <p id="pptkisbnp2tki"></p>
+                            </div>
+                          </div><br /><br />
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="majikan">Majikan :</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 fielddata">
+                              <p id="majikanbnp2tki"></p>
+                            </div>
+                          </div><br />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" id="btnPilih">Pilih</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- end of modals -->
+
 <div class="right_col" role="main" ng-app="FormApp" ng-controller="FormController" >
   <div class="row" >
   </div>
@@ -20,12 +209,9 @@
                   <label>No. Paspor :</label> </br>
 
                   <div class="input-group">
-                    <input type="text" class="form-control" id="inputpaspor" ng-mouseleave="paspor_regex()"
-													   ng-model="formdata['paspor']" ng-disabled="disableAll" placeholder="Masukkan No. Paspor">
-                    <span class="input-group-btn" id="basic-addon2">
-                      <button class="btn btn-success" id="search-paspor" type="button" ng-click="lookup()" ng-disabled="disableAll">Cari Informasi
-                        <i class="fa fa-search"></i>
-                      </button>
+                    <input type="text" class="form-control" id="inputpaspor" ng-mouseleave="paspor_regex()" ng-model="formdata['paspor']" ng-disabled="disableAll" placeholder="Masukkan No. Paspor">
+                    <span class="input-group-btn">
+                      <button ng-click="searchpaspor()" id="search-paspor" class="ladda-button" data-style="expand-right" data-color="green" data-size="xs"><span class="ladda-label" style="color:white">Search <i class="fa fa-search"></i></span></button>
                     </span>
                   </div>
 

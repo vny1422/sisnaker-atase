@@ -139,6 +139,19 @@ function get_shelter() {
 	return $query->result_array();
 }
 
+function query_paspor($paspor) {
+	$this->db->select('t.tkiid, t.namatki, t.jk, t.alamatindonesia, t.alamattaiwan, j.idjenispekerjaan, j.namajenispekerjaan');
+	$this->db->select('m.agensi, m.cpagensi, m.teleponagensi, m.pptkis, m.majikan');
+	$this->db->from('masalah m, tkimasalah t, jenispekerjaan j');
+	$this->db->where('t.idmasalah = m.idmasalah');
+	$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
+	$this->db->where('t.enable = 1');
+	$this->db->where('t.paspor',$paspor);
+	$query = $this->db->get();
+
+	return $query->row();
+}
+
 function org_count_problem_thismonth($month,$year,$idorganisasi) {
 		$this->db->select('*');
 		$this->db->from('masalah m');

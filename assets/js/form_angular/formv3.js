@@ -1,4 +1,3 @@
-
 var proto = window.location.protocol;
 
 var formApp = angular.module('FormApp', ['angular-bootstrap-select','ngFileUpload','ngAlertify','ngSanitize']);
@@ -7,6 +6,118 @@ formApp.filter('unsafe', function($sce) { return $sce.trustAsHtml; });
 
 formApp.controller('FormController',['$scope','FormService','LookupService','Upload', '$rootScope','alertify','$timeout','$sce',
                                      function($scope,FormService,LookupService,Upload,$rootScope,alertify,$timeout,$sce,$http){
+    angular.element(document).ready(function () {
+        var l = $("#search-paspor").ladda();
+        var tkiid = null;
+        var json = null;
+        var json2 = null;
+        var data2 = null;
+
+        $scope.searchpaspor = function (){
+            l.ladda('start');
+
+            $.post("Kasus/checkPaspor", {paspor: $('#inputpaspor').val()}, function(xml,status){
+                l.ladda('stop');
+                json = $.parseJSON(xml);
+
+                $.post("Endorsement/requestTKI", {paspor: $('#inputpaspor').val(), jpid: ''}, function(xml,status){
+                  json2 = $.parseJSON(xml);
+
+                  $scope.$apply(function(){
+                    if(json == null && json2 == 0)
+                    {
+                        alert("Passport not found. Please insert manually.");
+                    }
+                    else if (json == null && json2 != 0){
+                        data2 = json2.data;
+
+                        $scope.formdata['namatki'] = data2.TKI_TKINAME;
+                        $scope.formdata['jk'] = data2.TKI_TKIGENDER;
+                        $scope.formdata['alamatID'] = data2.TKI_TKIADDRESS;
+                        $scope.formdata['agensiTW'] = data2.TKI_PJTKADESC;
+                        $scope.formdata['pptkis'] = data2.TKI_PJTKIDESC;
+                        $scope.formdata['majikan'] = data2.TKI_VISAMAJIKANNAME;
+
+                        tkiid = data2.TKI_TKIID;
+                    }
+                    else if (json != null && json2 == 0){
+                        $scope.formdata['namatki'] = json.namatki;
+                        $scope.formdata['jk'] = json.jk;
+                        $scope.formdata['alamatID'] = json.alamatindonesia;
+                        $scope.formdata['alamatTW'] = json.alamattaiwan;
+                        $scope.formdata['pekerjaan'] = json.namajenispekerjaan;
+                        $scope.formdata['agensiTW'] = json.agensi;
+                        $scope.formdata['cpagensiTW'] = json.cpagensi;
+                        $scope.formdata['telpagensi'] = json.teleponagensi;
+                        $scope.formdata['pptkis'] = json.pptkis;
+                        $scope.formdata['majikan'] = json.majikan;
+
+                        tkiid = json.tkiid;
+                    }
+                    else if (json != null && json2 != 0){
+                        data2 = json2.data;
+
+                        $('#namatkilokal').html(json.namatki);
+                        $('#jklokal').html(json.jk);
+                        $('#alamatidlokal').html(json.alamatindonesia);
+                        $('#alamatlokal').html(json.alamattaiwan);
+                        $('#pekerjaanlokal').html(json.namajenispekerjaan);
+                        $('#agensilokal').html(json.agensi);
+                        $('#kontakagensilokal').html(json.cpagensi);
+                        $('#telpagensilokal').html(json.teleponagensi);
+                        $('#pptkislokal').html(json.pptkis);
+                        $('#majikanlokal').html(json.majikan);
+
+                        $('#namatkibnp2tki').html(data2.TKI_TKINAME);
+                        $('#jkbnp2tki').html(data2.TKI_TKIGENDER);
+                        $('#alamatidbnp2tki').html(data2.TKI_TKIADDRESS);
+                        $('#alamatbnp2tki').html('-');
+                        $('#pekerjaanbnp2tki').html('-');
+                        $('#agensibnp2tki').html(data2.TKI_PJTKADESC);
+                        $('#kontakagensibnp2tki').html('-');
+                        $('#telpagensibnp2tki').html('-');
+                        $('#pptkisbnp2tki').html(data2.TKI_PJTKIDESC);
+                        $('#majikanbnp2tki').html(data2.TKI_VISAMAJIKANNAME);
+
+                        $("#modaltki").modal('show');
+                    }
+                });       
+              });
+            });
+        };
+
+        $("#btnPilih").click( function(e) {
+          e.preventDefault();
+          $scope.$apply(function(){
+              if($("#tablokal").hasClass("active")){
+                $scope.formdata['namatki'] = json.namatki;
+                $scope.formdata['jk'] = json.jk;
+                $scope.formdata['alamatID'] = json.alamatindonesia;
+                $scope.formdata['alamatTW'] = json.alamattaiwan;
+                $scope.formdata['pekerjaan'] = json.namajenispekerjaan;
+                $scope.formdata['agensiTW'] = json.agensi;
+                $scope.formdata['cpagensiTW'] = json.cpagensi;
+                $scope.formdata['telpagensi'] = json.teleponagensi;
+                $scope.formdata['pptkis'] = json.pptkis;
+                $scope.formdata['majikan'] = json.majikan;
+
+                tkiid = json.tkiid;
+            } else {
+                data2 = json2.data;
+
+                $scope.formdata['namatki'] = data2.TKI_TKINAME;
+                $scope.formdata['jk'] = data2.TKI_TKIGENDER;
+                $scope.formdata['alamatID'] = data2.TKI_TKIADDRESS;
+                $scope.formdata['agensiTW'] = data2.TKI_PJTKADESC;
+                $scope.formdata['pptkis'] = data2.TKI_PJTKIDESC;
+                $scope.formdata['majikan'] = data2.TKI_VISAMAJIKANNAME;
+
+                tkiid = data2.TKI_TKIID;
+            }
+        });
+        $("#modaltki").modal('hide');
+    });
+
     /// menu label
     $scope.menu = [{title:"Input Kasus",btn:"Simpan kasus"},{title:"Edit Kasus",btn:"Update kasus"}];
     $scope.menulabel = 0;
@@ -188,7 +299,10 @@ formApp.controller('FormController',['$scope','FormService','LookupService','Upl
     ////// paspor number formatting (regex)
     $scope.paspor_regex = function(){
         var str = $scope.formdata['paspor'];
-        $scope.formdata['paspor'] = str.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
+        if(str != null)
+        {
+            $scope.formdata['paspor'] = str.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
+        }
     }
 
     /////////////////////////////////
@@ -291,6 +405,7 @@ formApp.controller('FormController',['$scope','FormService','LookupService','Upl
     }
 
     ///////////////////////////////////
+    });
 }]);
 
 formApp.controller('PasporController',['$scope','LookupService', '$rootScope',

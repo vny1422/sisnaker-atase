@@ -7,14 +7,12 @@ class DaftarAgensi extends MY_Controller {
 
   public function __construct()
   {
-    
+    parent::__construct();
   }
 
   public function index()
   {
-    $this->load->view('templates/headerendorsement');
     $this->load->view('Endorsement/DaftarAgensi_view');
-    $this->load->view('templates/footerendorsement');
   }
 
 }

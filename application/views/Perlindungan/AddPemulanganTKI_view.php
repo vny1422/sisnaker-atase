@@ -329,7 +329,7 @@
             $('#alamatid').val(data2.TKI_TKIADDRESS);
             $('#namaagensi').val(data2.TKI_PJTKADESC);
             $('#namapptkis').val(data2.TKI_PJTKIDESC);
-            $('#namamajikan').val(data2.TKI_TKIFATHERNAME);
+            $('#namamajikan').val(data2.TKI_VISAMAJIKANNAME);
             tkiid = data2.TKI_TKIID;
           }
           else if (json != null && json2 == 0){
@@ -356,7 +356,7 @@
             $('#alamatbnp2tki').html(data2.TKI_TKIADDRESS);
             $('#namaagensibnp2tki').html(data2.TKI_PJTKADESC);
             $('#namapptkisbnp2tki').html(data2.TKI_PJTKIDESC);
-            $('#namamajikanbnp2tki').html(data2.TKI_TKIFATHERNAME);
+            $('#namamajikanbnp2tki').html(data2.TKI_VISAMAJIKANNAME);
 
             $("#modaltki").modal('show');
           }
@@ -381,7 +381,7 @@
         $('#alamatid').val(data2.TKI_TKIADDRESS);
         $('#namaagensi').val(data2.TKI_PJTKADESC);
         $('#namapptkis').val(data2.TKI_PJTKIDESC);
-        $('#namamajikan').val(data2.TKI_TKIFATHERNAME);
+        $('#namamajikan').val(data2.TKI_VISAMAJIKANNAME);
         tkiid = data2.TKI_TKIID;
       }
       $("#modaltki").modal('hide');

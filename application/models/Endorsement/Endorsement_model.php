@@ -465,6 +465,12 @@ class Endorsement_model extends CI_Model {
 		return $id;
 	}
 
+	function update_tki($data,$paspor)
+	{
+		$this->db->where('tkpaspor',$paspor);
+		return $this->db->update('tki',$data);
+	}
+
 	function geturlpekerjaan($idjp)
 	{
 		$this->db->select('curjodownloadurl,curtkidownloadurl');
@@ -495,6 +501,14 @@ class Endorsement_model extends CI_Model {
 		$this->db->where('jobid', $jo);
 		$this->db->where('idjenispekerjaan', $job);
 		$this->db->update('jodetail',$data);
+	}
+
+	function find_tkipaspor($paspor)
+	{
+		$this->db->select('tknama');
+		$this->db->where('tkpaspor',$paspor);
+		$query = $this->db->get('tki');
+		return $query->num_rows();
 	}
 
 

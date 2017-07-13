@@ -527,7 +527,14 @@ public function insertEJ()
       $datatki["tkiid"] = $tki->TKI_TKIID;
       $datatki["tkidownloadurl"] = $url->curtkidownloadurl;
       $datatki["md5ej"] = md5($ejid);
-      $this->Endorsement_model->insert_tki($datatki);
+      $check = $this->Endorsement_model->find_tkipaspor($tki->TKI_PASPORNO);
+      if($check > 0)
+      {
+        $this->Endorsement_model->update_TKI($datatki,$tki->TKI_PASPORNO);
+      }
+      else {
+        $this->Endorsement_model->insert_tki($datatki);
+      }
   }
   echo json_encode(md5($ejid));
 }

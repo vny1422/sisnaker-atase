@@ -136,6 +136,14 @@ class Kasus extends MY_Controller {
 
   }
 
+  function checkPaspor()
+  {
+    $paspor = $this->input->post('paspor', TRUE);
+    $data = $this->Kasus_model->query_paspor($paspor);
+    
+    echo json_encode($data);
+  }
+
   function delKasus(){
     $input = $this->getJSONpost();
     $id = intval($input['idmasalah']);

@@ -561,6 +561,4 @@ public function printPKTKI($md5tki)
   //code pdf Perjanjian Kerja
 }
 
-
-
 }

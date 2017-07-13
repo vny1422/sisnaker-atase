@@ -131,4 +131,4 @@ $route['(?i)endorsement/(:any)/(:any)'] = 'Endorsement/Endorsement/$1/$2';
 $route['(?i)pk/(:any)/(:any)'] = 'Endorsement/Pk/$1/$2';
 $route['(?i)kuitansi/(:any)/(:any)'] = 'Endorsement/Kuitansi/$1/$2';
 
-$route['(?i)daftaragensi'] = 'Endorsement/DaftarAgensi';
+$route['(?i)agensi/(:any)'] = 'Endorsement/Agensi/$1';

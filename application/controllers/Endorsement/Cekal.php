@@ -15,8 +15,6 @@ class Cekal extends MY_Controller {
     $this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
     $this->data['namakantor'] = $this->namakantor->nama;
     $this->data['sidebar'] = 'SAdmin/Sidebar';
-    $this->load->model('Perlindungan/Agency_model');
-    $this->load->model('Perlindungan/Pptkis_model');
 
     if ($this->session->userdata('role') != 1 && $this->session->userdata('role') != 2)
     {

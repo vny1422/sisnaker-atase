@@ -65,6 +65,24 @@ class Agency_model extends CI_Model {
         return $this->db->delete($this->table);
     }
 
+    public function cek_cla_agensi($cla)
+    {
+      $this->db->where('agrnoijincla', $cla);
+      $query = $this->db->get('agensiregistrasi');
+      $data["cekregis"] = $query->num_rows();
+      $this->db->select('m.agnama as agnama');
+      $this->db->from('magensi m, cekalagensi c');
+      $this->db->where('(m.agnoijincla = "'.$cla.'") AND (c.agid = m.agid AND c.enable=1 AND (c.caend IS NULL OR c.caend >= NOW()))');
+      $query = $this->db->get();
+      $data["cekcekal"] = $query->num_rows();
+      return $data;
+    }
+
+    public function add_new_registration($data)
+    {
+      return $this->db->insert('agensiregistrasi',$data);
+    }
+
     public function delete_cekal($id)
     {
         $this->db->where('caid',$id);

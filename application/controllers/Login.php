@@ -88,4 +88,71 @@ class Login extends CI_Controller {
 		}
 	}
 
+	public function daftar()
+	{
+		$this->load->model('Perlindungan/Agency_model');
+		$this->form_validation->set_rules('agemail', 'Agency Email', 'required|trim');
+		$this->form_validation->set_rules('agnama', 'Agency Name', 'required|trim');
+		$this->form_validation->set_rules('nocla', 'C.L.A Agency License No', 'required|trim');
+		$this->form_validation->set_rules('officealamat', 'Agency Address', 'required|trim');
+
+
+		if ($this->form_validation->run() === FALSE)
+		{
+			$this->load->view('Endorsement/DaftarAgensi_view');
+
+		}
+		else
+			{
+					$cek = $this->Agency_model->cek_cla_agensi($this->input->post('nocla',TRUE));
+					if($cek['cekregis'] > 0 )
+					{
+						$this->session->set_flashdata('information', 'Registration could not be made, Agency Data already registered.');
+						// $this->load->view('Endorsement/DaftarAgensi_view');
+						var_dump($cek);
+					}
+					else if($cek['cekcekal'] > 0)
+					{
+						$this->session->set_flashdata('information', 'Registration could not be made, Agency is BANNED.');
+						$this->load->view('Endorsement/DaftarAgensi_view');
+					}
+					else {
+						$namafile = $_FILES['filecla']['name'];
+						$ext = pathinfo($namafile, PATHINFO_EXTENSION);
+						$config['upload_path'] = './uploadsregister/';
+						$config['allowed_types'] = 'pdf|jpg|png';
+						$config['overwrite'] = TRUE;
+						$config['remove_spaces'] = TRUE;
+						$config['file_name'] =  $this->input->post('nocla',TRUE).".".$ext;
+
+						$this->load->library('upload', $config);
+
+						if ( !$this->upload->do_upload('filecla'))
+						{
+							$this->data['error'] = $this->upload->display_errors('','');
+						} else {
+							$this->data['error'] = "";
+							$datas = array('upload_data' => $this->upload->data());
+						}
+						$data = array(
+							'agremail' => $this->input->post('agemail',TRUE),
+							'agrnama' => $this->input->post('agnama',TRUE),
+							'agrnamacn' => $this->input->post('agnamaoth',TRUE),
+							'agrnoijincla' => $this->input->post('nocla',TRUE),
+							'agralmtkantor' => $this->input->post('officealamat',TRUE),
+							'agralmtkantorcn' => $this->input->post('ot_officealamat',TRUE),
+							'agrpngjwb' => $this->input->post('authperson',TRUE),
+							'agrpngjwbcn' => $this->input->post('ot_authperson',TRUE),
+							'agrtelp' => $this->input->post('phone',TRUE),
+							'agrfax' => $this->input->post('fax',TRUE),
+							'filename' => $this->input->post('nocla',TRUE).".".$ext
+						);
+						$this->Agency_model->add_new_registration($data);
+						$this->session->set_flashdata('information', 'Registration done, Username and Password will be sent by EMAIL after Verification.');
+						$this->load->view('Endorsement/DaftarAgensi_view');
+						}
+
+			}
+	}
+
 }

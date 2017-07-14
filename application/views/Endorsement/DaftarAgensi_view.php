@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Gentelella Alela! | </title>
+    <title>Agency Registration</title>
 
 
 
@@ -89,7 +89,22 @@
                   </div>
                   <div class="x_content">
                     <br />
-                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                    <?php
+                    if (validation_errors() != "") {
+                        echo "<div class=\"well well-sm\">";
+                        echo validation_errors();
+                        echo "</div>";
+                    }
+                    ?>
+                    <?php if($this->session->flashdata('information') != ""): ?>
+                    <?php echo '<div class="container">
+                      <div class="alert alert-success fade in">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        '.$this->session->flashdata('information').'
+                      </div>
+                    </div>' ?>
+                  <?php endif; ?>
+                    <form enctype="multipart/form-data" action="<?php echo base_url(); ?>Login/daftar" method="post" class="form-horizontal form-label-left">
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Official Company Email <span class="required">*</span>
@@ -106,22 +121,22 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Other Agency Name <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Other Agency Name</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="agnamaoth" name="agnamaot" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="agnamaoth" name="agnamaot" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">C.L.A Private Employment Service Agency License No.</label>
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">C.L.A Private Employment Service Agency License No.<span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="agijincla" class="form-control col-md-7 col-xs-12" type="text" name="nocla">
+                          <input id="agijincla" class="form-control col-md-7 col-xs-12" type="text" required="required" name="nocla">
                         </div>
                       </div>
                       <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Office Address</label>
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Office Address<span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="" class="form-control col-md-7 col-xs-12" type="text" name="officealamat">
+                          <input id="" class="form-control col-md-7 col-xs-12" type="text" name="officealamat" required="required">
                         </div>
                       </div>
                       <div class="form-group">
@@ -158,7 +173,7 @@
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Please Upload your C.L.A Private Employment Service Agency License Letter (jpg/png/pdf) :
 						</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="file" name="file_cla">
+                          <input id="filecla" required="required" class="form-control col-md-7 col-xs-12" type="file" name="filecla" accept=".jpg,.png,.pdf">
                         </div>
                       </div>
 

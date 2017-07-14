@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Agensi extends MY_Controller {
 	private $data;
-  
+
 
   public function __construct()
   {
@@ -21,13 +21,9 @@ class Agensi extends MY_Controller {
 
   public function index()
   {
-    
+
   }
 
-  public function daftar()
-  {
-    $this->load->view('Endorsement/DaftarAgensi_view');
-  }
 
   public function cek()
   {

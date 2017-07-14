@@ -28,20 +28,19 @@
               </tr>
             </thead>
             <tbody>
-            <?php //foreach($listcekal as $row): ?>
-              <tr>
-                <td><?php //echo $row->agnama ?> agensisayabundar@agensi.com</td>
-                <td><?php //echo $row->castart ?> Agensi Topi Bundar</td>
-                <td><?php //echo $row->caend ?> 098135478</td>
-                <td><?php //echo $row->cacatatan ?>Bundaran ITS</td>
-                <td><?php //echo $row->enable ?>Romelo Lukaku</td>
-                <td>Waiting</td>
+            <?php foreach($list as $row): ?>
+              <tr data-agrid="<?php echo $row->agrid ?>" data-namacn="<?php echo $row->agrnamacn ?>" data-almtcn="<?php echo $row->agralmtkantorcn ?>" data-pngcn="<?php echo $row->agrpngjwbcn ?>" data-telp="<?php echo $row->agrtelp ?>" data-fax="<?php echo $row->agrfax ?>" data-file="<?php echo $row->filename ?>">
+                <td class="email"><?php echo $row->agremail ?></td>
+                <td class="nama"><?php echo $row->agrnama ?></td>
+                <td class="cla"><?php echo $row->agrnoijincla ?></td>
+                <td class="almt"><?php echo $row->agralmtkantor ?></td>
+                <td class="pngjwb"><?php echo $row->agrpngjwb ?></td>
+                <td class="status"><?php echo ($row->agrstatus === NULL ? "Waiting" : $row->agrstatus ) ?></td>
                 <td>
-                  <div class="center-button"><button class="btn btn-info" type="button" name="button" data-toggle="modal" data-target=".bs-example-modal-lg">Lihat Data</button></div>
+                  <div class="center-button"><button class="btn btn-info togglebtn" type="button" data-toggle="modal" data-target=".bs-example-modal-lg">Lihat Data</button></div>
                 </td>
               </tr>
-            <?php //endforeach; ?>
-              </tr>
+            <?php endforeach; ?>
 
             </tbody>
           </table>
@@ -73,54 +72,55 @@
                           <div class="row">
                             <div class="col-md-3"></div>
                             <div class="col-md-6">
+                              <div id="agensiRID" style="display: none;"></div>
                               <div class="form-group">
                                 <label class="control-label col-md-6 col-sm-6 col-xs-12">Official Company Email</label>
-                                <div id="companyEmail" class="col-md-6 col-sm-6 col-xs-12">agensi@agensi.co.id</div>
+                                <div id="companyEmail" class="col-md-6 col-sm-6 col-xs-12"></div>
                               </div><br /><br />
 
                               <div class="form-group">
                                 <label class="control-label col-md-6 col-sm-6 col-xs-12">Agency Name</label>
-                                <div id="agensiName" class="col-md-6 col-sm-6 col-xs-12">agensi@agensi.co.id</div>
+                                <div id="agensiName" class="col-md-6 col-sm-6 col-xs-12"></div>
                               </div><br /><br />
 
                               <div class="form-group">
                                 <label class="control-label col-md-6 col-sm-6 col-xs-12">Other Agency Name</label>
-                                <div id="otherAgensiName" class="col-md-6 col-sm-6 col-xs-12">agensi@agensi.co.id</div>
+                                <div id="otherAgensiName" class="col-md-6 col-sm-6 col-xs-12"></div>
                               </div><br /><br />
 
                               <div class="form-group">
                                 <label class="control-label col-md-6 col-sm-6 col-xs-12">Agency License No</label>
-                                <div id="agensiNo" class="col-md-6 col-sm-6 col-xs-12">agensi@agensi.co.id</div>
+                                <div id="agensiNo" class="col-md-6 col-sm-6 col-xs-12"></div>
                               </div><br /><br />
 
                               <div class="form-group">
                                 <label class="control-label col-md-6 col-sm-6 col-xs-12">Office Address</label>
-                                <div id="officeAddress" class="col-md-6 col-sm-6 col-xs-12">agensi@agensi.co.id</div>
+                                <div id="officeAddress" class="col-md-6 col-sm-6 col-xs-12"></div>
                               </div><br /><br />
 
                               <div class="form-group">
                                 <label class="control-label col-md-6 col-sm-6 col-xs-12">Other Office Address</label>
-                                <div id="otherOfficeAddress" class="col-md-6 col-sm-6 col-xs-12">agensi@agensi.co.id</div>
+                                <div id="otherOfficeAddress" class="col-md-6 col-sm-6 col-xs-12"></div>
                               </div><br /><br />
 
                               <div class="form-group">
                                 <label class="control-label col-md-6 col-sm-6 col-xs-12">Authorized Person Name</label>
-                                <div id="authorizedPerson" class="col-md-6 col-sm-6 col-xs-12">agensi@agensi.co.id</div>
+                                <div id="authorizedPerson" class="col-md-6 col-sm-6 col-xs-12"></div>
                               </div><br /><br />
 
                               <div class="form-group">
                                 <label class="control-label col-md-6 col-sm-6 col-xs-12">Other Authorized Person Name</label>
-                                <div id="otherAuthorizedPerson" class="col-md-6 col-sm-6 col-xs-12">agensi@agensi.co.id</div>
+                                <div id="otherAuthorizedPerson" class="col-md-6 col-sm-6 col-xs-12"></div>
                               </div><br /><br />
 
                               <div class="form-group">
                                 <label class="control-label col-md-6 col-sm-6 col-xs-12">Phone</label>
-                                <div id="phone" class="col-md-6 col-sm-6 col-xs-12">agensi@agensi.co.id</div>
+                                <div id="phone" class="col-md-6 col-sm-6 col-xs-12"></div>
                               </div><br /><br />
 
                               <div class="form-group">
                                 <label class="control-label col-md-6 col-sm-6 col-xs-12">Faximile</label>
-                                <div id="fax" class="col-md-6 col-sm-6 col-xs-12">agensi@agensi.co.id</div>
+                                <div id="fax" class="col-md-6 col-sm-6 col-xs-12"></div>
                               </div><br /><br />
 
                               <div class="form-group">
@@ -135,7 +135,7 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-success">Accept</button>
+                          <button type="button" class="btn btn-success" id="btnSend">Accept</button>
                         </div>
 
                       </div>
@@ -144,5 +144,39 @@
 
 
 <script type="text/javascript">
+  $(document).ready(function () {
+    var json = null;
 
+    $(".togglebtn").click(function() {
+      $("#agensiRID").text($(this).closest("tr").data("agrid"));
+      $("#companyEmail").text($(this).closest("tr").find("td.email").text());
+      $("#agensiName").text($(this).closest("tr").find("td.nama").text());
+      $("#otherAgensiName").text($(this).closest("tr").data("namacn"));
+      $("#agensiNo").text($(this).closest("tr").find("td.cla").text());
+      $("#officeAddress").text($(this).closest("tr").find("td.almt").text());
+      $("#otherOfficeAddress").text($(this).closest("tr").data("almtcn"));
+      $("#authorizedPerson").text($(this).closest("tr").find("td.pngjwb").text());
+      $("#otherAuthorizedPerson").text($(this).closest("tr").data("pngcn"));
+      $("#phone").text($(this).closest("tr").data("telp"));
+      $("#fax").text($(this).closest("tr").data("fax"));
+    });
+
+    $("#btnSend").click( function(e) {
+      e.preventDefault();
+      
+      $.post("<?php echo base_url()?>Endorsement/insert_agency", {agrid: $('#agensiRID').text()}, function(xml,status){
+        json = $.parseJSON(xml);
+
+        alert(json.msg);
+        if(json.status == 1) {
+          var username = "user-" + $('#agensiRID').text();
+          var password = md5($("#agensiNo").text());
+          //json.agid;
+          console.log(username + " " + password);
+        }
+      });
+      $(".bs-example-modal-lg").modal('hide');
+      window.location.reload();
+    });
+  });
 </script>

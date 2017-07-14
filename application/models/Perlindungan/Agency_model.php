@@ -83,6 +83,48 @@ class Agency_model extends CI_Model {
       return $this->db->insert('agensiregistrasi',$data);
     }
 
+    public function get_agency_registration($id=NULL)
+    {
+      if(isset($id)) {
+        $this->db->where('agrid', $id);
+        $query = $this->db->get('agensiregistrasi');
+        return $query->row();
+      } else {
+        $this->db->where(array('agid' => NULL));
+        $this->db->where(array('agrstatus' => NULL));
+        $query = $this->db->get('agensiregistrasi');
+        return $query->result();
+      }
+    }
+
+    public function insert_new_agency($agensi, $agid) {
+      $data = array(
+        'agid' => $agid,
+        'agemail' => $agensi->agremail,
+        'agnama' => $agensi->agrnama,
+        'agnamaoth' => $agensi->agrnamacn,
+        'agnoijincla' => $agensi->agrnoijincla,
+        'agalmtkantor' => $agensi->agralmtkantor,
+        'agalmtkantoroth' => $agensi->agralmtkantorcn,
+        'agpngjwb' => $agensi->agrpngjwb,
+        'agpngjwboth' => $agensi->agrpngjwbcn,
+        'agtelp' => $agensi->agrtelp,
+        'agfax' => $agensi->agrfax,
+        'idinstitution' => 2,
+        'agenable' => 1
+      );
+      return $this->db->insert('magensi', $data);
+    }
+
+    public function update_agency_registrasi_agid($agrid, $now, $status, $agid=NULL) {
+      $this->db->where('agrid', $agrid);
+      if(isset($agid)) {
+        return $this->db->update('agensiregistrasi', array("agid" => $agid, "responsed" => $now, "agrstatus" => $status));
+      } else {
+        return $this->db->update('agensiregistrasi', array("responsed" => $now, "agrstatus" => $status));
+      }
+    }
+
     public function delete_cekal($id)
     {
         $this->db->where('caid',$id);

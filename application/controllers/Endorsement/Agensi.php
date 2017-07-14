@@ -49,11 +49,13 @@ class Agensi extends MY_Controller {
 
   public function cek()
   {
-  	$this->data['title'] = 'Konfirmasi Pendaftaran Agensi';
-	$this->data['subtitle'] = 'Konfirmasi Pendaftaran Agensi';
-	$this->data['subtitle2'] = 'Tabel Pendaftar Agensi';
+    $this->data['list'] = $this->Agency_model->get_agency_registration();
+
+    $this->data['title'] = 'Konfirmasi Pendaftaran Agensi';
+    $this->data['subtitle'] = 'Konfirmasi Pendaftaran Agensi';
+    $this->data['subtitle2'] = 'Tabel Pendaftar Agensi';
   	$this->load->view('templates/headerendorsement', $this->data);
-  	$this->load->view('Endorsement/CekDaftarAgensi_view');
+  	$this->load->view('Endorsement/CekDaftarAgensi_view', $this->data);
   	$this->load->view('templates/footerendorsement');
   }
 

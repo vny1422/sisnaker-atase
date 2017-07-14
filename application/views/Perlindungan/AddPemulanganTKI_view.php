@@ -385,7 +385,7 @@
         tkiid = data2.TKI_TKIID;
       }
       $("#modaltki").modal('hide');
-    });;
+    });
 
     $("#buttonL").click( function() {
       if($("#gender").val() != "L") {

@@ -478,37 +478,48 @@ class Endorsement extends MY_Controller {
   {
     require_once("ws_kdei/xmlrpc-func.php");
     $agrid = $this->input->post('agrid', TRUE);
-    $agensi = $this->Agency_model->get_agency_registrasi($agrid);
+    $agensi = $this->Agency_model->get_agency_registration($agrid);
+    $status = "D";
+    $now = date('Y-m-d H:i:s');
 
-    $xmlrpc_server_host = 'siskotkln.bnp2tki.go.id';
-    $xml_rpc_server_path = '/xmlrpc/siskotkln_ws/index.php';
+    if (isset($agensi)) {
+      $xmlrpc_server_host = 'siskotkln.bnp2tki.go.id';
+      $xml_rpc_server_path = '/xmlrpc/siskotkln_ws/index.php';
 
-    define('XMLRPC_DEBUG', 1);
+      define('XMLRPC_DEBUG', 1);
 
-    $USER_ID = "ws_twn";
-    $USER_PASS = "ws_twn";
-    $SERVICE_NAME = "exec.ins_agency";
-    $SERVICE_PARAM = $agensi->agrnama ."|" . $agensi->agralmtkantor ."|" . $agensi->agrtelp ."|" .$agensi->agrfax ."|" . $agensi->agrpngjwb ."|" . "|" . $agensi->agrnoijincla; 
+      $USER_ID = "ws_twn";
+      $USER_PASS = "ws_twn";
+      $SERVICE_NAME = "exec.ins_agency";
+      $SERVICE_PARAM = $agensi->agrnama ."|" . $agensi->agralmtkantor ."|" . $agensi->agrtelp ."|" .$agensi->agrfax ."|" . $agensi->agrpngjwb ."|" . "|" . $agensi->agrnoijincla; 
 
-    $inputArray = array(
-      "USER_ID" => $USER_ID,
-      "USER_PASS" => $USER_PASS,
-      "SERVICE_NAME" => $SERVICE_NAME,
-      "SERVICE_PARAM" => $SERVICE_PARAM
-    );
+      $inputArray = array(
+        "USER_ID" => $USER_ID,
+        "USER_PASS" => $USER_PASS,
+        "SERVICE_NAME" => $SERVICE_NAME,
+        "SERVICE_PARAM" => $SERVICE_PARAM
+        );
 
-    $result = XMLRPC_request($xmlrpc_server_host,  $xml_rpc_server_path ,"siskotkln_ws" , array( XMLRPC_prepare( $inputArray ) ) );
-    if ( $result[0] == 1 ) {
+      $result = XMLRPC_request($xmlrpc_server_host,  $xml_rpc_server_path ,"siskotkln_ws" , array( XMLRPC_prepare( $inputArray ) ) );
+      if ( $result[0] == 1 ) {
         $result = XMLRPC_parse($result[1]);
         $agid = trim($result['ws_response']['reqString']);
         if ($agid !== "FAILED") {
-            $this->Agency_model->insert_new_agency($agensi);
-            $this->Agency_model->update_agency_registrasi_agid($agrid, $agid);
+          $this->Agency_model->insert_new_agency($agensi, $agid);
+          $status = "A";
+          $this->Agency_model->update_agency_registrasi_agid($agrid, $now, $status, $agid);
+          echo json_encode(array("msg" => "Registration successful.", "status" => 1, "agid" => $agid));
         }
-        else {echo json_encode("0");}
-    } 
-    else {
-      echo json_encode("0");
+        else {
+          $this->Agency_model->update_agency_registrasi_agid($agrid, $now, $status);
+          echo json_encode(array("msg" => "Registration failed. Invalid Data.", "status" => 0));
+        }
+      } 
+      else {
+        echo json_encode(array("msg" => "Registration failed. No response from server.", "status" => 0));
+      }
+    } else {
+      echo json_encode(array("msg" => "Registration failed. Invalid ID.", "status" => 0));
     }
   }
 

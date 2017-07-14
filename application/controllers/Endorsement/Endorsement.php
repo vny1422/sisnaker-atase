@@ -474,6 +474,44 @@ class Endorsement extends MY_Controller {
 
   }
 
+  function insert_agency()
+  {
+    require_once("ws_kdei/xmlrpc-func.php");
+    $agrid = $this->input->post('agrid', TRUE);
+    $agensi = $this->Agency_model->get_agency_registrasi($agrid);
+
+    $xmlrpc_server_host = 'siskotkln.bnp2tki.go.id';
+    $xml_rpc_server_path = '/xmlrpc/siskotkln_ws/index.php';
+
+    define('XMLRPC_DEBUG', 1);
+
+    $USER_ID = "ws_twn";
+    $USER_PASS = "ws_twn";
+    $SERVICE_NAME = "exec.ins_agency";
+    $SERVICE_PARAM = $agensi->agrnama ."|" . $agensi->agralmtkantor ."|" . $agensi->agrtelp ."|" .$agensi->agrfax ."|" . $agensi->agrpngjwb ."|" . "|" . $agensi->agrnoijincla; 
+
+    $inputArray = array(
+      "USER_ID" => $USER_ID,
+      "USER_PASS" => $USER_PASS,
+      "SERVICE_NAME" => $SERVICE_NAME,
+      "SERVICE_PARAM" => $SERVICE_PARAM
+    );
+
+    $result = XMLRPC_request($xmlrpc_server_host,  $xml_rpc_server_path ,"siskotkln_ws" , array( XMLRPC_prepare( $inputArray ) ) );
+    if ( $result[0] == 1 ) {
+        $result = XMLRPC_parse($result[1]);
+        $agid = trim($result['ws_response']['reqString']);
+        if ($agid !== "FAILED") {
+            $this->Agency_model->insert_new_agency($agensi);
+            $this->Agency_model->update_agency_registrasi_agid($agrid, $agid);
+        }
+        else {echo json_encode("0");}
+    } 
+    else {
+      echo json_encode("0");
+    }
+  }
+
 
 public function insertEJ()
 {

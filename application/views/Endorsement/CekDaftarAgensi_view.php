@@ -144,33 +144,5 @@
 
 
 <script type="text/javascript">
-var checkbox = $("#cekenable");
 
-checkbox.change(function(event) {
-    var checkbox = event.target;
-    if (checkbox.checked) {
-        $('.tglformat').removeAttr('disabled');
-    } else {
-        $('.tglformat').attr('disabled', 'disabled');
-    }
-});
-
-$(function() {
-  $( "#agensi" ).autocomplete({
-    source: function(request, response) {
-      $.post('<?php echo base_url();?>/Paket/ambilnamaagensi/', { term:request.term}, function(json) {
-        response( $.map( json.rows, function( item ) {
-          return {
-            label: item.agnama,
-            id: item.agid
-          }
-        }));
-      }, 'json');
-    },
-    minLength: 1,
-    select: function( event, ui ) {
-      idagensi = ui.item.id;
-    }
-  });
-} );
 </script>

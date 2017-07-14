@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	  
+
     <title>Gentelella Alela! | </title>
 
 
@@ -35,7 +35,7 @@
     <div class="container body">
       <div class="main_container">
         <div class="col-md-3 left_col">
-          
+
         </div>
 
         <!-- top navigation -->
@@ -48,7 +48,7 @@
 
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
-                  
+
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
                     <li><a href="javascript:;"> Profile</a></li>
                     <li>
@@ -62,7 +62,7 @@
                   </ul>
                 </li>
 
-                
+
               </ul>
             </nav>
           </div>
@@ -76,7 +76,7 @@
            		<div class="col-md-3"></div>
               <div class="text-center title_left">
                 <h3>USER REGISTRATION</h3>
-                <p>This registration form is used primarily for Taiwan Agency. For Indonesia Agency (PPTKIS), please use SISKOTKLN BNP2TKI in Indonesia. Both Endorsement v2 KDEI and SISKOTKLN BNP2TKI are connected to each other.</p>
+                <p>For Indonesia Agency (PPTKIS), please use SISKOTKLN BNP2TKI in Indonesia. Both Endorsement v2 KDEI and SISKOTKLN BNP2TKI are connected to each other.</p>
               </div>
             </div>
             <div class="clearfix"></div>
@@ -84,7 +84,7 @@
               <div class="col-md-8 col-sm-12 col-xs-12 col-md-offset-2">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Form Design <small>different form elements</small></h2>
+                    <h2>Registration Form</h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -95,33 +95,33 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Official Company Email <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="compemail" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" name="agemail" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Agency Name <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="agensinama" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" name="agnama" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Other Agency Name <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="last-name" name="ot_agensinama" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="agnamaoth" name="agnamaot" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">C.L.A Private Employment Service Agency License No.</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="nocla">
+                          <input id="agijincla" class="form-control col-md-7 col-xs-12" type="text" name="nocla">
                         </div>
                       </div>
                       <div class="form-group">
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Office Address</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="officealamat">
+                          <input id="" class="form-control col-md-7 col-xs-12" type="text" name="officealamat">
                         </div>
                       </div>
                       <div class="form-group">
@@ -165,7 +165,7 @@
                       <br>
                       <h2 class="text-center">*After verification finished, we will send username and password to this email
 </h2>
-                      
+
                       <div class="ln_solid"></div>
 
                       <div class="form-group">
@@ -180,7 +180,7 @@
                   </div>
                 </div>
               </div>
-            </div> 
+            </div>
           </div>
         </div>
         <!-- /page content -->
@@ -231,6 +231,6 @@
     <script src="../vendors/starrr/dist/starrr.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="../build/js/customku.js"></script>
-	
+
   </body>
 </html>

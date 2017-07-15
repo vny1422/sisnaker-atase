@@ -17,6 +17,11 @@ class Agensi extends MY_Controller {
     $this->data['sidebar'] = 'SAdmin/Sidebar';
     $this->load->model('Perlindungan/Agency_model');
     $this->load->model('Perlindungan/Pptkis_model');
+
+    if ($this->session->userdata('role') != 1 && $this->session->userdata('role') != 2)
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
   }
 
   public function index()
@@ -69,6 +74,16 @@ class Agensi extends MY_Controller {
     } else {
       echo json_encode("0");
     }
+  }
+
+  function updateStatusRegistrasi()
+  {
+    $agrid = $this->input->post('agrid');
+    $agid = $this->input->post('agid');
+
+    $status = "A";
+    $now = date('Y-m-d H:i:s');
+    $this->Agency_model->update_agency_registrasi_agid($agrid, $now, $status, $agid);
   }
 
 }

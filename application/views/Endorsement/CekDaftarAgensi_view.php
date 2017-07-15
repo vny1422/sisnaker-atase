@@ -144,12 +144,12 @@
 
 
 <script type="text/javascript">
-  function generateUserPass(agrid, cla) {
-    var username = "user-" + agrid;
-    var password = md5(cla);
+  function generateUserPass(agnama, cla) {
+    var userpass = agnama.substr(agnama.length - 4) + cla;
+    var passmd5 = md5(userpass);
     return {
-      "username":username,
-      "password":password
+      "userpass":userpass,
+      "md5":passmd5
     }
   }
 
@@ -158,6 +158,8 @@
     var agid = null;
     var userpass = null;
     var filename = null;
+    var tr = null;
+    var table = $('#datatable-responsive').DataTable();
 
     $(".togglebtn").click(function() {
       $("#agensiRID").text($(this).closest("tr").data("agrid"));
@@ -172,13 +174,14 @@
       $("#phone").text($(this).closest("tr").data("telp"));
       $("#fax").text($(this).closest("tr").data("fax"));
       filename = $(this).closest("tr").data("file");
+      tr = $(this).closest("tr");
     });
 
     $("#btnDL").click( function(e) {
       e.preventDefault();
-      $.fileDownload('' + filename)
-        .done(function () { alert('File download a success!'); })
-        .fail(function () { alert('File download failed!'); });
+      if(filename != "") {
+        window.open("<?php echo base_url("uploadsregister/")?>" + filename, "_blank");
+      }
     });
 
     $("#btnSend").click( function(e) {
@@ -192,17 +195,19 @@
 
             alert(json.msg);
             if(json.status == 1) {
-              userpass = generateUserPass($('#agensiRID').text(), $("#agensiNo").text());
+              table.row(tr).remove().draw();
+              userpass = generateUserPass($('#agensiName').text(), $("#agensiNo").text());
               agid = json.agid;
             }
           });
         } else {
-          alert("Registration successfullll.");
-          userpass = generateUserPass($('#agensiRID').text(), $("#agensiNo").text());
+          alert("Registration successful.");
+          $.post("<?php echo base_url()?>Agensi/updateStatusRegistrasi", {agrid: $('#agensiRID').text(), agid: agid});
+          table.row(tr).remove().draw();
+          userpass = generateUserPass($('#agensiName').text(), $("#agensiNo").text());
         }
         
       $(".bs-example-modal-lg").modal('hide');
-      window.location.reload();
       });
     });
   });

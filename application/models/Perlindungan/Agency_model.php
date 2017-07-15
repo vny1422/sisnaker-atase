@@ -78,6 +78,14 @@ class Agency_model extends CI_Model {
       return $data;
     }
 
+    public function cek_cla_agensi_magensi($cla)
+    {
+      $this->db->where('agnoijincla', $cla);
+      $this->db->where(array('username' => NULL));
+      $query = $this->db->get('magensi');
+      return $query->row();
+    }
+
     public function add_new_registration($data)
     {
       return $this->db->insert('agensiregistrasi',$data);

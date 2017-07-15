@@ -59,4 +59,16 @@ class Agensi extends MY_Controller {
   	$this->load->view('templates/footerendorsement');
   }
 
+  function cekCLA()
+  {
+    $cla = $this->input->post('cla');
+
+    $agensi = $this->Agency_model->cek_cla_agensi_magensi($cla);
+    if(isset($agensi)) {
+      echo json_encode($agensi->agid);
+    } else {
+      echo json_encode("0");
+    }
+  }
+
 }

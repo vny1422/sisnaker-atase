@@ -144,8 +144,19 @@
 
 
 <script type="text/javascript">
+  function generateUserPass(agrid, cla) {
+    var username = "user-" + agrid;
+    var password = md5(cla);
+    return {
+      "username":username,
+      "password":password
+    }
+  }
+
   $(document).ready(function () {
     var json = null;
+    var agid = null;
+    var userpass = null;
 
     $(".togglebtn").click(function() {
       $("#agensiRID").text($(this).closest("tr").data("agrid"));
@@ -164,19 +175,26 @@
     $("#btnSend").click( function(e) {
       e.preventDefault();
       
-      $.post("<?php echo base_url()?>Endorsement/insert_agency", {agrid: $('#agensiRID').text()}, function(xml,status){
-        json = $.parseJSON(xml);
+      $.post("<?php echo base_url()?>Agensi/cekCLA", {cla: $('#agensiNo').text()}, function(xml,status){
+        agid = $.parseJSON(xml);
+        if (agid == 0) {
+          $.post("<?php echo base_url()?>Endorsement/insert_agency", {agrid: $('#agensiRID').text()}, function(xml,status){
+            json = $.parseJSON(xml);
 
-        alert(json.msg);
-        if(json.status == 1) {
-          var username = "user-" + $('#agensiRID').text();
-          var password = md5($("#agensiNo").text());
-          //json.agid;
-          console.log(username + " " + password);
+            alert(json.msg);
+            if(json.status == 1) {
+              userpass = generateUserPass($('#agensiRID').text(), $("#agensiNo").text());
+              agid = json.agid;
+            }
+          });
+        } else {
+          alert("Registration successfullll.");
+          userpass = generateUserPass($('#agensiRID').text(), $("#agensiNo").text());
         }
-      });
+        
       $(".bs-example-modal-lg").modal('hide');
       window.location.reload();
+      });
     });
   });
 </script>

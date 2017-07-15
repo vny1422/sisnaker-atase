@@ -14,6 +14,8 @@
 
     <script src="<?php echo base_url('assets/js/md5.min.js'); ?>" ></script>
 
+    <script src="<?php echo base_url('assets/js/jquery.fileDownload.js'); ?>" ></script>
+
     <script src="<?php echo base_url('assets/js/jquery-ui.js'); ?>" ></script>
 
     <!-- FastClick -->

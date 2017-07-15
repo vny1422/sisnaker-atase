@@ -125,8 +125,8 @@
 
                               <div class="form-group">
                                 <label class="control-label col-md-6 col-sm-6 col-xs-12">C.L.A Private Employment Service Agency License Letter</label>
-                                <div id="CLALetter" class="col-md-6 col-sm-6 col-xs-12">
-                                  <button type="button" class="btn btn-default btn-sm">Download</button>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <button type="button" class="btn btn-default btn-sm" id="btnDL">Download</button>
                                 </div>
                               </div><br /><br />
 
@@ -157,6 +157,7 @@
     var json = null;
     var agid = null;
     var userpass = null;
+    var filename = null;
 
     $(".togglebtn").click(function() {
       $("#agensiRID").text($(this).closest("tr").data("agrid"));
@@ -170,6 +171,14 @@
       $("#otherAuthorizedPerson").text($(this).closest("tr").data("pngcn"));
       $("#phone").text($(this).closest("tr").data("telp"));
       $("#fax").text($(this).closest("tr").data("fax"));
+      filename = $(this).closest("tr").data("file");
+    });
+
+    $("#btnDL").click( function(e) {
+      e.preventDefault();
+      $.fileDownload('' + filename)
+        .done(function () { alert('File download a success!'); })
+        .fail(function () { alert('File download failed!'); });
     });
 
     $("#btnSend").click( function(e) {

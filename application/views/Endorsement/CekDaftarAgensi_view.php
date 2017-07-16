@@ -125,8 +125,8 @@
 
                               <div class="form-group">
                                 <label class="control-label col-md-6 col-sm-6 col-xs-12">C.L.A Private Employment Service Agency License Letter</label>
-                                <div id="CLALetter" class="col-md-6 col-sm-6 col-xs-12">
-                                  <button type="button" class="btn btn-default btn-sm">Download</button>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <button type="button" class="btn btn-default btn-sm" id="btnDL">Download</button>
                                 </div>
                               </div><br /><br />
 
@@ -144,8 +144,22 @@
 
 
 <script type="text/javascript">
+  function generateUserPass(agnama, cla) {
+    var userpass = agnama.substr(0, 4) + cla;
+    var passmd5 = md5(userpass);
+    return {
+      "userpass":userpass,
+      "md5":passmd5
+    }
+  }
+
   $(document).ready(function () {
     var json = null;
+    var agid = null;
+    var userpass = null;
+    var filename = null;
+    var tr = null;
+    var table = $('#datatable-responsive').DataTable();
 
     $(".togglebtn").click(function() {
       $("#agensiRID").text($(this).closest("tr").data("agrid"));
@@ -159,24 +173,42 @@
       $("#otherAuthorizedPerson").text($(this).closest("tr").data("pngcn"));
       $("#phone").text($(this).closest("tr").data("telp"));
       $("#fax").text($(this).closest("tr").data("fax"));
+      filename = $(this).closest("tr").data("file");
+      tr = $(this).closest("tr");
+    });
+
+    $("#btnDL").click( function(e) {
+      e.preventDefault();
+      if(filename != "") {
+        window.open("<?php echo base_url("uploadsregister/")?>" + filename, "_blank");
+      }
     });
 
     $("#btnSend").click( function(e) {
       e.preventDefault();
       
-      $.post("<?php echo base_url()?>Endorsement/insert_agency", {agrid: $('#agensiRID').text()}, function(xml,status){
-        json = $.parseJSON(xml);
+      $.post("<?php echo base_url()?>Agensi/cekCLA", {cla: $('#agensiNo').text()}, function(xml,status){
+        agid = $.parseJSON(xml);
+        if (agid == 0) {
+          $.post("<?php echo base_url()?>Endorsement/insert_agency", {agrid: $('#agensiRID').text()}, function(xml,status){
+            json = $.parseJSON(xml);
 
-        alert(json.msg);
-        if(json.status == 1) {
-          var username = "user-" + $('#agensiRID').text();
-          var password = md5($("#agensiNo").text());
-          //json.agid;
-          console.log(username + " " + password);
+            alert(json.msg);
+            if(json.status == 1) {
+              table.row(tr).remove().draw();
+              userpass = generateUserPass($('#agensiName').text(), $("#agensiNo").text());
+              agid = json.agid;
+            }
+          });
+        } else {
+          alert("Registration successful.");
+          $.post("<?php echo base_url()?>Agensi/updateStatusRegistrasi", {agrid: $('#agensiRID').text(), agid: agid});
+          table.row(tr).remove().draw();
+          userpass = generateUserPass($('#agensiName').text(), $("#agensiNo").text());
         }
-      });
+        
       $(".bs-example-modal-lg").modal('hide');
-      window.location.reload();
+      });
     });
   });
 </script>

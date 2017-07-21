@@ -98,14 +98,12 @@ class Agency_model extends CI_Model {
         $query = $this->db->get('agensiregistrasi');
         return $query->row();
       } else {
-        $this->db->where(array('agid' => NULL));
-        $this->db->where(array('agrstatus' => NULL));
-        $query = $this->db->get('agensiregistrasi');
+        $query = $this->db->query('SELECT * FROM agensiregistrasi ORDER BY agrstatus IS NULL DESC, agrstatus DESC');
         return $query->result();
       }
     }
 
-    public function insert_new_agency($agensi, $agid) {
+    public function insert_new_agency($agensi, $agid, $idinst) {
       $data = array(
         'agid' => $agid,
         'agemail' => $agensi->agremail,
@@ -118,7 +116,7 @@ class Agency_model extends CI_Model {
         'agpngjwboth' => $agensi->agrpngjwbcn,
         'agtelp' => $agensi->agrtelp,
         'agfax' => $agensi->agrfax,
-        'idinstitution' => 2,
+        'idinstitution' => $idinst,
         'agenable' => 1
       );
       return $this->db->insert('magensi', $data);

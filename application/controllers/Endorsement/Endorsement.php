@@ -478,6 +478,7 @@ class Endorsement extends MY_Controller {
   {
     require_once("ws_kdei/xmlrpc-func.php");
     $agrid = $this->input->post('agrid', TRUE);
+    $idinst = $this->input->post('idinst', TRUE);
     $agensi = $this->Agency_model->get_agency_registration($agrid);
     $status = "D";
     $now = date('Y-m-d H:i:s');
@@ -505,7 +506,7 @@ class Endorsement extends MY_Controller {
         $result = XMLRPC_parse($result[1]);
         $agid = trim($result['ws_response']['reqString']);
         if ($agid !== "FAILED") {
-          $this->Agency_model->insert_new_agency($agensi, $agid);
+          $this->Agency_model->insert_new_agency($agensi, $agid, $idinst);
           $status = "A";
           $this->Agency_model->update_agency_registrasi_agid($agrid, $now, $status, $agid);
           echo json_encode(array("msg" => "Registration successful.", "status" => 1, "agid" => $agid));

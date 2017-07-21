@@ -28,8 +28,10 @@
               </tr>
             </thead>
             <tbody>
-            <?php foreach($list as $row): ?>
-              <tr data-agrid="<?php echo $row->agrid ?>" data-namacn="<?php echo $row->agrnamacn ?>" data-almtcn="<?php echo $row->agralmtkantorcn ?>" data-pngcn="<?php echo $row->agrpngjwbcn ?>" data-telp="<?php echo $row->agrtelp ?>" data-fax="<?php echo $row->agrfax ?>" data-file="<?php echo $row->filename ?>">
+            <?php
+            $i=0; 
+            foreach($list as $row): ?>
+              <tr data-agrid="<?php echo $row->agrid ?>" data-idinst="<?php echo $row->idinstitution ?>" data-institution="<?php echo $listnama[$i]->nameinstitution ?>" data-namacn="<?php echo $row->agrnamacn ?>" data-almtcn="<?php echo $row->agralmtkantorcn ?>" data-pngcn="<?php echo $row->agrpngjwbcn ?>" data-telp="<?php echo $row->agrtelp ?>" data-fax="<?php echo $row->agrfax ?>" data-file="<?php echo $row->filename ?>">
                 <td class="email"><?php echo $row->agremail ?></td>
                 <td class="nama"><?php echo $row->agrnama ?></td>
                 <td class="cla"><?php echo $row->agrnoijincla ?></td>
@@ -40,7 +42,9 @@
                   <div class="center-button"><button class="btn btn-info togglebtn" type="button" data-toggle="modal" data-target=".bs-example-modal-lg">Lihat Data</button></div>
                 </td>
               </tr>
-            <?php endforeach; ?>
+            <?php 
+            $i=$i+1;
+            endforeach; ?>
 
             </tbody>
           </table>
@@ -73,6 +77,13 @@
                             <div class="col-md-3"></div>
                             <div class="col-md-6">
                               <div id="agensiRID" style="display: none;"></div>
+                              <div id="instID" style="display: none;"></div>
+
+                              <div class="form-group">
+                                <label class="control-label col-md-6 col-sm-6 col-xs-12">Institution</label>
+                                <div id="institution" class="col-md-6 col-sm-6 col-xs-12"></div>
+                              </div><br /><br />
+
                               <div class="form-group">
                                 <label class="control-label col-md-6 col-sm-6 col-xs-12">Official Company Email</label>
                                 <div id="companyEmail" class="col-md-6 col-sm-6 col-xs-12"></div>
@@ -159,10 +170,12 @@
     var userpass = null;
     var filename = null;
     var tr = null;
-    var table = $('#datatable-responsive').DataTable();
+    var table = $('#datatable-responsive').DataTable({"bSort" : false});
 
     $(".togglebtn").click(function() {
       $("#agensiRID").text($(this).closest("tr").data("agrid"));
+      $("#instID").text($(this).closest("tr").data("idinst"));
+      $("#institution").text($(this).closest("tr").data("institution"));
       $("#companyEmail").text($(this).closest("tr").find("td.email").text());
       $("#agensiName").text($(this).closest("tr").find("td.nama").text());
       $("#otherAgensiName").text($(this).closest("tr").data("namacn"));
@@ -186,24 +199,29 @@
 
     $("#btnSend").click( function(e) {
       e.preventDefault();
-      
+      var d = table.row(tr).data();
+
       $.post("<?php echo base_url()?>Agensi/cekCLA", {cla: $('#agensiNo').text()}, function(xml,status){
         agid = $.parseJSON(xml);
         if (agid == 0) {
-          $.post("<?php echo base_url()?>Endorsement/insert_agency", {agrid: $('#agensiRID').text()}, function(xml,status){
+          $.post("<?php echo base_url()?>Endorsement/insert_agency", {agrid: $('#agensiRID').text(), idinst: $("#instID").text()}, function(xml,status){
             json = $.parseJSON(xml);
 
             alert(json.msg);
             if(json.status == 1) {
-              table.row(tr).remove().draw();
+              d[5] = 'A';
               userpass = generateUserPass($('#agensiName').text(), $("#agensiNo").text());
               agid = json.agid;
+            } else {
+              d[5] = 'D';
             }
+            table.row(tr).data(d).draw();
           });
         } else {
           alert("Registration successful.");
           $.post("<?php echo base_url()?>Agensi/updateStatusRegistrasi", {agrid: $('#agensiRID').text(), agid: agid});
-          table.row(tr).remove().draw();
+          d[5] = 'A';
+          table.row(tr).data(d).draw();
           userpass = generateUserPass($('#agensiName').text(), $("#agensiNo").text());
         }
         

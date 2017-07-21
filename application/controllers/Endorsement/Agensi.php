@@ -17,6 +17,7 @@ class Agensi extends MY_Controller {
     $this->data['sidebar'] = 'SAdmin/Sidebar';
     $this->load->model('Perlindungan/Agency_model');
     $this->load->model('Perlindungan/Pptkis_model');
+    $this->load->model('SAdmin/Institution_model');
 
     if ($this->session->userdata('role') != 1 && $this->session->userdata('role') != 2)
     {
@@ -55,6 +56,10 @@ class Agensi extends MY_Controller {
   public function cek()
   {
     $this->data['list'] = $this->Agency_model->get_agency_registration();
+    $this->data['listnama'] = array();
+    foreach ($this->data['list'] as $row):
+      array_push($this->data['listnama'],$this->Institution_model->get_institution_name($row->idinstitution));
+    endforeach;
 
     $this->data['title'] = 'Konfirmasi Pendaftaran Agensi';
     $this->data['subtitle'] = 'Konfirmasi Pendaftaran Agensi';

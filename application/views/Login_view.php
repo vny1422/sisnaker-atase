@@ -60,9 +60,9 @@
                   <input type="password" name="password" class="form-control" placeholder="Password" required="" />
                 </div>
                 <div>
-                    <button class="btn btn-default submit" value="Login" type="submit" name="button">LOGIN</button>
+                    <button class="btn btn-success submit" value="Login" type="submit" name="button">LOGIN</button>
                 </div>
-
+                <h6 style="color:white;">If your Agency is not registered yet, CLICK <a href="<?php echo base_url() ?>/Login/Daftar">HERE</a></h6>
                 <div class="clearfix"></div>
 
                 <div class="separator">

@@ -122,6 +122,14 @@ class Agency_model extends CI_Model {
       return $this->db->insert('magensi', $data);
     }
 
+    public function update_user_agency($agid, $user) {
+      $data = array(
+        'username' => $user
+      );
+      $this->db->where('agid',$agid);
+      return $this->db->update('magensi', $data);
+    }
+
     public function update_agency_registrasi_agid($agrid, $now, $status, $agid=NULL) {
       $this->db->where('agrid', $agrid);
       if(isset($agid)) {

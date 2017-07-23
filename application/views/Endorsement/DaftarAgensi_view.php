@@ -49,8 +49,8 @@
               </div>
 
               <ul class="nav navbar-nav navbar-right">
-                
-              <img style="margin-top: 10px; padding-bottom: 10px; margin-left: 120px;" src=" <?php echo base_url() ?>assets/images/sisnaker_tag_logo2.png">
+
+              <a href="<?php echo base_url()?>"><img style="margin-top: 10px; padding-bottom: 10px; margin-left: 120px;" src=" <?php echo base_url() ?>assets/images/sisnaker_tag_logo2.png"></a>
 
               </ul>
             </nav>
@@ -95,12 +95,22 @@
                     </div>' ?>
                   <?php endif; ?>
                     <form enctype="multipart/form-data" action="<?php echo base_url(); ?>Login/daftar" method="post" class="form-horizontal form-label-left">
-
+                      <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Institution <span class="required">*</span></label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select name="institution" required="required" class="select2_single form-control" tabindex="-1">
+                              <option></option>
+                              <?php foreach($institution as $row): ?>
+                                  <option value="<?php echo $row->idinstitution ?>"><?php echo $row->nameinstitution ?></option>
+                              <?php endforeach; ?>
+                            </select>
+                          </div>
+                        </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Official Company Email <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="agemail" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="email" name="agemail" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
@@ -178,7 +188,7 @@
                           <button class="btn btn-primary pull-left" type="button">Login</button>
                           <button type="submit" class="pull-right btn btn-success">Submit</button>
 						  <button class="pull-right btn btn-primary" type="reset">Reset</button>
-                          
+
                         </div>
                       </div>
 

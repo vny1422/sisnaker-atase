@@ -40,6 +40,19 @@ class User_model extends CI_Model {
         return $this->db->insert($this->table, $data);
     }
 
+    public function post_new_userreg($user,$pass,$idinst,$agnama)
+    {
+        $data = array(
+            'username' => $user,
+            'password' => $pass,
+            'name' => $agnama,
+            'idinstitution' => $idinst,
+            'idlevel' => 4,
+        );
+
+        return $this->db->insert($this->table, $data);
+    }
+
     public function list_all_user()
     {
         return $this->db->get($this->table)->result();

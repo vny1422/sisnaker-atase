@@ -3,7 +3,7 @@
 <div class="right_col" role="main">
 
   <br />
-  
+
     <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
       <div class="x_panel">
@@ -29,7 +29,7 @@
             </thead>
             <tbody>
             <?php
-            $i=0; 
+            $i=0;
             foreach($list as $row): ?>
               <tr data-agrid="<?php echo $row->agrid ?>" data-idinst="<?php echo $row->idinstitution ?>" data-institution="<?php echo $listnama[$i]->nameinstitution ?>" data-namacn="<?php echo $row->agrnamacn ?>" data-almtcn="<?php echo $row->agralmtkantorcn ?>" data-pngcn="<?php echo $row->agrpngjwbcn ?>" data-telp="<?php echo $row->agrtelp ?>" data-fax="<?php echo $row->agrfax ?>" data-file="<?php echo $row->filename ?>">
                 <td class="email"><?php echo $row->agremail ?></td>
@@ -42,7 +42,7 @@
                   <div class="center-button"><button class="btn btn-info togglebtn" type="button" data-toggle="modal" data-target=".bs-example-modal-lg">Lihat Data</button></div>
                 </td>
               </tr>
-            <?php 
+            <?php
             $i=$i+1;
             endforeach; ?>
 
@@ -212,6 +212,8 @@
               d[5] = 'A';
               userpass = generateUserPass($('#agensiName').text(), $("#agensiNo").text());
               agid = json.agid;
+              $.post("<?php echo base_url()?>Agensi/updateMagensiUser", {user: userpass.userpass, pass: userpass.md5, agid: agid, agnama: $('#agensiName').text(),email: $('#companyEmail').text(), idinst: $("#instID").text()});
+              window.alert(5+6);
             } else {
               d[5] = 'D';
             }
@@ -223,8 +225,10 @@
           d[5] = 'A';
           table.row(tr).data(d).draw();
           userpass = generateUserPass($('#agensiName').text(), $("#agensiNo").text());
+          $.post("<?php echo base_url()?>Agensi/updateMagensiUser", {user: userpass.userpass, pass: userpass.md5, agid: agid, agnama: $('#agensiName').text(),email: $('#companyEmail').text(), idinst: $("#instID").text()});
+          window.alert(5+6);
         }
-        
+
       $(".bs-example-modal-lg").modal('hide');
       });
     });

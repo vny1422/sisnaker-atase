@@ -16,6 +16,7 @@ class Agensi extends MY_Controller {
     $this->data['namakantor'] = $this->namakantor->nama;
     $this->data['sidebar'] = 'SAdmin/Sidebar';
     $this->load->model('Perlindungan/Agency_model');
+		$this->load->model('SAdmin/User_model');
     $this->load->model('Perlindungan/Pptkis_model');
     $this->load->model('SAdmin/Institution_model');
 
@@ -27,29 +28,7 @@ class Agensi extends MY_Controller {
 
   public function index()
   {
-		$config = Array(
-		    'protocol' => 'smtp',
-		    'smtp_host' => 'ssl://smtp.googlemail.com',
-		    'smtp_port' => 465,
-		    'smtp_user' => 'budi.pangestu.t@gmail.com',
-		    'smtp_pass' => 'blackYueru',
-		    'mailtype'  => 'html',
-		    'charset'   => 'iso-8859-1'
-		);
-		$this->load->library('email', $config);
-		$this->email->set_newline("\r\n");
 
-		$this->email->from('budi.pangestu.t@gmail.com', 'Budi Pangestu');
-		$this->email->to('veinya@hotmail.com');
-
-		$this->email->subject('Email Test');
-		$this->email->message('Testing the email class.');
-
-		$this->email->send();
-
-		echo $this->email->print_debugger();
-
-		// $this->load->view('email_view');
   }
 
 
@@ -90,5 +69,40 @@ class Agensi extends MY_Controller {
     $now = date('Y-m-d H:i:s');
     $this->Agency_model->update_agency_registrasi_agid($agrid, $now, $status, $agid);
   }
+
+	function updateMagensiUser()
+	{
+		$agid = $this->input->post('agid');
+		$user = $this->input->post('user');
+		$pass = $this->input->post('pass');
+		$idinst = $this->input->post('idinst');
+		$agnama = $this->input->post('agnama');
+		$email = $this->input->post('email');
+		$this->User_model->post_new_userreg($user,$pass,$idinst,$agnama);
+		$this->Agency_model->update_user_agency($agid,$user);
+		$config = Array(
+				'protocol' => 'smtp',
+				'smtp_host' => 'ssl://smtp.googlemail.com',
+				'smtp_port' => 465,
+				'smtp_user' => 'budi.pangestu.t@gmail.com',
+				'smtp_pass' => 'blackYueru',
+				'mailtype'  => 'html',
+				'charset'   => 'iso-8859-1'
+		);
+		$this->load->library('email', $config);
+		$this->email->set_newline("\r\n");
+
+		$this->email->from('budi.pangestu.t@gmail.com', 'Budi Pangestu');
+		$this->email->to('veinya@hotmail.com');
+
+		$this->email->subject('Sisnaker Username Validated');
+		$this->email->message("Your Registration hass been validated. Username and Password are given below: \nUsername :$user \nPassword :$user\n");
+
+		$this->email->send();
+
+		echo $this->email->print_debugger();
+
+		// $this->load->view('email_view');
+	}
 
 }

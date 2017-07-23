@@ -90,16 +90,18 @@ class Login extends CI_Controller {
 
 	public function daftar()
 	{
+		$this->load->model('SAdmin/Institution_model');
 		$this->load->model('Perlindungan/Agency_model');
 		$this->form_validation->set_rules('agemail', 'Agency Email', 'required|trim');
 		$this->form_validation->set_rules('agnama', 'Agency Name', 'required|trim');
 		$this->form_validation->set_rules('nocla', 'C.L.A Agency License No', 'required|trim');
 		$this->form_validation->set_rules('officealamat', 'Agency Address', 'required|trim');
-
+		$this->form_validation->set_rules('institution', 'Institution', 'required|trim');
 
 		if ($this->form_validation->run() === FALSE)
 		{
-			$this->load->view('Endorsement/DaftarAgensi_view');
+			$data['institution'] = $this->Institution_model->list_active_institution();
+			$this->load->view('Endorsement/DaftarAgensi_view',$data);
 
 		}
 		else
@@ -145,11 +147,13 @@ class Login extends CI_Controller {
 							'agrpngjwbcn' => $this->input->post('ot_authperson',TRUE),
 							'agrtelp' => $this->input->post('phone',TRUE),
 							'agrfax' => $this->input->post('fax',TRUE),
+							'idinstitution' => $this->input->post('institution',TRUE),
 							'filename' => $this->input->post('nocla',TRUE).".".$ext
 						);
 						$this->Agency_model->add_new_registration($data);
 						$this->session->set_flashdata('information', 'Registration done, Username and Password will be sent by EMAIL after Verification.');
-						$this->load->view('Endorsement/DaftarAgensi_view');
+						$data['institution'] = $this->Institution_model->list_active_institution();
+						$this->load->view('Endorsement/DaftarAgensi_view',$data);
 						}
 
 			}

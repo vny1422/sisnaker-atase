@@ -81,7 +81,14 @@ class Agency_model extends CI_Model {
     public function cek_cla_agensi_magensi($cla)
     {
       $this->db->where('agnoijincla', $cla);
-      $this->db->where(array('username' => NULL));
+      $query = $this->db->get('magensi');
+      return $query->row();
+    }
+
+    public function cek_username_magensi($cla)
+    {
+      $this->db->select('username');
+      $this->db->where('agnoijincla', $cla);
       $query = $this->db->get('magensi');
       return $query->row();
     }

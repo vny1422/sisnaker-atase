@@ -54,9 +54,14 @@ class Agensi extends MY_Controller {
 
     $agensi = $this->Agency_model->cek_cla_agensi_magensi($cla);
     if(isset($agensi)) {
-      echo json_encode($agensi->agid);
+      $username = $this->Agency_model->cek_username_magensi($cla);
+      if(isset($username->username)) {
+        echo json_encode(array('agid' => $agensi->agid, 'regist' => 1));
+      } else {
+        echo json_encode(array('agid' => $agensi->agid, 'regist' => 2));
+      }
     } else {
-      echo json_encode("0");
+      echo json_encode(array('agid' => 0, 'regist' => 0));
     }
   }
 
@@ -64,8 +69,8 @@ class Agensi extends MY_Controller {
   {
     $agrid = $this->input->post('agrid');
     $agid = $this->input->post('agid');
+    $status = $this->input->post('status');
 
-    $status = "A";
     $now = date('Y-m-d H:i:s');
     $this->Agency_model->update_agency_registrasi_agid($agrid, $now, $status, $agid);
   }

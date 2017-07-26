@@ -31,7 +31,7 @@
             <?php
             $i=0;
             foreach($list as $row): ?>
-              <tr data-agrid="<?php echo $row->agrid ?>" data-idinst="<?php echo $row->idinstitution ?>" data-institution="<?php echo $listnama[$i]->nameinstitution ?>" data-namacn="<?php echo $row->agrnamacn ?>" data-almtcn="<?php echo $row->agralmtkantorcn ?>" data-pngcn="<?php echo $row->agrpngjwbcn ?>" data-telp="<?php echo $row->agrtelp ?>" data-fax="<?php echo $row->agrfax ?>" data-file="<?php echo $row->filename ?>">
+              <tr>
                 <td class="email"><?php echo $row->agremail ?></td>
                 <td class="nama"><?php echo $row->agrnama ?></td>
                 <td class="cla"><?php echo $row->agrnoijincla ?></td>
@@ -39,7 +39,7 @@
                 <td class="pngjwb"><?php echo $row->agrpngjwb ?></td>
                 <td class="status"><?php echo ($row->agrstatus === NULL ? "Waiting" : $row->agrstatus ) ?></td>
                 <td>
-                  <div class="center-button"><button class="btn btn-info togglebtn" type="button" data-toggle="modal" data-target=".bs-example-modal-lg">Lihat Data</button></div>
+                  <div class="center-button"><button onclick='toggleBtn(<?php echo json_encode($row); ?>, "<?php echo $listnama[$i]->nameinstitution; ?>")' class="btn btn-info tglButton" type="button" data-toggle="modal" data-target=".bs-example-modal-lg">Lihat Data</button></div>
                 </td>
               </tr>
             <?php
@@ -164,31 +164,37 @@
     }
   }
 
+  var filename = null;
+
+  function toggleBtn(row, namainst) {
+    $("#agensiRID").text(row.agrid);
+    $("#instID").text(row.idinstitution);
+    $("#institution").text(namainst);
+    $("#companyEmail").text((row.agremail == null ? "" : row.agremail ));
+    $("#agensiName").text((row.agrnama == null ? "" : row.agrnama ));
+    $("#otherAgensiName").text((row.agrnamacn == null ? "" : row.agrnamacn ));
+    $("#agensiNo").text(row.agrnoijincla);
+    $("#officeAddress").text((row.agralmtkantor == null ? "" : row.agralmtkantor ));
+    $("#otherOfficeAddress").text((row.agralmtkantorcn == null ? "" : row.agralmtkantorcn ));
+    $("#authorizedPerson").text((row.agrpngjwb == null ? "" : row.agrpngjwb ));
+    $("#otherAuthorizedPerson").text((row.agrpngjwbcn == null ? "" : row.agrpngjwbcn ));
+    $("#phone").text((row.agrtelp == null ? "" : row.agrtelp ));
+    $("#fax").text((row.agrfax == null ? "" : row.agrfax ));
+    filename = (row.filename == null ? "" : row.filename );
+  }
+
   $(document).ready(function () {
     var json = null;
     var agid = null;
     var userpass = null;
-    var filename = null;
-    var tr = null;
+    var currentTR = null;
+    var data = null;
     var table = $('#datatable-responsive').DataTable({"bSort" : false});
 
-    $(".togglebtn").click(function() {
-      $("#agensiRID").text($(this).closest("tr").data("agrid"));
-      $("#instID").text($(this).closest("tr").data("idinst"));
-      $("#institution").text($(this).closest("tr").data("institution"));
-      $("#companyEmail").text($(this).closest("tr").find("td.email").text());
-      $("#agensiName").text($(this).closest("tr").find("td.nama").text());
-      $("#otherAgensiName").text($(this).closest("tr").data("namacn"));
-      $("#agensiNo").text($(this).closest("tr").find("td.cla").text());
-      $("#officeAddress").text($(this).closest("tr").find("td.almt").text());
-      $("#otherOfficeAddress").text($(this).closest("tr").data("almtcn"));
-      $("#authorizedPerson").text($(this).closest("tr").find("td.pngjwb").text());
-      $("#otherAuthorizedPerson").text($(this).closest("tr").data("pngcn"));
-      $("#phone").text($(this).closest("tr").data("telp"));
-      $("#fax").text($(this).closest("tr").data("fax"));
-      filename = $(this).closest("tr").data("file");
-      tr = $(this).closest("tr");
-    });
+    $('body').on('click', '.tglButton', function () {
+         currentTR = $(this).closest('tr');
+         data = table.row(currentTR).data();
+     });
 
     $("#btnDL").click( function(e) {
       e.preventDefault();
@@ -199,34 +205,38 @@
 
     $("#btnSend").click( function(e) {
       e.preventDefault();
-      var d = table.row(tr).data();
 
       $.post("<?php echo base_url()?>Agensi/cekCLA", {cla: $('#agensiNo').text()}, function(xml,status){
-        agid = $.parseJSON(xml);
-        if (agid == 0) {
+        var result = $.parseJSON(xml);
+        agid = result.agid;
+
+        if (result.regist == 0) {
           $.post("<?php echo base_url()?>Endorsement/insert_agency", {agrid: $('#agensiRID').text(), idinst: $("#instID").text()}, function(xml,status){
             json = $.parseJSON(xml);
 
             alert(json.msg);
             if(json.status == 1) {
-              d[5] = 'A';
+              data[5] = 'A';
               userpass = generateUserPass($('#agensiName').text(), $("#agensiNo").text());
               agid = json.agid;
               $.post("<?php echo base_url()?>Agensi/updateMagensiUser", {user: userpass.userpass, pass: userpass.md5, agid: agid, agnama: $('#agensiName').text(),email: $('#companyEmail').text(), idinst: $("#instID").text()});
-              window.alert(5+6);
             } else {
-              d[5] = 'D';
+              data[5] = 'D';
             }
-            table.row(tr).data(d).draw();
+            table.row(currentTR).data(data).draw();
           });
+        } else if (result.regist == 1){
+          alert("You already registered.");
+          $.post("<?php echo base_url()?>Agensi/updateStatusRegistrasi", {agrid: $('#agensiRID').text(), agid: agid, status: 'D'});
+          data[5] = 'D';
+          table.row(currentTR).data(data).draw();
         } else {
           alert("Registration successful.");
-          $.post("<?php echo base_url()?>Agensi/updateStatusRegistrasi", {agrid: $('#agensiRID').text(), agid: agid});
-          d[5] = 'A';
-          table.row(tr).data(d).draw();
+          $.post("<?php echo base_url()?>Agensi/updateStatusRegistrasi", {agrid: $('#agensiRID').text(), agid: agid, status: 'A'});
+          data[5] = 'A';
+          table.row(currentTR).data(data).draw();
           userpass = generateUserPass($('#agensiName').text(), $("#agensiNo").text());
           $.post("<?php echo base_url()?>Agensi/updateMagensiUser", {user: userpass.userpass, pass: userpass.md5, agid: agid, agnama: $('#agensiName').text(),email: $('#companyEmail').text(), idinst: $("#instID").text()});
-          window.alert(5+6);
         }
 
       $(".bs-example-modal-lg").modal('hide');

@@ -101,7 +101,9 @@
                             <select name="institution" required="required" class="select2_single form-control" tabindex="-1">
                               <option></option>
                               <?php foreach($institution as $row): ?>
+                                  <?php if($row->nameinstitution != 'Super'): ?>
                                   <option value="<?php echo $row->idinstitution ?>"><?php echo $row->nameinstitution ?></option>
+                                <?php endif; ?>
                               <?php endforeach; ?>
                             </select>
                           </div>

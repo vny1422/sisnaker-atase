@@ -75,6 +75,8 @@
                     </li>
                     <li><a href=#tabworker data-toggle="tab"><strong>Worker Data</strong></a>
                     </li>
+                    <li><a href=#tabdokumen data-toggle="tab"><strong>Surat&Dokumen</strong></a>
+                    </li>
                   </ul>
                 </div>
                 <!-- panel body -->
@@ -202,8 +204,12 @@
                         </div><br /><br />
                     </div>
                   </div>
+                  <div class="tab-pane fade in table-responsive" id="tabdokumen">
+                    <div class="col-lg-12" id="uridokumen">
+                    </div>
+                  </div>
                   <div class="tab-pane fade in table-responsive" id="tabworker">
-                    
+
                     <table class="table table-striped table-bordered table-hover" id="tabletki">
                     <thead>
                       <tr>
@@ -228,7 +234,7 @@
                       </tr>
                     </thead>
                     <tbody class="table-hover">
-                      
+
                     </tbody>
                   </table>
 
@@ -303,26 +309,33 @@
                 $("#lPPFax").text(": " + obj.ppfax);
                 $("#lPPNoIjin").text(": " + obj.ppijin);
                 $("#lPPPenanggungJawab").text(": " + obj.pppngjwb);
+                $("#uridokumen").html("          <div class=\"form-group\">\
+                            <label class=\"control-label col-md-4 col-sm-4 col-xs-12\" for=\"barcode\">Silahkan download halaman berikut, dan cetaklah.</label>\
+                            <br /><br />\
+                            <div class=\"col-md-3 col-sm-3 col-xs-12\">\
+                              <a href=\"<?php echo base_url()?>document/"+obj.jodownloadurl+"?x="+obj.md5ej+"\"><button class=\"ladda-button\" data-style=\"expand-right\" data-color=\"blue\" data-size=\"xs\"><span class=\"ladda-label\" style=\"color:white\">Job Order & Surat Kuasa</span></button></a>\
+                            </div>\
+                          </div><br /><br />")
 
                 tbtki.clear();
                 for (i = 0; i < obj.tkiall.length; i++) {
-                  switch(obj.tkiall[i].tkjk) { 
+                  switch(obj.tkiall[i].tkjk) {
                     case 'L': $jk = 'Laki-laki'; break;
                     case 'P': $jk = 'Perempuan'; break;
-                    default: $jk = '';          
+                    default: $jk = '';
                   }
-                  switch(obj.tkiall[i].tkstatkwn) { 
+                  switch(obj.tkiall[i].tkstatkwn) {
                     case '0': $statkwn = 'Belum Menikah'; break;
                     case '1': $statkwn = 'Menikah'; break;
                     case '2': $statkwn = 'Cerai'; break;
-                    default: $statkwn = '';         
+                    default: $statkwn = '';
                   }
-                  switch(obj.tkiall[i].tkstat) { 
+                  switch(obj.tkiall[i].tkstat) {
                     case '0': $revisi = 'Tidak'; break;
                     case '1': $revisi = 'Ya'; break;
                   }
 
-                  tbtki.row.add( [  
+                  tbtki.row.add( [
                     obj.tkiall[i].tknama,
                     obj.tkiall[i].tktgllahir,
                     $jk,
@@ -342,6 +355,10 @@
                     obj.tkiall[i].tktelp,
                     obj.tkiall[i].tkhub
                     ] ).draw();
+
+                $("#uridokumen").append("          <div class=\"col-md-12 col-sm-12 col-xs-12\">\
+                            <a href=\"<?php echo base_url()?>document/"+obj.tkiall[i].tkidownloadurl+"?x="+obj.tkiall[i].md5tki+"\"><button class=\"ladda-button\" data-style=\"expand-right\" data-color=\"green\" data-size=\"xs\"><span class=\"ladda-label\" style=\"color:white\">Surat PK "+obj.tkiall[i].tknama+"</span></button></a>\
+                          </div><br /><br />")
                 }
               }
             });

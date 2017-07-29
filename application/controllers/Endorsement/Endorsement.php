@@ -492,7 +492,7 @@ class Endorsement extends MY_Controller {
       $USER_ID = "ws_twn";
       $USER_PASS = "ws_twn";
       $SERVICE_NAME = "exec.ins_agency";
-      $SERVICE_PARAM = $agensi->agrnama ."|" . $agensi->agralmtkantor ."|" . $agensi->agrtelp ."|" .$agensi->agrfax ."|" . $agensi->agrpngjwb ."|" . "|" . $agensi->agrnoijincla; 
+      $SERVICE_PARAM = $agensi->agrnama ."|" . $agensi->agralmtkantor ."|" . $agensi->agrtelp ."|" .$agensi->agrfax ."|" . $agensi->agrpngjwb ."|" . "|" . $agensi->agrnoijincla;
 
       $inputArray = array(
         "USER_ID" => $USER_ID,
@@ -515,7 +515,7 @@ class Endorsement extends MY_Controller {
           $this->Agency_model->update_agency_registrasi_agid($agrid, $now, $status);
           echo json_encode(array("msg" => "Registration failed. Invalid Data.", "status" => 0));
         }
-      } 
+      }
       else {
         echo json_encode(array("msg" => "Registration failed. No response from server.", "status" => 0));
       }
@@ -546,6 +546,8 @@ public function insertEJ()
   {
     $data["$prop"] = $val;
   }
+  $date = date('Y-m-d');
+  $data['ejdatefilled'] = $date;
   $url = $this->Endorsement_model->geturlpekerjaan($data["idjenispekerjaan"]);
   $data["jodownloadurl"] = $url->curjodownloadurl;
   $splittgl = explode("/", $data["joclatgl"]);
@@ -592,6 +594,7 @@ public function insertEJ()
 public function printDokumen($md5ej)
 {
   $this->data["md5ej"] = $md5ej;
+  $this->data["jourl"] = $this->Endorsement_model->get_url_byej($md5ej);
   $this->data["listtki"] = $this->Endorsement_model->get_tki_byej($md5ej);
   $this->data['title'] = 'Endorsement';
   $this->data['subtitle'] = 'Print Dokumen';
@@ -603,12 +606,19 @@ public function printDokumen($md5ej)
 
 public function printJOSK($md5ej)
 {
-  //code pdf job order
+  $this->load->library('pdf');
+  $pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false);
+  $pdf->AddPage();
+  $pdf->Image('./assets/template/perawatpanti_01.jpg', 0, 0, $pdf->w, $pdf->h);
+  $pdf->Output();
 }
 
 public function printPKTKI($md5tki)
 {
-  //code pdf Perjanjian Kerja
-}
+  $this->load->library('pdf');
+  $pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false);
+  $pdf->AddPage();
+  $pdf->Image('./assets/template/perawatpanti_01.jpg', 0, 0, $pdf->w, $pdf->h);
+  $pdf->Output();}
 
 }

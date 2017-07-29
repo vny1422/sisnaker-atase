@@ -111,7 +111,7 @@ class Endorsement_model extends CI_Model {
 					ej.mjktp, ej.mjnama, ej.mjnamacn, ej.mjalmt, ej.mjtelp, ej.mjfax, ej.mjpngjwb,
 					jp.idjenispekerjaan, jp.namajenispekerjaan, jp.sektor, jp.jpgaji,
 					ej.joclano, ej.joclatgl, ej.joestduedate, ej.joposisi, ej.jojmltki, ej.jomkthn, ej.jomkbln, ej.jomkhr, ej.jocatatan, ej.joakomodasi,
-					ej.ejid, ej.ejtglendorsement, ej.ejtoken, ej.ejbcsp, ej.ejbcsk
+					ej.ejid, ej.ejtglendorsement, ej.ejtoken, ej.ejbcsp, ej.ejbcsk, ej.md5ej, ej.jodownloadurl
 				FROM
 					entryjo ej
 					JOIN jenispekerjaan jp ON jp.idjenispekerjaan = ej.idjenispekerjaan
@@ -177,7 +177,7 @@ class Endorsement_model extends CI_Model {
     function getTKI($ejid)
     {
     	$sql = "SELECT
-    				tk.tkid, tk.tknama, tk.tkalmtid, tk.tkpaspor, tk.tktglkeluar, tk.tktmptkeluar, tk.tktgllahir, tk.tktmptlahir, tk.tkjk, tk.tkstatkwn, tk.tkjmlanaktanggungan, tk.tkahliwaris, tk.tknama2, tk.tkalmt2, tk.tktelp, tk.tkhub, tk.tkstat, tk2.tknama as 'tkrevnama', tk.tktglendorsement
+    				tk.tkid, tk.tknama, tk.tkalmtid, tk.tkpaspor, tk.tktglkeluar, tk.tktmptkeluar, tk.tktgllahir, tk.tktmptlahir, tk.tkjk, tk.tkstatkwn, tk.tkjmlanaktanggungan, tk.tkahliwaris, tk.tknama2, tk.tkalmt2, tk.tktelp, tk.tkhub, tk.tkstat, tk2.tknama as 'tkrevnama', tk.tktglendorsement, tk.md5tki, tk.tkidownloadurl
     			FROM
     				tki tk
     				LEFT JOIN tki tk2 ON tk2.tkid = tk.tkrevid
@@ -481,10 +481,18 @@ class Endorsement_model extends CI_Model {
 
 	function get_tki_byej($md5ej)
 	{
-		$this->db->select('md5tki,tknama');
+		$this->db->select('md5tki,tknama,tkidownloadurl');
 		$this->db->from('tki');
 		$this->db->where('md5ej',$md5ej);
 		return $this->db->get()->result();
+	}
+
+	function get_url_byej($md5ej)
+	{
+		$this->db->select('jodownloadurl');
+		$this->db->from('entryjo');
+		$this->db->where('md5ej',$md5ej);
+		return $this->db->get()->row();
 	}
 
 	function update_kuota($jo,$job,$laki,$perempuan,$campuran)

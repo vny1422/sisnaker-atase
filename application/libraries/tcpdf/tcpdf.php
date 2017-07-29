@@ -229,13 +229,13 @@ class TCPDF {
 	 * Current width of page in user unit.
 	 * @protected
 	 */
-	protected $w;
+	public $w;
 
 	/**
 	 * Current height of page in user unit.
 	 * @protected
 	 */
-	protected $h;
+	public $h;
 
 	/**
 	 * Left margin.

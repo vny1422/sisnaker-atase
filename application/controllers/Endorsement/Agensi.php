@@ -48,20 +48,45 @@ class Agensi extends MY_Controller {
   	$this->load->view('templates/footerendorsement');
   }
 
-  function cekCLA()
+  function cekAgensi()
   {
     $cla = $this->input->post('cla');
+    $agnama = $this->input->post('agnama');
 
-    $agensi = $this->Agency_model->cek_cla_agensi_magensi($cla);
+    $agensi = $this->Agency_model->cek_agensi_magensi($cla, $agnama);
+
     if(isset($agensi)) {
-      $username = $this->Agency_model->cek_username_magensi($cla);
-      if(isset($username->username)) {
-        echo json_encode(array('agid' => $agensi->agid, 'regist' => 1));
-      } else {
-        echo json_encode(array('agid' => $agensi->agid, 'regist' => 2));
+      $list_agensi = array();
+      foreach ($agensi as $row) {
+        $temp = $this->Institution_model->get_institution_name($row->idinstitution);
+        $row->namainst = $temp->nameinstitution;
+        array_push($list_agensi, $row);
       }
+      echo json_encode($list_agensi);
     } else {
-      echo json_encode(array('agid' => 0, 'regist' => 0));
+      echo json_encode("0");
+    }
+  }
+
+  function mergeAgensi()
+  {
+    $induk = $this->input->post('induk');
+    $kembar = $this->input->post('kembar');
+    $data = array();
+    $inactive = array();
+
+    for ($i = 0; $i < sizeof($kembar); $i++) {
+      array_push($data, array('agid_kembar'=>$kembar[$i], 'agid_induk'=>$induk));
+      array_push($inactive, array('agid'=>$kembar[$i], 'agenable'=>0));
+    }
+
+    $count = $this->Agency_model->merge_agensi_kembar($data);
+    $count2 = $this->Agency_model->deactivate_agensi($inactive);
+
+    if($count > 0 && $count2 > 0) {
+      echo json_encode('Succeed');
+    } else {
+      echo json_encode('Failed');
     }
   }
 
@@ -72,6 +97,7 @@ class Agensi extends MY_Controller {
     $status = $this->input->post('status');
 
     $now = date('Y-m-d H:i:s');
+
     $this->Agency_model->update_agency_registrasi_agid($agrid, $now, $status, $agid);
   }
 
@@ -83,8 +109,10 @@ class Agensi extends MY_Controller {
 		$idinst = $this->input->post('idinst');
 		$agnama = $this->input->post('agnama');
 		$email = $this->input->post('email');
+    $dataAgensi = $this->input->post('dataagensi');
+
 		$this->User_model->post_new_userreg($user,$pass,$idinst,$agnama);
-		$this->Agency_model->update_user_agency($agid,$user);
+		$this->Agency_model->update_user_agency($agid,$user,$dataAgensi);
 		$config = Array(
 				'protocol' => 'smtp',
 				'smtp_host' => 'ssl://smtp.googlemail.com',

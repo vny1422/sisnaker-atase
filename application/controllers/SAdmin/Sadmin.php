@@ -46,7 +46,13 @@ class Sadmin extends MY_Controller {
 		endforeach;
         $this->data['listnamakantor'] = array();
         foreach ($this->data['list'] as $row):
-            array_push($this->data['listnamakantor'],$this->Kantor_model->get_kantor_name($row->idkantor));
+            if(isset($row->idkantor)) {
+                array_push($this->data['listnamakantor'],$this->Kantor_model->get_kantor_name($row->idkantor));
+            } else {
+                $object = new stdClass();
+                $object->namakantor = "";
+                array_push($this->data['listnamakantor'],$object);
+            }
         endforeach;
 		$this->data['title'] = 'Super Admin';
 		$this->load->view('templates/header', $this->data);

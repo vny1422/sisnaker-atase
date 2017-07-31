@@ -13,6 +13,8 @@ class MY_Controller extends CI_Controller {
         $this->load->model('SAdmin/Privilege_model');
         $this->load->model('SAdmin/Level_model');
 
+        date_default_timezone_set("Asia/Jakarta");
+
         if ($this->session->userdata('user') === NULL)
         {
             redirect('login');

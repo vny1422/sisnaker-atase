@@ -7,6 +7,7 @@ class Login extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('SAdmin/User_model');
+        $this->load->model('Perlindungan/Agency_model');
         $this->load->library('form_validation');
     }
 
@@ -69,10 +70,23 @@ class Login extends CI_Controller {
 	function check_login() {
 		$username = $this->input->post('username',TRUE);
 		$password = $this->input->post('password',TRUE);
+		$verified = FALSE;
 
 		$user = $this->User_model->get_user($username,$password);
 
 		if($user != NULL) {
+			$verified = TRUE;
+			$isagensi = $this->Agency_model->get_agency_info_by_user($username);
+
+			if($isagensi != NULL) {
+				$enabled = $this->Agency_model->check_agency_isactive($isagensi->agid);
+				if($enabled == NULL) {
+					$verified = FALSE;
+				}
+			}
+		}
+
+		if($verified) {
 			$user_data = array(
 				'user'	=> $user[0]['username'],
 				'name'	=> $user[0]['name'],
@@ -81,11 +95,10 @@ class Login extends CI_Controller {
 				'kantor' => $user[0]['idkantor']
 			);
 			$this->session->set_userdata($user_data);
-			return TRUE;
 		} else {
 			$this->form_validation->set_message('check_login', 'Username & Password are invalid!');
-			return FALSE;
 		}
+		return $verified;
 	}
 
 	public function daftar()

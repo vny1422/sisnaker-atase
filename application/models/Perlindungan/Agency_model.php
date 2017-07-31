@@ -78,11 +78,13 @@ class Agency_model extends CI_Model {
       return $data;
     }
 
-    public function cek_cla_agensi_magensi($cla)
+    public function cek_agensi_magensi($cla, $agnama)
     {
-      $this->db->where('agnoijincla', $cla);
+      $this->db->like('agnoijincla', $cla);
+      $this->db->or_like('agnama', $agnama);
+      $this->db->where('agenable',1);
       $query = $this->db->get('magensi');
-      return $query->row();
+      return $query->result();
     }
 
     public function cek_username_magensi($cla)
@@ -91,6 +93,11 @@ class Agency_model extends CI_Model {
       $this->db->where('agnoijincla', $cla);
       $query = $this->db->get('magensi');
       return $query->row();
+    }
+
+    public function merge_agensi_kembar($data)
+    {
+      return $this->db->insert_batch('agensi_merge_map', $data);
     }
 
     public function add_new_registration($data)
@@ -129,11 +136,28 @@ class Agency_model extends CI_Model {
       return $this->db->insert('magensi', $data);
     }
 
-    public function update_user_agency($agid, $user) {
-      $data = array(
-        'username' => $user
-      );
+    public function update_user_agency($agid, $user, $dataAgensi=NULL) {
       $this->db->where('agid',$agid);
+      if(isset($dataAgensi)) {
+        $data = array(
+          'username' => $user,
+          'agemail' => $dataAgensi["agemail"],
+          'agnama' => $dataAgensi["agnama"],
+          'agnamaoth' => $dataAgensi["agnamaoth"],
+          'agnoijincla' => $dataAgensi["agnoijincla"],
+          'agalmtkantor' => $dataAgensi["agalmtkantor"],
+          'agalmtkantoroth' => $dataAgensi["agalmtkantoroth"],
+          'agpngjwb' => $dataAgensi["agpngjwb"],
+          'agpngjwboth' => $dataAgensi["agpngjwboth"],
+          'agtelp' => $dataAgensi["agtelp"],
+          'agfax' => $dataAgensi["agfax"],
+          'idinstitution' => $dataAgensi["idinstitution"]
+        );
+      } else {
+        $data = array(
+          'username' => $user
+        );
+      }
       return $this->db->update('magensi', $data);
     }
 
@@ -344,6 +368,16 @@ function get_agency_from_pptkis($id){
   public function get_agency_info_by_user($username){
     $this->db->where('username',$username);
     return $this->db->get($this->table)->row();
+  }
+
+  public function check_agency_isactive($agid){
+    $this->db->where('agid',$agid);
+    $this->db->where('agenable',1);
+    return $this->db->get($this->table)->row();
+  }
+
+  public function deactivate_agensi($inactive){
+    return $this->db->update_batch($this->table, $inactive, 'agid');
   }
 
 }

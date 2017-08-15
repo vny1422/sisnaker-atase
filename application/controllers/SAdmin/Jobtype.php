@@ -91,7 +91,7 @@ class Jobtype extends MY_Controller {
             	}
 				$this->data['title'] = 'Edit Tipe Pekerjaan';
 				$this->load->view('templates/header', $this->data);
-				$this->load->view('SAdmin/EditJobtype_view', $this->data);
+				$this->load->view('SAdmin/EditJobType_view', $this->data);
 				$this->load->view('templates/footer');
 			}
 			else

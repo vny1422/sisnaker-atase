@@ -314,6 +314,11 @@ class Perlindungan_model extends CI_Model {
 	}
 	
 	function get_problem_officer_detail($id) {
+		$this->db->select('idshelter');
+		$this->db->from('masalah_has_shelter');
+		$this->db->where('idmasalah',$id);
+		$where_clause = $this->db->get_compiled_select();
+
 		$this->db->select('m.idmasalah, s.name AS organisasi, m.nomormasalah, me.name AS media');
 		$this->db->select('m.namapelapor, m.teleponpelapor, m.alamatpelapor');
 		$this->db->select('m.tanggalpengaduan, m.penerimapengaduan, u.name as petugaspenanganan');
@@ -324,7 +329,7 @@ class Perlindungan_model extends CI_Model {
 		$this->db->select('m.tanggalpenyelesaian, m.agid');
 		$this->db->from('masalah m, shelter s, user u, jenispekerjaan j, klasifikasi k, media me');
 		$this->db->where('m.idmasalah',$id);
-		$this->db->where('m.idshelter = s.id');
+		$this->db->where("`s`.`id` = ($where_clause)", NULL, FALSE);
 		$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
 		$this->db->where('m.idklasifikasi = k.id');
 		$this->db->where('m.idmedia = me.id');

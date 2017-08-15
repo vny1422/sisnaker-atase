@@ -100,10 +100,10 @@ class Sadmin extends MY_Controller {
         $this->data['kasusproses']            = $this->Perlindungan_model->get_all_problem_process();
         $this->data['kasusselesai']           = $this->Perlindungan_model->get_all_problem_finished();
 
-        if($this->data['year_performance'] > 80){
-            $this->data['panel_color'] = 'panel-success';
-        } else if ($this->data['year_performance'] <= 50) {
+        if($this->data['year_performance'] <= 50){
             $this->data['panel_color'] = 'panel-danger';
+        } else {
+            $this->data['panel_color'] = 'panel-success';
         }
 
         $currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));

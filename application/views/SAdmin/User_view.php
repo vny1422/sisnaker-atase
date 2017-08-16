@@ -35,7 +35,7 @@
                 <td><?php echo $row->username ?></td>
                 <td><?php echo $row->name ?></td>
                 <td><?php echo $listnamainstitusi[$i]->nameinstitution ?></td>
-                <td><?php echo $listnamakantor[$i]->namakantor ?></td>
+                <td><?php echo ($listnamakantor[$i]) ? $listnamakantor[$i]->namakantor : '';?></td>
                 <td><?php echo $listnamalevel[$i]->levelname ?></td>
                 <td>
                   <div class="center-button"><a href=" <?php echo base_url() ?>user/edit/<?php echo $row->username ?>"><button class="btn btn-info" type="button" name="button">Edit</button></a></div>

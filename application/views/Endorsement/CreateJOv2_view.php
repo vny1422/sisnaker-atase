@@ -735,7 +735,6 @@
                                                   data.tkihub = formAddTki.find("input[name=tkihub]").val();
                                                   if (!cek)
                                                   {
-                                                    $("#jogaji").val(data.TKI_GAJI);
                                                     tkidata.push(data);
                                                     drawTKI();
                                                   }
@@ -958,9 +957,10 @@
                                                 jo = splitter[1];
                                                 $.post("<?php echo base_url()?>Endorsement/getJodetail", {jobid: jo}, function(data,status){
                                                   var obj = $.parseJSON(data);
+                                                  console.log(data);
                                                   $.each(obj, function (i, item) {
                                                     $('#jobtype').append($('<option>', {
-                                                      value: item[1]+'/'+item[3]+'/'+item[4]+'/'+item[5],
+                                                      value: item[1]+'/'+item[3]+'/'+item[4]+'/'+item[5]+'/'+item[6],
                                                       text : item[2] + ' {REMAIN: ' + item[3] + "(L) " + item[4] + "(P) " + item[5] + "(C)}"
                                                     }));
                                                   });
@@ -973,6 +973,7 @@
                                             $("#jobtype").change(function(){
                                               var kuota = $("#jobtype").val();
                                               var kuotastripped = kuota.split('/');
+                                              $("#jogaji").val(kuotastripped[4]);
                                               jpid = kuotastripped[0];
                                               laki = kuotastripped[1];
                                               perempuan = kuotastripped[2];

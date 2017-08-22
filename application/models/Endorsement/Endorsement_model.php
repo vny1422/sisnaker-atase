@@ -254,7 +254,7 @@ class Endorsement_model extends CI_Model {
 
     function get_jodetail($jobid)
     {
-    	$this->db->select('j.*,jp.namajenispekerjaan as namajenispekerjaan');
+    	$this->db->select('j.*,jp.namajenispekerjaan as namajenispekerjaan,jp.jpgaji as gaji');
     	$this->db->from('jodetail j');
     	$this->db->join('jenispekerjaan jp', 'j.idjenispekerjaan = jp.idjenispekerjaan','left');
     	$this->db->where('j.jobid',$jobid);

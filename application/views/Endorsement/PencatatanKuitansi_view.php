@@ -320,11 +320,6 @@ $(document).ready(function() {
       $("#modalcheck").modal('toggle');
     })
 
-    $(".jualyes").change(function(){
-
-      window.alert(5+6);
-    });
-
 
   });
   </script>

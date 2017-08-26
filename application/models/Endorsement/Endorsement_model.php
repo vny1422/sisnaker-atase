@@ -263,9 +263,9 @@ class Endorsement_model extends CI_Model {
 
     function get_all_year(){
 		$this->db->distinct();
-		$this->db->select('YEAR(ejtglendorsement) as tahun');
-		$this->db->from('entryjo');
-		$this->db->order_by('ejtglendorsement','desc');
+		$this->db->select('YEAR(tktglendorsement) as tahun');
+		$this->db->from('tki');
+		$this->db->order_by('tktglendorsement','desc');
 		return $this->db->get()->result();
 	}
 

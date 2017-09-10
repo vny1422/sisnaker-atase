@@ -46,7 +46,7 @@ class Endorsement extends MY_Controller {
     foreach ($year_jk as $jk) {
       $total_year_jk += $jk->total;
     }
-
+    //
     $month_jk = $this->Endorsement_model->get_jk_this_month($year,$month);
     $total_month_jk = 0;
     foreach ($month_jk as $jk) {

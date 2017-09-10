@@ -87,8 +87,9 @@ class Sadmin extends MY_Controller {
         $this->data['dataprocessthismonth']   = $this->Perlindungan_model->get_process_this_month($data['month'],$data['year']);
 
         /// performance
-        list($offname, $offperform)           = $this->Perlindungan_model->get_officer_performance($data['year'], $petugas);
+        list($offname, $offpic, $offperform)           = $this->Perlindungan_model->get_officer_performance($data['year'], $petugas);
         $this->data['officername']            = $offname;
+        $this->data['officerpicture']         = $offpic;
         $this->data['performance']            = $offperform;
         
         $this->data['year_performance']       = $this->Perlindungan_model->get_year_performance($data['year']);

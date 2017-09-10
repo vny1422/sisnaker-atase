@@ -147,6 +147,7 @@ class Perlindungan_model extends CI_Model {
 	function get_officer_performance($year,$petugas) {
 		$performance = array();
 		$officername = array();
+		$officerpic = array();
 		
 		foreach ($petugas as $nama) {
 			/* Get Officer Name */
@@ -176,9 +177,10 @@ class Perlindungan_model extends CI_Model {
 			
 			$performance[$nama] = array($all,$rat, $finished, $all-$finished);
 			$officername[$nama] = $obj->name;
+			$officerpic[$nama] = $obj->picture;
 		}
 		
-		return array($officername, $performance);
+		return array($officername, $officerpic, $performance);
 	}
 	
 	function get_shelter_performance($year, $shelter) {

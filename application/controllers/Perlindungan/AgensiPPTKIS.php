@@ -264,32 +264,32 @@ class AgensiPPTKIS extends MY_Controller {
 	}
 
 
-	function get_agency_info($id) {
-		$agency_info = $this->Agency_model->get_agency_info($id);
-		// $pptkis_con = $this->Agency_model->get_pptkis_from_agency($id);
-		$return = array();
-		$return['agen'] = array();
-		$return['list'] = array();
-
-		/// rephrasing array
-		$return['agen']['Nama agensi'] = $agency_info['agnama']." ".$agency_info['agnamaoth'];
-		$return['agen']['Alamat'] = $agency_info['agalmtkantor']." ".$agency_info['agalmtkantoroth'];
-		$return['agen']['Penanggung Jawab'] = $agency_info['agpngjwb']." ".$agency_info['agpngjwboth'];
-		$return['agen']['Telp. / Fax'] = $agency_info['agtelp']." / ".$agency_info['agfax'];
-		$return['agen']['No Ijin CLA'] = $agency_info['agnoijincla'];
-
-		/// rephrasing list
-		// for($i=0;$i<count($pptkis_con);$i++){
-		// 	$tmp = array();
-		// 	$tmp['pptkis'] = $pptkis_con[$i]['ppnama'];
-		// 	$tmp['pekerjaan'] = $pptkis_con[$i]['jpnama'];
-		// 	$tmp['awal'] = $pptkis_con[$i]['jobtglawal'];
-		// 	$tmp['akhir'] = $pptkis_con[$i]['jobtglakhir'];
-		// 	array_push($return['list'],$tmp);
-		// }
-
-		echo json_encode($return);
-	}
+	// function get_agency_info($id) {
+	// 	$agency_info = $this->Agency_model->get_agency_info($id);
+	// 	// $pptkis_con = $this->Agency_model->get_pptkis_from_agency($id);
+	// 	$return = array();
+	// 	$return['agen'] = array();
+	// 	$return['list'] = array();
+	//
+	// 	/// rephrasing array
+	// 	$return['agen']['Nama agensi'] = $agency_info['agnama']." ".$agency_info['agnamaoth'];
+	// 	$return['agen']['Alamat'] = $agency_info['agalmtkantor']." ".$agency_info['agalmtkantoroth'];
+	// 	$return['agen']['Penanggung Jawab'] = $agency_info['agpngjwb']." ".$agency_info['agpngjwboth'];
+	// 	$return['agen']['Telp. / Fax'] = $agency_info['agtelp']." / ".$agency_info['agfax'];
+	// 	$return['agen']['No Ijin CLA'] = $agency_info['agnoijincla'];
+	//
+	// 	/// rephrasing list
+	// 	// for($i=0;$i<count($pptkis_con);$i++){
+	// 	// 	$tmp = array();
+	// 	// 	$tmp['pptkis'] = $pptkis_con[$i]['ppnama'];
+	// 	// 	$tmp['pekerjaan'] = $pptkis_con[$i]['jpnama'];
+	// 	// 	$tmp['awal'] = $pptkis_con[$i]['jobtglawal'];
+	// 	// 	$tmp['akhir'] = $pptkis_con[$i]['jobtglakhir'];
+	// 	// 	array_push($return['list'],$tmp);
+	// 	// }
+	//
+	// 	echo json_encode($return);
+	// }
 
 
 

@@ -104,14 +104,14 @@
 
       $http.get("<?php echo base_url('agensipptkis/get_cekalpptkis_list') ?>")
       .then(function(response){
-        //console.log(response.data);
+        console.log(response.data);
         angular.copy(response.data,$scope.cekalpptkis_q);
         $scope.cekalpptkis = [].concat($scope.cekalpptkis_q);
       });
 
       $http.get("<?php echo base_url('agensipptkis/get_cekalagency_list') ?>")
       .then(function(response){
-        //console.log(response.data);
+        console.log(response.data);
         angular.copy(response.data,$scope.cekalagencies_q);
         $scope.cekalagencies = [].concat($scope.cekalagencies_q);
       });

@@ -32,7 +32,7 @@
             <table st-table="queries" st-safe-src="query_result" class="table table-striped table-hover table-bordered" ng-hide="query_result.length==0">
               <thead>
                 <tr>
-                  <th colspan="5" style="border:hidden;"></th>
+                  <th colspan="<?php echo ($_SESSION['institution'] == 1 || $_SESSION['institution'] == 5 ? "6" : "5"); ?>" style="border:hidden;"></th>
                   <th colspan="2" style="border:hidden;">
                     <input st-search="keyword" placeholder="keyword aduan" class="input-sm form-control" type="search"/>
                   </th>
@@ -48,6 +48,9 @@
                       <option value="Resmi">Resmi</option>
                       <option value="Kaburan">Kaburan</option>
                     </select>
+                  </th>
+                  <th style="<?php echo ($_SESSION['institution'] == 1 || $_SESSION['institution'] == 5 ? "" : "display:none;"); ?>" >
+                    <input st-search="namainstitusi" placeholder="Filter INSTITUSI" class="input-sm form-control" type="search"/>
                   </th>
                   <th>
                     <input st-search="jenispekerjaan" placeholder="Filter PEKERJAAN" class="input-sm form-control" type="search"/>
@@ -72,6 +75,7 @@
                 <tr class="btn-danger">
                   <th class="text-center col-lg-2">Nama</th>
                   <th class="text-center col-lg-2">Paspor</th>
+                  <th style="<?php echo ($_SESSION['institution'] == 1 || $_SESSION['institution'] == 5 ? "" : "display:none;"); ?>" class="text-center col-lg-2">Institusi</th>
                   <th class="text-center col-lg-2">Pekerjaan</th>
                   <th class="text-center col-lg-2">Klasifikasi</th>
                   <th class="text-center col-lg-1">Tgl Pengaduan</th>
@@ -88,6 +92,7 @@
                   <td class="text-left">
                     {{query.paspor}} <i>- ({{query.statustki}})</i>
                   </td>
+                  <td style="<?php echo ($_SESSION['institution'] == 1 || $_SESSION['institution'] == 5 ? "" : "display:none;"); ?>" class="text-left">{{query.namainstitusi}}</td>
                   <td class="text-left">{{query.jenispekerjaan}}</td>
                   <td class="text-left">{{query.klasifikasi}}</td>
                   <td class="text-left">{{query.tanggalpengaduan}}</td>
@@ -208,6 +213,8 @@
 
 <script type="text/javascript">
 
+    var idinstitution = <?php echo $_SESSION['institution'] ?>;
+
     /////////////////// ANGULAR CONTROLLER
     var app = angular.module('searchApp', ['smart-table','angular-bootstrap-select','ui.bootstrap-slider']);
     app.controller('FormController', function($scope,$http) {
@@ -227,7 +234,7 @@
           $http({
             method  : "post",
             url   : "<?php echo site_url("kasus/get_table"); ?>",
-            data  : {'from':year[0], 'to':year[1]}
+            data  : {'from':year[0], 'to':year[1], 'idinstitution':idinstitution}
           }).success(function(response){
             angular.copy(response,$scope.query_result);
           });

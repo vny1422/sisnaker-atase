@@ -81,4 +81,15 @@ class User_model extends CI_Model {
         $this->db->where('username',$username);
         return $this->db->delete($this->table);
     }
+
+    public function update_pass_profile($username, $password=NULL, $picture=NULL){
+        if($password) {
+            $this->db->set('password', md5($password));
+        }
+        if($picture) {
+            $this->db->set('picture', $picture);
+        }
+        $this->db->where('username',$username);
+        return $this->db->update($this->table);
+    }
 }

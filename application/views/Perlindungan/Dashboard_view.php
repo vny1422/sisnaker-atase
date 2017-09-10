@@ -165,7 +165,7 @@
                           <div class="row">
                             <div class="col-xs-3">
                               <!-- <i class="fa fa-user fa-5x"></i> -->
-                              <img class="img-circle" alt="" style="width:65px;height:65px" src="<?php echo assets_url()?>/images/user.png">
+                              <img class="img-circle" alt="" style="width:65px;height:65px" src="<?php echo ($officerpicture[$username] != "" ? base_url('assets/images/'.$officerpicture[$username]) : base_url('assets/images/user.png')); ?>">
                             </div>
                             <div class="col-xs-9 text-right">
                               <div class="huge"><?php echo number_format($performance[$username][1],1,".",",") ?>%</div>

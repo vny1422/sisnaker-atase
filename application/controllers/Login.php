@@ -92,7 +92,8 @@ class Login extends CI_Controller {
 				'name'	=> $user[0]['name'],
 				'role'  => $user[0]['idlevel'],
 				'institution' => $user[0]['idinstitution'],
-				'kantor' => $user[0]['idkantor']
+				'kantor' => $user[0]['idkantor'],
+				'picture' =>$user[0]['picture']
 			);
 			$this->session->set_userdata($user_data);
 		} else {

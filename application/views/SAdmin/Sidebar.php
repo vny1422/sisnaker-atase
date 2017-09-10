@@ -1,7 +1,7 @@
 <!-- menu profile quick info -->
 <div class="profile">
   <div class="profile_pic"  style="padding-top:18px">
-    <img src="<?php echo base_url('assets/images/user.png'); ?>" alt="..." class="img-circle profile_img">
+    <img src="<?php echo ($_SESSION['picture'] != "" ? base_url('assets/images/'.$_SESSION['picture']) : base_url('assets/images/user.png')); ?>" alt="..." class="img-circle profile_img">
   </div>
   <div class="profile_info" style="padding-top:17px">
     <span>Selamat datang,</span>
@@ -97,7 +97,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="">
           <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-            <img src="<?php echo base_url('assets/images/user.png'); ?>" alt=""><?php
+            <img src="<?php echo ($_SESSION['picture'] != "" ? base_url('assets/images/'.$_SESSION['picture']) : base_url('assets/images/user.png')); ?>" alt=""><?php
             if ($_SESSION['name'] != NULL)
             {
               echo $_SESSION['name'];
@@ -106,7 +106,7 @@
             <span class=" fa fa-angle-down"></span>
           </a>
           <ul class="dropdown-menu dropdown-usermenu pull-right">
-            <li><a href="javascript:;"> Profile</a></li>
+            <li><a href="<?php echo base_url(); ?>user/profile"> Profile</a></li>
             <li><a href="<?php echo base_url(); ?>login/logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
           </ul>
         </li>

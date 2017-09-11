@@ -453,6 +453,20 @@ class Perlindungan_model extends CI_Model {
 		return $array;
 	}
 
+	function get_total_money($month,$year,$idinstitution=NULL){
+		$this->db->select_sum('m.uang');
+		$this->db->from('masalah m');
+		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
+		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
+		if($idinstitution) {
+			$this->db->where('m.idinstitution',$idinstitution);
+		}
+		$this->db->where('m.enable', 1);
+		$query = $this->db->get();
+
+		return $query;
+	}
+
 	function get_total_money_sektoral($month,$year){
 		$result = array('formal'=>0, 'informal'=>0);
 		///informal
@@ -484,6 +498,20 @@ class Perlindungan_model extends CI_Model {
 			}
 		$result['formal'] = $tmp['uang'];
 		return $result;
+	}
+
+	function get_total_money_year($year,$idinstitution=NULL){
+		$this->db->select_sum('m.uang');
+		$this->db->from('masalah m');
+		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
+		if($idinstitution) {
+			$this->db->where('m.idinstitution',$idinstitution);
+		}
+		$this->db->where('m.enable', 1);
+
+		$query = $this->db->get();
+
+		return $query;
 	}
 
 	function get_all_yeardb(){

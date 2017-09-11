@@ -15,7 +15,22 @@
             <div class="clearfix"></div>
           </div>
           <div class="x_content">
-            <br />
+            <div class="row" style="<?php echo ($_SESSION['institution'] == 1 || $_SESSION['institution'] == 5 ? "" : "display:none;"); ?>">
+              <div class="form-group col-lg-4">
+                <label><h2>Institusi</h2></label>
+                <select class="form-control" id="list-institusi" name="list-institusi" onchange="setInstField()">
+                  <?php
+                  if (isset($listinstitusi)) {
+                    foreach($listinstitusi as $row):
+                      if ($row->idinstitution != 1) {
+                        echo "<option value=".$row->idinstitution.">".$row->nameinstitution."</option>";
+                      }
+                      endforeach;
+                  }
+                  ?>
+                </select>
+              </div>
+            </div>
             <div class="row" style="padding-top: 20px">
               <div class="col-lg-12">
                 <div class="panel with-nav-tabs panel-danger">
@@ -59,6 +74,8 @@
                                       <span class="help-block">*Dapat memilih lebih dari satu waktu</span>
                                     </div>
                                   </div>
+                                  <input class="idinst" type="hidden" name="idinst" value="" />
+                                  <input class="namainst" type="hidden" name="namainst" value="" />
 
                                   <div class="form-group">
                                     <div class="col-sm-2 col-md-offset-2">
@@ -109,6 +126,8 @@
                                     <span class="help-block">*Dapat memilih lebih dari satu waktu</span>
                                   </div>
                                 </div>
+                                <input class="idinst" type="hidden" name="idinst" value="" />
+                                <input class="namainst" type="hidden" name="namainst" value="" />
 
                                 <div class="form-group">
                                   <div class="col-sm-2 col-md-offset-2">
@@ -168,6 +187,8 @@
                                   <span class="help-block">*Dapat memilih lebih dari satu waktu</span>
                                 </div>
                               </div>
+                              <input class="idinst" type="hidden" name="idinst" value="" />
+                              <input class="namainst" type="hidden" name="namainst" value="" />
 
                               <div class="form-group">
                                 <div class="col-sm-2 col-md-offset-2">
@@ -218,6 +239,8 @@
                                 <span class="help-block">*Dapat memilih lebih dari satu waktu</span>
                               </div>
                             </div>
+                            <input class="idinst" type="hidden" name="idinst" value="" />
+                            <input class="namainst" type="hidden" name="namainst" value="" />
 
                             <div class="form-group">
                               <div class="col-sm-2 col-md-offset-2">
@@ -275,6 +298,8 @@
                               <span class="help-block">*Dapat memilih lebih dari satu waktu</span>
                             </div>
                           </div>
+                          <input class="idinst" type="hidden" name="idinst" value="" />
+                          <input class="namainst" type="hidden" name="namainst" value="" />
 
                           <div class="form-group">
                             <div class="col-sm-2 col-md-offset-2">
@@ -316,6 +341,8 @@
                             <span class="help-block">*Dapat memilih lebih dari satu waktu</span>
                           </div>
                         </div>
+                        <input class="idinst" type="hidden" name="idinst" value="" />
+                        <input class="namainst" type="hidden" name="namainst" value="" />
 
                         <div class="form-group">
                           <div class="col-sm-2 col-md-offset-2">
@@ -347,6 +374,38 @@
 </div>
 
 <script type="text/javascript">
+
+  var role = <?php echo $_SESSION['institution'] ?>;
+
+  if(role == 1 || role == 5) {
+    setInstField();
+  }
+
+  function setInstField() {
+    $(".idinst").val($("#list-institusi").val());
+    $(".namainst").val($("#list-institusi option:selected").text());
+
+    $.post("<?php echo base_url()?>Rekap/generateShelter", {idinst: $("#list-institusi").val()}, function(xml,status){
+      json = $.parseJSON(xml);
+
+      var htmlshelter = '<option></option>';
+      var htmlkelas = '<option></option>';
+      var htmltahun = '<option></option><option value="0">Semua Shelter</option>';
+
+      $.each(json[0], function(i,val){
+        htmlshelter += '<option value="' + val.id + '">' + val.name + '</option>';
+        htmltahun += '<option value="' + val.id + '">' + val.name + '</option>';
+      });
+
+      $.each(json[1], function(i,val){
+        htmlkelas += '<option value="' + val.name + '">' + val.name + '</option>';
+      });
+
+      $("#status-shelterrekap").html(htmlshelter).selectpicker('refresh');
+      $("#status-kelasrekap").html(htmlkelas).selectpicker('refresh');
+      $("#lokasi-rekap").html(htmltahun).selectpicker('refresh');
+    });
+  }
 
   $("#time-detailrekap").datepicker({
     minViewMode : 1,

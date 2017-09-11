@@ -408,12 +408,13 @@ class Perlindungan_model extends CI_Model {
 		return $array;
 	}
 	
-	function get_total_money($month,$year){
+	function get_total_money($month,$year,$idinstitution){
 		$this->db->select_sum('m.uang');
 		$this->db->from('masalah m');
 		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
-		$this->db->where('m.enable', 1);		
+		$this->db->where('m.idinstitution',$idinstitution);
+		$this->db->where('m.enable', 1);	
 		$query = $this->db->get();
 		
 		return $query;
@@ -452,10 +453,11 @@ class Perlindungan_model extends CI_Model {
 		return $result;
 	}
 	
-	function get_total_money_year($year){
+	function get_total_money_year($year,$idinstitution){
 		$this->db->select_sum('m.uang');
 		$this->db->from('masalah m');
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
+		$this->db->where('m.idinstitution',$idinstitution);
 		$this->db->where('m.enable', 1);
 		
 		$query = $this->db->get();

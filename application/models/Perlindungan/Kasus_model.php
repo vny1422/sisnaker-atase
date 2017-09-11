@@ -90,20 +90,38 @@ class Kasus_model extends CI_Model {
 		return $this->db->get($table)->result();
 	}
 
-	function timespan_search($start, $end){
-		/// search param
-		$ret = $this->db->query(" SELECT m.idmasalah, t.namatki, t.paspor, j.namajenispekerjaan AS jenispekerjaan, k.name AS klasifikasi, ".
-			" u.name as petugas, m.tanggalpengaduan, m.tanggalpenyelesaian, m.keyword, ".
+	function timespan_search($start, $end, $idinstitution=NULL){
+		if ($idinstitution == NULL) {
+			$ret = $this->db->query(" SELECT m.idmasalah, t.namatki, t.paspor, j.namajenispekerjaan AS jenispekerjaan, k.name AS klasifikasi, ".
+			" u.name as petugas, m.tanggalpengaduan, m.tanggalpenyelesaian, m.keyword, it.nameinstitution as namainstitusi, ".
 			" IF(m.statusmasalah=1,'Proses','Selesai') AS statusmasalah, ".
 			" IF(m.statustki=1,'Resmi','Kaburan') AS statustki ".
 			" FROM masalah m LEFT JOIN tkimasalah t ON m.idmasalah=t.idmasalah".
 			" LEFT JOIN user u ON m.petugaspenanganan=u.username".
+			" LEFT JOIN institution it ON m.idinstitution=it.idinstitution".
 			" LEFT JOIN jenispekerjaan j ON m.idjenispekerjaan=j.idjenispekerjaan".
 			" LEFT JOIN klasifikasi k ON m.idklasifikasi=k.id".
 			" WHERE YEAR(m.tanggalpengaduan)>=".$start.
 			" AND YEAR(m.tanggalpengaduan)<=".$end.
 			" AND m.enable=1".
 			" ORDER BY m.tanggalpengaduan DESC");
+		} else {
+			$ret = $this->db->query(" SELECT m.idmasalah, t.namatki, t.paspor, j.namajenispekerjaan AS jenispekerjaan, k.name AS klasifikasi, ".
+			" u.name as petugas, m.tanggalpengaduan, m.tanggalpenyelesaian, m.keyword, it.nameinstitution as namainstitusi, ".
+			" IF(m.statusmasalah=1,'Proses','Selesai') AS statusmasalah, ".
+			" IF(m.statustki=1,'Resmi','Kaburan') AS statustki ".
+			" FROM masalah m LEFT JOIN tkimasalah t ON m.idmasalah=t.idmasalah".
+			" LEFT JOIN user u ON m.petugaspenanganan=u.username".
+			" LEFT JOIN institution it ON m.idinstitution=it.idinstitution".
+			" LEFT JOIN jenispekerjaan j ON m.idjenispekerjaan=j.idjenispekerjaan".
+			" LEFT JOIN klasifikasi k ON m.idklasifikasi=k.id".
+			" WHERE YEAR(m.tanggalpengaduan)>=".$start.
+			" AND YEAR(m.tanggalpengaduan)<=".$end.
+			" AND m.idinstitution=".$idinstitution.
+			" AND m.enable=1".
+			" ORDER BY m.tanggalpengaduan DESC");
+		}
+		
 		if($ret->num_rows() > 0){
 			return $ret->result_array();
 		}

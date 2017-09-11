@@ -87,7 +87,7 @@ class Kasus extends MY_Controller {
     $to = $input['to'];
     $idinstitution = $input['idinstitution'];
 
-    if ($idinstitution == 1 || $idinstitution == 5) {
+    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 5) {
       $data = $this->Kasus_model->timespan_search($from, $to);
     } else {
       $data = $this->Kasus_model->timespan_search($from, $to, $idinstitution);

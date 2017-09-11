@@ -15,7 +15,7 @@
             <div class="clearfix"></div>
           </div>
           <div class="x_content">
-            <div class="row" style="<?php echo ($_SESSION['institution'] == 1 || $_SESSION['institution'] == 5 ? "" : "display:none;"); ?>">
+            <div class="row" style="<?php echo ($_SESSION['role'] == 1 || $_SESSION['role'] == 5 ? "" : "display:none;"); ?>">
               <div class="form-group col-lg-4">
                 <label><h2>Institusi</h2></label>
                 <select class="form-control" id="list-institusi" name="list-institusi" onchange="setInstField()">
@@ -375,7 +375,7 @@
 
 <script type="text/javascript">
 
-  var role = <?php echo $_SESSION['institution'] ?>;
+  var role = <?php echo $_SESSION['role'] ?>;
 
   if(role == 1 || role == 5) {
     setInstField();

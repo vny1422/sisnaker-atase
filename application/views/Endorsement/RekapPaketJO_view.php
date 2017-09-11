@@ -13,8 +13,23 @@
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
-          <br />
-        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="row" style="<?php echo ($_SESSION['role'] == 1 || $_SESSION['role'] == 5 ? "" : "display:none;"); ?>">
+            <div class="form-group col-lg-4">
+              <label><h2>Institusi</h2></label>
+              <select class="form-control" id="list-institusi" name="list-institusi" onchange="refreshjqgrid()">
+                <?php
+                if (isset($listinstitusi)) {
+                  foreach($listinstitusi as $row):
+                    if ($row->idinstitution != 1) {
+                      echo "<option value=".$row->idinstitution.">".$row->nameinstitution."</option>";
+                    }
+                    endforeach;
+                  }
+                  ?>
+                </select>
+              </div>
+            </div>
+        <div class="col-md-12 col-sm-12 col-xs-12" style="padding-top: 20px">
           <div id="jo" class="row">
             <table id="grid"></table>
             <div id="pgrid"></div>
@@ -27,11 +42,27 @@
 </div>
 
 <script>
+  var idinstitution = <?php echo $_SESSION['institution'] ?>;
+
+  function refreshjqgrid() {
+    idinstitution = $("#list-institusi").val();
+    $("#grid").jqGrid('clearGridData');
+    $("#grid").jqGrid('setGridParam', { 
+        postData: {idinstitution:idinstitution}
+    })
+    $("#grid").trigger('reloadGrid');
+  }
+
   $(document).ready(function () {
-    var divjo           = $("div#jo");
+    var divjo         = $("div#jo");
+    var role = <?php echo $_SESSION['role'] ?>;
+    if(role == 1 || role == 5) {
+      idinstitution = $("#list-institusi").val();
+    }
 
     var grid = $("#grid").jqGrid({
       url: '<?php echo base_url()?>paket/listAgensi',
+      postData: { idinstitution: idinstitution },
       datatype: "json",
       mtype: "POST",
       colNames: ["ID", "Nama Agensi", "No CLA"],

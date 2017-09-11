@@ -127,8 +127,6 @@
     <!-- DataTables -->
     <link href="<?php echo base_url('assets/css/datatables/css/dataTables.bootstrap.css'); ?>" rel="stylesheet">
 
-    <link href="<?php echo base_url('assets/css/jquery-ui.css'); ?>" rel="stylesheet">
-
     <link href="<?php echo base_url('assets/jqgrid/css/ui.jqgrid.css'); ?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/jqgrid/plugins/searchFilter.css'); ?>" rel="stylesheet">
 

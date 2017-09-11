@@ -12,7 +12,7 @@
         <ul class="nav nav-tabs bar_tabs" role="tablist">
           <li class="active"><a href="#tabpenempatan" data-toggle="tab">Penempatan</a>
           </li>
-          <li><a href="#tabperlindungan" data-toggle="tab">Perlindungan</a>
+          <li><a id="aperlindungan" href="#tabperlindungan" data-toggle="tab">Perlindungan</a>
           </li>
         </ul>
 
@@ -185,6 +185,7 @@
             </div>
           </div>
           <div role="tabpanel" class="tab-pane fade" id="tabperlindungan">
+            <div class="dashboard_graph">
             <div class="row x_title">
               <div class="col-md-6">
                 <h3>DASHBOARD <small><b><?php echo $subtitle; ?></b></small></h3>
@@ -401,11 +402,12 @@
                               <thead>
                                 <tr class="btn-danger">
                                   <th class="text-center" style="width:5%">Nomor</th>
+                                  <th class="text-center" style="width:10%">Institusi</th>
                                   <th class="text-center" style="width:25%">Nama TKI</th>
                                   <th class="text-center" style="width:10%">Paspor</th>
                                   <th class="text-center" style="width:5%">Status TKI</th>
-                                  <th class="text-center" style="width:20%">Klasifikasi Kasus</th>
-                                  <th class="text-center" style="width:15%">Keyword</th>
+                                  <th class="text-center" style="width:15%">Klasifikasi Kasus</th>
+                                  <th class="text-center" style="width:10%">Keyword</th>
                                   <th class="text-center" style="width:15%">Petugas</th>
                                   <th class="text-center" style="width:5%">Interval (hari)</th>
                                 </tr>
@@ -414,6 +416,7 @@
                                 <?php $i = 1; foreach ($kasusproses->result() as $row ) { ?>
                                   <tr>
                                     <td class="text-center"><?php echo $i ?></td>
+                                    <td><?php echo $row->nameinstitution ?></td>
                                     <td>
                                       <a href="#windowModal" data-toggle="modal" id=<?php echo $row->idmasalah ?>>
                                         <?php echo strtoupper($row->namatki);  if ($row->jumlah > 1) echo ' ('.$row->jumlah.' orang)'?>
@@ -435,11 +438,12 @@
                                 <thead>
                                   <tr class="btn-success">
                                     <th class="text-center" style="width:5%">Nomor</th>
+                                    <th class="text-center" style="width:10%">Institusi</th>
                                     <th class="text-center" style="width:25%">Nama TKI</th>
                                     <th class="text-center" style="width:10%">Paspor</th>
                                     <th class="text-center" style="width:5%">Status TKI</th>
-                                    <th class="text-center" style="width:20%">Klasifikasi Kasus</th>
-                                    <th class="text-center" style="width:15%">Keyword</th>
+                                    <th class="text-center" style="width:15%">Klasifikasi Kasus</th>
+                                    <th class="text-center" style="width:10%">Keyword</th>
                                     <th class="text-center" style="width:15%">Petugas</th>
                                     <th class="text-center" style="width:5%">Interval (hari)</th>
                                   </tr>
@@ -448,6 +452,7 @@
                                   <?php $i = 1; foreach ($kasusselesai->result() as $row ) { ?>
                                     <tr>
                                       <td class="text-center"><?php echo $i ?></td>
+                                      <td><?php echo $row->nameinstitution ?></td>
                                       <td>
                                         <a href="#windowModal" data-toggle="modal"  id=<?php echo $row->idmasalah ?> >
                                           <?php echo strtoupper($row->namatki);  if ($row->jumlah > 1) echo ' ('.$row->jumlah.' orang)'?>
@@ -480,9 +485,17 @@
                                 <h4><i class="fa fa-bar-chart-o fa-fw"></i> Statistik Kasus Detail Tahun </h4>
                               </div>
                               <div class="col-lg-3">
-                                <select class="form-control" name="" data-size="3" data-live-search="true" id="tahun" class="col-xs-7">
+                                <select class="form-control" name="" data-size="3" data-live-search="true" id="tahunperlindungan" class="col-xs-7">
                                   <?php foreach ($tahundb->result() as $row ) {?>
                                     <option value="<?php echo $row->tahun?>"><?php echo $row->tahun?></option>
+                                  <?php }?>
+                                </select>
+                              </div>
+                              <div class="col-lg-3">
+                                <select class="form-control" name="" data-size="3" data-live-search="true" id="institusiperlindungan" class="col-xs-7">
+                                  <option value="all">All</option>
+                                  <?php foreach ($institusi as $row ) {?>
+                                    <option value="<?php echo $row->idinstitution?>"><?php echo $row->nameinstitution?></option>
                                   <?php }?>
                                 </select>
                               </div>
@@ -558,7 +571,10 @@
                         </div>
                       </div>
                     </div>
+                    <?php include 'modal_view.php' ?>
 
+                    <div class="clearfix"></div>
+                  </div>
                   </div>
                 </div>
               </div>
@@ -992,6 +1008,274 @@
                   jptahun.options.ykeys = data[8];
                   jptahun.options.labels = data[8];
                   jptahun.setData(datajptahun);
+                }
+              });
+            });
+
+          });
+
+          //JS perlindungan
+          $(".modal-wide").on("show.bs.modal", function() {
+            var height = $(window).height() - 200;
+            $(this).find(".modal-body").css("max-height", height);
+          });
+
+          $(function () {
+            var tbproses = $('#tableproses').DataTable({"bSort" : false,"bLengthChange": false});
+            var tbselesai = $('#tableselesai').DataTable({"bSort" : false,"bLengthChange": false});
+
+            $('#tableproses_filter').html("\
+              <form class='form-inline' style='margin-bottom:10px'>\
+                <div class='col-sm-offset-1 form-group'><label>Search: </label><input type='text' class='form-control' id='tbproall'></div>\
+              </form>"
+              );
+            $('#tableselesai_filter').html("\
+              <form class='form-inline' style='margin-bottom:10px'>\
+                <div class='col-sm-offset-1 form-group'><label>Search: </label><input type='text' class='form-control' id='tbselall'></div>\
+              </form>"
+              );
+
+            $("#tbproall").keyup(function() {
+              tbproses.search($("#tbproall").val()).draw();
+            });
+            $("#tbselall").keyup(function() {
+              tbselesai.search($("#tbselall").val()).draw();
+            });
+
+            $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
+              //$.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
+              tbproses.columns.adjust().draw();
+              tbselesai.columns.adjust().draw();
+            } );
+
+            $("a[data-toggle=modal]").click(function(){
+              var thisid = $(this).attr('id');
+              $.post("<?php echo site_url('pusat/modal')?>",{id:thisid},
+                function(data){
+
+                  var obj = JSON.parse(data);
+
+                  // if(obj[3].length == 0) {$("#casesiap").hide();}
+                  // else {
+                  //   $("#casesiap").show();
+                  //   $("#perihal").text(obj[3][0].perihal);
+                  //   $("#pesandisposisi").text(obj[3][0].pesandisposisi);
+                  //   $("#filesiap").attr("href", obj[3][0].filedisposisi);
+                  // }
+
+                  $("#casesiap").hide();
+
+                  if(obj[2].length > 0) {
+                    $("#berkaskasus").html('');
+                    for(i=0; i<obj[2].length; i++) {
+                      //console.log(i);
+                      var dt = '';
+
+                      dt = '<tr>';
+                      //dt += ' <td><a href="<?php echo $this->config->item('domain_url')?>'+obj[2][i].filename+'" target="_blank">'+obj[2][i].filename+'</a></td>';
+                      dt += ' <td><a href="'+window.location.protocol+'//'+window.location.hostname+'/'+obj[2][i].filename+'" target="_blank">'+obj[2][i].filename+'</a></td>';
+                      dt += '</tr>';
+
+                      $("#berkaskasus").append(dt);
+                    }
+                  } else {
+                    $("#berkaskasus").html('');
+                    $("#berkaskasus").append("<tr><td>Berkas kasus tidak tersedia!</td></tr>");
+                  }
+
+                  $("#downloadform").val(obj[0].idmasalah);
+                  $("#inputpaspor").text(obj[1][0].paspor);
+                  $("#namebmi").text(obj[1][0].namatki);
+                  $("#jk").text(obj[1][0].jk);
+                  $("#arc").text(obj[1][0].arc);
+                  $("#phone").text(obj[1][0].handphone);
+                  $("#jenispekerjaan").text(obj[0].jenis);
+                  $("#statustki").text(obj[0].statustki);
+                  $("#agensitw").text(obj[0].agensi);
+                  $("#cpagensitw").text(obj[0].cpagensi);
+                  $("#hpagensitw").text(obj[0].teleponagensi);
+                  $("#pptkis").text(obj[0].pptkis);
+                  $("#majikan").text(obj[0].majikan);
+                  $("#organisasi").text(obj[0].organisasi);
+                  $("#petugaspenanganan").text(obj[0].petugaspenanganan);
+                  $("#nomorkasus").text(obj[0].nomormasalah);
+                  $("#pelapor").text(obj[0].namapelapor);
+                  $("#tlppelapor").text(obj[0].teleponpelapor);
+                  $("#tglpengaduan").text(obj[0].tanggalpengaduan);
+                  $("#media").text(obj[0].media);
+                  $("#klasifikasikasus").text(obj[0].klasifikasi);
+                  $("#permasalahan").text(obj[0].permasalahan);
+                  $("#tuntutan").text(obj[0].tuntutan);
+                  $("#tindaklanjut").html(obj[0].tindaklanjut);
+                  $("#nominal").text(obj[0].uang);
+                  $("#statusmasalah").text(obj[0].statusmasalah);
+                }
+                );
+            });
+
+            $("#downloadform").click(function() {
+              var idprob = $("#downloadform").val();
+              window.open("<?php echo site_url('pusat/convertToPDF') ?>"+"/"+idprob);
+            });
+
+            $('select').selectpicker();
+
+              $.ajax({
+                url     : "<?php echo site_url('pusat/get_info_year_dashboard_perlindungan')?>",
+                data    : {"y":$("#tahunperlindungan").val(),"i":$("#institusiperlindungan").val()},
+                type    : "post",
+                dataType  : "json",
+                success   : function(data){
+                  $("#total-year").html(data[0]);
+                  $("#money-year").html(data[2]);
+                  $("#graph-problem").html("");
+                  $("#graph-money").html("");
+
+                  var morrisarea = Morris.Area({
+                    element: 'graph-problem',
+                    behaveLikeLine: true,
+                    parseTime: false,
+                    resize: true,
+                    lineColors:['blue','green','red'],
+                    fillOpacity: 0.6,
+                    data: data[1],
+                    xkey: 'bulan',
+                    ykeys: ['total', 'fin', 'pro'],
+                    labels: ['Total', 'Selesai', 'Proses']
+                  });
+
+                  var morrisbar = Morris.Bar({
+                    element: 'graph-money',
+                    behaveLikeLine: true,
+                    resize: true,
+                    parseTime: false,
+                    barSizeRatio:0.8,
+                    barColors: ['orange'],
+                    data: data[3],
+                    xkey: 'bulan',
+                    ykeys: ['uang'],
+                    labels: ['Total']
+                  });
+
+                  //console.log(data[3]);
+                }
+              });
+              function chartredraw()
+              {
+
+              }
+              $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+                var target = $(e.target).attr("href") // activated tab
+                // setTimeout(function(){
+                //   window.alert(5+6);
+                //   $(window).trigger('resize');
+                //   morrisbar.redraw();
+                //   morrisarea.redraw();
+                // }, 3000);
+                switch (target) {
+                  case "#tabperlindungan":
+                  $(window).trigger('resize');
+                  morrisbar.redraw();
+                  morrisarea.redraw();
+                  break;
+                  case "#tabpenempatan":
+                  $(window).trigger('resize');
+                  break;
+                }
+
+              });
+
+
+
+
+            $("#tahunperlindungan").change(function(){
+              $("#graph-problem").html("");
+              $("#graph-money").html("");
+
+              $.ajax({
+                url     : "<?php echo site_url('pusat/get_info_year_dashboard_perlindungan')?>",
+                data    : {"y":$("#tahunperlindungan").val(),"i":$("#institusiperlindungan").val()},
+                type    : "post",
+                dataType  : "json",
+                success   : function(data){
+                  $("#total-year").html(data[0]);
+                  $("#money-year").html(data[2]);
+                  $("#graph-problem").html("");
+                  $("#graph-money").html("");
+
+                  var morrisarea = Morris.Area({
+                    element: 'graph-problem',
+                    behaveLikeLine: true,
+                    parseTime: false,
+                    resize: true,
+                    lineColors:['blue','green','red'],
+                    fillOpacity: 0.6,
+                    data: data[1],
+                    xkey: 'bulan',
+                    ykeys: ['total', 'fin', 'pro'],
+                    labels: ['Total', 'Selesai', 'Proses']
+                  });
+
+                  var morrisbar = Morris.Bar({
+                    element: 'graph-money',
+                    behaveLikeLine: true,
+                    resize: true,
+                    parseTime: false,
+                    barSizeRatio:0.8,
+                    barColors: ['orange'],
+                    data: data[3],
+                    xkey: 'bulan',
+                    ykeys: ['uang'],
+                    labels: ['Total']
+                  });
+
+                  //console.log(data[3]);
+                }
+              });
+            });
+
+            $("#institusiperlindungan").change(function(){
+              $("#graph-problem").html("");
+              $("#graph-money").html("");
+
+              $.ajax({
+                url     : "<?php echo site_url('pusat/get_info_year_dashboard_perlindungan')?>",
+                data    : {"y":$("#tahunperlindungan").val(),"i":$("#institusiperlindungan").val()},
+                type    : "post",
+                dataType  : "json",
+                success   : function(data){
+                  $("#total-year").html(data[0]);
+                  $("#money-year").html(data[2]);
+                  $("#graph-problem").html("");
+                  $("#graph-money").html("");
+
+                  var morrisarea = Morris.Area({
+                    element: 'graph-problem',
+                    behaveLikeLine: true,
+                    parseTime: false,
+                    resize: true,
+                    lineColors:['blue','green','red'],
+                    fillOpacity: 0.6,
+                    data: data[1],
+                    xkey: 'bulan',
+                    ykeys: ['total', 'fin', 'pro'],
+                    labels: ['Total', 'Selesai', 'Proses']
+                  });
+
+                  var morrisbar = Morris.Bar({
+                    element: 'graph-money',
+                    behaveLikeLine: true,
+                    resize: true,
+                    parseTime: false,
+                    barSizeRatio:0.8,
+                    barColors: ['orange'],
+                    data: data[3],
+                    xkey: 'bulan',
+                    ykeys: ['uang'],
+                    labels: ['Total']
+                  });
+
+                  //console.log(data[3]);
                 }
               });
             });

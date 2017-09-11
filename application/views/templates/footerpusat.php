@@ -58,6 +58,8 @@
 
     <!-- Select -->
     <script src="<?php echo base_url('assets/js/select/select2.full.min.js'); ?>"></script>
+    <!-- Bootstrap Progressbar JavaScript -->
+    <script src="<?php echo base_url('assets/js/progressbar/bootstrap-progressbar.min.js') ?>"></script>
 
     <!-- Datatables -->
     <script>

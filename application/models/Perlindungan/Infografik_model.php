@@ -5,13 +5,17 @@ class Infografik_model extends CI_Model {
 		parent::__construct();
 	}
 
-  function get_total_problem_year($month,$year){
+  function get_total_problem_year($month,$year,$institution='all'){
 		$this->db->start_cache();
 		$this->db->select('*');
 		$this->db->from('masalah m');
 		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		$this->db->where('m.enable', 1);
+		if($institution != 'all')
+		{
+			$this->db->where('m.idinstitution',$institution);
+		}
 		// $this->db->where('(m.recap=1 OR m.recap=0)');
 		$this->db->stop_cache();
 
@@ -31,19 +35,23 @@ class Infografik_model extends CI_Model {
 		return array($all, $fin, $pro);
 	}
 
-  function get_total_money($month,$year){
+  function get_total_money($month,$year,$institution='all'){
 		$this->db->select_sum('m.uang');
 		$this->db->from('masalah m');
 		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		$this->db->where('m.enable', 1);
+		if($institution != 'all')
+		{
+			$this->db->where('m.idinstitution',$institution);
+		}
 		// $this->db->where('(m.recap=1 OR m.recap=0)');
 		$query = $this->db->get();
 
 		return $query;
 	}
 
-  function get_total_money_sektoral($month,$year){
+  function get_total_money_sektoral($month,$year,$institution='all'){
 		$result = array('formal'=>0, 'informal'=>0);
 		///informal
 		$this->db->select_sum('m.uang');
@@ -53,6 +61,10 @@ class Infografik_model extends CI_Model {
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		$this->db->where('m.enable', 1);
 		$this->db->where('j.sektor', 1);
+		if($institution != 'all')
+		{
+			$this->db->where('m.idinstitution',$institution);
+		}
 		// $this->db->where('(m.recap=1 OR m.recap=0)');
 		$query = $this->db->get();
 		$tmp = $query->row_array();
@@ -69,6 +81,10 @@ class Infografik_model extends CI_Model {
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		$this->db->where('m.enable', 1);
 		$this->db->where('j.sektor', 2);
+		if($institution != 'all')
+		{
+			$this->db->where('m.idinstitution',$institution);
+		}
 		// $this->db->where('(m.recap=1 OR m.recap=0)');
 		$query = $this->db->get();
 		$tmp = $query->row_array();
@@ -80,11 +96,15 @@ class Infografik_model extends CI_Model {
 	}
 
 
-	function get_total_problem_a_year($year){
+	function get_total_problem_a_year($year,$institution='all'){
 		$this->db->select('*');
 		$this->db->from('masalah m');
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		$this->db->where('m.enable', 1);
+		if($institution != 'all')
+		{
+			$this->db->where('m.idinstitution',$institution);
+		}
 		// $this->db->where('(recap=1 OR recap=0)');
 		$query = $this->db->count_all_results();
 
@@ -139,11 +159,15 @@ function get_finish_within_year($year) {
   return $query;
 }
 
-function get_total_money_year($year){
+function get_total_money_year($year,$institution='all'){
   $this->db->select_sum('m.uang');
   $this->db->from('masalah m');
   $this->db->where('YEAR(m.tanggalpengaduan)',$year);
   $this->db->where('m.enable', 1);
+	if($institution != 'all')
+	{
+		$this->db->where('m.idinstitution',$institution);
+	}
   // $this->db->where('(m.recap=1 OR m.recap=0)');
 
   $query = $this->db->get();

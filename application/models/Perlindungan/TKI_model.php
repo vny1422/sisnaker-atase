@@ -7,8 +7,8 @@ class TKI_model extends CI_Model {
 
 function get_all_endorsment($param){
   if($param=="" || $param==" ") return null;
-  $q = $this->db->query("SELECT IF(e.statustki=1,'Resmi','Kaburan') AS statustki, t.idtkimasalah, t.namatki,t.jk, t.paspor,e.agensi, j.namajenispekerjaan AS pekerjaan, e.pptkis , e.tanggalmasuktaiwan AS info , w.name as wilayah
-                FROM tkimasalah t LEFT JOIN masalah e ON t.idmasalah=e.idmasalah LEFT JOIN jenispekerjaan j ON e.idjenispekerjaan=j.idjenispekerjaan LEFT JOIN wilayah w ON e.idwilayah = w.id
+  $q = $this->db->query("SELECT IF(e.statustki=1,'Resmi','Kaburan') AS statustki, t.idtkimasalah, i.nameinstitution,t.namatki,t.jk, t.paspor,e.agensi, j.namajenispekerjaan AS pekerjaan, e.pptkis , e.tanggalmasuktaiwan AS info , w.name as wilayah
+                FROM tkimasalah t LEFT JOIN masalah e ON t.idmasalah=e.idmasalah LEFT JOIN jenispekerjaan j ON e.idjenispekerjaan=j.idjenispekerjaan LEFT JOIN institution i ON e.idinstitution = i.idinstitution LEFT JOIN wilayah w ON e.idwilayah = w.id
               WHERE ".$param." AND t.idtkimasalah IS NOT NULL AND e.tanggalmasuktaiwan IS NOT NULL
               ORDER BY e.tanggalmasuktaiwan DESC ");
   if($q->num_rows() > 0) return $q->result_array();

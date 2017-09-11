@@ -178,6 +178,7 @@ class Agency_model extends CI_Model {
 
     function get_agency($cekal=false) {
       if($cekal==false){
+        $this->db->join('institution i', 'i.idinstitution = magensi.idinstitution');
         return $this->db->get($this->table)->result_array();
       }
       else{

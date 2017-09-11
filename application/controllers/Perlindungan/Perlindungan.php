@@ -197,6 +197,10 @@ class Perlindungan extends MY_Controller {
         /**
          *  Kasus
          */
+				 if(!isset($problem[0]['tanggalmasuktaiwan']))
+				 {
+					 $problem[0]['tanggalmasuktaiwan'] = null;
+				 }
         if($problem[0]['tanggalmasuktaiwan'] == '0000-00-00' || $problem[0]['tanggalmasuktaiwan'] == null) {
             $problem[0]['tanggalmasuktaiwan'] = '';
         } else {

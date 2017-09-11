@@ -10,6 +10,7 @@ class Cekal extends MY_Controller {
 
     parent::__construct();
     $this->load->model('Perlindungan/Agency_model');
+    $this->load->model('Perlindungan/Pptkis_model');
     $this->load_sidebar();
     $this->data['listdp'] = $this->listdp;
     $this->data['usedpg'] = $this->usedpg;

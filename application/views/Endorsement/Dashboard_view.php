@@ -1,6 +1,3 @@
-
-
-
 <!-- page content -->
 <div class="right_col" role="main">
 
@@ -40,10 +37,7 @@
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
-          <br />
-
           <div class="row">
-
             <div class="col-lg-4 col-md-6">
               <div class="panel panel-success">
                 <div class="panel-heading">
@@ -92,7 +86,6 @@
         <br />
 
         <div class="row">
-
             <div class="col-lg-4 col-md-6">
               <div class="panel panel-info">
                 <div class="panel-heading">
@@ -177,7 +170,7 @@
     $('#gtahun').html("Statistik Penempatan Tahun " + $("#tahun").val());
 
     $.ajax({
-      url     : "<?php echo site_url('endorsement/get_info_year_dashboard')?>",
+      url     : "<?php echo site_url('endorsement/get_info_year_dashboard_agensi')?>",
       data    : {"y":$("#tahun").val(),"m":$("#bulan").val()},
       type    : "post",
       dataType  : "json",
@@ -338,7 +331,7 @@
       $('#gtahun').html("Statistik Penempatan Tahun " + $("#tahun").val());
 
       $.ajax({
-        url     : "<?php echo site_url('endorsement/get_info_year_dashboard')?>",
+        url     : "<?php echo site_url('endorsement/get_info_year_dashboard_agensi')?>",
         data    : {"y":$("#tahun").val(),"m":$("#bulan").val()},
         type    : "post",
         dataType  : "json",
@@ -444,7 +437,7 @@
       $('.dbulan').html("Penempatan Bulan " + $("#bulan option:selected").text());
 
       $.ajax({
-        url     : "<?php echo site_url('endorsement/get_info_year_dashboard')?>",
+        url     : "<?php echo site_url('endorsement/get_info_year_dashboard_agensi')?>",
         data    : {"y":$("#tahun").val(),"m":$("#bulan").val()},
         type    : "post",
         dataType  : "json",
@@ -496,4 +489,4 @@
 
   });
 
-</script>
+  </script>

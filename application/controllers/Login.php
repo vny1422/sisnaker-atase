@@ -29,7 +29,7 @@ class Login extends CI_Controller {
 			}
 			else if($this->session->userdata('role') == 4)
 			{
-				redirect('endorsement');
+				redirect('endorsement/dashboard');
 			}
 		}
 
@@ -56,7 +56,7 @@ class Login extends CI_Controller {
 					}
 					else if($this->session->userdata('role') == 4)
 					{
-						redirect('endorsement');
+						redirect('endorsement/dashboard');
 					}
         }
 	}

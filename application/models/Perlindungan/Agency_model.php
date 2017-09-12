@@ -182,9 +182,9 @@ class Agency_model extends CI_Model {
         return $this->db->get($this->table)->result_array();
       }
       else{
-        $this->db->select('c.*,m.agnama as agnama');
-        $this->db->from('magensi m, cekalagensi c');
-        $this->db->where('c.agid = m.agid AND c.enable=1 AND (c.caend IS NULL OR c.caend >= NOW())');
+        $this->db->select('c.*,m.agnama as agnama,i.nameinstitution');
+        $this->db->from('institution i, magensi m, cekalagensi c');
+        $this->db->where('m.idinstitution = i.idinstitution AND c.agid = m.agid AND c.enable=1 AND (c.caend IS NULL OR c.caend >= NOW())');
         return $this->db->get()->result();
       }
     }
@@ -220,8 +220,12 @@ class Agency_model extends CI_Model {
       return $this->db->get()->row();
     }
 
-    function get_all_agency()
+    function get_all_agency($institution = 'all')
     {
+      if($institution != 'all')
+      {
+        $this->db->where('idinstitution',$institution);
+      }
       return $this->db->get($this->table)->result();
     }
 

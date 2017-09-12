@@ -930,4 +930,126 @@ class Pusat extends MY_Controller {
 
 		echo json_encode($return);
 	}
+
+	public function cekalagensi()
+	{
+		$this->form_validation->set_rules('agensi', 'Agensi', 'required|trim');
+		if ($this->form_validation->run() === FALSE)
+		{
+			$this->data['institution'] = $this->Institution_model->list_active_institution();
+			$this->data['list'] = $this->Agency_model->get_all_agency();
+			$this->data['listcekal'] = $this->Agency_model->get_agency(true);
+			$this->data['title'] = 'Cekal Agensi';
+			$this->data['subtitle'] = 'Cekal Agensi';
+			$this->data['subtitle2'] = 'Tabel Cekal Agensi';
+			$this->load->view('templates/headerpusat', $this->data);
+			$this->load->view('Pusat/CekalAgensi_view', $this->data);
+			$this->load->view('templates/footerpusat');
+		}
+		else {
+			if($this->input->post('active',TRUE))
+			{
+				if ($this->getTime($this->input->post('start',TRUE)) < $this->getTime($this->input->post('end',TRUE))) {
+					$idinstitusi = $this->Agency_model->get_agency_edit($this->input->post('agensi',TRUE))->idinstitution;
+					$this->Agency_model->post_new_cekal($idinstitusi);
+					$this->session->set_flashdata('information', 'Data berhasil dimasukkan');
+					$this->data['list'] = $this->Agency_model->get_all_agency();
+					$this->data['listcekal'] = $this->Agency_model->get_agency(true);
+					$this->data['title'] = 'Cekal Agensi';
+					$this->data['subtitle'] = 'Cekal Agensi';
+					$this->data['subtitle2'] = 'Tabel Cekal Agensi';
+					$this->load->view('templates/headerpusat', $this->data);
+					$this->load->view('Pusat/CekalAgensi_view', $this->data);
+					$this->load->view('templates/footerpusat');
+				}
+				else {
+					$this->session->set_flashdata('information', 'Pastikan tanggal berakhir sesudah tanggal mulai!');
+					$this->data['list'] = $this->Agency_model->get_all_agency();
+					$this->data['listcekal'] = $this->Agency_model->get_agency(true);
+					$this->data['title'] = 'Cekal Agensi';
+					$this->data['subtitle'] = 'Cekal Agensi';
+					$this->data['subtitle2'] = 'Tabel Cekal Agensi';
+					$this->load->view('templates/headerpusat', $this->data);
+					$this->load->view('Pusat/CekalAgensi_view', $this->data);
+					$this->load->view('templates/footerpusat');
+				}
+			}
+			else {
+				$idinstitusi = $this->Agency_model->get_agency_edit($this->input->post('agensi',TRUE))->idinstitution;
+				$this->Agency_model->post_new_cekal($idinstitusi);
+				$this->session->set_flashdata('information', 'Data berhasil dimasukkan');
+				$this->data['list'] = $this->Agency_model->get_all_agency();
+				$this->data['listcekal'] = $this->Agency_model->get_agency(true);
+				$this->data['title'] = 'Cekal Agensi';
+				$this->data['subtitle'] = 'Cekal Agensi';
+				$this->data['subtitle2'] = 'Tabel Cekal Agensi';
+				$this->load->view('templates/headerpusat', $this->data);
+				$this->load->view('Pusat/CekalAgensi_view', $this->data);
+				$this->load->view('templates/footerpusat');
+			}
+		}
+	}
+
+	public function get_agency_institution()
+	{
+		$institution = $this->input->post('val');
+		$result = $this->Agency_model->get_all_agency($institution);
+		echo json_encode($result);
+	}
+
+	public function cekalpptkis()
+  {
+    $this->form_validation->set_rules('pptkis', 'PPTKIS', 'required|trim');
+    if ($this->form_validation->run() === FALSE)
+    {
+      $this->data['list'] = $this->Pptkis_model->get_all_pptkis();
+      $this->data['listcekal'] = $this->Pptkis_model->get_pptkis(true);
+      $this->data['title'] = 'Cekal PPTKIS';
+      $this->data['subtitle'] = 'Cekal PPTKIS';
+      $this->data['subtitle2'] = 'Tabel Cekal PPTKIS';
+			$this->load->view('templates/headerpusat', $this->data);
+			$this->load->view('Pusat/CekalPPTKIS_view', $this->data);
+			$this->load->view('templates/footerpusat');
+    }
+    else {
+      if($this->input->post('active',TRUE))
+      {
+        if ($this->getTime($this->input->post('start',TRUE)) < $this->getTime($this->input->post('end',TRUE))) {
+          $this->Pptkis_model->post_new_cekal();
+          $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
+          $this->data['list'] = $this->Pptkis_model->get_all_pptkis();
+          $this->data['listcekal'] = $this->Pptkis_model->get_pptkis(true);
+          $this->data['title'] = 'Cekal PPTKIS';
+          $this->data['subtitle'] = 'Cekal PPTKIS';
+          $this->data['subtitle2'] = 'Tabel Cekal PPTKIS';
+					$this->load->view('templates/headerpusat', $this->data);
+	        $this->load->view('Pusat/CekalPPTKIS_view', $this->data);
+	        $this->load->view('templates/footerpusat');
+        }
+        else {
+          $this->session->set_flashdata('information', 'Pastikan tanggal berakhir sesudah tanggal mulai!');
+          $this->data['list'] = $this->Pptkis_model->get_all_pptkis();
+          $this->data['listcekal'] = $this->Pptkis_model->get_pptkis(true);
+          $this->data['title'] = 'Cekal PPTKIS';
+          $this->data['subtitle'] = 'Cekal PPTKIS';
+          $this->data['subtitle2'] = 'Tabel Cekal PPTKIS';
+					$this->load->view('templates/headerpusat', $this->data);
+	        $this->load->view('Pusat/CekalPPTKIS_view', $this->data);
+	        $this->load->view('templates/footerpusat');
+        }
+     }
+     else {
+       $this->Pptkis_model->post_new_cekal();
+       $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
+       $this->data['list'] = $this->Pptkis_model->get_all_pptkis();
+       $this->data['listcekal'] = $this->Pptkis_model->get_pptkis(true);
+       $this->data['title'] = 'Cekal PPTKIS';
+       $this->data['subtitle'] = 'Cekal PPTKIS';
+       $this->data['subtitle2'] = 'Tabel Cekal PPTKIS';
+       $this->load->view('templates/headerpusat', $this->data);
+       $this->load->view('Pusat/CekalPPTKIS_view', $this->data);
+       $this->load->view('templates/footerpusat');
+     }
+   }
+ }
 }

@@ -17,7 +17,7 @@ class Pelaporan{
 
 	}
 
-	public function generateDetail($time,$status) {
+	public function generateDetail($time,$status,$idinstitution,$namainstitusi) {
 		$m_name = array('01' => 'JANUARI', '02' => 'FEBRUARI',
 			'03' => 'MARET','04' => 'APRIL','05' => 'MEI',
 			'06' => 'JUNI','07' => 'JULI','08' => 'AGUSTUS',
@@ -35,17 +35,17 @@ class Pelaporan{
 			$d 		  = $get_date[2];
 			$y 		  = $get_date[0];
 
-			$data = $this->CI->Rekap_model->get_detailrekap($m, $y, $status);
+			$data = $this->CI->Rekap_model->get_detailrekap($m, $y, $status, NULL, $idinstitution);
 
 			array_push($arr_data, $data);
 			array_push($arr_m, $m);
 			array_push($arr_y, $y);
 		}
 
-		$this->format_detailrekap($arr_data, $m_name, $arr_m, $arr_y, $status);
+		$this->format_detailrekap($arr_data, $m_name, $arr_m, $arr_y, $status, $namainstitusi);
 	}
 
-	private function format_detailrekap($data, $m_name, $month, $year, $status) {
+	private function format_detailrekap($data, $m_name, $month, $year, $status, $namainstitusi) {
 		$sjudul = array('1'=>'DalamProses','2'=>'Selesai','all'=>'All');
 		$m_statusmasalah = array('1'=>'Dalam Proses','2'=>'Selesai');
 		$maxm = 0;
@@ -165,7 +165,7 @@ class Pelaporan{
 		$objPHPExcel->getActiveSheet()->getPageSetup()->setFitToWidth(1);
 		$objPHPExcel->getActiveSheet()->getPageSetup()->setFitToHeight(0);
 
-		$fname = "rekap_Kasus_".$sjudul[$status]."_".$mjudul."_".$yjudul.".xlsx";
+		$fname = "rekap_Kasus_".$namainstitusi."_".$sjudul[$status]."_".$mjudul."_".$yjudul.".xlsx";
 		
 		// Redirect output to a client(Excel2007)
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -185,7 +185,7 @@ class Pelaporan{
 		exit;
 	}
 
-	public function generateBulananv2($time,$infos,$namainstitusi) {
+	public function generateBulananv2($time,$infos,$idinstitution,$namainstitusi) {
 		$m_name = array('01' => 'JANUARI', '02' => 'FEBRUARI',
 			'03' => 'MARET','04' => 'APRIL','05' => 'MEI',
 			'06' => 'JUNI','07' => 'JULI','08' => 'AGUSTUS',
@@ -224,21 +224,21 @@ class Pelaporan{
 
 				switch ($info) {
 					case 'jenis':							
-					list($namaperjenis,$hasilperjenis,$namaperklasifikasi,$hasilperklasifikasi) = $this->get_jenis_basedv2($m, $y);
+					list($namaperjenis,$hasilperjenis,$namaperklasifikasi,$hasilperklasifikasi) = $this->get_jenis_basedv2($m, $y,$idinstitution);
 					$objPHPExcel = $this->format_jenis_basedv2($objPHPExcel,$namainstitusi,
 						$namaperjenis,$hasilperjenis,$namaperklasifikasi,$hasilperklasifikasi,
 						$m_name, $m, $y);
 					break;
 
 					case 'sektor':
-					list($hasilpersektor,$namaperklasifikasi,$hasilperklasifikasi) = $this->get_sektor_basedv2($m,$y);
+					list($hasilpersektor,$namaperklasifikasi,$hasilperklasifikasi) = $this->get_sektor_basedv2($m,$y,$idinstitution);
 					$objPHPExcel = $this->format_sector_basedv2($objPHPExcel,$namainstitusi,
 						$hasilpersektor,$namaperklasifikasi,$hasilperklasifikasi,
 						$m_name, $m, $y);
 					break;
 
 					case 'status':
-					list($hasilperstatus,$namaperklasifikasi,$hasilperklasifikasi) = $this->get_status_basedv2($m,$y);
+					list($hasilperstatus,$namaperklasifikasi,$hasilperklasifikasi) = $this->get_status_basedv2($m,$y,$idinstitution);
 					$objPHPExcel = $this->format_status_basedv2($objPHPExcel,$namainstitusi,
 						$hasilperstatus,$namaperklasifikasi,$hasilperklasifikasi,
 						$m_name, $m, $y);
@@ -247,11 +247,11 @@ class Pelaporan{
 			}
 		}
 
-		$fname = "rekap_Bulan_".$mjudul."_".$yjudul.".xlsx";
+		$fname = "rekap_Bulan_".$namainstitusi."_".$mjudul."_".$yjudul.".xlsx";
 		$this->aggregate_rekap($objPHPExcel,$fname,FALSE);
 	}
 
-	private function get_jenis_basedv2($month,$year) {
+	private function get_jenis_basedv2($month,$year,$idinstitution) {
 		$get_jenis = $this->CI->Rekap_model->get_work_type();
 		$namaperjenis = array();
 		$hasilperjenis = array();
@@ -266,13 +266,13 @@ class Pelaporan{
 				$jumlah = $this->CI->Rekap_model
 				->count_based_typeclass($row_jenis->idjenispekerjaan,
 					$row_class->id,
-					$month,$year);
+					$month,$year,$idinstitution);
 				array_push($jumlah_pool, $jumlah);
 			}
 			
 			// Get all problem (process + finished), finished, processed
 			$jumlah_type_based = $this->CI->Rekap_model
-			->count_aggregate('m.idjenispekerjaan',$row_jenis->idjenispekerjaan,$month,$year);
+			->count_aggregate('m.idjenispekerjaan',$row_jenis->idjenispekerjaan,$month,$year,$idinstitution);
 			$result = array_merge($jumlah_pool, $jumlah_type_based);
 			array_push($namaperjenis, $row_jenis->namajenispekerjaan);
 			array_push($hasilperjenis, $result);
@@ -281,7 +281,7 @@ class Pelaporan{
 		// LOOPING BERDASARKAN KLASIFIKASI
 		foreach ($get_classification->result() as $row_class) {
 			$jumlah = $this->CI->Rekap_model
-			->count_aggregate('m.idklasifikasi',$row_class->id,$month,$year);
+			->count_aggregate('m.idklasifikasi',$row_class->id,$month,$year,$idinstitution);
 			array_push($namaperklasifikasi, $row_class->name);
 			array_push($hasilperklasifikasi, $jumlah);
 		}
@@ -289,7 +289,7 @@ class Pelaporan{
 		return array($namaperjenis,$hasilperjenis,$namaperklasifikasi,$hasilperklasifikasi);
 	}
 
-	private function get_sektor_basedv2($month,$year) {
+	private function get_sektor_basedv2($month,$year,$idinstitution) {
 		/*
 		 * 1. Informal
 		 * 2. Formal
@@ -303,13 +303,13 @@ class Pelaporan{
 			foreach ($get_classification->result() as $row_class) {
 				$jumlah = $this->CI->Rekap_model
 				->count_sector_based_class($sector,$row_class->id,
-					$month,$year);
+					$month,$year,$idinstitution);
 				array_push($jumlah_pool,$jumlah);
 			}
 			
 			// Get all problems (finished+processed), finished, processed
 			$jumlah_sektor_aggregate = $this->CI->Rekap_model
-			->count_aggregate('sektor',$sector,$month,$year);
+			->count_aggregate('sektor',$sector,$month,$year,$idinstitution);
 			$result = array_merge($jumlah_pool,$jumlah_sektor_aggregate);
 			array_push($hasilpersektor,$result);
 		}
@@ -318,7 +318,7 @@ class Pelaporan{
 		$namaperklasifikasi = array();
 		foreach ($get_classification->result() as $row_class) {
 			$jumlah = $this->CI->Rekap_model
-			->count_aggregate('m.idklasifikasi',$row_class->id,$month,$year);
+			->count_aggregate('m.idklasifikasi',$row_class->id,$month,$year,$idinstitution);
 			array_push($namaperklasifikasi, $row_class->name);
 			array_push($hasilperklasifikasi,$jumlah);
 		}
@@ -326,7 +326,7 @@ class Pelaporan{
 		return array($hasilpersektor,$namaperklasifikasi,$hasilperklasifikasi);
 	}
 
-	private function get_status_basedv2($month,$year) {
+	private function get_status_basedv2($month,$year,$idinstitution) {
 		/*
 		 * 1. Resmi
 		 * 2. Kaburan
@@ -339,12 +339,12 @@ class Pelaporan{
 			$jumlah_pool = array();
 			foreach ($get_classification->result() as $row_class) {
 				$jumlah = $this->CI->Rekap_model
-				->count_status_based_class($status,$row_class->id,$month,$year);
+				->count_status_based_class($status,$row_class->id,$month,$year,$idinstitution);
 				array_push($jumlah_pool,$jumlah);
 			}
 			
 			$jumlah_status_aggregate = $this->CI->Rekap_model
-			->count_aggregate('m.statustki',$status,$month,$year);
+			->count_aggregate('m.statustki',$status,$month,$year,$idinstitution);
 			$result = array_merge($jumlah_pool,$jumlah_status_aggregate);
 			array_push($hasilperstatus,$result);
 		}
@@ -353,7 +353,7 @@ class Pelaporan{
 		$namaperklasifikasi = array();
 		foreach ($get_classification->result() as $row_class) {
 			$jumlah = $this->CI->Rekap_model
-			->count_aggregate('m.idklasifikasi',$row_class->id,$month,$year);
+			->count_aggregate('m.idklasifikasi',$row_class->id,$month,$year,$idinstitution);
 			array_push($namaperklasifikasi, $row_class->name);
 			array_push($hasilperklasifikasi,$jumlah);
 		}
@@ -985,7 +985,7 @@ class Pelaporan{
 	// 	$this->aggregate_rekap($objPHPExcel,'Bulan', FALSE);
 	// }
 
-	public function generateTahunanv2($time,$lingkup,$list_shelter,$namainstitusi) {
+	public function generateTahunanv2($time,$lingkup,$list_shelter,$idinstitution,$namainstitusi) {
 		$m_name = array('01' => 'JANUARI', '02' => 'FEBRUARI',
 			'03' => 'MARET','04' => 'APRIL','05' => 'MEI',
 			'06' => 'JUNI','07' => 'JULI','08' => 'AGUSTUS',
@@ -1027,14 +1027,14 @@ class Pelaporan{
 
 				switch ($info) {
 					case 'jenis':
-						list($namapersubject,$hasilpersubject,$namaperklasifikasi,$hasilperklasifikasi) = $this->get_yeardata_bySubjectv2('jenis',$y,$lingkup);
+						list($namapersubject,$hasilpersubject,$namaperklasifikasi,$hasilperklasifikasi) = $this->get_yeardata_bySubjectv2('jenis',$y,$lingkup,$idinstitution);
 						$objPHPExcel = $this->format_yearrekap_dynamicv2('jenis',$objPHPExcel,$namainstitusi,
 							$hasilpersubject,$namapersubject,$hasilperklasifikasi,$namaperklasifikasi,
 							$m_name,$y, $namalingkup);						
 					break;
 
 					case 'sektor':
-						list($namapersubject,$hasilpersubject,$namaperklasifikasi,$hasilperklasifikasi) = $this->get_yeardata_bySubjectv2('sektor',$y,$lingkup);
+						list($namapersubject,$hasilpersubject,$namaperklasifikasi,$hasilperklasifikasi) = $this->get_yeardata_bySubjectv2('sektor',$y,$lingkup,$idinstitution);
 
 						$objPHPExcel = $this->format_yearrekap_dynamicv2('sektor',$objPHPExcel,$namainstitusi,
 							$hasilpersubject,$namapersubject,$hasilperklasifikasi,$namaperklasifikasi,
@@ -1042,7 +1042,7 @@ class Pelaporan{
 					break;
 
 					case 'status':
-						list($namapersubject,$hasilpersubject,$namaperklasifikasi,$hasilperklasifikasi) = $this->get_yeardata_bySubjectv2('status',$y,$lingkup);
+						list($namapersubject,$hasilpersubject,$namaperklasifikasi,$hasilperklasifikasi) = $this->get_yeardata_bySubjectv2('status',$y,$lingkup,$idinstitution);
 
 						$objPHPExcel = $this->format_yearrekap_dynamicv2('status',$objPHPExcel,$namainstitusi,
 							$hasilpersubject,$namapersubject,$hasilperklasifikasi,$namaperklasifikasi,
@@ -1050,7 +1050,7 @@ class Pelaporan{
 					break;
 
                     case 'tahunan':	//subject bulan
-	                    list($hasilpersubject,$namaperklasifikasi,$hasilperklasifikasi) = $this->get_yeardatav2($y, $lingkup);
+	                    list($hasilpersubject,$namaperklasifikasi,$hasilperklasifikasi) = $this->get_yeardatav2($y, $lingkup, $idinstitution);
 
 	                    $objPHPExcel = $this->format_yearrekapv2($objPHPExcel,$namainstitusi,
 	                    	$hasilpersubject,$hasilperklasifikasi,$namaperklasifikasi,
@@ -1060,11 +1060,11 @@ class Pelaporan{
             }	
         }
 
-        $fname = "rekap_Tahun_".$namalingkup."_".$yjudul.".xlsx";
+        $fname = "rekap_Tahun_".$namainstitusi."_".$namalingkup."_".$yjudul.".xlsx";
         $this->aggregate_rekap($objPHPExcel,$fname,FALSE);	
     }
 
-    private function get_yeardata_bySubjectv2($subject,$year,$lingkup=null){		
+    private function get_yeardata_bySubjectv2($subject,$year,$lingkup=null,$idinstitution){		
 		// Get per classification
     	$get_class = $this->CI->Rekap_model->get_classification()->result_array();
     	$size_class = count($get_class);
@@ -1087,21 +1087,21 @@ class Pelaporan{
 			// data per baris
 			for($j=0;$j<$size_class;$j++){
 				if($subject=='jenis') {
-					$cnt = $this->CI->Rekap_model->get_year_dynamic_array(array(
+					$cnt = $this->CI->Rekap_model->get_year_dynamic_array($idinstitution,array(
 						"work"=>$get_subject[$i]['idjenispekerjaan'],
 						"class"=>$get_class[$j]['id'],
 						"lingkup"=>$lingkup
 						), NULL, $year);
 				}
 				if($subject=='sektor') {
-					$cnt = $this->CI->Rekap_model->get_year_dynamic_array(array(
+					$cnt = $this->CI->Rekap_model->get_year_dynamic_array($idinstitution,array(
 						"sector"=>$get_subject[$i],
 						"class"=>$get_class[$j]['id'],
 						"lingkup"=>$lingkup
 						), NULL, $year);
 				}
 				if($subject=='status') {
-					$cnt = $this->CI->Rekap_model->get_year_dynamic_array(array(
+					$cnt = $this->CI->Rekap_model->get_year_dynamic_array($idinstitution,array(
 						"statustki"=>$get_subject[$i],
 						"class"=>$get_class[$j]['id'],
 						"lingkup"=>$lingkup
@@ -1112,19 +1112,19 @@ class Pelaporan{
 			}
 			// statistik
 			if($subject=='jenis') {
-				$tmparray = $this->CI->Rekap_model->get_year_dynamic_array(array(
+				$tmparray = $this->CI->Rekap_model->get_year_dynamic_array($idinstitution,array(
 					"work"=>$get_subject[$i]['idjenispekerjaan'],
 					"lingkup"=>$lingkup
 					), NULL, $year, TRUE);
 			}
 			if($subject=='sektor') {
-				$tmparray = $this->CI->Rekap_model->get_year_dynamic_array(array(
+				$tmparray = $this->CI->Rekap_model->get_year_dynamic_array($idinstitution,array(
 					"sector"=>$get_subject[$i],
 					"lingkup"=>$lingkup
 					), NULL, $year, TRUE);
 			}
 			if($subject=='status') {
-				$tmparray = $this->CI->Rekap_model->get_year_dynamic_array(array(
+				$tmparray = $this->CI->Rekap_model->get_year_dynamic_array($idinstitution,array(
 					"statustki"=>$get_subject[$i],
 					"lingkup"=>$lingkup
 					), NULL, $year, TRUE);
@@ -1141,7 +1141,7 @@ class Pelaporan{
 		$hasilperklasifikasi = array();
 		$namaperklasifikasi = array();
 		for($j=0;$j<$size_class;$j++){
-			$cnt = $this->CI->Rekap_model->get_year_dynamic_array(array( "class"=> $get_class[$j]['id'], "lingkup"=>$lingkup), NULL, $year, TRUE);
+			$cnt = $this->CI->Rekap_model->get_year_dynamic_array($idinstitution,array( "class"=> $get_class[$j]['id'], "lingkup"=>$lingkup), NULL, $year, TRUE);
 			array_push($hasilperklasifikasi,$cnt);
 			array_push($namaperklasifikasi,$get_class[$j]['name']);
 		}
@@ -1149,7 +1149,7 @@ class Pelaporan{
 		return array($namapersubject,$hasilpersubject,$namaperklasifikasi,$hasilperklasifikasi);
 	}
 
-	private function get_yeardatav2($year,$lingkup=null){
+	private function get_yeardatav2($year,$lingkup=null,$idinstitution){
     	$month = range(1,12);
 
 		// Get per classification
@@ -1158,12 +1158,12 @@ class Pelaporan{
     	for($i=0;$i<count($month);$i++) {
     		$jumlah_pool = array();
     		foreach ($get_classification->result() as $row_class) {
-    			$jumlah = $this->CI->Rekap_model->get_yearrekap($row_class->id,$month[$i],$year,$lingkup);
+    			$jumlah = $this->CI->Rekap_model->get_yearrekap($row_class->id,$month[$i],$year,$lingkup,$idinstitution);
     			array_push($jumlah_pool,$jumlah);
     		}
 
 			// Get per month
-    		$jumlah_month = $this->CI->Rekap_model->get_yearrekap_permonth($month[$i], $year,$lingkup);
+    		$jumlah_month = $this->CI->Rekap_model->get_yearrekap_permonth($month[$i], $year,$lingkup,$idinstitution);
     		$result = array_merge($jumlah_pool,$jumlah_month);
     		array_push($hasilpermonth,$result);
     	}
@@ -1171,7 +1171,7 @@ class Pelaporan{
     	$hasilperklasifikasi = array();
     	$namaperklasifikasi = array();
     	foreach ($get_classification->result() as $row_class) {
-    		$jumlah = $this->CI->Rekap_model->get_yearrekap_based_class($row_class->id,$year,$lingkup);
+    		$jumlah = $this->CI->Rekap_model->get_yearrekap_based_class($row_class->id,$year,$lingkup,$idinstitution);
     		array_push($hasilperklasifikasi,$jumlah);
     		array_push($namaperklasifikasi,$row_class->name);
     	}
@@ -1608,7 +1608,7 @@ class Pelaporan{
  //    }
     
     
-    public function generateUang($time,$namainstitusi,$currency) {
+    public function generateUang($time,$idinstitution,$namainstitusi,$currency) {
     	$m_name = array('01' => 'JANUARI', '02' => 'FEBRUARI',
 			'03' => 'MARET','04' => 'APRIL','05' => 'MEI',
 			'06' => 'JUNI','07' => 'JULI','08' => 'AGUSTUS',
@@ -1634,16 +1634,16 @@ class Pelaporan{
     		}
 
     		$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker-atase/assets/template/RekapUang.xlsx');
-    		list($totaluang,$uangbulanan) = $this->get_money($y);
+    		list($totaluang,$uangbulanan) = $this->get_money($y,$idinstitution);
 
     		$objPHPExcel = $this->format_money($namainstitusi,$objPHPExcel,$objPHPtemplate,$m_name,$totaluang,$uangbulanan,$y,$currency);	
     	}
 
-    	$fname = "rekap_Uang_".$yjudul.".xlsx";
+    	$fname = "rekap_Uang_".$namainstitusi."_".$yjudul.".xlsx";
     	$this->aggregate_rekap($objPHPExcel,$fname,TRUE);
     }
 
-    private function get_money($year){
+    private function get_money($year,$idinstitution){
     	$this->CI->load->model('Perlindungan/Perlindungan_model');
     	$month = range(1,12);
     	$nm_month = array(1=>'Jan', '2'=> 'Feb', '3' => 'Mar', 4 => 'Apr',
@@ -1654,7 +1654,7 @@ class Pelaporan{
     	$month_money   = array();
 
     	for($i=0;$i<count($month);$i++){
-    		$mon_money = $this->CI->Perlindungan_model->get_total_money($month[$i],$year);
+    		$mon_money = $this->CI->Perlindungan_model->get_total_money($month[$i],$year,$idinstitution);
     		$uang = $mon_money->row_array();
     		if ($uang['uang'] == ''){
     			$uang['uang'] = '0';
@@ -1666,7 +1666,7 @@ class Pelaporan{
     			);
     		array_push($month_money,$temp_money);
     	}
-    	$year_money = $this->CI->Perlindungan_model->get_total_money_year($year);
+    	$year_money = $this->CI->Perlindungan_model->get_total_money_year($year,$idinstitution);
     	$year_total_money   = $year_money->row_array();
 
     	return array($year_total_money['uang'],$month_money);		
@@ -1752,7 +1752,7 @@ class Pelaporan{
 		return $phpexcelpool;
 	}
 
-    public function generateKelasv2($time,$katg,$namainstitusi) {
+    public function generateKelasv2($time,$katg,$idinstitution,$namainstitusi) {
     	$m_name = array('01' => 'JANUARI', '02' => 'FEBRUARI',
 			'03' => 'MARET','04' => 'APRIL','05' => 'MEI',
 			'06' => 'JUNI','07' => 'JULI','08' => 'AGUSTUS',
@@ -1784,39 +1784,39 @@ class Pelaporan{
     		}
 
 			//// STATISTIK	
-    		$katDetail = $this->get_yeardata_Categoryv2($klasKategori,$y);				
-    		$katStatistik = $this->get_yearstatistik_Categoryv2($klasKategori,$y);				
+    		$katDetail = $this->get_yeardata_Categoryv2($klasKategori,$y,$idinstitution);				
+    		$katStatistik = $this->get_yearstatistik_Categoryv2($klasKategori,$y,$idinstitution);				
     		$data = array($katDetail,$katStatistik);					
     		$objPHPExcel = $this->format_emptyv2($objPHPExcel,$m_name,$namainstitusi,$data,$y,$katg);
 
 			//// Detail
 			$objPHPtemplate = $objReader->load($this->CI->input->server('DOCUMENT_ROOT').'/sisnaker-atase/assets/template/DetailKategori.xlsx');
-    		$katDetail = $this->get_detail_Categoryv2($klasKategori,$y);
+    		$katDetail = $this->get_detail_Categoryv2($klasKategori,$y,$idinstitution);
     		$objPHPExcel = $this->format_emptyDetail($objPHPExcel,$objPHPtemplate,$katDetail,$y,$katg);
     	}
 
-    	$fname = "rekap_".$katg."_".$yjudul.".xlsx";
+    	$fname = "rekap_".$katg."_".$namainstitusi."_".$yjudul.".xlsx";
     	$this->aggregate_rekap($objPHPExcel,$fname,FALSE);
     }
 
-    private function get_yeardata_Categoryv2($klasKategori,$year){
+    private function get_yeardata_Categoryv2($klasKategori,$year,$idinstitution){
 		$month = range(1,12);
 		$formal = array();
 		$informal = array();
 		
 		for($i=1;$i<=count($month);$i++){
 			/// formal
-			$data = $this->CI->Rekap_model->count_split_class(2,$klasKategori,$i,$year);
+			$data = $this->CI->Rekap_model->count_split_class(2,$klasKategori,$i,$year,$idinstitution);
 			array_push($formal,$data);
 			/// informal
-			$data = $this->CI->Rekap_model->count_split_class(1,$klasKategori,$i,$year);
+			$data = $this->CI->Rekap_model->count_split_class(1,$klasKategori,$i,$year,$idinstitution);
 			array_push($informal,$data);
 		}
 		
 		return array($formal,$informal);		
 	}
 	
-	private function get_yearstatistik_Categoryv2($klasKategori,$year){
+	private function get_yearstatistik_Categoryv2($klasKategori,$year,$idinstitution){
 		$month = range(1,12);
 		$monthly = array();
 		$sectorclass = array();
@@ -1826,7 +1826,7 @@ class Pelaporan{
 		for($i=0;$i<count($month);$i++){
 			$data = array(0,0,0);
 			foreach($klasKategori as $jenisKat){
-				$tmp = $this->CI->Rekap_model->get_year_dynamic(NULL,$jenisKat,NULL,NULL,$month[$i],$year,TRUE);
+				$tmp = $this->CI->Rekap_model->get_year_dynamic(NULL,$jenisKat,NULL,NULL,$month[$i],$year,TRUE,$idinstitution);
 				$data = array_map($sumcallback,$data,$tmp);
 			}
 			array_push($monthly,$data);
@@ -1836,7 +1836,7 @@ class Pelaporan{
 		for($i=2;$i>0;$i--){
 			//class
 			foreach($klasKategori as $jenisKat){
-				$data = $this->CI->Rekap_model->get_year_dynamic(NULL,$jenisKat,$i,NULL,NULL,$year,TRUE);
+				$data = $this->CI->Rekap_model->get_year_dynamic(NULL,$jenisKat,$i,NULL,NULL,$year,TRUE,$idinstitution);
 				array_push($sectorclass,$data);
 			}
 		}
@@ -1844,8 +1844,8 @@ class Pelaporan{
 		return array($monthly,$sectorclass);		
 	}
 
-	private function get_detail_Categoryv2($klasKategori,$year){
-		$data = $this->CI->Rekap_model->getCategoryDetail($klasKategori,$year);
+	private function get_detail_Categoryv2($klasKategori,$year,$idinstitution){
+		$data = $this->CI->Rekap_model->getCategoryDetail($klasKategori,$year,$idinstitution);
 		return $data;
 	}
 

@@ -5,31 +5,20 @@ class Rekap_model extends CI_Model {
 		parent::__construct();
 	}
 	
-	function getCategoryDetail($idClass,$year){
-		
-		/// multi jenis OR
-		$qcmd = "";
-		if(count($idClass)>1){
-			for($i=0;$i<count($idClass);$i++){
-				if($i==0){
-					$qcmd = "m.idklasifikasi=".intval($idClass[$i]);
-				}
-				else{
-					$qcmd = $qcmd." OR m.idklasifikasi=".intval($idClass[$i]);
-				}
-			}
-		}
-		else{
-			$qcmd = "m.idklasifikasi=".intval($idClass);
-		}
-		
-		/// query cmd
-		$final = "SELECT m.idmasalah, t.namatki, t.paspor, m.statustki, m.agensi, m.pptkis, m.permasalahan, m.statusmasalah, m.tanggalpenyelesaian, u.name as nama, j.namajenispekerjaan as jenis"
-		." FROM masalah m JOIN tkimasalah t ON m.idmasalah = t.idmasalah LEFT JOIN user u ON u.username = m.petugaspenanganan "
-		." JOIN jenispekerjaan j ON m.idjenispekerjaan = j.idjenispekerjaan"
-		." WHERE (".$qcmd.")"
-		." AND YEAR(m.tanggalpengaduan)=".$year." ORDER BY m.statusmasalah DESC, t.namatki ASC";
-		$final = $this->db->query($final)->result_array();
+	function getCategoryDetail($idClass,$year,$idinstitution){
+		$this->db->select('m.idmasalah, t.namatki, t.paspor, m.statustki, m.agensi, m.pptkis, m.permasalahan, m.statusmasalah, m.tanggalpenyelesaian, u.name AS nama, j.namajenispekerjaan as jenis');
+		$this->db->from('masalah m, tkimasalah t, user u, jenispekerjaan j');
+		$this->db->where('m.idmasalah = t.idmasalah');
+		$this->db->where('u.username = m.petugaspenanganan');
+		$this->db->where('j.idjenispekerjaan = m.idjenispekerjaan');
+		$this->db->where_in('m.idklasifikasi',$idClass);
+		$this->db->where('m.idinstitution',$idinstitution);
+		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
+		$this->db->order_by('m.statusmasalah','DESC');
+		$this->db->order_by('t.namatki','ASC');
+
+		$query = $this->db->get();
+		$final = $query->result_array();
 		
 		////////////////
 		for($i=0;$i<count($final);$i++){
@@ -59,7 +48,7 @@ class Rekap_model extends CI_Model {
 		else return null;
 	}
 	
-	function get_detailrekap($month=NULL, $year, $status, $kelas=NULL) {
+	function get_detailrekap($month=NULL, $year, $status, $kelas=NULL, $idinstitution) {
 		$this->db->select('m.idmasalah, t.namatki, t.paspor, m.pptkis, m.agensi, m.permasalahan');
 		$this->db->select('u.name AS nama, m.statusmasalah, me.name AS media');
 		$this->db->from('masalah m, tkimasalah t, user u, media me, klasifikasi k');
@@ -67,6 +56,7 @@ class Rekap_model extends CI_Model {
 		$this->db->where('u.username  = m.petugaspenanganan');
 		$this->db->where('me.id  = m.idmedia');
 		$this->db->where('k.id = m.idklasifikasi');
+		$this->db->where('m.idinstitution',$idinstitution);
 		
 		if(!is_null($kelas)){			
 			$this->db->like('k.name AS klasifikasi',$kelas,'after');
@@ -111,7 +101,7 @@ class Rekap_model extends CI_Model {
 		return $query;
 	}
 	
-	function count_based_typeclass($type, $class, $month, $year) {
+	function count_based_typeclass($type, $class, $month, $year, $idinstitution) {
 		$this->db->select('*');
 		$this->db->from('masalah m');
 		$this->db->where('m.idjenispekerjaan',$type);
@@ -119,12 +109,13 @@ class Rekap_model extends CI_Model {
 		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		$this->db->where('m.enable', 1);
+		$this->db->where('m.idinstitution',$idinstitution);
 		$jumlah = $this->db->count_all_results();
 		
 		return $jumlah;		
 	}
 
-	function count_aggregate($field,$field_val,$month,$year) {
+	function count_aggregate($field,$field_val,$month,$year,$idinstitution) {
 		$this->db->start_cache();
 		$this->db->select('*');
 		$this->db->from('masalah m');
@@ -133,6 +124,7 @@ class Rekap_model extends CI_Model {
 		}
 		$this->db->where($field,$field_val);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
+		$this->db->where('m.idinstitution',$idinstitution);
 		$this->db->where('m.enable', 1);
 		$this->db->stop_cache();
 		
@@ -177,7 +169,7 @@ class Rekap_model extends CI_Model {
 		return array($all1, $all2, $all3, $fin1, $fin2, $fin3, $pro1, $pro2, $pro3);
 	}
 
-	function count_sector_based_class($sector,$class,$month,$year) {
+	function count_sector_based_class($sector,$class,$month,$year,$idinstitution) {
 		$this->db->select('*');
 		$this->db->from('masalah m');
 		$this->db->join('jenispekerjaan j', 'j.idjenispekerjaan=m.idjenispekerjaan', 'left');
@@ -186,12 +178,13 @@ class Rekap_model extends CI_Model {
 		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		$this->db->where('m.enable', 1);
+		$this->db->where('m.idinstitution',$idinstitution);
 		$jumlah = $this->db->count_all_results();
 				
 		return $jumlah;
 	}
 	
-	function count_split_class($sector,$class,$month,$year) {
+	function count_split_class($sector,$class,$month,$year,$idinstitution) {
 		$this->db->start_cache();
 		$this->db->select('*');
 		$this->db->from('masalah m');
@@ -200,6 +193,7 @@ class Rekap_model extends CI_Model {
 		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		$this->db->where('m.enable', 1);
+		$this->db->where('m.idinstitution',$idinstitution);
 		$this->db->stop_cache();
 		
 		$jumlah = array();
@@ -213,7 +207,7 @@ class Rekap_model extends CI_Model {
 		return $jumlah;
 	}
 	
-	function count_status_based_class($status,$class,$month,$year) {
+	function count_status_based_class($status,$class,$month,$year,$idinstitution) {
 		$this->db->select('*');
 		$this->db->from('masalah m');
 		$this->db->where('m.idklasifikasi',$class);
@@ -221,12 +215,13 @@ class Rekap_model extends CI_Model {
 		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		$this->db->where('m.enable', 1);
+		$this->db->where('m.idinstitution',$idinstitution);
 		$jumlah = $this->db->count_all_results();
 		
 		return $jumlah;
 	}
 	
-	function get_yearrekap($class,$month, $year,$lingkup=null){
+	function get_yearrekap($class,$month, $year,$lingkup=null,$idinstitution){
 		$this->db->select('*');
 		$this->db->from('masalah m');
 		$this->db->where('m.idklasifikasi',$class);
@@ -234,13 +229,14 @@ class Rekap_model extends CI_Model {
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		if(!is_null($lingkup)) $this->db->where('idshelter',$lingkup);
 		$this->db->where('m.enable', 1);
+		$this->db->where('m.idinstitution',$idinstitution);
 		
 		$jumlah = $this->db->count_all_results();
 		
 		return $jumlah;		
 	}
 	
-	function get_yearrekap_permonth($month, $year,$lingkup=null){
+	function get_yearrekap_permonth($month, $year,$lingkup=null,$idinstitution){
 		$this->db->start_cache();
 
 		$this->db->select('*');
@@ -249,6 +245,7 @@ class Rekap_model extends CI_Model {
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		if(!is_null($lingkup)) $this->db->where('idshelter',$lingkup);
 		$this->db->where('m.enable', 1);
+		$this->db->where('m.idinstitution',$idinstitution);
 		
 		$this->db->stop_cache();
 		
@@ -268,7 +265,7 @@ class Rekap_model extends CI_Model {
 		return array($all,$fin,$pro);
 	}
 	
-	function get_yearrekap_based_class($class,$year,$lingkup=null){
+	function get_yearrekap_based_class($class,$year,$lingkup=null,$idinstitution){
 		$this->db->start_cache();
 
 		$this->db->select('*');
@@ -277,6 +274,7 @@ class Rekap_model extends CI_Model {
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		if(!is_null($lingkup)) $this->db->where('idshelter',$lingkup);
 		$this->db->where('m.enable', 1);
+		$this->db->where('m.idinstitution',$idinstitution);
 		
 		$this->db->stop_cache();
 		
@@ -296,7 +294,7 @@ class Rekap_model extends CI_Model {
 		return array($all,$fin,$pro);
 	}
 	
-	function get_year_dynamic($work=NULL,$class=NULL,$sector=NULL,$statustki=NULL, $month=NULL, $year,$complete=FALSE){
+	function get_year_dynamic($work=NULL,$class=NULL,$sector=NULL,$statustki=NULL, $month=NULL, $year,$complete=FALSE,$idinstitution){
 		/// if complete --> all, pro, fin
 		if($complete) $this->db->start_cache();
 		
@@ -310,6 +308,7 @@ class Rekap_model extends CI_Model {
 		if(!is_null($month)) $this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		$this->db->where('m.enable', 1);
+		$this->db->where('m.idinstitution',$idinstitution);
 		
 		/// if complete --> all, pro, fin
 		if($complete){
@@ -331,7 +330,7 @@ class Rekap_model extends CI_Model {
 		else return $this->db->count_all_results();
 	}
 	
-	function get_year_dynamic_array($param,$month=null,$year,$complete=FALSE){
+	function get_year_dynamic_array($idinstitution,$param,$month=null,$year,$complete=FALSE){
 		/// if complete --> all, pro, fin
 		if($complete) $this->db->start_cache();
 		
@@ -346,6 +345,7 @@ class Rekap_model extends CI_Model {
 		if(!is_null($month)) 			$this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		$this->db->where('m.enable', 1);
+		$this->db->where('m.idinstitution',$idinstitution);
 		
 		/// if complete --> all, pro, fin
 		if($complete){

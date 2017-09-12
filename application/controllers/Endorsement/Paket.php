@@ -23,18 +23,20 @@ class Paket extends MY_Controller {
 
   public function index()
   {
-    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2 || $this->session->userdata('role') == 4)
-    {
-      $this->data['title'] = 'Paket PK';
-      $this->data['subtitle'] = 'View Quota';
-      $this->load->view('templates/headerendorsement', $this->data);
-      $this->load->view('Endorsement/RekapPaketJO_view');
-      $this->load->view('templates/footerendorsement');
-    }
-    else
+    if (!($this->session->userdata('role') <= 2 || $this->session->userdata('role') == 4 || $this->session->userdata('role') == 5))
     {
       show_error("Access is forbidden.",403,"403 Forbidden");
     }
+
+    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 5) {
+      $this->data['listinstitusi'] = $this->Institution_model->list_active_institution();
+    }
+
+    $this->data['title'] = 'Paket PK';
+    $this->data['subtitle'] = 'View Quota';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/RekapPaketJO_view');
+    $this->load->view('templates/footerendorsement');
   }
 
   public function add()
@@ -55,6 +57,8 @@ class Paket extends MY_Controller {
 
   public function listAgensi()
   {
+    $idinstitution = $this->input->post('idinstitution', TRUE);
+
     $page = $this->input->post('page', TRUE); // get the requested page
     $limit = $this->input->post('rows', TRUE); // get how many rows we want to have into the grid
     $sidx = $this->input->post('sidx', TRUE); // get index row - i.e. user click to sort
@@ -71,8 +75,6 @@ class Paket extends MY_Controller {
     if($totalrows) {
       $limit = $totalrows;
     }
-
-    $idinstitution = $this->session->userdata('institution');
 
     $count = $this->Paket_model->countAgensi($idinstitution,$wh)->count;
 

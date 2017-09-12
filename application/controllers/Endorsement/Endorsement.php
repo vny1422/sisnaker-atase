@@ -59,7 +59,7 @@ class Endorsement extends MY_Controller {
     foreach ($year_jk as $jk) {
       $total_year_jk += $jk->total;
     }
-
+    //
     $month_jk = $this->Endorsement_model->get_jk_this_month($year,$month);
     $total_month_jk = 0;
     foreach ($month_jk as $jk) {
@@ -231,19 +231,17 @@ class Endorsement extends MY_Controller {
 
   public function checkBarcode()
   {
-    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2)
-    {
-      $this->data['title'] = 'Endorsement';
-      $this->data['subtitle'] = 'Check Barcode';
-      $this->data['subtitle2'] = 'Check Barcode';
-      $this->load->view('templates/headerendorsement', $this->data);
-      $this->load->view('Endorsement/CheckBarcode_view', $this->data);
-      $this->load->view('templates/footerendorsement');
-    }
-    else
+    if (!($this->session->userdata('role') <= 2 || $this->session->userdata('role') == 5))
     {
       show_error("Access is forbidden.",403,"403 Forbidden");
     }
+    
+    $this->data['title'] = 'Endorsement';
+    $this->data['subtitle'] = 'Check Barcode';
+    $this->data['subtitle2'] = 'Check Barcode';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/CheckBarcode_view', $this->data);
+    $this->load->view('templates/footerendorsement');
   }
 
 

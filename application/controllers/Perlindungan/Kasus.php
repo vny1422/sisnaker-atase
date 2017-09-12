@@ -61,7 +61,7 @@ class Kasus extends MY_Controller {
 
   public function search()
   {
-    if ($this->session->userdata('role') > 3)
+    if (!($this->session->userdata('role') <= 3 || $this->session->userdata('role') == 5))
     {
       show_error("Access is forbidden.",403,"403 Forbidden");
     }
@@ -85,9 +85,14 @@ class Kasus extends MY_Controller {
 
     $from = $input['from'];
     $to = $input['to'];
+    $idinstitution = $input['idinstitution'];
 
-    $data = $this->Kasus_model->timespan_search($from, $to);
-
+    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 5) {
+      $data = $this->Kasus_model->timespan_search($from, $to);
+    } else {
+      $data = $this->Kasus_model->timespan_search($from, $to, $idinstitution);
+    }
+    
     echo json_encode($data);
   }
 

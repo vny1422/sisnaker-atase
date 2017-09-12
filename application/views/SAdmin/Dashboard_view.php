@@ -168,8 +168,8 @@
                                     <img class="img-circle" alt="" style="width:65px;height:65px" src="<?php echo ($officerpicture[$username] != "" ? base_url('assets/images/'.$officerpicture[$username]) : base_url('assets/images/user.png')); ?>">
                                   </div>
                                   <div class="col-xs-9 text-right">
-                                    <div class="huge"><?php echo number_format($performance[$username][1],1,".",",") ?>%</div>
-                                    <div><?php echo $officer ?></div>
+                                    <div class="huge"> <h1><?php echo number_format($performance[$username][1],1,".",",") ?>%</h1></div>
+                                    <div><b><?php echo $officer ?></b></div>
                                   </div>
                                 </div>
                               </div>
@@ -775,7 +775,7 @@
         $("#sumsekbulan").html(data[6]);
 
         var datajktahun = [];
-        for (i = 0; i < data[1].length; i++) { 
+        for (i = 0; i < data[1].length; i++) {
           datajktahun.push({label: data[1][i].tkjk, value: data[1][i].total, total: data[0]});
         }
         if (datajktahun.length == 0) {
@@ -799,7 +799,7 @@
         jktahun.redraw();
 
         var datajkbulan = [];
-        for (i = 0; i < data[3].length; i++) { 
+        for (i = 0; i < data[3].length; i++) {
           datajkbulan.push({label: data[3][i].tkjk, value: data[3][i].total, total: data[2]});
         }
         if (datajkbulan.length == 0) {
@@ -823,7 +823,7 @@
         jkbulan.redraw();
 
         var datasektortahun = [];
-        for (i = 0; i < data[5].length; i++) { 
+        for (i = 0; i < data[5].length; i++) {
           if (data[5][i].sektor == '1') {
             datasektortahun.push({label: 'Informal', value: data[5][i].total, total: data[4]});
           } else if (data[5][i].sektor == '2') {
@@ -851,7 +851,7 @@
         sektortahun.redraw();
 
         var datasektorbulan = [];
-        for (i = 0; i < data[7].length; i++) { 
+        for (i = 0; i < data[7].length; i++) {
           if (data[7][i].sektor == '1') {
             datasektorbulan.push({label: 'Informal', value: data[7][i].total, total: data[6]});
           } else if (data[7][i].sektor == '2') {
@@ -934,7 +934,7 @@
           $("#sumsekbulan").html(data[6]);
 
           var datajktahun = [];
-          for (i = 0; i < data[1].length; i++) { 
+          for (i = 0; i < data[1].length; i++) {
             datajktahun.push({label: data[1][i].tkjk, value: data[1][i].total, total: data[0]});
           }
           if (datajktahun.length == 0) {
@@ -951,7 +951,7 @@
           jktahun.setData(datajktahun);
 
           var datajkbulan = [];
-          for (i = 0; i < data[3].length; i++) { 
+          for (i = 0; i < data[3].length; i++) {
             datajkbulan.push({label: data[3][i].tkjk, value: data[3][i].total, total: data[2]});
           }
           if (datajkbulan.length == 0) {
@@ -968,7 +968,7 @@
           jkbulan.setData(datajkbulan);
 
           var datasektortahun = [];
-          for (i = 0; i < data[5].length; i++) { 
+          for (i = 0; i < data[5].length; i++) {
             if (data[5][i].sektor == '1') {
               datasektortahun.push({label: 'Informal', value: data[5][i].total, total: data[4]});
             } else if (data[5][i].sektor == '2') {
@@ -989,7 +989,7 @@
           sektortahun.setData(datasektortahun);
 
           var datasektorbulan = [];
-          for (i = 0; i < data[7].length; i++) { 
+          for (i = 0; i < data[7].length; i++) {
             if (data[7][i].sektor == '1') {
               datasektorbulan.push({label: 'Informal', value: data[7][i].total, total: data[6]});
             } else if (data[7][i].sektor == '2') {
@@ -1038,7 +1038,7 @@
           $("#sumsekbulan").html(data[6]);
 
           var datajkbulan = [];
-          for (i = 0; i < data[3].length; i++) { 
+          for (i = 0; i < data[3].length; i++) {
             datajkbulan.push({label: data[3][i].tkjk, value: data[3][i].total, total: data[2]});
           }
           if (datajkbulan.length == 0) {
@@ -1055,7 +1055,7 @@
           jkbulan.setData(datajkbulan);
 
           var datasektorbulan = [];
-          for (i = 0; i < data[7].length; i++) { 
+          for (i = 0; i < data[7].length; i++) {
             if (data[7][i].sektor == '1') {
               datasektorbulan.push({label: 'Informal', value: data[7][i].total, total: data[6]});
             } else if (data[7][i].sektor == '2') {

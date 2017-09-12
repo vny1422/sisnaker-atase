@@ -35,6 +35,10 @@ class Login extends CI_Controller {
 			{
 				redirect('pusat');
 			}
+			else if($this->session->userdata('role') == 6)
+			{
+				redirect('endorsement');
+			}
 		}
 
 		$this->form_validation->set_rules('username', 'Username', 'required|trim');
@@ -65,6 +69,10 @@ class Login extends CI_Controller {
 			else if($this->session->userdata('role') == 5)
 			{
 				redirect('pusat');
+			}
+			else if($this->session->userdata('role') == 6)
+			{
+				redirect('endorsement');
 			}
 		}
 	}

@@ -11,7 +11,9 @@ class Paket_model extends CI_Model {
             $sql = "SELECT * FROM magensi WHERE idinstitution = ".$idinstitution." AND agid not in (select distinct agid_kembar as agid from agensi_merge_map) AND agid not in (select c.agid from cekalagensi c where c.enable=1 AND (c.caend IS NULL OR c.caend >= NOW()))".$wh." ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
         } else if ($this->session->userdata('role') == 4) {
             $sql = "SELECT * FROM magensi WHERE idinstitution = ".$idinstitution." AND username = '".$this->session->userdata('user')."' AND agid not in (select distinct agid_kembar as agid from agensi_merge_map) AND agid not in (select c.agid from cekalagensi c where c.enable=1 AND (c.caend IS NULL OR c.caend >= NOW()))".$wh." ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
-        }
+        } else if ($this->session->userdata('role') == 6) {
+						$sql = "SELECT * FROM magensi WHERE idinstitution = ".$idinstitution." AND agid not in (select distinct agid_kembar as agid from agensi_merge_map) AND agid not in (select c.agid from cekalagensi c where c.enable=1 AND (c.caend IS NULL OR c.caend >= NOW()))".$wh." ORDER BY ".$sidx." ".$sord." LIMIT ".$start.",".$limit;
+				}
 
         $query = $this->db->query($sql);
 
@@ -26,7 +28,9 @@ class Paket_model extends CI_Model {
             $sql = "SELECT COUNT(*) as count FROM magensi WHERE idinstitution = ".$idinstitution." AND agid not in (select distinct agid_kembar as agid from agensi_merge_map) AND agid not in (select c.agid from cekalagensi c where c.enable=1 AND (c.caend IS NULL OR c.caend >= NOW()))".$wh;
         } else if ($this->session->userdata('role') == 4) {
             $sql = "SELECT COUNT(*) as count FROM magensi WHERE idinstitution = ".$idinstitution." AND username = '".$this->session->userdata('user')."' AND agid not in (select distinct agid_kembar as agid from agensi_merge_map) AND agid not in (select c.agid from cekalagensi c where c.enable=1 AND (c.caend IS NULL OR c.caend >= NOW()))".$wh;
-        }
+        } else if ($this->session->userdata('role') == 6) {
+						$sql = "SELECT COUNT(*) as count FROM magensi WHERE idinstitution = ".$idinstitution." AND agid not in (select distinct agid_kembar as agid from agensi_merge_map) AND agid not in (select c.agid from cekalagensi c where c.enable=1 AND (c.caend IS NULL OR c.caend >= NOW()))".$wh;
+				}
 
         $query = $this->db->query($sql);
 

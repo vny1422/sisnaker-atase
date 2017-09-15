@@ -231,7 +231,7 @@ class Endorsement extends MY_Controller {
 
   public function checkBarcode()
   {
-    if (!($this->session->userdata('role') <= 2 || $this->session->userdata('role') == 5))
+    if (!($this->session->userdata('role') <= 2 || $this->session->userdata('role') == 5 || $this->session->userdata('role') == 6))
     {
       show_error("Access is forbidden.",403,"403 Forbidden");
     }

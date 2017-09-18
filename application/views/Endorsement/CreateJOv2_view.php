@@ -955,7 +955,7 @@
                                                 var splitter = value.split('/');
                                                 ppkode = splitter[0];
                                                 jo = splitter[1];
-                                                $.post("<?php echo base_url()?>Endorsement/getJodetail", {jobid: jo}, function(data,status){
+                                                $.post("<?php echo base_url()?>Endorsement/getJodetail", {ppkode: ppkode}, function(data,status){
                                                   var obj = $.parseJSON(data);
                                                   console.log(data);
                                                   $.each(obj, function (i, item) {

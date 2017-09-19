@@ -247,17 +247,20 @@ class Endorsement_model extends CI_Model {
     	$this->db->where('agid',$agid);
     	$this->db->where('jobtglawal <= curdate() AND jobtglakhir >= curdate()');
     	$this->db->from('jo');
-    	$this->db->join('mpptkis m', 'jo.ppkode = m.ppkode','left');
+    	$this->db->join('mpptkis m', 'jo.ppkode = m.ppkode');
     	$this->db->select('m.ppkode,m.ppnama,jo.jobid');
+    	$this->db->group_by('m.ppkode');
     	return $this->db->get()->result();
     }
 
-    function get_jodetail($jobid)
+    function get_jodetail($ppkode,$agid)
     {
     	$this->db->select('j.*,jp.namajenispekerjaan as namajenispekerjaan,jp.jpgaji as gaji');
     	$this->db->from('jodetail j');
     	$this->db->join('jenispekerjaan jp', 'j.idjenispekerjaan = jp.idjenispekerjaan','left');
-    	$this->db->where('j.jobid',$jobid);
+       	$this->db->join('jo', 'j.jobid = jo.jobid');
+    	$this->db->where('jo.ppkode',$ppkode);
+   	    $this->db->where('jo.agid',$agid);
     	return $this->db->get()->result();
     }
 

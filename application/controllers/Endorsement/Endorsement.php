@@ -410,8 +410,9 @@ class Endorsement extends MY_Controller {
 
   function getJodetail()
   {
-    $jobid = $this->input->post('jobid', TRUE);
-    $listjob = $this->Endorsement_model->get_jodetail($jobid);
+  	$agensi = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
+    $ppkode = $this->input->post('ppkode', TRUE);
+    $listjob = $this->Endorsement_model->get_jodetail($ppkode,$agensi->agid);
     $i=0;
     foreach ($listjob as $row):
       $sisa = $this->getSisa($row->jobdid, $row->idjenispekerjaan);

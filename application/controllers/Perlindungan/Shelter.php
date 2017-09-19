@@ -54,9 +54,6 @@ class Shelter extends MY_Controller {
       show_error("Access is forbidden.",403,"403 Forbidden");
     }
 
-    $currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
-    $this->data['namacurrency'] = strtoupper($currency->currencyname);
-
     $this->data['title'] = 'Shelter';
     $this->data['subtitle'] = 'Daftar Penghuni Shelter';
     $this->load->view('templates/headerperlindungan', $this->data);

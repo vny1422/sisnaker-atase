@@ -373,14 +373,16 @@ class Perlindungan_model extends CI_Model {
 		$this->db->select('m.teleponagensi, m.pptkis, m.majikan, k.name AS klasifikasi');
 		$this->db->select('j.namajenispekerjaan AS jenis, j.sektor, m.statustki, m.permasalahan');
 		$this->db->select('m.tuntutan, m.uang, m.statusmasalah');
-		$this->db->select('m.tanggalpenyelesaian, m.agid');
-		$this->db->from('masalah m, shelter s, user u, jenispekerjaan j, klasifikasi k, media me');
+		$this->db->select('m.tanggalpenyelesaian, m.agid, cur.currencyname');
+		$this->db->from('masalah m, shelter s, user u, jenispekerjaan j, klasifikasi k, media me, currency cur');
+		$this->db->join('institution', 'm.idinstitution = institution.idinstitution');
 		$this->db->where('m.idmasalah',$id);
 		$this->db->where("`s`.`id` = ($where_clause)", NULL, FALSE);
 		$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
 		$this->db->where('m.idklasifikasi = k.id');
 		$this->db->where('m.idmedia = me.id');
 		$this->db->where('m.petugaspenanganan = u.username');
+		$this->db->where('institution.idcurrency = cur.idcurrency');
 		$query_problem = $this->db->get();
 
 		$this->db->select('t.idtkimasalah, t.namatki, t.jk, t.paspor, t.arc, t.handphone');

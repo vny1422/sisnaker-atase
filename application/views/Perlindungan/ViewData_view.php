@@ -212,6 +212,7 @@
                     $("#tindaklanjut").html(obj[0].tindaklanjut);
                     $("#nominal").text(obj[0].uang);
                     $("#statusmasalah").text(obj[0].statusmasalah);
+                    $("#namacurrency").text(("Nominal Yang Diselamatkan " + obj[0].currencyname + " :"));
 
                     $("#editkasus").click(function(){
                       //window.location.href = "<?php echo site_url('edit/index') ?>/"+obj[0].idmasalah;

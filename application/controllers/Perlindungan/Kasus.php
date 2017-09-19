@@ -66,9 +66,6 @@ class Kasus extends MY_Controller {
       show_error("Access is forbidden.",403,"403 Forbidden");
     }
 
-    $currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
-    $this->data['namacurrency'] = strtoupper($currency->currencyname);
-
     $this->data['title'] = 'Pencarian Kasus';
     $this->data['subtitle'] = 'Pencarian Aduan';
     $this->load->view('templates/headerperlindungan', $this->data);

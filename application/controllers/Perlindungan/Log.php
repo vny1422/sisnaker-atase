@@ -40,9 +40,6 @@ class Log extends MY_Controller {
       array_push($this->data['result_log'], array($user[0]->name,strtoupper($namatki[0]->namatki),$history));
     endforeach;
 
-    $currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
-    $this->data['namacurrency'] = strtoupper($currency->currencyname);
-
     $this->load->view('templates/headerperlindungan', $this->data);
     $this->load->view('Perlindungan/CatatanAktivitas_view', $this->data);
     $this->load->view('templates/footerperlindungan');

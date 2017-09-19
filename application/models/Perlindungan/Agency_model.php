@@ -330,8 +330,14 @@ function get_agency_from_pptkis($id){
     }
 
     function ambilnamaagensi($keyword, $num=0, $rand=false) {
+    $this->db->select('agid_kembar');
+    $this->db->from('agensi_merge_map');
+    $this->db->distinct();
+    $where_clause = $this->db->get_compiled_select();
+
     $this->db->like('agnama', $keyword);
     $this->db->where('agenable', "1");
+    $this->db->where("`agid` NOT IN ($where_clause)", NULL, FALSE);
 
     $query = $this->db->get('magensi');
     return $query->result();

@@ -426,6 +426,21 @@ class Endorsement_model extends CI_Model {
 		return $this->db->get()->result();
 	}
 
+	function get_list_pptkis_this_year_agensi($tahun, $agid)
+	{
+		$this->db->distinct();
+		$this->db->select('entryjo.ppkode, mpptkis.ppnama');
+		$this->db->from('entryjo');
+		$this->db->join('tki','entryjo.ejid = tki.ejid');
+		$this->db->join('mpptkis','entryjo.ppkode = mpptkis.ppkode');
+		$this->db->where('tki.tkstat',0);
+		$this->db->where('tki.tkrevid',NULL);
+		$where = "tki.tktglendorsement LIKE '%".$tahun."-%'";
+		$this->db->where($where);
+		$this->db->where('entryjo.agid',$agid);
+		return $this->db->get()->result();
+	}
+
 	function count_jp_this_month($tahun,$bulan,$namajp)
 	{
 		$this->db->select('*');
@@ -452,6 +467,21 @@ class Endorsement_model extends CI_Model {
 		$this->db->where('MONTH(tki.tktglendorsement)',$bulan);
 		$this->db->where('YEAR(tki.tktglendorsement)',$tahun);
 		$this->db->where('jenispekerjaan.namajenispekerjaan',$namajp);
+		$this->db->where('entryjo.agid',$agid);
+		return $this->db->count_all_results();
+	}
+
+	function count_pptkis_this_month_agensi($tahun,$bulan,$ppkode,$agid)
+	{
+		$this->db->select('*');
+		$this->db->from('entryjo');
+		$this->db->join('tki','entryjo.ejid = tki.ejid');
+		$this->db->join('mpptkis','entryjo.ppkode = mpptkis.ppkode');
+		$this->db->where('tki.tkstat',0);
+		$this->db->where('tki.tkrevid',NULL);
+		$this->db->where('MONTH(tki.tktglendorsement)',$bulan);
+		$this->db->where('YEAR(tki.tktglendorsement)',$tahun);
+		$this->db->where('mpptkis.ppkode',$ppkode);
 		$this->db->where('entryjo.agid',$agid);
 		return $this->db->count_all_results();
 	}
@@ -616,6 +646,13 @@ class Endorsement_model extends CI_Model {
 		$this->db->where('tkpaspor',$paspor);
 		$query = $this->db->get('tki');
 		return $query->num_rows();
+	}
+
+	function check_agensi_induk($agid)
+	{
+		$this->db->select('agid_induk');
+		$this->db->where('agid_kembar',$agid);
+		return $this->db->get('agensi_merge_map')->row();
 	}
 
 

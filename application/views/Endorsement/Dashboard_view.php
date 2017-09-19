@@ -156,6 +156,29 @@
 
         </div>
 
+        <div class="row">
+
+          <div class="col-lg-12">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-1">
+                    <i class="fa fa-bar-chart-o fa-5x"></i>
+                  </div>
+                  <div class="col-xs-11">
+                    <h3 id="gpptkistahun"></h3><h5> (PPTKIS)</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel-body">
+                <div id="graph-pptkistahun"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </div>
   </div>
@@ -168,6 +191,7 @@
     $('.dtahun').html("Penempatan Tahun " + $("#tahun").val());
     $('.dbulan').html("Penempatan Bulan " + $("#bulan option:selected").text());
     $('#gtahun').html("Statistik Penempatan Tahun " + $("#tahun").val());
+    $('#gpptkistahun').html("Statistik Penempatan Tahun " + $("#tahun").val());
 
     $.ajax({
       url     : "<?php echo site_url('endorsement/get_info_year_dashboard_agensi')?>",
@@ -308,6 +332,7 @@
             for (key in row) {
               if(key != "month" && key != "total") {
                 var replaced = "  " + key + ":  " + row[key];
+                var newf = "";
                 if(total == 0) {
                   newf = "  " + key + ":  " + row[key] + " (0%)";
                 } else {
@@ -323,12 +348,51 @@
           resize: true
         });
 
+        var datapptkistahun = [];
+        for (i = 0; i < data[12].length; i++) {
+          var datapptkismonth = {month: data[12][i].bulan, total: data[12][i].total};
+          for (j = 0; j < data[10].length; j++) {
+            datapptkismonth[data[10][j]] = data[12][i][data[10][j]];
+          }
+          datapptkistahun.push(datapptkismonth);
+        }
+
+        pptkistahun = Morris.Bar({
+          element: 'graph-pptkistahun',
+          data: datapptkistahun,
+          xkey: 'month',
+          ykeys: data[10],
+          yLabelFormat: function(y){return y != Math.round(y)?'':y;},
+          hoverCallback: function(index, options, content, row) {
+            var contents = $.trim(content);
+            contents = contents.replace(/\n/g, "");
+            var total = row.total;
+            for (key in row) {
+              if(key != "month" && key != "total") {
+                var replaced = "  " + key + ":  " + row[key];
+                var newf = "";
+                if(total == 0) {
+                  newf = "  " + key + ":  " + row[key] + " (0%)";
+                } else {
+                  newf = "  " + key + ":  " + row[key] + " (" + (row[key]/total*100) + '%)';
+                }
+                contents = contents.replace(replaced,newf);
+              }
+            }
+            return contents;
+          },
+          labels: data[10],
+          stacked: true,
+          resize: true
+        });
+
       }
     });
 
     $("#tahun").change(function(){
       $('.dtahun').html("Penempatan Tahun " + $("#tahun").val());
       $('#gtahun').html("Statistik Penempatan Tahun " + $("#tahun").val());
+      $('#gpptkistahun').html("Statistik Penempatan Tahun " + $("#tahun").val());
 
       $.ajax({
         url     : "<?php echo site_url('endorsement/get_info_year_dashboard_agensi')?>",
@@ -428,6 +492,18 @@
           jptahun.options.ykeys = data[8];
           jptahun.options.labels = data[8];
           jptahun.setData(datajptahun);
+
+          var datapptkistahun = [];
+          for (i = 0; i < data[12].length; i++) {
+            var datapptkismonth = {month: data[12][i].bulan, total: data[12][i].total};
+            for (j = 0; j < data[10].length; j++) {
+              datapptkismonth[data[10][j]] = data[12][i][data[10][j]];
+            }
+            datapptkistahun.push(datapptkismonth);
+          }
+          pptkistahun.options.ykeys = data[10];
+          pptkistahun.options.labels = data[10];
+          pptkistahun.setData(datapptkistahun);
 
         }
       });

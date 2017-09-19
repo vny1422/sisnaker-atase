@@ -153,6 +153,7 @@ class Endorsement extends MY_Controller {
       5 => 'Mei', 6 => 'Jun', 7 => 'Jul', 8 => 'Agu',
       9 => 'Sep', 10 => 'Okt', 11 => 'Nop', 12=> 'Des'
       );
+
     $listjp = [];
     $listjpdb = $this->Endorsement_model->get_list_jp_this_year_agensi($year, $agid[0]->agid);
     foreach ($listjpdb as $jp) {
@@ -171,6 +172,26 @@ class Endorsement extends MY_Controller {
       array_push($jppermonth, $temp_1);
     }
 
+    $listpptkis = [];
+    $listppkode = [];
+    $listpptkisdb = $this->Endorsement_model->get_list_pptkis_this_year_agensi($year, $agid[0]->agid);
+    foreach ($listpptkisdb as $pptkis) {
+      array_push($listppkode, $pptkis->ppkode);
+      array_push($listpptkis, $pptkis->ppnama);
+    }
+
+    $pptkispermonth = [];
+    for($i=0;$i<count($iterm);$i++){
+      $temp_1 = array('bulan' => $nm_month[$iterm[$i]]);
+      $tot = 0;
+      for ($x = 0; $x < sizeof($listppkode); $x++) {
+        $temp_1[$listpptkis[$x]] = $this->Endorsement_model->count_pptkis_this_month_agensi($year,$iterm[$i],$listppkode[$x],$agid[0]->agid);
+        $tot += $temp_1[$listpptkis[$x]];
+      }
+      $temp_1['total'] = $tot;
+      array_push($pptkispermonth, $temp_1);
+    }
+
     array_push($all,$total_year_jk);
     array_push($all,$year_jk);
     array_push($all,$total_month_jk);
@@ -181,6 +202,9 @@ class Endorsement extends MY_Controller {
     array_push($all,$month_sektor);
     array_push($all,$listjp);
     array_push($all,$jppermonth);
+    array_push($all,$listpptkis);
+    array_push($all,$listppkode);
+    array_push($all,$pptkispermonth);
 
     echo json_encode($all);
   }
@@ -526,17 +550,13 @@ class Endorsement extends MY_Controller {
 					$r->status = 1;
 					if ($records["TKI_TKIID"] != NULL) {$r->data = $records;}
 
-
-					// $sql = "SELECT agid_induk FROM agensi_merge_map WHERE agid_kembar = '" . $r->data["TKI_PJTKAID"] . "'";
-					// $result = mysql_query($sql) or die($messages['err_query']);
-					// if(mysql_num_rows($result)>0){
-					// 	$row = mysql_fetch_array($result,MYSQL_ASSOC);
-					// 	$r->tki_agid = $row["agid_induk"];
-					// }
-					// else {
-						$r->tki_agid = $r->data["TKI_PJTKAID"];
-					//}
-
+          $agid_induk = $this->Endorsement_model->check_agensi_induk($r->data["TKI_PJTKAID"]);
+          if (isset($agid_induk)) {
+            $r->tki_agid = $agid_induk->agid_induk;
+          } else {
+            $r->tki_agid = $r->data["TKI_PJTKAID"];
+          }
+					
 					//antisipasi agensi mirip
 					// $sql = "SELECT agensi_dua FROM agensi_mirip_map WHERE agensi_satu = '" . $r->data["TKI_PJTKAID"] . "'";
 					// $result = mysql_query($sql) or die($messages['err_query']);

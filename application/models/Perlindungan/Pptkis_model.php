@@ -157,6 +157,7 @@ class PPTKIS_model extends CI_Model {
 
     function ambilnamapptkis($keyword, $num=0, $rand=false) {
     $this->db->like('ppnama', $keyword);
+    $this->db->not_like('ppkode', 'X');
     $this->db->where('ppenable', "1");
 
     $query = $this->db->get('mpptkis');

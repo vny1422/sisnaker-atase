@@ -120,7 +120,7 @@ class Shelter_model extends CI_Model {
 
 		$this->db->select("m.idmasalah, t.namatki, t.paspor, k.name AS klasifikasi, YEAR(m.tanggalpengaduan) AS yearadu, u.name AS petugas, m.statusmasalah ");
 		$this->db->from("tkimasalah t, masalah m, klasifikasi k, user u");
-		$this->db->where("`m.idmasalah` IN ($where_clause)", NULL, FALSE);
+		$this->db->where("`m`.`idmasalah` IN ($where_clause)", NULL, FALSE);
 		$this->db->where("m.petugaspenanganan = u.username");
 		$this->db->where("m.idmasalah = t.idmasalah");
 		$this->db->where("m.idklasifikasi = k.id");
@@ -133,15 +133,21 @@ class Shelter_model extends CI_Model {
 	}
 
 	function recap_shelter($idorg,$month,$year){
+		$this->db->select('idmasalah');
+		$this->db->from('masalah_has_shelter');
+		$this->db->where('idshelter',$idorg);
+		$this->db->where("tanggalmasukshelter <= LAST_DAY('".$year."-".$month."-01')");
+		$this->db->where("(tanggalkeluarshelter = '0000-00-00' OR tanggalkeluarshelter>='".$year."-".$month."-01')");
+		$where_clause = $this->db->get_compiled_select();
+
 		$this->db->select('m.idmasalah, t.namatki, t.paspor, m.pptkis, m.agensi, m.teleponagensi, m.tanggalmasuktaiwan,
 			m.majikan, m.namapelapor, m.permasalahan, m.tanggalmasukshelter, m.tanggalkeluarshelter, s.name');
 		$this->db->from('masalah m, tkimasalah t, shelter s');
+		$this->db->where("`m`.`idmasalah` IN ($where_clause)", NULL, FALSE);
 		$this->db->where("m.isinshelter = 1");
-		$this->db->where("m.idshelter = s.id");
 		$this->db->where("m.idmasalah = t.idmasalah");
-		$this->db->where("s.id",$idorg);		
-		$this->db->where("m.tanggalmasukshelter <= LAST_DAY('".$year."-".$month."-01')");
-		$this->db->where("(m.tanggalkeluarshelter = '0000-00-00' OR m.tanggalkeluarshelter>='".$year."-".$month."-01')");
+		$this->db->where("s.id",$idorg);
+		
 		$query = $this->db->get();
 		if($query->num_rows() > 0){
 			$final = $query->result_array();

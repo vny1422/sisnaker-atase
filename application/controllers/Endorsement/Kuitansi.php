@@ -34,8 +34,10 @@ class Kuitansi extends MY_Controller {
 
   public function ubah()
   {
+    $datenow = date("Y-m-d");
     $this->data['title'] = 'Ubah Kuitansi';
     $this->data['subtitle'] = 'Pencatatan Kuitansi';
+    $this->data['list'] = $this->Kuitansi_model->getKuitansiByDate('datenow');
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/UbahKuitansi_view', $this->data);
     $this->load->view('templates/footerendorsement');
@@ -78,9 +80,12 @@ class Kuitansi extends MY_Controller {
 
   }
 
-  public function cetak()
+  public function cetak($bc)
   {
-    # code...
+    $data['bc'] = $this->encrypt->encode($bc);
+    $data['namainstitusi'] = $this->namainstitusi->nameinstitution;
+
+    $this->load->view('Endorsement/print_label', $data);
   }
 
   public function getKuitansiByDate()

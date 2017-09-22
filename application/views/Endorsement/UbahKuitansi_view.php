@@ -22,7 +22,7 @@
             <div class="input-group date datepicker col-md-3 col-xs-3 " data-provide="datepicker" ng-model="formdata['tglmasukTW']" ng-disabled="disableAll" >
 
               <span class="glyphicon glyphicon-th input-group-addon"></span>
-              <input type="text" name="fieldtgl" id="tglubah" class="form-control">
+              <input type="text" name="fieldtgl" id="tglubah" value=" <?php echo date("Y/m/d"); ?> " class="form-control">
             </div>
           </div> <br/><br/>
 
@@ -40,26 +40,23 @@
             </thead>
             <tbody id=listkuitansi>
             <?php
-            /*  $i=0;
+             $i=0;
             foreach($list as $row): ?>
               <tr>
-                <td><?php echo $row->idjenispekerjaan ?></td>
-                <td><?php echo $row->namajenispekerjaan ?></td>
-                <td><?php if ($row->isactive == 1) {echo 'Active';} else echo 'Not Active';  ?></td>
-                <td><?php echo $row->idpekerjaan_bnp2tki ?></td>
-                <td><?php if ($row->sektor == 1) {echo 'Informal';} else {echo 'Formal';} ?>
-                <td><?php echo $row->jpgaji ?></td>
-                <td><?php echo $listnama[$i]->nameinstitution ?></td>
+                <td><?php echo $row->tipe ?></td>
+                <td><?php echo $row->kuno ?></td>
+                <td><?php echo $row->kujmlbayar ?></td>
+                <td><?php echo $row->kupemohon ?></td>
                 <td>
-                  <div class="center-button"><a href="<?php echo base_url()?>jobtype/edit/<?php echo $row->idjenispekerjaan ?>"><button class="btn btn-info" type="button" name="button">Edit</button></a></div>
+                  <div class="center-button"><a href="<?php echo base_url()?>kuitansi/edit/<?php echo $row->kuid ?>"><button class="btn btn-primary" type="button" name="button">Edit</button></a></div>
                 </td>
                 <td>
-                  <div class="center-button"><a href="<?php echo base_url()?>jobtype/delete/<?php echo $row->idjenispekerjaan ?>"><button align="center" class="btn btn-danger" type="button" name="button">Hapus</button></a></div>
+                  <div class="center-button"><a href="<?php echo base_url()?>kuitansi/cetak/<?php echo $row->kukode ?>"><button align="center" class="btn btn-success" type="button" name="button">Cetak</button></a></div>
                 </td>
               </tr>
 
             <?php $i=$i+1;
-          endforeach; */
+          endforeach;
             ?>
             </tbody>
           </table>
@@ -77,11 +74,11 @@
     var wrapper = $("#listkuitansi");
     $("#tglubah").change(function(){
       var fieldtgl = $("#tglubah").val();
+      // var fieldtglformatted = fieldtgl.replace("/", "-");
       $.post("<?php echo base_url()?>Kuitansi/getKuitansiByDate", {fieldtgl: fieldtgl}, function(data, status){
         var datakuitansi = $.parseJSON(data);
-        if(datakuitansi.length > 0){
           $(wrapper).empty();
-
+          table.clear();
           for (var key in datakuitansi){
             if (datakuitansi.hasOwnProperty(key)) {
               table.row.add( [
@@ -90,11 +87,10 @@
                 datakuitansi[key]["kujmlbayar"],
                 datakuitansi[key]["kupemohon"],
                 '<div class="center-button"><a href=" <?php echo base_url() ?>kuitansi/edit/'+datakuitansi[key]["kuid"]+'"><button class="btn btn-primary pilihButton" type="button" name="button">Edit</button></a></div>',
-                '<div class="center-button"><a href="<?php echo base_url() ?>kuitansi/cetak/'+datakuitansi[key]["kuid"]+'"><button class="btn btn-success pilihButton" type="button" name="button">Cetak</button></a></div>'
+                '<div class="center-button"><a href="<?php echo base_url() ?>kuitansi/cetak/'+datakuitansi[key]["kukode"]+'"><button class="btn btn-success pilihButton" type="button" name="button">Cetak</button></a></div>'
               ]).draw();
             }
           }
-        }
         console.log(datakuitansi);
       })
     });

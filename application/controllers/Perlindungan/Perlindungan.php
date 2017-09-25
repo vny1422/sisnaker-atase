@@ -40,14 +40,14 @@ class Perlindungan extends MY_Controller {
         endforeach;
 
         /// this year
-        $this->data['datathisyear']           = $this->Perlindungan_model->get_problem_this_year($data['year']);
-        $this->data['datafinishthisyear']     = $this->Perlindungan_model->get_finish_this_year($data['year']);
-        $this->data['dataprocessthisyear']    = $this->Perlindungan_model->get_process_this_year($data['year']);
+        $this->data['datathisyear']           = $this->Perlindungan_model->get_problem_this_year($data['year'],$_SESSION['institution']);
+        $this->data['datafinishthisyear']     = $this->Perlindungan_model->get_finish_this_year($data['year'],$_SESSION['institution']);
+        $this->data['dataprocessthisyear']    = $this->Perlindungan_model->get_process_this_year($data['year'],$_SESSION['institution']);
 
         /// this month
-        $this->data['datathismonth']          = $this->Perlindungan_model->get_problem_this_month($data['month'],$data['year']);
-        $this->data['datafinishthismonth']    = $this->Perlindungan_model->get_finish_this_month($data['month'],$data['year']);
-        $this->data['dataprocessthismonth']   = $this->Perlindungan_model->get_process_this_month($data['month'],$data['year']);
+        $this->data['datathismonth']          = $this->Perlindungan_model->get_problem_this_month($data['month'],$data['year'],$_SESSION['institution']);
+        $this->data['datafinishthismonth']    = $this->Perlindungan_model->get_finish_this_month($data['month'],$data['year'],$_SESSION['institution']);
+        $this->data['dataprocessthismonth']   = $this->Perlindungan_model->get_process_this_month($data['month'],$data['year'],$_SESSION['institution']);
 
         /// performance
         list($offname, $offpic, $offperform)           = $this->Perlindungan_model->get_officer_performance($data['year'], $petugas);
@@ -58,11 +58,11 @@ class Perlindungan extends MY_Controller {
         $this->data['year_performance']       = $this->Perlindungan_model->get_year_performance($data['year']);
 
         /// list tahun
-        $this->data['tahundb']                = $this->Perlindungan_model->get_all_yeardb();
+        $this->data['tahundb']                = $this->Perlindungan_model->get_all_yeardb($_SESSION['institution']);
 
         /// kasus
-        $this->data['kasusproses']            = $this->Perlindungan_model->get_all_problem_process();
-        $this->data['kasusselesai']           = $this->Perlindungan_model->get_all_problem_finished();
+        $this->data['kasusproses']            = $this->Perlindungan_model->get_all_problem_process($_SESSION['institution']);
+        $this->data['kasusselesai']           = $this->Perlindungan_model->get_all_problem_finished($_SESSION['institution']);
 
         if($this->data['year_performance'] <= 50){
             $this->data['panel_color'] = 'panel-danger';
@@ -546,9 +546,9 @@ class Perlindungan extends MY_Controller {
 
         for($i=0;$i<count($month);$i++){
 
-            list($all,$fin,$pro) = $this->Infografik_model->get_total_problem_year($month[$i],$year);
-            $mon_money = $this->Infografik_model->get_total_money($month[$i],$year);
-            $mon_money_sektoral = $this->Infografik_model->get_total_money_sektoral($month[$i],$year);
+            list($all,$fin,$pro) = $this->Infografik_model->get_total_problem_year($month[$i],$year,$_SESSION['institution']);
+            $mon_money = $this->Infografik_model->get_total_money($month[$i],$year,$_SESSION['institution']);
+            $mon_money_sektoral = $this->Infografik_model->get_total_money_sektoral($month[$i],$year,$_SESSION['institution']);
             $uang = $mon_money->row_array();
             if ($uang['uang'] == ''){
                 $uang['uang'] = '0';
@@ -573,10 +573,10 @@ class Perlindungan extends MY_Controller {
             array_push($month_money,$temp_money);
         }
 
-        $year_total_problem = $this->Infografik_model->get_total_problem_a_year($year);
+        $year_total_problem = $this->Infografik_model->get_total_problem_a_year($year,$_SESSION['institution']);
         //$year_total_finish = $this->Infografik_model->get_finish_this_year($year);
         //$year_total_finish_within = $this->Infografik_model->get_finish_within_year($year);
-        $year_money = $this->Infografik_model->get_total_money_year($year);
+        $year_money = $this->Infografik_model->get_total_money_year($year,$_SESSION['institution']);
         $year_total_money   = $year_money->row_array();
 
         // $ratio = ($year_total_finish / $year_total_problem)*100;

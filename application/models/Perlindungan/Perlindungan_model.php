@@ -399,10 +399,14 @@ class Perlindungan_model extends CI_Model {
 		return array($query_problem,$query_tki,$query_file);
 	}
 
-	function get_total_problem_year($month,$year){
+	function get_total_problem_year($month,$year,$institution=NULL){
 		$this->db->start_cache();
 		$this->db->select('*');
 		$this->db->from('masalah m');
+		if($institution)
+		{
+			$this->db->where('m.idinstitution', $institution);
+		}
 		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		$this->db->where('m.enable', 1);
@@ -469,7 +473,7 @@ class Perlindungan_model extends CI_Model {
 		return $query;
 	}
 
-	function get_total_money_sektoral($month,$year){
+	function get_total_money_sektoral($month,$year,$institution = NULL){
 		$result = array('formal'=>0, 'informal'=>0);
 		///informal
 		$this->db->select_sum('m.uang');
@@ -478,6 +482,10 @@ class Perlindungan_model extends CI_Model {
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		$this->db->where('m.enable', 1);
 		$this->db->where('m.sektor', 1);
+		if($institution)
+		{
+			$this->db->where('m.idinstitution', $institution);
+		}
 		$query = $this->db->get();
 		$tmp = $query->row_array();
 			if ($tmp['uang'] == ''){
@@ -516,10 +524,13 @@ class Perlindungan_model extends CI_Model {
 		return $query;
 	}
 
-	function get_all_yeardb(){
+	function get_all_yeardb($idinstitution=NULL){
 		$this->db->distinct();
 		$this->db->select('YEAR(tanggalpengaduan) as tahun');
 		$this->db->from('masalah');
+		if($idinstitution) {
+			$this->db->where('idinstitution',$idinstitution);
+		}
 		$this->db->order_by('tanggalpengaduan','desc');
 		$query = $this->db->get();
 

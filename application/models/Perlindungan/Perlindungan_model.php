@@ -328,7 +328,7 @@ class Perlindungan_model extends CI_Model {
 		$this->db->where('m.statusmasalah',1);
 		if ($institution != 'all')
 		{
-			$this->db->where('i.idinstitution',$institution);
+			$this->db->where('m.idinstitution',$institution);
 		}
 		$this->db->where('m.enable',1);
 		$this->db->group_by('m.idmasalah');
@@ -347,7 +347,7 @@ class Perlindungan_model extends CI_Model {
 		$this->db->where('m.idklasifikasi = k.id');
 		if ($institution != 'all')
 		{
-			$this->db->where('i.idinstitution',$institution);
+			$this->db->where('m.idinstitution',$institution);
 		}
 		$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
 		$this->db->where('m.petugaspenanganan = u.username');

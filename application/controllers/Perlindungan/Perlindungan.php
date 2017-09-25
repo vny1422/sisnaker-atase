@@ -93,15 +93,15 @@ class Perlindungan extends MY_Controller {
             case 'year':
                 $this->data['tab2']           = 0;
                 $this->data['subtitle']          = 'Data Kasus Tahun '.$year;
-                $this->data['kasusproses']    = $this->View_model->data_year_process($year);
-                $this->data['kasusselesai']   = $this->View_model->data_year_finish($year);
+                $this->data['kasusproses']    = $this->View_model->data_year_process($year,$_SESSION['institution']);
+                $this->data['kasusselesai']   = $this->View_model->data_year_finish($year,$_SESSION['institution']);
                 break;
 
             case 'month':
                 $this->data['tab2']           = 0;
                 $this->data['subtitle']          = 'Data Kasus '.$mont_name[$month].' '.$year;
-                $this->data['kasusproses']    = $this->View_model->data_month_process($month,$year);
-                $this->data['kasusselesai']   = $this->View_model->data_month_finish($month,$year);
+                $this->data['kasusproses']    = $this->View_model->data_month_process($month,$year,$_SESSION['institution']);
+                $this->data['kasusselesai']   = $this->View_model->data_month_finish($month,$year,$_SESSION['institution']);
                 break;
         }
 

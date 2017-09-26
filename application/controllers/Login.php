@@ -35,7 +35,7 @@ class Login extends CI_Controller {
 			{
 				redirect('pusat');
 			}
-			else if($this->session->userdata('role') == 6)
+			else if($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 )
 			{
 				redirect('endorsement');
 			}
@@ -70,7 +70,7 @@ class Login extends CI_Controller {
 			{
 				redirect('pusat');
 			}
-			else if($this->session->userdata('role') == 6)
+			else if($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 )
 			{
 				redirect('endorsement');
 			}

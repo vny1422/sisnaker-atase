@@ -255,11 +255,11 @@ class Endorsement extends MY_Controller {
 
   public function checkBarcode()
   {
-    if (!($this->session->userdata('role') <= 2 || $this->session->userdata('role') == 5 || $this->session->userdata('role') == 6))
+    if (!($this->session->userdata('role') <= 2 || $this->session->userdata('role') == 5 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7))
     {
       show_error("Access is forbidden.",403,"403 Forbidden");
     }
-    
+
     $this->data['title'] = 'Endorsement';
     $this->data['subtitle'] = 'Check Barcode';
     $this->data['subtitle2'] = 'Check Barcode';
@@ -287,7 +287,7 @@ class Endorsement extends MY_Controller {
 
   public function createJOv2()
   {
-    $this->data['listconnag'] =  $this->Agency_model->get_all_agency();
+    $this->data['listconnag'] =  $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'),false,true);
     $this->data['employer'] = $this->Input_model->get_input_dataworker($this->session->userdata('institution'));
     $this->data['joborder'] = $this->Input_model->get_input_joborder($this->session->userdata('institution'));
     $this->data['title'] = 'Endorsement';
@@ -300,7 +300,7 @@ class Endorsement extends MY_Controller {
 
   public function viewJO()
   {
-    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2 || $this->session->userdata('role') == 4)
+    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2 || $this->session->userdata('role') == 4 || $this->session->userdata('role') == 7)
     {
     	$agensi = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
     	if(!empty($agensi)) {
@@ -557,7 +557,7 @@ class Endorsement extends MY_Controller {
           } else {
             $r->tki_agid = $r->data["TKI_PJTKAID"];
           }
-					
+
 					//antisipasi agensi mirip
 					// $sql = "SELECT agensi_dua FROM agensi_mirip_map WHERE agensi_satu = '" . $r->data["TKI_PJTKAID"] . "'";
 					// $result = mysql_query($sql) or die($messages['err_query']);

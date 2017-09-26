@@ -189,9 +189,15 @@ class Agency_model extends CI_Model {
       }
     }
 
-    function get_agency_from_institution($id,$cekal=false) {
+    function get_agency_from_institution($id,$cekal=false,$array=false) {
       if($cekal==false){
-        return $this->db->get_where($this->table, array('idinstitution' => $id))->result_array();
+        if($array)
+        {
+          return $this->db->get_where($this->table, array('idinstitution' => $id))->result();
+        }
+        else {
+          return $this->db->get_where($this->table, array('idinstitution' => $id))->result_array();
+        }
       }
       else{
         $this->db->select('c.*,m.agnama as agnama');

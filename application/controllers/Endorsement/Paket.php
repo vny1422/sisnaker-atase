@@ -23,7 +23,7 @@ class Paket extends MY_Controller {
 
   public function index()
   {
-    if (!($this->session->userdata('role') <= 2 || $this->session->userdata('role') == 4 || $this->session->userdata('role') == 5 || $this->session->userdata('role') == 6))
+    if (!($this->session->userdata('role') <= 2 || $this->session->userdata('role') == 4 || $this->session->userdata('role') == 5 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7))
     {
       show_error("Access is forbidden.",403,"403 Forbidden");
     }
@@ -41,7 +41,7 @@ class Paket extends MY_Controller {
 
   public function add()
   {
-    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2 || $this->session->userdata('role') == 6)
+    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
     {
       $this->data['title'] = 'Paket PK';
       $this->data['subtitle'] = 'Register Quota';
@@ -270,7 +270,7 @@ class Paket extends MY_Controller {
         if (!empty($ppkode) && !empty($agid)) {
           $this->Paket_model->updateJO($id);
           $r->status = 1;
-        }      
+        }
       } else if ($oper === "del") {
         if($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2){
           $this->Paket_model->deleteJO($id);
@@ -281,7 +281,7 @@ class Paket extends MY_Controller {
             $this->Paket_model->deleteJO($id);
             $r->status = 1;
           }
-        }  
+        }
       }
     }
 
@@ -577,7 +577,7 @@ class Paket extends MY_Controller {
       $tmp['success'] = false;
       $tmp['message'] = "PPTKIS terkena cekal";
     }
-    
+
     echo json_encode($tmp);
    }
 

@@ -52,7 +52,7 @@ class User extends MY_Controller {
 			$this->load->view('templates/header', $this->data);
 			$this->load->view('SAdmin/User_view', $this->data);
 			$this->load->view('templates/footer');
-		}		
+		}
 	}
 
 	public function add()
@@ -147,10 +147,14 @@ class User extends MY_Controller {
 		{
 			show_error("Access is forbidden.",403,"403 Forbidden");
 		}
-		else 
+		else
 		{
 			$this->data['values'] = $this->User_model->get_userid($username);
-			if($this->session->userdata('role') == '1' || $this->data['values']->idinstitution == $this->session->userdata('institution'))
+			if($this->data['values']->idlevel == 1)
+			{
+				show_error("Access is forbidden.",403,"403 Forbidden");
+			}
+			elseif($this->session->userdata('role') == '1' || $this->data['values']->idinstitution == $this->session->userdata('institution'))
 			{
 				$this->User_model->delete_user($username);
 				redirect('user');
@@ -165,7 +169,7 @@ class User extends MY_Controller {
 	public function profile()
 	{
 		$this->data['error'] = "";
-			
+
 		if (!empty($_POST) && !empty($_FILES))
 		{
 			$passbaru = NULL;

@@ -62,9 +62,9 @@
         <br /><br /><br />
 
         <div class="form-group">
-        <label class="control-label col-md-2 col-sm-2 col-xs-12">Kantor <span class="required">*</span></label>
+        <label class="control-label col-md-2 col-sm-2 col-xs-12">Kantor</label>
         <div class="col-md-5 col-sm-5 col-xs-12">
-          <select name="kantor" required="required" class="select2_single form-control" tabindex="-1">
+          <select name="kantor" class="select2_single form-control" tabindex="-1">
             <option></option>
             <?php foreach($listkantor as $row): ?>
                 <option value="<?php echo $row->idkantor ?>"<?php if ($row->idkantor == $values->idkantor) echo 'selected'?>><?php echo $row->namakantor ?></option>

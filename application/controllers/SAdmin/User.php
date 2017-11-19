@@ -110,7 +110,7 @@ class User extends MY_Controller {
 			$this->form_validation->set_rules('name', 'Full Name', 'required|trim');
 			$this->form_validation->set_rules('institution', 'Institution', 'required');
 			$this->form_validation->set_rules('level', 'Level', 'required');
-			$this->form_validation->set_rules('kantor', 'Kantor', 'required');
+			// $this->form_validation->set_rules('kantor', 'Kantor', 'required');
 
 			if ($this->form_validation->run() === FALSE)
 			{
@@ -140,8 +140,14 @@ class User extends MY_Controller {
 			}
 			else
 			{
-				$this->User_model->update_user($username);
-				redirect('user');
+				if ((!empty($this->input->post('kantor',TRUE)) || $this->input->post('level',TRUE) == 5))
+				{
+					$this->User_model->update_user($username);
+					redirect('user');
+				}
+				else {
+					redirect('user');
+				}
 			}
 		}
 	}

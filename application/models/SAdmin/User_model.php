@@ -69,7 +69,7 @@ class User_model extends CI_Model {
           'name' => $this->input->post('name',TRUE),
           'idinstitution' => $this->input->post('institution',TRUE),
           'idlevel' => $this->input->post('level',TRUE),
-          'idkantor' => $this->input->post('kantor',TRUE)
+          'idkantor' => empty($this->input->post('kantor',TRUE)) ? NULL : $this->input->post('kantor', TRUE)
         );
         $this->db->where('username',$username);
         return $this->db->update($this->table,$data);

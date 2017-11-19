@@ -16,7 +16,7 @@
         <tr class="text-center">
             <th></th>
             <th><input st-search="agnama" placeholder="nama agensi" class="input-sm form-control" type="search"/></th>
-            <th><input st-search="aginstitusi" placeholder="institution" class="input-sm form-control" type="search"/></th>
+            <th><input st-search="nameinstitution" placeholder="institution" class="input-sm form-control" type="search"/></th>
             <th><input st-search="agpngjwb" placeholder="penanggung jawab" class="input-sm form-control" type="search"/></th>
             <th><input st-search="agtelp" placeholder="telepon" class="input-sm form-control" type="search"/></th>
             <th><input st-search="agnoijincla" placeholder="no ijin" class="input-sm form-control" type="search"/></th>

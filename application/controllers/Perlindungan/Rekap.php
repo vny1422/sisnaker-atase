@@ -19,7 +19,12 @@ class Rekap extends MY_Controller {
 		$this->data['usedpg'] = $this->usedpg;
 		$this->data['usedmpg'] = $this->usedmpg;
 		$this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
-		$this->data['namakantor'] = $this->namakantor->nama;
+		if(empty($this->namakantor->nama)){
+			$this->data['namakantor'] = "";
+		}
+		else{
+			$this->data['namakantor'] = $this->namakantor->nama;
+		}
 		$this->data['sidebar'] = 'SAdmin/Sidebar';
 	}
 
@@ -29,7 +34,7 @@ class Rekap extends MY_Controller {
 	    {
 	      show_error("Access is forbidden.",403,"403 Forbidden");
 	    }
-		
+
 		$this->data['listshelter'] = $this->Shelter_model->query_shelter_institution($_SESSION['institution']);
 		$this->data['listklasifikasi'] = $this->Perlindungan_model->get_klasifikasi_institution($_SESSION['institution']);
 
@@ -137,7 +142,7 @@ class Rekap extends MY_Controller {
 	function generateShelter()
 	{
 		$idinst = $this->input->post('idinst');
-		
+
 		$listshelter = $this->Shelter_model->query_shelter_institution($idinst);
 		$listklasifikasi = $this->Perlindungan_model->get_klasifikasi_institution($idinst);
 

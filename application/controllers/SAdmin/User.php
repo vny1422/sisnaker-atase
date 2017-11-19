@@ -72,10 +72,15 @@ class User extends MY_Controller {
 
 			if ($this->form_validation->run() !== FALSE)
 			{
-				$this->User_model->post_new_user();
-				$this->session->set_flashdata('information', 'Data berhasil dimasukkan');
+				if ((!empty($this->input->post('kantor',TRUE)) || $this->input->post('level',TRUE) == 5))
+				{
+					$this->User_model->post_new_user();
+					$this->session->set_flashdata('information', 'Data berhasil dimasukkan');
+				}
+				else {
+					$this->session->set_flashdata('warning', 'Kantor harus diisi!');
+				}
 			}
-
 			if($this->session->userdata('role') == '1')
 			{
 				$this->data['listinstitution'] = $this->Institution_model->list_active_institution();

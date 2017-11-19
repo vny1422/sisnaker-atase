@@ -15,7 +15,12 @@ class PemulanganTKI extends MY_Controller {
     $this->data['usedpg'] = $this->usedpg;
     $this->data['usedmpg'] = $this->usedmpg;
     $this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
-    $this->data['namakantor'] = $this->namakantor->nama;
+    if(empty($this->namakantor->nama)){
+      $this->data['namakantor'] = "";
+    }
+    else{
+      $this->data['namakantor'] = $this->namakantor->nama;
+    }
     $this->data['sidebar'] = 'SAdmin/Sidebar';
 
     if ($this->session->userdata('role') > 3)
@@ -99,7 +104,7 @@ class PemulanganTKI extends MY_Controller {
     } else {
       $status = $this->PemulanganTKI_model->post_new_pemulangan($datas);
     }
-    
+
     if($status){
       $message = "Data berhasil dimasukkan";
     } else {
@@ -112,7 +117,7 @@ class PemulanganTKI extends MY_Controller {
   {
     $paspor = $this->input->post('paspor', TRUE);
     $data = $this->PemulanganTKI_model->query_pemulangan_paspor($paspor);
-    
+
     echo json_encode($data);
   }
 

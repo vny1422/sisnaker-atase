@@ -18,7 +18,12 @@ class Kasus extends MY_Controller {
     $this->data['usedpg'] = $this->usedpg;
     $this->data['usedmpg'] = $this->usedmpg;
     $this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
-    $this->data['namakantor'] = $this->namakantor->nama;
+    if(empty($this->namakantor->nama)){
+      $this->data['namakantor'] = "";
+    }
+    else{
+      $this->data['namakantor'] = $this->namakantor->nama;
+    }
     $this->data['sidebar'] = 'SAdmin/Sidebar';
   }
 
@@ -28,7 +33,7 @@ class Kasus extends MY_Controller {
     {
       show_error("Access is forbidden.",403,"403 Forbidden");
     }
-    
+
     $this->data['title'] = 'Kasus';
     $this->data['subtitle'] = 'Input Kasus Baru';
     $this->data['listcategory'] = $this->Kasus_model->list_category($this->session->userdata('institution'));
@@ -89,7 +94,7 @@ class Kasus extends MY_Controller {
     } else {
       $data = $this->Kasus_model->timespan_search($from, $to, $idinstitution);
     }
-    
+
     echo json_encode($data);
   }
 
@@ -142,7 +147,7 @@ class Kasus extends MY_Controller {
   {
     $paspor = $this->input->post('paspor', TRUE);
     $data = $this->Kasus_model->query_paspor($paspor);
-    
+
     echo json_encode($data);
   }
 

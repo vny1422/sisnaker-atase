@@ -29,6 +29,14 @@
                 </div>
             </div>' ?>
         <?php endif; ?>
+        <?php if($this->session->flashdata('warning') != ""): ?>
+            <?php echo '<div class="container">
+            <div class="alert alert-warning fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Gagal!</strong> '.$this->session->flashdata('warning').'
+            </div>
+        </div>' ?>
+    <?php endif; ?>
         <?php echo form_open(base_url('user/add')) ?>
 
         <div class="form-group">

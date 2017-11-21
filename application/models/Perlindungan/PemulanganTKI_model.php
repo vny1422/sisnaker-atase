@@ -16,8 +16,24 @@ class PemulanganTKI_model extends CI_Model {
 
   public function query_pemulangan_institution($id)
   {
-		$q = $this->db->get_where('tki_pulang', array('idinstitution' => $id));
-		return $q->result();
+		if ($id == 'all') {
+			return $this->db->get('tki_pulang')->result();
+		}
+		else {
+			$q = $this->db->get_where('tki_pulang', array('idinstitution' => $id));
+			return $q->result();
+		}
+	}
+
+	public function query_pemulangan_institution_select($id)
+  {
+		if ($id == 'all') {
+			return $this->db->get('tki_pulang')->result();
+		}
+		else {
+			$q = $this->db->get_where('tki_pulang', array('idinstitution' => $id));
+			return $q->result();
+		}
 	}
 
   public function query_pemulangan_paspor($paspor)

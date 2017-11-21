@@ -14,6 +14,25 @@
           </ul>
           <div class="clearfix"></div>
         </div>
+        <div class="col-md-12">
+          <div class="row" style="<?php echo ($_SESSION['role'] == 1 || $_SESSION['role'] == 5 ? "" : "display:none;"); ?>">
+            <div class="form-group col-lg-4">
+              <label><h2>Institusi</h2></label>
+              <select class="form-control" id="list-institusi" name="list-institusi">
+                <?php
+                if (isset($listinstitusi)) {
+                  echo "<option>All</option>";
+                  foreach($listinstitusi as $row):
+                    if ($row->idinstitution != 1) {
+                      echo "<option value=".$row->idinstitution.">".$row->nameinstitution."</option>";
+                    }
+                    endforeach;
+                }
+                ?>
+              </select>
+            </div>
+          </div>
+        </div>
         <div class="x_content">
           <table class="table table-striped table-bordered" id="tablepemulangan">
             <thead>
@@ -34,7 +53,7 @@
                 <th>Hapus</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="list">
             <?php
             foreach($list as $row): ?>
               <tr>
@@ -73,6 +92,42 @@
 
 <script>
   $(document).ready(function () {
+
+    var institusi = ("#list-institusi");
+    var table = ("#tablepemulangan");
+    var wrapper = ("#list");
+
+    $(institusi).change(function(){
+      windows.print();
+      $.post(" <?php echo base_url()?>pemulangantki/list_pulang_institusi", {id: $(institusi).val()}, function(data, status){
+        table.clear();
+        $(wrapper).empty();
+        var.listinput = $.parseJSON(data);
+        var i=0;
+        for (var key in listinput) {
+          if (listinput.hasOwnProperty(key)) {
+            table.row.add([
+              listinput[key]["idtkipulang"],
+              listinput[key]["jeniskepulangan"],
+              listinput[key]["namatki"],
+              listinput[key]["paspor"],
+              listinput[key]["jk"],
+              listinput[key]["alamatid"],
+              listinput[key]["kronologis"],
+              listinput[key]["tanggalpemulangan"],
+              listinput[key]["statuspemulangan"] == 1 ? "Dalam Proses" : "Selesai",
+              listinput[key]["namamajikan"],
+              listinput[key]["namaagensi"],
+              listinput[key]["namapptkis"]
+            ]).draw();
+            i = i+1;
+          }
+        }
+      });
+    });
+
+
+
     var tbtki = $('#tablepemulangan').DataTable({"bSort" : false,"bLengthChange": false,"scrollX": true});
 
     $('#tablepemulangan_filter').html("\

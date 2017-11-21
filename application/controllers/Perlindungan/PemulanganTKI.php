@@ -23,7 +23,7 @@ class PemulanganTKI extends MY_Controller {
     }
     $this->data['sidebar'] = 'SAdmin/Sidebar';
 
-    if ($this->session->userdata('role') > 3)
+    if (!($this->session->userdata('role') <= 3 || $this->session->userdata('role') == 5))
     {
       show_error("Access is forbidden.",403,"403 Forbidden");
     }
@@ -31,6 +31,10 @@ class PemulanganTKI extends MY_Controller {
 
   public function index()
   {
+    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 5) {
+      $this->data['listinstitusi'] = $this->Institution_model->list_active_institution();
+    }
+
     $this->data['list'] = $this->PemulanganTKI_model->query_pemulangan_institution($this->session->userdata('institution'));
 
     $this->data['title'] = 'Pemulangan TKI';
@@ -118,6 +122,13 @@ class PemulanganTKI extends MY_Controller {
     $paspor = $this->input->post('paspor', TRUE);
     $data = $this->PemulanganTKI_model->query_pemulangan_paspor($paspor);
 
+    echo json_encode($data);
+  }
+
+  public function list_pulang_institusi()
+  {
+    $id= $this->input->post('id', TRUE);
+    $data = $this->PemulanganTKI_model->query_pemulangan_institution_select($id);
     echo json_encode($data);
   }
 

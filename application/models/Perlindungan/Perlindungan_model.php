@@ -209,7 +209,7 @@ class Perlindungan_model extends CI_Model {
 
 			$performance[$nama] = array($all,$rat, $finished, $all-$finished);
 			$officername[$nama] = $obj->name;
-			$officerpic[$nama] = $obj->picture;
+			//$officerpic[$nama] = $obj->picture;
 		}
 
 		return array($officername, $officerpic, $performance);

@@ -20,7 +20,8 @@ class PemulanganTKI_model extends CI_Model {
 			return $this->db->get('tki_pulang')->result();
 		}
 		else {
-			$q = $this->db->get_where('tki_pulang', array('idinstitution' => $id));
+			$this->db->where("idinstitution", $id);
+			$q = $this->db->get('tki_pulang');
 			return $q->result();
 		}
 	}
@@ -31,7 +32,7 @@ class PemulanganTKI_model extends CI_Model {
 			return $this->db->get('tki_pulang')->result();
 		}
 		else {
-			$q = $this->db->get_where('tki_pulang', array('idinstitution' => $id));
+			$q = $this->db->query(" SELECT * FROM tki_pulang WHERE idinstitution = '$id' ");
 			return $q->result();
 		}
 	}

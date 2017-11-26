@@ -21,7 +21,7 @@
               <select class="form-control" id="list-institusi" name="list-institusi">
                 <?php
                 if (isset($listinstitusi)) {
-                  echo "<option>All</option>";
+                  echo "<option value = "."all".">All</option>";
                   foreach($listinstitusi as $row):
                     if ($row->idinstitution != 1) {
                       echo "<option value=".$row->idinstitution.">".$row->nameinstitution."</option>";
@@ -53,10 +53,10 @@
                 <th>Hapus</th>
               </tr>
             </thead>
-            <tbody id="list">
+            <tbody >
             <?php
             foreach($list as $row): ?>
-              <tr>
+              <tr id="list">
                 <td><?php echo $row->idtkipulang ?></td>
                 <td><?php echo $row->jeniskepulangan ?></td>
                 <td><?php echo $row->namatki ?></td>
@@ -90,41 +90,61 @@
 </div>
 </div>
 
+
+
+
 <script>
+
   $(document).ready(function () {
 
     var institusi = ("#list-institusi");
-    var table = ("#tablepemulangan");
-    var wrapper = ("#list");
+    //var table = ("#tablepemulangan");
+    //var wrapper = ("#list");
 
-    $(institusi).change(function(){
-      windows.print();
-      $.post(" <?php echo base_url()?>pemulangantki/list_pulang_institusi", {id: $(institusi).val()}, function(data, status){
-        table.clear();
-        $(wrapper).empty();
-        var.listinput = $.parseJSON(data);
-        var i=0;
-        for (var key in listinput) {
-          if (listinput.hasOwnProperty(key)) {
-            table.row.add([
-              listinput[key]["idtkipulang"],
-              listinput[key]["jeniskepulangan"],
-              listinput[key]["namatki"],
-              listinput[key]["paspor"],
-              listinput[key]["jk"],
-              listinput[key]["alamatid"],
-              listinput[key]["kronologis"],
-              listinput[key]["tanggalpemulangan"],
-              listinput[key]["statuspemulangan"] == 1 ? "Dalam Proses" : "Selesai",
-              listinput[key]["namamajikan"],
-              listinput[key]["namaagensi"],
-              listinput[key]["namapptkis"]
-            ]).draw();
-            i = i+1;
+
+    $('#list-institusi').change(function(){
+      //alert( "Handler for .change() called." );
+      var id=$(this).val();
+			$.ajax({
+				url : "<?php echo base_url()?>pemulangantki/list_pulang_institusi",
+				method : "POST",
+				data : {id: id},
+				async : false,
+		        dataType : 'json',
+				success: function(data){
+          //console.log(data);
+          $("#tablepemulangan tr").remove();
+          var tr = '';
+          for (var i = 0; i < data.length; i++) {
+            tr = $('<tr/>');
+            tr.append("<td>" + data[i].idtkipulang + "</td>");
+            tr.append("<td>" + data[i].jeniskepulangan + "</td>");
+            tr.append("<td>" + data[i].namatki + "</td>");
+            tr.append("<td>" + data[i].paspor + "</td>");
+            tr.append("<td>" + data[i].jk + "</td>");
+            tr.append("<td>" + data[i].alamatid + "</td>");
+            tr.append("<td>" + data[i].kronologis + "</td>");
+            tr.append("<td>" + data[i].tanggalpemulangan + "</td>");
+            tr.append("<td>" + data[i].statuspemulangan+ "</td>");
+            tr.append("<td>" + data[i].namamajikan + "</td>");
+            tr.append("<td>" + data[i].namaagensi + "</td>");
+            tr.append("<td>" + data[i].namapptkis + "</td>");
+            tr.append(
+              '<td><div class="center-button"><a href="<?php echo base_url()?>pemulangantki/edit/' +data[i].idtkipulang + '"><button class="btn btn-info" type="button" name="button">Edit</button></a></div></td>'
+            );
+            tr.append(
+              '<td><div class="center-button"><a href="<?php echo base_url()?>pemulangantki/delete/' +data[i].idtkipulang + '"><button class="btn btn-info" type="button" name="button">Hapus</button></a></div></td>'
+            );
+
+            $('table').last().append(tr);
           }
-        }
-      });
-    });
+				}
+			});
+		});
+
+
+
+
 
 
 

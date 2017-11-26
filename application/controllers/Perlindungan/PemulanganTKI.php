@@ -31,11 +31,13 @@ class PemulanganTKI extends MY_Controller {
 
   public function index()
   {
-    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 5) {
-      $this->data['listinstitusi'] = $this->Institution_model->list_active_institution();
-    }
 
     $this->data['list'] = $this->PemulanganTKI_model->query_pemulangan_institution($this->session->userdata('institution'));
+
+    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 5) {
+      $this->data['listinstitusi'] = $this->Institution_model->list_active_institution();
+      $this->data['list'] = $this->PemulanganTKI_model->query_pemulangan_institution('all');
+    }
 
     $this->data['title'] = 'Pemulangan TKI';
     $this->data['subtitle'] = 'Tabel Pemulangan TKI';
@@ -127,7 +129,7 @@ class PemulanganTKI extends MY_Controller {
 
   public function list_pulang_institusi()
   {
-    $id= $this->input->post('id', TRUE);
+    $id= $this->input->post('id');
     $data = $this->PemulanganTKI_model->query_pemulangan_institution_select($id);
     echo json_encode($data);
   }

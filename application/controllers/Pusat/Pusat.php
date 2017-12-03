@@ -28,12 +28,12 @@ class Pusat extends MY_Controller {
 	    $this->data['usedpg'] = $this->usedpg;
 	    $this->data['usedmpg'] = $this->usedmpg;
 	    $this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
-	    
+
 	    if(empty($this->namakantor->nama)){
-	    	$this->data['namakantor'] = "";	
+	    	$this->data['namakantor'] = "";
 	    }
 	    else{
-	    	$this->data['namakantor'] = $this->namakantor->nama;	
+	    	$this->data['namakantor'] = $this->namakantor->nama;
 	    }
 	    $this->data['sidebar'] = 'SAdmin/Sidebar';
     }
@@ -870,7 +870,7 @@ class Pusat extends MY_Controller {
 	for($i=0;$i<count($pptkis_con);$i++){
 		$tmp = array();
 		$tmp['pptkis'] = $pptkis_con[$i]['ppnama'];
-		$tmp['pekerjaan'] = $pptkis_con[$i]['jpnama'];
+		$tmp['pekerjaan'] = $pptkis_con[$i]['namajenispekerjaan'];
 		$tmp['awal'] = $pptkis_con[$i]['jobtglawal'];
 		$tmp['akhir'] = $pptkis_con[$i]['jobtglakhir'];
 		array_push($return['list'],$tmp);
@@ -928,7 +928,7 @@ class Pusat extends MY_Controller {
 	for($i=0;$i<count($agencylist);$i++){
 		$tmp = array();
 		$tmp['agen'] = $agencylist[$i]['agnama'];
-		$tmp['pekerjaan'] = $agencylist[$i]['jpnama'];
+		$tmp['pekerjaan'] = $agencylist[$i]['namajenispekerjaan'];
 		$tmp['awal'] = $agencylist[$i]['jobtglawal'];
 		$tmp['akhir'] = $agencylist[$i]['jobtglakhir'];
 		array_push($return['list'],$tmp);

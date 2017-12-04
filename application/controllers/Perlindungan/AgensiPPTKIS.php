@@ -254,7 +254,7 @@ class AgensiPPTKIS extends MY_Controller {
 	for($i=0;$i<count($pptkis_con);$i++){
 		$tmp = array();
 		$tmp['pptkis'] = $pptkis_con[$i]['ppnama'];
-		$tmp['pekerjaan'] = $pptkis_con[$i]['jpnama'];
+		$tmp['pekerjaan'] = $pptkis_con[$i]['namajenispekerjaan'];
 		$tmp['awal'] = $pptkis_con[$i]['jobtglawal'];
 		$tmp['akhir'] = $pptkis_con[$i]['jobtglakhir'];
 		array_push($return['list'],$tmp);
@@ -312,7 +312,7 @@ class AgensiPPTKIS extends MY_Controller {
 	for($i=0;$i<count($agencylist);$i++){
 		$tmp = array();
 		$tmp['agen'] = $agencylist[$i]['agnama'];
-		$tmp['pekerjaan'] = $agencylist[$i]['jpnama'];
+		$tmp['pekerjaan'] = $agencylist[$i]['namajenispekerjaan'];
 		$tmp['awal'] = $agencylist[$i]['jobtglawal'];
 		$tmp['akhir'] = $agencylist[$i]['jobtglakhir'];
 		array_push($return['list'],$tmp);

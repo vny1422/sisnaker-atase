@@ -104,14 +104,12 @@
 
       $http.get("<?php echo base_url('agensipptkis/get_cekalpptkis_list') ?>")
       .then(function(response){
-        console.log(response.data);
         angular.copy(response.data,$scope.cekalpptkis_q);
         $scope.cekalpptkis = [].concat($scope.cekalpptkis_q);
       });
 
       $http.get("<?php echo base_url('agensipptkis/get_cekalagency_list') ?>")
       .then(function(response){
-        console.log(response.data);
         angular.copy(response.data,$scope.cekalagencies_q);
         $scope.cekalagencies = [].concat($scope.cekalagencies_q);
       });
@@ -125,8 +123,6 @@
 				$http.get("<?php echo site_url('agensipptkis/get_agency_info') ?>"+"/"+agenid).then(function(response){
 						//console.log(response);
 						angular.copy(response.data['list'],$scope.buffer2);
-            console.log(response.data['list']);
-            console.log(response.data['agen']);
 						var agen_info = response.data['agen'];
 						for(var key in agen_info){
 							$scope.buffer.push({field:key,value:agen_info[key]});
@@ -142,15 +138,13 @@
 			$scope.detail_pptkis = function(ppkode){
 				$scope.buffer = [];
 				$scope.buffer2 = [];
-				//console.log(ppkode);
 				$http.get("<?php echo site_url('agensipptkis/get_pptkis_info') ?>"+"/"+ppkode).then(function(response){
-						//console.log(response);
 						angular.copy(response.data['list'],$scope.buffer2);
 						var pt_info = response.data['pt'];
 						for(var key in pt_info){
 							$scope.buffer.push({field:key,value:pt_info[key]});
 						}
-						console.log($scope.buffer);
+						// console.log($scope.buffer);
 						ngDialog.open({
 							template: templateURL+'detail_pptkis.html',
 							scope: $scope

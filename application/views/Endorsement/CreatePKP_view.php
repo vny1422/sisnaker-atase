@@ -35,7 +35,7 @@
             </div>
           </div>' ?>
         <?php endif; ?>
-          <?php echo form_open(base_url('Pkp/addPkp')) ?>
+          <?php echo form_open_multipart(base_url('PKP/addPkp')) ?>
 
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12">Agensi <span class="required">*</span></label>
@@ -135,7 +135,7 @@
         <div class="form-group">
           <label class="control-label col-md-2" for="name">Dokumen Pengajuan PKP<span class="required">*</span></label>
           <div class="col-md-5 ">
-            <input id="dokumenpkp" type="file" name="dokumenpkp" required="required" class="form-control">
+            <input id="dokumenpkp" type="file" name="dokumenpkp" class="form-control">
           </div>
         </div><br /><br /><br />
 

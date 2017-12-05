@@ -193,9 +193,11 @@ class Agency_model extends CI_Model {
       if($cekal==false){
         if($array)
         {
+          $this->db->order_by("agnama", "asc");
           return $this->db->get_where($this->table, array('idinstitution' => $id))->result();
         }
         else {
+          $this->db->order_by("agnama", "asc");
           return $this->db->get_where($this->table, array('idinstitution' => $id))->result_array();
         }
       }
@@ -204,6 +206,7 @@ class Agency_model extends CI_Model {
         $this->db->from('magensi m, cekalagensi c');
         $this->db->where('m.idinstitution',$id);
         $this->db->where('c.agid = m.agid AND c.enable=1 AND (c.caend IS NULL OR c.caend >= NOW())');
+        //$this->db->order_by("agnama", "asc");
         return $this->db->get()->result();
       }
     }

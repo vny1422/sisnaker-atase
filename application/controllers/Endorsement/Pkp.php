@@ -118,4 +118,13 @@ class Pkp extends MY_Controller {
 }
 }
 
+  public function verify()
+  {
+    $this->data['title'] = 'Endorsement';
+    $this->data['subtitle'] = 'Verifikasi & Legalisasi PKP';
+    $this->data['subtitle2'] = 'Verifikasi & Legalisasi PKP';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/VerifyPKP_view', $this->data);
+    $this->load->view('templates/footerendorsement');
+  }
 }

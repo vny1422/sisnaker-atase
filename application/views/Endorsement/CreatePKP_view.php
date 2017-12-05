@@ -40,12 +40,20 @@
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12">Agensi <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-              <select name="agensi" required="required" class="select2_single form-control" tabindex="-1">
-                <option></option>
-                <?php foreach($listagensi as $row): ?>
-                  <option value="<?php echo $row->agid ?>"><?php echo $row->agnama ?></option>
-                <?php endforeach; ?>
-              </select>
+              <?php if (isset($dataagensi)) { ?>
+                <select name="agensi" required="required" class="select2_single form-control" tabindex="-1" disabled>
+                    <option value="<?php echo $dataagensi->agid ?>"><?php echo $dataagensi->agnama ?></option>
+                </select>
+                <input type="hidden" name="agensi" value="<?php echo $dataagensi->agid ?>"/>
+              <?php } else{ ?>
+                <select name="agensi" required="required" class="select2_single form-control" tabindex="-1">
+                  <option></option>
+                  <?php foreach($listagensi as $row): ?>
+                    <option value="<?php echo $row->agid ?>"><?php echo $row->agnama ?></option>
+                  <?php endforeach; ?>
+                </select>
+              <?php } ?>
+
             </div>
           </div><br /><br /><br />
 

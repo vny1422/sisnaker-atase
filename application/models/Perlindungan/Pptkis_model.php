@@ -96,6 +96,7 @@ class PPTKIS_model extends CI_Model {
     }
 
     function get_all_pptkis(){
+      $this->db->order_by('ppnama', 'asc');
       return $this->db->get($this->table)->result();
     }
 

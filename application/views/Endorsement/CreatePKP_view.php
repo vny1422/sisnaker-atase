@@ -35,7 +35,7 @@
             </div>
           </div>' ?>
         <?php endif; ?>
-          <?php echo form_open(base_url('input/addpenempatan')) ?>
+          <?php echo form_open(base_url('Pkp/addPkp')) ?>
 
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12">Agensi <span class="required">*</span></label>
@@ -54,8 +54,8 @@
             <div class="col-md-5 col-sm-5 col-xs-12">
               <select name="pptkis" required="required" class="select2_single form-control" tabindex="-1">
                 <option></option>
-                <?php foreach($listcategory as $row): ?>
-                  <option value="<?php echo $row->idcategory_penempatan ?>"><?php echo $row->namecategory ?></option>
+                <?php foreach($listpptkis as $row): ?>
+                  <option value="<?php echo $row->ppkode ?>"><?php echo $row->ppnama ?></option>
                 <?php endforeach; ?>
               </select>
             </div>
@@ -85,10 +85,10 @@
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12">Jenis Pekerjaan <span class="required">*</span></label>
             <div class="col-md-4">
-              <select name="jenispekerjaan" required="required" class="select2_single form-control">
+              <select name="jenispekerjaan[]" required="required" class="select2_single form-control">
                 <option></option>
-                <?php foreach($listcategory as $row): ?>
-                  <option value="<?php echo $row->idcategory_penempatan ?>"><?php echo $row->namecategory ?></option>
+                <?php foreach($listjenispekerjaan as $row): ?>
+                  <option value="<?php echo $row->idjenispekerjaan ?>"><?php echo $row->namajenispekerjaan ?></option>
                 <?php endforeach; ?>
               </select>
             </div>
@@ -107,21 +107,21 @@
                 <div class="col-md-4 kuota">
                   <label class="control-label col-md-4 minilabel" for="name">L</label>
                   <div class="col-md-8 ">
-                    <input type="number" min="0" name="fieldname" class="form-control">
+                    <input type="number" value="0" min="0" name="laki[]" class="form-control">
                   </div>
                 </div>
 
                 <div class="col-md-4 kuota">
                   <label class="control-label col-md-4 minilabel" for="name">P</label>
                   <div class="col-md-8">
-                    <input type="number" min="0" name="fieldname" class="form-control">
+                    <input type="number" value="0" min="0" name="perempuan[]" class="form-control">
                   </div>
                 </div>
 
                 <div class="col-md-4 kuota">
                   <label class="control-label col-md-4 minilabel" for="name">C</label>
                   <div class="col-md-8">
-                    <input type="number" min="0" name="fieldname" class="form-control">
+                    <input type="number" value="0" min="0" name="campuran[]" class="form-control">
                   </div>
                 </div>
               </div>
@@ -130,8 +130,15 @@
             </div>
           </div>
         </div>
+        <br /><br /><br /><br />
 
-          <br /><br /><br /><br /><br /><br /><br />
+        <div class="form-group">
+          <label class="control-label col-md-2" for="name">Dokumen Pengajuan PKP<span class="required">*</span></label>
+          <div class="col-md-5 ">
+            <input id="dokumenpkp" type="file" name="dokumenpkp" required="required" class="form-control">
+          </div>
+        </div><br /><br /><br />
+
 
 
         <div class="ln_solid"></div>
@@ -178,10 +185,10 @@ $(document).ready(function() {
                   <br /> <br /> <br />\
                   <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>\
                   <div class="col-md-4">\
-                    <select name="jenispekerjaan" required="required" class="select2_single form-control">\
+                    <select name="jenispekerjaan[]" required="required" class="select2_single form-control">\
                       <option></option>\
-                      <?php foreach($listcategory as $row): ?>\
-                        <option value="<?php echo $row->idcategory_penempatan ?>"><?php echo $row->namecategory ?></option>\
+                      <?php foreach($listjenispekerjaan as $row): ?>\
+                        <option value="<?php echo $row->idjenispekerjaan ?>"><?php echo $row->namajenispekerjaan ?></option>\
                       <?php endforeach; ?>\
                     </select>\
                   </div>\
@@ -200,21 +207,21 @@ $(document).ready(function() {
                       <div class="col-md-4 kuota">\
                         <label class="control-label col-md-4 minilabel" for="name">L</label>\
                         <div class="col-md-8 ">\
-                          <input type="number" min="0" name="fieldname" class="form-control">\
+                          <input type="number" value="0" min="0" name="laki[]" class="form-control">\
                         </div>\
                       </div>\
       \
                       <div class="col-md-4 kuota">\
                         <label class="control-label col-md-4 minilabel" for="name">P</label>\
                         <div class="col-md-8">\
-                          <input type="number" min="0" name="fieldname" class="form-control">\
+                          <input type="number" value="0" min="0" name="perempuan[]" class="form-control">\
                         </div>\
                       </div>\
       \
                       <div class="col-md-4 kuota">\
                         <label class="control-label col-md-4 minilabel" for="name">C</label>\
                         <div class="col-md-8">\
-                          <input type="number" min="0" name="fieldname" class="form-control">\
+                          <input type="number" value="0" min="0" name="campuran[]" class="form-control">\
                         </div>\
                       </div>\
                     </div>\

@@ -58,6 +58,38 @@ class PKP_model extends CI_Model {
     return array($this->db->insert_batch('pkpdetail', $detail), $data["pkpkode"]);
   }
 
+  function get_pkp_from_barcode($bc)
+  {
+    $this->db->select('p.*, ag.agnama, pp.ppnama, pd.pkpdl, pd.pkpdp, pd.pkpdc, jp.namajenispekerjaan');
+    $this->db->from('pkp p');
+    $this->db->join('pkpdetail pd', 'p.pkpid = pd.pkpid');
+    $this->db->join('jenispekerjaan jp', 'pd.idjenispekerjaan = jp.idjenispekerjaan');
+    $this->db->join('magensi ag', 'p.agid = ag.agid');
+    $this->db->join('mpptkis pp', 'p.ppkode = pp.ppkode');
+    $this->db->where('pkpkode', $bc);
+    $this->db->where('p.idinstitution', $this->session->userdata('institution'));
+    return $this->db->get()->result();
+  }
+
+  function verify_barcode($bc){
+    $this->db->where('pkpkode', $bc);
+    $this->db->where('idinstitution', $this->session->userdata('institution'));
+    $this->db->where('isverified', 1);
+    if ($this->db->get($this->table)->num_rows() > 0)
+    {
+      return FALSE;
+    }
+    else {
+      $data = array(
+        'isverified' => 1
+      );
+
+      $this->db->where('pkpkode', $bc);
+      $this->db->where('pkp.idinstitution', $this->session->userdata('institution'));
+      return $this->db->update($this->table, $data);
+    }
+  }
+
   function createUID($tipe, $length = 3) {
 		return $tipe.date("y").date("m").$this->randomString($length);
 	}

@@ -12,6 +12,8 @@
       $this->load->model('Perlindungan/Agency_model');
       $this->load->model('Perlindungan/Pptkis_model');
       $this->load->model('SAdmin/Jobtype_model');
+      $this->load->model('SAdmin/Institution_model');
+      $this->load->model('SAdmin/Currency_model');
       $this->load->model('Endorsement/PKP_model');
       $this->load_sidebar();
       $this->data['listdp'] = $this->listdp;
@@ -101,11 +103,41 @@
 
     public function verify()
     {
+      $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;
+      $currencyname = $this->Currency_model->get_currency_name($currencyid);
       $this->data['title'] = 'Endorsement';
+      $this->data['currency'] = $currencyname->currencyname;
       $this->data['subtitle'] = 'Verifikasi & Legalisasi PKP';
       $this->data['subtitle2'] = 'Verifikasi & Legalisasi PKP';
       $this->load->view('templates/headerendorsement', $this->data);
       $this->load->view('Endorsement/VerifyPKP_view', $this->data);
       $this->load->view('templates/footerendorsement');
+    }
+
+    public function getDataFromBarcode()
+    {
+      $bc = $this->input->post('barcode', TRUE);
+      $result = $this->PKP_model->get_pkp_from_barcode($bc);
+
+      echo json_encode($result);
+    }
+
+    public function verifyBarcode()
+    {
+      $bc = $this->input->post('barcode', TRUE);
+      $result = $this->PKP_model->verify_barcode($bc);
+
+      echo json_encode($result);
+    }
+
+    public function catatKuitansi()
+    {
+      if ($this->input->post('catatkuitansi', TRUE))
+      {
+        echo 'masuk';
+      }
+      else {
+        echo 'no';
+      }
     }
   }

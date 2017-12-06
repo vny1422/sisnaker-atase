@@ -24,15 +24,14 @@
 
     public function index()
     {
-      $this->data['month'] = date('m');
+      $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
+      $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
 
-      /// list tahun
-      $this->data['tahunpenempatan'] = $this->Endorsement_model->get_all_year();
-
-      $this->data['title'] = 'DASHBOARD';
-      $this->data['subtitle'] = 'ENDORSEMENT';
+      $this->data['title'] = 'Lihat Data PKP';
+      $this->data['subtitle'] = 'Lihat Data PKP';
+      $this->data['subtitle2'] = 'Lihat Data PKP';
       $this->load->view('templates/headerendorsement', $this->data);
-      $this->load->view('Endorsement/CreatePKP_view', $this->data);
+      $this->load->view('Endorsement/LihatPKP_view', $this->data);
       $this->load->view('templates/footerendorsement');
     }
 
@@ -99,6 +98,17 @@
 
     }
 
+    public function getDataPKP()
+    {
+      $agid = $this->input->post('agid', TRUE);
+      $ppkode = $this->input->post('ppkode', TRUE);
+
+      $res = $this->PKP_model->get_data_pkp_by_agensi_and_pptkis($agid, $ppkode);
+      //$res = $this->PKP_model->get_data_pkp_by_agensi_and_pptkis(26926, 'ABD022');
+    //var_dump($res);
+      echo json_encode($res);
+    }
+
     public function verify()
     {
       $this->data['title'] = 'Endorsement';
@@ -108,4 +118,13 @@
       $this->load->view('Endorsement/VerifyPKP_view', $this->data);
       $this->load->view('templates/footerendorsement');
     }
+
+
+
+
+
+
+
+
+
   }

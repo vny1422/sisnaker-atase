@@ -64,7 +64,7 @@
               </select>
             </div>
             <div class="col-md-2">
-              <a id="btncari" class="btn btn-success caributton" href="#">CARI</a>
+              <input id="btncari" class="btn btn-success caributton" type="button" name="btncari" value="CARI">
             </div>
 
           </div><br /><br /><br />
@@ -78,8 +78,8 @@
               <thead>
                 <tr>
                   <th>Kode PKP</th>
-                  <th>Agensi</th>
-                  <th>PPTKIS</th>
+                  <!-- <th>Agensi</th>
+                  <th>PPTKIS</th> -->
                   <th>Tanggal Mulai</th>
                   <th>Tangggal Selesai</th>
                   <th>S. Verifikasi</th>
@@ -108,6 +108,30 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                      <div class="modal-content">
+
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                          </button>
+                          <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                        </div>
+                        <div class="modal-body">
+                          <h4>Text in a modal</h4>
+                          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+                          <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
 
 <script type="text/javascript">
   $(document).ready(function() {
@@ -148,28 +172,21 @@
       }
       else {
         $.post(" <?php echo base_url() ?>PKP/getDataPKP", {agid:agensi, ppkode:pptkis}, function(data, status){
-console.log('OVAN');
           var listinput = $.parseJSON(data);
-          console.log(data);
-          console.log('OVAN');
-          table.clear();
-          $(wrapper_pkp).empty();
-          var listinput = $.parseJSON(data);
-          var i = 0;
+          $(wrapper_pkp).html('');
           for (var key in listinput) {
-            if(listinput.hasOwnProperty(key)){
-              table.row.add([
-                listinput[key]["pkpkode"],
-                listinput[key]["agnama"],
-                listinput[key]["ppnama"],
-                listinput[key]["pkptglawal"],
-                listinput[key]["pkptglakhir"],
-                listinput[key]["isverified"],
-                listinput[key]["isuploaded"],
-                listinput[key]["pkptimestamp"]
-              ]).draw();
-              i = i+1;
-            }
+            var string = '\
+            <tr>\
+              <td class="text-center"><a data-toggle="modal" data-target=".bs-example-modal-lg">' + listinput[key]["pkpkode"] + '</a></td>\
+              <td>'+listinput[key]["pkptglawal"]+ '</td> \
+              <td>'+listinput[key]["pkptglakhir"]+ '</td> \
+              <td>'+listinput[key]["isverified"]+ '</td> \
+              <td>'+listinput[key]["isuploaded"]+ '</td> \
+              <td>'+listinput[key]["pkptimestamp"]+ '</td> \
+            </tr>'
+            $(wrapper_pkp).append(string);
+
+
           }
         });
       }

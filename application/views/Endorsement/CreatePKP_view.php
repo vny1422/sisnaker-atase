@@ -166,25 +166,10 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-  var max_fields      = 100; //maximum input boxes allowed
   var wrapper         = $("#wrapconn"); //Fields wrapper
   var wrapopsi        = $("#wrapopsi"); //Fields wrapper
   var add_button      = $(".addButton"); //Add button ID
-  var input_type      = $("#inputtype");
-  var wraptabel       = $("#wraptabel");
-  var x = 2; //initlal text box count
 
-  $(wrapper).hide();
-  //$(wrapopsi).hide();
-  $(wraptabel).hide();
-
-  $(input_type).change(function(){
-    if ($("#inputtype :selected").text() == 'select' || $("#inputtype :selected").text() == 'Select') {
-      $(wrapper).show();
-    } else {
-      $(wrapper).hide();
-    }
-  });
 
   $(add_button).click(function(e){ //on add input button click
     e.preventDefault();

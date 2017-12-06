@@ -107,4 +107,15 @@ class PKP_model extends CI_Model {
 
 		return $tmp;
 	}
+
+  function get_data_pkp_by_agensi_and_pptkis ($agid, $ppkode) {
+    $this->db->select('p.pkpkode, ag.agnama, pp.ppnama, p.pkptglawal, p.pkptglakhir, p.isverified, p.isuploaded, p.pkptimestamp');
+    $this->db->from('pkp p');
+    $this->db->join('magensi ag', 'ag.agid = p.agid');
+    $this->db->join('mpptkis pp', 'pp.ppkode = p.ppkode');
+    $this->db->where('p.agid', $agid);
+    $this->db->where('p.ppkode', $ppkode);
+
+    return $this->db->get()->result();
+  }
 }

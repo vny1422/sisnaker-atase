@@ -15,6 +15,7 @@
       $this->load->model('SAdmin/Institution_model');
       $this->load->model('SAdmin/Currency_model');
       $this->load->model('Endorsement/PKP_model');
+      $this->load->model('Endorsement/Kuitansi_model');
       $this->load_sidebar();
       $this->data['listdp'] = $this->listdp;
       $this->data['usedpg'] = $this->usedpg;
@@ -208,15 +209,115 @@
 
       echo json_encode($result);
     }
+    public function generateBarcode()
+    {
+      $abnormalize[1] = '01';
+      $abnormalize[2] = '02';
+      $abnormalize[3] = '03';
+      $abnormalize[4] = '04';
+      $abnormalize[5] = '05';
+      $abnormalize[6] = '06';
+      $abnormalize[7] = '07';
+      $abnormalize[8] = '08';
+      $abnormalize[9] = '09';
+      $abnormalize[10] = '10';
+      $abnormalize[11] = '11';
+      $abnormalize[12] = '12';
+      $abnormalize[13] = '13';
+      $abnormalize[14] = '14';
+      $abnormalize[15] = '15';
+      $abnormalize[16] = '16';
+      $abnormalize[17] = '17';
+      $abnormalize[18] = '18';
+      $abnormalize[19] = '19';
+      $abnormalize[20] = '20';
+      $abnormalize[21] = '21';
+      $abnormalize[22] = '22';
+      $abnormalize[23] = '23';
+      $abnormalize[24] = '24';
+      $abnormalize[25] = '25';
+      $abnormalize[26] = '26';
+      $abnormalize[27] = '27';
+      $abnormalize[28] = '28';
+      $abnormalize[29] = '29';
+      $abnormalize[30] = '30';
+      $abnormalize[31] = '31';
+      $kode[1] = 'A';$kode[2] = 'B';$kode[3] = 'C';$kode[4] = 'D';$kode[5] = 'E';
+      $kode[6] = 'F';$kode[7] = 'G';$kode[8] = 'H';$kode[9] = 'I';$kode[10] = 'J';
+      $kode[11] = 'K';$kode[12] = 'L';$kode[13] = 'M';$kode[14] = 'N';$kode[5] = 'O';
+      $kode[16] = 'P';$kode[17] = 'Q';$kode[18] = 'R';$kode[19] = 'S';$kode[20] = 'T';
+      $kode[21] = 'U';$kode[22] = 'V';$kode[23] = 'W';$kode[24] = 'X';$kode[25] = 'Y';
+      $kode[26] = 'Z';
+      $tglmasuk = $this->input->post('start',TRUE);
+      $p = explode("/", $tglmasuk);
+      $tglmasuk = intval($p[2]);
+      $blnmasuk = intval($p[1]);
+      $thnmasuk = $p[0];
+      $extra = 0;
 
+      if($blnmasuk == '12' && $thnmasuk == '2011')
+      {
+        $extra = 627;
+      }
+      $kodetahun = $kode[$thnmasuk-2010];
+      $kodebulan = $kode[$blnmasuk];
+      $kodetipe = $kode[1];
+      $tglmasuk = $abnormalize[$tglmasuk];
+      $blnmasuk = $abnormalize[$blnmasuk];
+      $count = $this->Kuitansi_model->getCountKuitansi($thnmasuk,$blnmasuk);
+      $order = $extra+$count->count;
+      $barcodeku = '';
+      if($order < 10){$barcodeku = '0000' . $order . $kodebulan . $kodetahun. $kodetipe;}
+      else if($order < 100){$barcodeku = '000' . $order . $kodebulan . $kodetahun. $kodetipe;}
+      else if($order < 1000){$barcodeku = '00' . $order . $kodebulan . $kodetahun. $kodetipe;}
+      else if($order < 10000){$barcodeku = '0' . $order . $kodebulan . $kodetahun. $kodetipe;}
+      return $barcodeku;
+    }
     public function catatKuitansi()
     {
       if ($this->input->post('catatkuitansi', TRUE))
       {
-        echo 'masuk';
+        $this->form_validation->set_rules('start', 'Tanggal Masuk', 'required|trim');
+        $this->form_validation->set_rules('tglkuitansi', 'Tanggal Kuitansi', 'required|trim');
+        $this->form_validation->set_rules('kuno', 'Nomor Kuitansi', 'required|trim');
+        $this->form_validation->set_rules('jmlterbayar', 'Jumlah Terbayar', 'required|trim');
+        $this->form_validation->set_rules('pemohon', 'Nama Pemohon', 'required|trim');
+        //$this->form_validation->set_rules('dokumenpkp', 'DokumenPKP', 'required|trim');
+
+        if ($this->form_validation->run() === FALSE)
+        {
+          $this->session->set_flashdata('information', 'Complete receipt form!');
+          redirect('PKP/verify');
+        }
+        else {
+          $barcodeku = $this->generateBarcode();
+          $username = $this->session->userdata('user');
+          $institusi = $this->session->userdata('institution');
+          $this->Kuitansi_model->catat_kuitansi($username, $institusi, $barcodeku, 1);
+          $this->session->set_flashdata('print', 'Data berhasil dimasukkan');
+          $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
+          $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
+          $this->data['bc'] = $barcodeku;
+          $this->data['title'] = 'Lihat Data PKP';
+          $this->data['subtitle'] = 'Lihat Data PKP';
+          $this->data['subtitle2'] = 'Lihat Data PKP';
+          $this->load->view('templates/headerendorsement', $this->data);
+          $this->load->view('Endorsement/LihatPKP_view', $this->data);
+          $this->load->view('templates/footerendorsement');
+        }
       }
       else {
-        echo 'no';
+        $barcodeku = $this->generateBarcode();
+        $this->session->set_flashdata('print', 'Data berhasil dimasukkan');
+        $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
+        $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
+        $this->data['bc'] = $barcodeku;
+        $this->data['title'] = 'Lihat Data PKP';
+        $this->data['subtitle'] = 'Lihat Data PKP';
+        $this->data['subtitle2'] = 'Lihat Data PKP';
+        $this->load->view('templates/headerendorsement', $this->data);
+        $this->load->view('Endorsement/LihatPKP_view', $this->data);
+        $this->load->view('templates/footerendorsement');
       }
     }
   }

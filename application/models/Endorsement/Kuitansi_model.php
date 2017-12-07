@@ -26,9 +26,9 @@ class Kuitansi_model extends CI_Model {
     return $this->db->get('tipe')->result();
   }
 
-  public function catat_kuitansi($username,$idinstitution,$barcode=null)
+  public function catat_kuitansi($username, $idinstitution, $barcode=null, $v2=0)
   {
-    if($barcode != null)
+    if($v2 == 0)
     {
       $data = array(
         'username' => $username,
@@ -37,7 +37,6 @@ class Kuitansi_model extends CI_Model {
         'kutglkuitansi' => $this->input->post('tglkuitansi',TRUE),
         'kuno' => $this->input->post('kuno',TRUE),
         'idtipe' => $this->input->post('dokumen',TRUE),
-        'kukode' => $barcode,
         'kujmlbayar' => $this->input->post('jmlterbayar',TRUE),
         'kupemohon' => $this->input->post('pemohon',TRUE),
         'kukode' => $barcode
@@ -46,21 +45,55 @@ class Kuitansi_model extends CI_Model {
     $id = $this->db->insert_id();
     return $id;
     }
-    else{
+    else {
       $data = array(
         'username' => $username,
         'idinstitution' => $idinstitution,
         'kutglmasuk' => $this->input->post('start',TRUE),
         'kutglkuitansi' => $this->input->post('tglkuitansi',TRUE),
         'kuno' => $this->input->post('kuno',TRUE),
-        'idtipe' => $this->input->post('dokumen',TRUE),
+        'idtipe' => 1,
         'kujmlbayar' => $this->input->post('jmlterbayar',TRUE),
         'kupemohon' => $this->input->post('pemohon',TRUE),
+        'kukode' => $barcode
     );
     $this->db->insert($this->table, $data);
     $id = $this->db->insert_id();
     return $id;
     }
+    // if($barcode != null)
+    // {
+    //   $data = array(
+    //     'username' => $username,
+    //     'idinstitution' => $idinstitution,
+    //     'kutglmasuk' => $this->input->post('start',TRUE),
+    //     'kutglkuitansi' => $this->input->post('tglkuitansi',TRUE),
+    //     'kuno' => $this->input->post('kuno',TRUE),
+    //     'idtipe' => $this->input->post('dokumen',TRUE),
+    //     'kukode' => $barcode,
+    //     'kujmlbayar' => $this->input->post('jmlterbayar',TRUE),
+    //     'kupemohon' => $this->input->post('pemohon',TRUE),
+    //     'kukode' => $barcode
+    // );
+    // $this->db->insert($this->table, $data);
+    // $id = $this->db->insert_id();
+    // return $id;
+    // }
+    // else{
+    //   $data = array(
+    //     'username' => $username,
+    //     'idinstitution' => $idinstitution,
+    //     'kutglmasuk' => $this->input->post('start',TRUE),
+    //     'kutglkuitansi' => $this->input->post('tglkuitansi',TRUE),
+    //     'kuno' => $this->input->post('kuno',TRUE),
+    //     'idtipe' => $this->input->post('dokumen',TRUE),
+    //     'kujmlbayar' => $this->input->post('jmlterbayar',TRUE),
+    //     'kupemohon' => $this->input->post('pemohon',TRUE),
+    // );
+    // $this->db->insert($this->table, $data);
+    // $id = $this->db->insert_id();
+    // return $id;
+    // }
   }
 
   public function check_barcode(){

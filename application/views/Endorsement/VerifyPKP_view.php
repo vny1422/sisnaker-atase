@@ -14,7 +14,14 @@
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
-
+          <?php if($this->session->flashdata('information') != ""): ?>
+          <?php echo '<div class="container">
+            <div class="alert alert-warning fade in">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <strong>Notification: </strong> '.$this->session->flashdata('information').'
+            </div>
+          </div>' ?>
+        <?php endif; ?>
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="barcode">Barcode <span class="required">*</span></label>
             <div class="col-md-3 col-sm-3 col-xs-12">
@@ -90,25 +97,9 @@
               <div class="clearfix"></div>
             </div>
         <div class="x_content">
-
-          <?php
-            if (validation_errors() != "") {
-              echo "<div class=\"well well-sm\">";
-                echo validation_errors();
-              echo "</div>";
-            }
-          ?>
-          <?php if($this->session->flashdata('information') != ""): ?>
-          <?php echo '<div class="container">
-            <div class="alert alert-success fade in">
-              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-              <strong>Notification: </strong> '.$this->session->flashdata('information').'
-            </div>
-          </div>' ?>
-        <?php endif; ?>
           <?php echo form_open(base_url('pkp/catatKuitansi')) ?>
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="active">Catat Kuitansi ? </label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="active">Use Receipt? </label>
             <div class="col-md-1 col-sm-1 col-xs-2">
               <input type="checkbox" id="cekenable" name="catatkuitansi" checked="true">
             </div>

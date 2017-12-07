@@ -239,7 +239,6 @@
           $("#pkpakhir").text(obj[0].pkptglakhir);
           $("#kuitansiag").val(obj[0].agid);
           $("#kuitansipp").val(obj[0].ppkode);
-          window.alert($("#kuitansipp").val());
             table.clear();
             $(wrapper).empty();
             for (var key in obj) {

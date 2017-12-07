@@ -212,7 +212,6 @@
       openlabel('POST',"<?php echo base_url()?>kuitansi/printLabel",{barcode: code},'Label');
       $("#agensi").val(<?php echo $kuitansiag ?>);
       $("#pptkis").val('<?php echo $kuitansipp ?>');
-      window.alert('$("#pptkis").val()');
     <?php endif; ?>
 
     //var table = ('#datatable-pkp');

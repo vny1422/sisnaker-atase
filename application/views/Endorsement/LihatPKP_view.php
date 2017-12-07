@@ -215,6 +215,22 @@
         var listinput = $.parseJSON(data);
         $(wrapper_pkp).html('');
         for (var key in listinput) {
+
+          if (listinput[key]["isverified"] == 1) {
+            if (listinput[key]["isuploaded"] == 1) {
+              console.log("uploaded");
+              td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + listinput[key]["pkpkode"] +'.pdf ">DOWNLOAD</a>'
+            }
+            else{
+              console.log("else1");
+              td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + listinput[key]["pkpkode"] +' ">UPLOAD</a>'
+            }
+          }
+          else {
+            console.log("else");
+            td = 'Segera Lakukan Verifikasi'
+          }
+
           var string = '\
           <tr>\
             <td id="kodepkp" class="text-center" value = "' + listinput[key]["pkpkode"] +'"><a onclick=show("'+listinput[key]["pkpkode"]+'") data-toggle="modal" data-target=".bs-example-modal-lg">' + listinput[key]["pkpkode"] + '</a></td>\
@@ -223,7 +239,7 @@
             <td>'+ (listinput[key]["isverified"] == 1 ? "Sudah" : "Belum") + '</td> \
             <td>'+ (listinput[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td> \
             <td>'+listinput[key]["pkptimestamp"]+ '</td> \
-            <td class="text-center">'+ (listinput[key]["isuploaded"]  == 1 ? ('<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + listinput[key]["pkpkode"] +'.pdf ">DOWNLOAD</a>') : ('<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + listinput[key]["pkpkode"] +' ">UPLOAD</a>')) + '</td> \
+            <td class="text-center">'+ td + '</td> \
           </tr>'
           $(wrapper_pkp).append(string);
         }
@@ -259,6 +275,22 @@
           var listinput = $.parseJSON(data);
           $(wrapper_pkp).html('');
           for (var key in listinput) {
+
+            if (listinput[key]["isverified"] == 1) {
+              if (listinput[key]["isuploaded"] == 1) {
+                console.log("uploaded");
+                td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + listinput[key]["pkpkode"] +'.pdf ">DOWNLOAD</a>'
+              }
+              else{
+                console.log("else1");
+                td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + listinput[key]["pkpkode"] +' ">UPLOAD</a>'
+              }
+            }
+            else {
+              console.log("else");
+              td = 'Segera Lakukan Verifikasi'
+            }
+
             var string = '\
             <tr>\
               <td id="kodepkp" class="text-center" value = "' + listinput[key]["pkpkode"] +'"><a onclick=show("'+listinput[key]["pkpkode"]+'") data-toggle="modal" data-target=".bs-example-modal-lg">' + listinput[key]["pkpkode"] + '</a></td>\
@@ -267,7 +299,7 @@
               <td>'+ (listinput[key]["isverified"] == 1 ? "Sudah" : "Belum") + '</td> \
               <td>'+ (listinput[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td> \
               <td>'+listinput[key]["pkptimestamp"]+ '</td> \
-              <td class="text-center">'+ (listinput[key]["isuploaded"]  == 1 ? ('<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + listinput[key]["pkpkode"] +'.pdf ">DOWNLOAD</a>') : ('<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + listinput[key]["pkpkode"] +' ">UPLOAD</a>')) + '</td> \
+              <td class="text-center">'+ td + '</td> \
             </tr>'
             $(wrapper_pkp).append(string);
           }

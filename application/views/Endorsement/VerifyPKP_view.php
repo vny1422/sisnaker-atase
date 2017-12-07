@@ -98,10 +98,12 @@
             </div>
         <div class="x_content">
           <?php echo form_open(base_url('pkp/catatKuitansi')) ?>
+          <input type="hidden" id="kuitansiag" name="kuitansiag"/>
+          <input type="hidden" id="kuitansipp" name="kuitansipp"/>
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="active">Use Receipt? </label>
             <div class="col-md-1 col-sm-1 col-xs-2">
-              <input type="checkbox" id="cekenable" name="catatkuitansi" checked="true">
+              <input type="checkbox" id="cekenable" name="catatkuitansi" checked>
             </div>
             <br /><br />
           </div>
@@ -121,7 +123,7 @@
             <div class="col-sm-2">
               <div class="input-group date datepicker col-md-12 col-xs-12" data-provide="datepicker" ng-class="{'has-error':(pst && shForm.inDate.$invalid)}">
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                <input id="ckexpired" type="text" class="form-control tglformat" ng-model="shelterform['in']" name="tglkuitansi" required></input>
+                <input id="ckexpired" type="text" class="form-control tglformat" ng-model="shelterform['in']" name="tglkuitansi"></input>
               </div>
             </div>
           </div><br /><br /><br />
@@ -129,7 +131,7 @@
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">No. Kuitansi <span class="required">*</span></label>
             <div class="col-md-3 col-sm-3 col-xs-12">
-              <input id="noku" type="text" name="kuno" required="required" class="form-control">
+              <input id="noku" type="text" name="kuno" class="form-control">
             </div>
             <div style="margin-left: -55px;" class="col-md-3 col-sm-3 col-xs-12">
             <button type="button" class="btn btn-primary" id="btnCheck">Check</button><a id="errorku">Silahkan masukkan No. Kuitansi</a>
@@ -140,14 +142,14 @@
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Jumlah Terbayar <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-              <input id="jmlterbayar" type="text" name="jmlterbayar" required="required" class="form-control">Jumlah Terbayar dalam satuan <?php echo $currency?>
+              <input id="jmlterbayar" type="text" name="jmlterbayar" class="form-control">Jumlah Terbayar dalam satuan <?php echo $currency?>
             </div>
           </div><br /><br /><br /><br />
 
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Nama Pemohon <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-              <input id="pemohon" type="text" name="pemohon" required="required" class="form-control">
+              <input id="pemohon" type="text" name="pemohon" class="form-control">
             </div>
           </div><br /><br /><br />
 
@@ -207,33 +209,6 @@
     </div>
   </div>
 </div>
-<script>
-  openlabel = function(verb, url, data, target) {
-    var form = document.createElement("form");
-    form.action = url;
-    form.method = verb;
-    form.target = target;
-    if (data) {
-      for (var key in data) {
-        var input = document.createElement("textarea");
-        input.name = key;
-        input.value = typeof data[key] === "object" ? JSON.stringify(data[key]) : data[key];
-        form.appendChild(input);
-      }
-    }
-    form.style.display = 'none';
-    document.body.appendChild(form);
-    map = window.open("", "Label", "width=400,height=300");
-    form.submit();
-  };
-</script>
-
-<?php if($this->session->flashdata('print') != ""): ?>
-  <script type="text/javascript">
-    var code = '<?php echo $bc; ?>';
-    openlabel('POST',"<?php echo base_url()?>kuitansi/printLabel",{barcode: code},'Label');
-  </script>
-<?php endif; ?>
 
 <script>
 
@@ -262,6 +237,9 @@
           $("#pkptkis").text(obj[0].ppnama);
           $("#pkpawal").text(obj[0].pkptglawal);
           $("#pkpakhir").text(obj[0].pkptglakhir);
+          $("#kuitansiag").val(obj[0].agid);
+          $("#kuitansipp").val(obj[0].ppkode);
+          window.alert($("#kuitansipp").val());
             table.clear();
             $(wrapper).empty();
             for (var key in obj) {
@@ -363,7 +341,7 @@
     });
 
     $("#ceksubmit").click(function(e){
-      if(submit == false){
+      if(submit == false && $('#cekenable').is(':checked')) {
         e.preventDefault();
         window.alert("Cek No Kuitansi terlebih dahulu");
       }

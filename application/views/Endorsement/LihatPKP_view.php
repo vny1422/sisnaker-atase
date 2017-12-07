@@ -190,11 +190,37 @@
                   </div>
 
 <script type="text/javascript">
-  var foo;
   $(document).ready(function() {
 
     var agensi;
     var pptkis;
+
+    openlabel = function(verb, url, data, target) {
+      var form = document.createElement("form");
+      form.action = url;
+      form.method = verb;
+      form.target = target;
+      if (data) {
+        for (var key in data) {
+          var input = document.createElement("textarea");
+          input.name = key;
+          input.value = typeof data[key] === "object" ? JSON.stringify(data[key]) : data[key];
+          form.appendChild(input);
+        }
+      }
+      form.style.display = 'none';
+      document.body.appendChild(form);
+      map = window.open("", "Label", "width=400,height=300");
+      form.submit();
+    };
+
+    <?php if($this->session->flashdata('print') != ""): ?>
+      var code = '<?php echo $bc; ?>';
+      openlabel('POST',"<?php echo base_url()?>kuitansi/printLabel",{barcode: code},'Label');
+      $("#agensi").val(<?php echo $kuitansiag ?>);
+      $("#pptkis").val('<?php echo $kuitansipp ?>');
+      window.alert('$("#pptkis").val()');
+    <?php endif; ?>
 
     //var table = ('#datatable-pkp');
 
@@ -256,7 +282,6 @@
       //alert(bc);
       $.post(" <?php echo base_url() ?>PKP/getDataFromBarcode", {barcode:bc}, function(data, status){
         var obj = $.parseJSON(data);
-        console.log(data);
         if(obj.length > 0) {
           $("#pkpag").text(obj[0].agnama);
           $("#pkptkis").text(obj[0].ppnama);

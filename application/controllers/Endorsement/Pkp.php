@@ -27,6 +27,7 @@
 
     public function index()
     {
+<<<<<<< HEAD
       if ($this->session->userdata('role') == 4 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7){
 
         if($this->session->userdata('role') == 4){
@@ -46,6 +47,22 @@
       else {
         show_error("Access is forbidden.",403,"403 Forbidden");
       }
+=======
+      $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
+      $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
+      if ($this->session->flashdata('data') != '')
+      {
+        $this->data = $this->session->flashdata('data');
+      }
+      else {
+        $this->data['title'] = 'Lihat Data PKP';
+        $this->data['subtitle'] = 'Lihat Data PKP';
+        $this->data['subtitle2'] = 'Lihat Data PKP';
+      }
+      $this->load->view('templates/headerendorsement', $this->data);
+      $this->load->view('Endorsement/LihatPKP_view', $this->data);
+      $this->load->view('templates/footerendorsement');
+>>>>>>> 713a18914944e435d9add37120322dbf41773801
     }
 
     public function addPkp()
@@ -248,7 +265,7 @@
       $kode[16] = 'P';$kode[17] = 'Q';$kode[18] = 'R';$kode[19] = 'S';$kode[20] = 'T';
       $kode[21] = 'U';$kode[22] = 'V';$kode[23] = 'W';$kode[24] = 'X';$kode[25] = 'Y';
       $kode[26] = 'Z';
-      $tglmasuk = $this->input->post('start',TRUE);
+      $tglmasuk = $this->input->post('start',TRUE) ? $this->input->post('start',TRUE) : date("Y/m/d");
       $p = explode("/", $tglmasuk);
       $tglmasuk = intval($p[2]);
       $blnmasuk = intval($p[1]);
@@ -290,6 +307,10 @@
           redirect('PKP/verify');
         }
         else {
+          if (!($this->input->post('kuitansiag', true)))
+          {
+            redirect('Pkp');
+          }
           $barcodeku = $this->generateBarcode();
           $username = $this->session->userdata('user');
           $institusi = $this->session->userdata('institution');
@@ -298,26 +319,32 @@
           $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
           $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
           $this->data['bc'] = $barcodeku;
+          $this->data['kuitansiag'] = $this->input->post('kuitansiag', true);
+          $this->data['kuitansipp'] = $this->input->post('kuitansipp', true);
           $this->data['title'] = 'Lihat Data PKP';
           $this->data['subtitle'] = 'Lihat Data PKP';
           $this->data['subtitle2'] = 'Lihat Data PKP';
-          $this->load->view('templates/headerendorsement', $this->data);
-          $this->load->view('Endorsement/LihatPKP_view', $this->data);
-          $this->load->view('templates/footerendorsement');
+          $this->session->set_flashdata('data', $this->data);
+          redirect('Pkp');
         }
       }
       else {
+        if (!($this->input->post('kuitansiag', true)))
+        {
+          redirect('Pkp');
+        }
         $barcodeku = $this->generateBarcode();
         $this->session->set_flashdata('print', 'Data berhasil dimasukkan');
         $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
         $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
         $this->data['bc'] = $barcodeku;
+        $this->data['kuitansiag'] = $this->input->post('kuitansiag', true);
+        $this->data['kuitansipp'] = $this->input->post('kuitansipp', true);
         $this->data['title'] = 'Lihat Data PKP';
         $this->data['subtitle'] = 'Lihat Data PKP';
         $this->data['subtitle2'] = 'Lihat Data PKP';
-        $this->load->view('templates/headerendorsement', $this->data);
-        $this->load->view('Endorsement/LihatPKP_view', $this->data);
-        $this->load->view('templates/footerendorsement');
+        $this->session->set_flashdata('data', $this->data);
+        redirect('Pkp');
       }
     }
   }

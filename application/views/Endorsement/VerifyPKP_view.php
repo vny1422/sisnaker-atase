@@ -213,6 +213,35 @@
 <script>
 
   $(document).ready(function () {
+    window.smoothScrollTo = (function () {
+      var timer, start, factor;
+
+      return function (target, duration) {
+        var offset = window.pageYOffset,
+        delta  = target - window.pageYOffset; // Y-offset difference
+        duration = duration || 500;              // default 1 sec animation
+        start = Date.now();                       // get start time
+        factor = 0;
+
+        if( timer ) {
+          clearInterval(timer); // stop any running animations
+        }
+
+        function step() {
+          var y;
+          factor = (Date.now() - start) / duration; // get interpolation factor
+          if( factor >= 1 ) {
+            clearInterval(timer); // stop animation
+            factor = 1;           // clip to max 1.0
+          }
+          y = factor * delta + offset;
+          window.scrollBy(0, y - window.pageYOffset);
+        }
+
+        timer = setInterval(step, 10);
+        return timer;
+      };
+    }());
     var table = $('#tbpkpd').DataTable({
       responsive: true
     });
@@ -259,18 +288,22 @@
     });
 
     $("#verify").click(function() {
-      lv.ladda('start');
-      var code = $("#barcode").val();
-
-      $.post("<?php echo base_url()?>pkp/verifyBarcode", {barcode: code}, function(data,status){
-        lv.ladda('stop');
-        var obj = $.parseJSON(data);
-        if(obj) {
-            $("#checkedk").show();
-        } else {
-          alert('PKP already has been verified before!');
-        }
-      });
+      confirms = confirm("Are you sure to verify this document?");
+      if (confirms == true)
+      {
+        lv.ladda('start');
+        var code = $("#barcode").val();
+        $.post("<?php echo base_url()?>pkp/verifyBarcode", {barcode: code}, function(data,status){
+          lv.ladda('stop');
+          var obj = $.parseJSON(data);
+          if(obj) {
+              $("#checkedk").show();
+              smoothScrollTo(document.getElementById('checkedk').offsetTop);
+          } else {
+            alert('PKP already has been verified before!');
+          }
+        });
+      }
     });
 
     // JS Kuitansi

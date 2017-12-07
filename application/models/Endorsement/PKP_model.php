@@ -58,6 +58,15 @@ class PKP_model extends CI_Model {
     return array($this->db->insert_batch('pkpdetail', $detail), $data["pkpkode"]);
   }
 
+  public function upload_dokumen_final_pkp($pkpkode)
+  {
+    $data = array(
+      'isuploaded' => '1'
+    );
+    $this->db->where('pkpkode',$pkpkode);
+    return $this->db->update($this->table, $data);
+  }
+
   function get_pkp_from_barcode($bc)
   {
     $this->db->select('p.*, ag.agnama, pp.ppnama, pd.pkpdl, pd.pkpdp, pd.pkpdc, jp.namajenispekerjaan');
@@ -116,6 +125,7 @@ class PKP_model extends CI_Model {
     $this->db->join('mpptkis pp', 'pp.ppkode = p.ppkode');
     $this->db->where('p.agid', $agid);
     $this->db->where('p.ppkode', $ppkode);
+    $this->db->where('p.idinstitution', $this->session->userdata('institution'));
 
 
     return $this->db->get()->result();

@@ -85,6 +85,7 @@
                   <th>S. Verifikasi</th>
                   <th>S. Upload</th>
                   <th>Date Modified</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody id="list-pkp">
@@ -120,13 +121,61 @@
                           <h4 class="modal-title" id="myModalLabel">Modal title</h4>
                         </div>
                         <div class="modal-body">
-                          <h4>Text in a modal</h4>
-                          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-                          <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                          <div class="x_content checked" style="display: " >
+                            <div class="row" style="padding-top: 20px">
+                              <div class="col-md-12">
+                                <div class="col-md-2">
+                                  <label id="coba" class="control-label" >Agensi:</label>
+                                </div>
+                                <div class="col-md-10">
+                                  <p id="pkpag"></p>
+                                </div>
+                              </div>
+                              <div class="col-md-12">
+                                <div class="col-md-2">
+                                  <label class="control-label" >PPTKIS:</label>
+                                </div>
+                                <div class="col-md-10">
+                                  <p id="pkptkis"></p>
+                                </div>
+                              </div>
+                              <div class="col-md-12">
+                                <div class="col-md-2">
+                                  <label class="control-label" >Tanggal Mulai:</label>
+                                </div>
+                                <div class="col-md-10">
+                                  <p id="pkpawal"></p>
+                                </div>
+                              </div>
+                              <div class="col-md-12">
+                                <div class="col-md-2">
+                                  <label class="control-label" >Tanggal Akhir:</label>
+                                </div>
+                                <div class="col-md-10">
+                                  <p id="pkpakhir"></p>
+                                </div>
+                              </div>
+                              </div>
+                              <hr/>
+                              <table id="tbpkpd" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
+                                <thead>
+                                  <tr>
+                                    <th>Jenis Pekerjaan</th>
+                                    <th>Laki-Laki</th>
+                                    <th>Perempuan</th>
+                                    <th>Campuran</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="pkpdlist">
+                                </tbody>
+                              </table>
+                              <div class="clearfix">
+                              </div>
+
+                            </div>
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary">Save changes</button>
                         </div>
 
                       </div>
@@ -134,10 +183,12 @@
                   </div>
 
 <script type="text/javascript">
+  var foo;
   $(document).ready(function() {
 
     var agensi;
     var pptkis;
+
     //var table = ('#datatable-pkp');
 
     var table = $('#datatable-pkp').DataTable({
@@ -149,9 +200,12 @@
     ]
         });
 
-
+    var tableDetail = $('#tbpkpd').DataTable({
+      responsive: true
+    });
 
     var wrapper_pkp = ('#list-pkp')
+    var wrapper_detail =('#pkpdlist')
 
     $('#datatable-pkp').dataTable();
 
@@ -165,38 +219,61 @@
       pptkis = $("#pptkis").val();
     });
 
-
     $('#btncari').click(function () {
       if (agensi == null || pptkis == null) {
         alert("Pilih Agensi dan PPTKIS")
       }
       else {
-        $.post(" <?php echo base_url() ?>PKP/getDataPKP", {agid:agensi, ppkode:pptkis}, function(data, status){
+        $.post(" <?php echo base_url(); ?>PKP/getDataPKP", {agid:agensi, ppkode:pptkis}, function(data, status){
           var listinput = $.parseJSON(data);
           $(wrapper_pkp).html('');
           for (var key in listinput) {
             var string = '\
             <tr>\
-              <td class="text-center"><a data-toggle="modal" data-target=".bs-example-modal-lg">' + listinput[key]["pkpkode"] + '</a></td>\
+              <td id="kodepkp" class="text-center" value = "' + listinput[key]["pkpkode"] +'"><a onclick=show("'+listinput[key]["pkpkode"]+'") data-toggle="modal" data-target=".bs-example-modal-lg">' + listinput[key]["pkpkode"] + '</a></td>\
               <td>'+listinput[key]["pkptglawal"]+ '</td> \
               <td>'+listinput[key]["pkptglakhir"]+ '</td> \
               <td>'+listinput[key]["isverified"]+ '</td> \
               <td>'+listinput[key]["isuploaded"]+ '</td> \
               <td>'+listinput[key]["pkptimestamp"]+ '</td> \
+              <td><a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + listinput[key]["pkpkode"] +' ">UPLOAD</a> <a class="btn btn-xs btn-default" href="#">DOWNLOAD</a></td> \
             </tr>'
             $(wrapper_pkp).append(string);
-
-
           }
         });
       }
     });
 
+    show = function (bc)
+    {
+      //alert(bc);
+      $.post(" <?php echo base_url() ?>PKP/getDataFromBarcode", {barcode:bc}, function(data, status){
+        var obj = $.parseJSON(data);
+        console.log(data);
+        if(obj.length > 0) {
+          $("#pkpag").text(obj[0].agnama);
+          $("#pkptkis").text(obj[0].ppnama);
+          $("#pkpawal").text(obj[0].pkptglawal);
+          $("#pkpakhir").text(obj[0].pkptglakhir);
+            tableDetail.clear();
+            $(wrapper_detail).empty();
+            for (var key in obj) {
+              if (obj.hasOwnProperty(key)) {
+                tableDetail.row.add( [
+                  obj[key]["namajenispekerjaan"],
+                  obj[key]["pkpdl"],
+                  obj[key]["pkpdp"],
+                  obj[key]["pkpdc"]
+                ] ).draw();
+              }
+            }
+            $(".checked").show();
+        } else {
+          alert('Barcode tidak valid!');
+        }
 
-
-
-
-
+      });
+    }
 
 
 

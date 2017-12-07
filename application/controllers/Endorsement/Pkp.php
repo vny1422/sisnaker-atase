@@ -27,6 +27,27 @@
 
     public function index()
     {
+<<<<<<< HEAD
+      if ($this->session->userdata('role') == 4 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7){
+
+        if($this->session->userdata('role') == 4){
+          $this->data['dataagensi'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
+        }
+
+        $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
+        $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
+
+        $this->data['title'] = 'Lihat Data PKP';
+        $this->data['subtitle'] = 'Lihat Data PKP';
+        $this->data['subtitle2'] = 'Lihat Data PKP';
+        $this->load->view('templates/headerendorsement', $this->data);
+        $this->load->view('Endorsement/LihatPKP_view', $this->data);
+        $this->load->view('templates/footerendorsement');
+      }
+      else {
+        show_error("Access is forbidden.",403,"403 Forbidden");
+      }
+=======
       $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
       $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
       if ($this->session->flashdata('data') != '')
@@ -41,6 +62,7 @@
       $this->load->view('templates/headerendorsement', $this->data);
       $this->load->view('Endorsement/LihatPKP_view', $this->data);
       $this->load->view('templates/footerendorsement');
+>>>>>>> 713a18914944e435d9add37120322dbf41773801
     }
 
     public function addPkp()
@@ -78,7 +100,7 @@
           $returnPKP = $this->PKP_model->post_new_pkp();
           if ($returnPKP[0]) {
             $config['upload_path'] = './uploads/dokumenpkp/';
-            $config['allowed_types'] = '*';
+            $config['allowed_types'] = 'pdf';
             $config['remove_spaces'] = TRUE;
             $config['file_name'] = "Dokumen_PKP_$returnPKP[1]";
 
@@ -111,13 +133,17 @@
       if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
       {
         //$this->form_validation->set_rules('dokumenfinalpkp', 'Dokumen Final PKP', 'required');
+         // if (empty($_FILES['dokumenfinalpkp']['name']))
+         // {
+         //     $this->form_validation->set_rules('dokumenfinalpkp', 'Document', 'required');
+         // }
+
         if (empty($_FILES['dokumenfinalpkp']['name']))
         {
-            $this->form_validation->set_rules('dokumenfinalpkp', 'Document', 'required');
-        }
+          $this->form_validation->set_rules('dokumenfinalpkp', 'Document', 'required');
+          $this->form_validation->run();
 
-        if ($this->form_validation->run() === FALSE)
-        {
+          echo "masukkk awal";
           $this->data['values'] = $pkpkode;
 
           $this->data['title'] = 'Upload Dokumen Final PKP';
@@ -129,12 +155,14 @@
         }
         else
         {
+          echo "Masuk upload";
           $returnUploadPKP = $this->PKP_model->upload_dokumen_final_pkp($pkpkode);
-          if ($returnUploadPKP[0]) {
+          if ($returnUploadPKP) {
+            //echo "masuk if";
             $config['upload_path'] = './uploads/dokumenfinalpkp/';
             $config['allowed_types'] = '*';
             $config['remove_spaces'] = TRUE;
-            $config['file_name'] = "Dokumen_Final_PKP_$returnPKP[1]";
+            $config['file_name'] = "Dokumen_Final_PKP_$pkpkode";
 
             $this->load->library('upload', $config);
 

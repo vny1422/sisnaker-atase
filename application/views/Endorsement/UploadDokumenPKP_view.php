@@ -36,7 +36,6 @@
           </div>' ?>
         <?php endif; ?>
           <?php echo form_open_multipart(base_url('PKP/uploadDokFin/'.$values)) ?>
-          <?php echo $values ?>
 
         <div class="form-group">
           <label class="control-label col-md-2" for="name">Dokumen Pengajuan PKP<span class="required">*</span></label>

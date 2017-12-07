@@ -44,12 +44,19 @@
           <div class="form-group">
             <label class="control-label col-md-2">Agensi</label>
             <div class="col-md-5">
+              <?php if (isset($dataagensi)) { ?>
+                <select name="agensi" required="required" class="select2_single form-control" tabindex="-1" disabled>
+                    <option value="<?php echo $dataagensi->agid ?>"><?php echo $dataagensi->agnama ?></option>
+                </select>
+                <input id="agensi" type="hidden" name="agensi" value="<?php echo $dataagensi->agid ?>"/>
+              <?php } else{ ?>
                 <select id="agensi" name="agensi" required="required" class="select2_single form-control" tabindex="-1">
                   <option></option>
                   <?php foreach($listagensi as $row): ?>
                     <option value="<?php echo $row->agid ?>"><?php echo $row->agnama ?></option>
                   <?php endforeach; ?>
                 </select>
+              <?php } ?>
             </div>
           </div><br /><br /><br />
 
@@ -245,7 +252,7 @@
     });
 
     $('#btncari').click(function () {
-      if (agensi == null || pptkis == null) {
+      if ($("#agensi").val() == null || pptkis == null) {
         alert("Pilih Agensi dan PPTKIS")
       }
       else {
@@ -258,10 +265,10 @@
               <td id="kodepkp" class="text-center" value = "' + listinput[key]["pkpkode"] +'"><a onclick=show("'+listinput[key]["pkpkode"]+'") data-toggle="modal" data-target=".bs-example-modal-lg">' + listinput[key]["pkpkode"] + '</a></td>\
               <td>'+listinput[key]["pkptglawal"]+ '</td> \
               <td>'+listinput[key]["pkptglakhir"]+ '</td> \
-              <td>'+listinput[key]["isverified"]+ '</td> \
-              <td>'+listinput[key]["isuploaded"]+ '</td> \
+              <td>'+ (listinput[key]["isverified"] == 1 ? "Sudah" : "Belum") + '</td> \
+              <td>'+ (listinput[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td> \
               <td>'+listinput[key]["pkptimestamp"]+ '</td> \
-              <td><a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + listinput[key]["pkpkode"] +' ">UPLOAD</a> <a class="btn btn-xs btn-default" href="#">DOWNLOAD</a></td> \
+              <td class="text-center">'+ (listinput[key]["isuploaded"]  == 1 ? ('<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + listinput[key]["pkpkode"] +'.pdf ">DOWNLOAD</a>') : ('<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + listinput[key]["pkpkode"] +' ">UPLOAD</a>')) + '</td> \
             </tr>'
             $(wrapper_pkp).append(string);
           }

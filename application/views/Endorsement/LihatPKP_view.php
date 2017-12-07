@@ -31,16 +31,14 @@
               echo "</div>";
             }
           ?>
-          <?php if($this->session->flashdata('information') != ""): ?>
+          <?php if($this->session->flashdata('print') != ""): ?>
           <?php echo '<div class="container">
-            <div class="alert alert-success fade in">
+            <div class="alert alert-warning fade in">
               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-              <strong>Selamat!</strong> '.$this->session->flashdata('information').'
+              <strong>Notification: </strong> '.$this->session->flashdata('print').'
             </div>
           </div>' ?>
         <?php endif; ?>
-          <?php echo form_open_multipart(base_url('PKP/addPkp')) ?>
-
           <div class="form-group">
             <label class="control-label col-md-2">Agensi</label>
             <div class="col-md-5">
@@ -109,8 +107,6 @@
             <a class="btn btn-warning" href=" <?php echo base_url('PKP/addPkp') ?> ">Tambah PKP</a>
           </div>
         </div>
-
-        </form>
 
       </div>
     </div>
@@ -191,10 +187,6 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-
-    var agensi;
-    var pptkis;
-
     openlabel = function(verb, url, data, target) {
       var form = document.createElement("form");
       form.action = url;
@@ -219,6 +211,23 @@
       openlabel('POST',"<?php echo base_url()?>kuitansi/printLabel",{barcode: code},'Label');
       $("#agensi").val(<?php echo $kuitansiag ?>);
       $("#pptkis").val('<?php echo $kuitansipp ?>');
+      $.post(" <?php echo base_url(); ?>PKP/getDataPKP", {agid:$("#agensi").val(), ppkode:$("#pptkis").val()}, function(data, status){
+        var listinput = $.parseJSON(data);
+        $(wrapper_pkp).html('');
+        for (var key in listinput) {
+          var string = '\
+          <tr>\
+            <td id="kodepkp" class="text-center" value = "' + listinput[key]["pkpkode"] +'"><a onclick=show("'+listinput[key]["pkpkode"]+'") data-toggle="modal" data-target=".bs-example-modal-lg">' + listinput[key]["pkpkode"] + '</a></td>\
+            <td>'+listinput[key]["pkptglawal"]+ '</td> \
+            <td>'+listinput[key]["pkptglakhir"]+ '</td> \
+            <td>'+ (listinput[key]["isverified"] == 1 ? "Sudah" : "Belum") + '</td> \
+            <td>'+ (listinput[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td> \
+            <td>'+listinput[key]["pkptimestamp"]+ '</td> \
+            <td class="text-center">'+ (listinput[key]["isuploaded"]  == 1 ? ('<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + listinput[key]["pkpkode"] +'.pdf ">DOWNLOAD</a>') : ('<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + listinput[key]["pkpkode"] +' ">UPLOAD</a>')) + '</td> \
+          </tr>'
+          $(wrapper_pkp).append(string);
+        }
+      });
     <?php endif; ?>
 
     //var table = ('#datatable-pkp');
@@ -241,22 +250,12 @@
 
     $('#datatable-pkp').dataTable();
 
-    // get value agensi
-    $('#agensi').on('change', function() {
-      agensi = $("#agensi").val();
-    });
-
-    // get value pptkis
-    $('#pptkis').on('change', function() {
-      pptkis = $("#pptkis").val();
-    });
-
     $('#btncari').click(function () {
-      if ($("#agensi").val() == null || pptkis == null) {
+      if ($("#agensi").val() == null || $("#pptkis").val() == null) {
         alert("Pilih Agensi dan PPTKIS")
       }
       else {
-        $.post(" <?php echo base_url(); ?>PKP/getDataPKP", {agid:agensi, ppkode:pptkis}, function(data, status){
+        $.post(" <?php echo base_url(); ?>PKP/getDataPKP", {agid:$("#agensi").val(), ppkode:$("#pptkis").val()}, function(data, status){
           var listinput = $.parseJSON(data);
           $(wrapper_pkp).html('');
           for (var key in listinput) {

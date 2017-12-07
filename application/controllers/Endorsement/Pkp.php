@@ -101,6 +101,59 @@
 
     }
 
+    public function uploadDokFin($pkpkode)
+    {
+      if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
+      {
+        //$this->form_validation->set_rules('dokumenfinalpkp', 'Dokumen Final PKP', 'required');
+        if (empty($_FILES['dokumenfinalpkp']['name']))
+        {
+            $this->form_validation->set_rules('dokumenfinalpkp', 'Document', 'required');
+        }
+
+        if ($this->form_validation->run() === FALSE)
+        {
+          $this->data['values'] = $pkpkode;
+
+          $this->data['title'] = 'Upload Dokumen Final PKP';
+          $this->data['subtitle'] = 'Upload Dokumen Final PKP';
+          $this->data['subtitle2'] = 'Upload Dokumen Final PKP';
+          $this->load->view('templates/headerendorsement', $this->data);
+          $this->load->view('Endorsement/UploadDokumenPKP_view', $this->data);
+          $this->load->view('templates/footerendorsement');
+        }
+        else
+        {
+          $returnUploadPKP = $this->PKP_model->upload_dokumen_final_pkp($pkpkode);
+          if ($returnUploadPKP[0]) {
+            $config['upload_path'] = './uploads/dokumenfinalpkp/';
+            $config['allowed_types'] = '*';
+            $config['remove_spaces'] = TRUE;
+            $config['file_name'] = "Dokumen_Final_PKP_$returnPKP[1]";
+
+            $this->load->library('upload', $config);
+
+            if ( !$this->upload->do_upload('dokumenfinalpkp'))
+            {
+              $this->data['error'] = $this->upload->display_errors('','');
+            } else {
+              $this->data['error'] = "";
+              //$this->session->set_flashdata('information', 'Upload berhasil dilakukan');
+            }
+            $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
+          }
+          else {
+            $this->session->set_flashdata('information', 'Data gagal dimasukkan');
+          }
+          redirect('PKP/');
+        }
+
+      }
+      else {
+        show_error("Access is forbidden.",403,"403 Forbidden");
+      }
+    }
+
     public function getDataPKP()
     {
       $agid = $this->input->post('agid', TRUE);

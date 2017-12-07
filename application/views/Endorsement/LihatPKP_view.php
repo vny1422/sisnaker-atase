@@ -64,7 +64,7 @@
               </select>
             </div>
             <div class="col-md-2">
-              <a id="btncari" class="btn btn-success caributton" href="#">CARI</a>
+              <input id="btncari" class="btn btn-success caributton" type="button" name="btncari" value="CARI">
             </div>
 
           </div><br /><br /><br />
@@ -78,13 +78,14 @@
               <thead>
                 <tr>
                   <th>Kode PKP</th>
-                  <th>Agensi</th>
-                  <th>PPTKIS</th>
+                  <!-- <th>Agensi</th>
+                  <th>PPTKIS</th> -->
                   <th>Tanggal Mulai</th>
                   <th>Tangggal Selesai</th>
                   <th>S. Verifikasi</th>
                   <th>S. Upload</th>
                   <th>Date Modified</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody id="list-pkp">
@@ -109,11 +110,85 @@
   </div>
 </div>
 
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                      <div class="modal-content">
+
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                          </button>
+                          <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                        </div>
+                        <div class="modal-body">
+                          <div class="x_content checked" style="display: " >
+                            <div class="row" style="padding-top: 20px">
+                              <div class="col-md-12">
+                                <div class="col-md-2">
+                                  <label id="coba" class="control-label" >Agensi:</label>
+                                </div>
+                                <div class="col-md-10">
+                                  <p id="pkpag"></p>
+                                </div>
+                              </div>
+                              <div class="col-md-12">
+                                <div class="col-md-2">
+                                  <label class="control-label" >PPTKIS:</label>
+                                </div>
+                                <div class="col-md-10">
+                                  <p id="pkptkis"></p>
+                                </div>
+                              </div>
+                              <div class="col-md-12">
+                                <div class="col-md-2">
+                                  <label class="control-label" >Tanggal Mulai:</label>
+                                </div>
+                                <div class="col-md-10">
+                                  <p id="pkpawal"></p>
+                                </div>
+                              </div>
+                              <div class="col-md-12">
+                                <div class="col-md-2">
+                                  <label class="control-label" >Tanggal Akhir:</label>
+                                </div>
+                                <div class="col-md-10">
+                                  <p id="pkpakhir"></p>
+                                </div>
+                              </div>
+                              </div>
+                              <hr/>
+                              <table id="tbpkpd" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
+                                <thead>
+                                  <tr>
+                                    <th>Jenis Pekerjaan</th>
+                                    <th>Laki-Laki</th>
+                                    <th>Perempuan</th>
+                                    <th>Campuran</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="pkpdlist">
+                                </tbody>
+                              </table>
+                              <div class="clearfix">
+                              </div>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
 <script type="text/javascript">
+  var foo;
   $(document).ready(function() {
 
     var agensi;
     var pptkis;
+
     //var table = ('#datatable-pkp');
 
     var table = $('#datatable-pkp').DataTable({
@@ -125,9 +200,12 @@
     ]
         });
 
-
+    var tableDetail = $('#tbpkpd').DataTable({
+      responsive: true
+    });
 
     var wrapper_pkp = ('#list-pkp')
+    var wrapper_detail =('#pkpdlist')
 
     $('#datatable-pkp').dataTable();
 
@@ -141,45 +219,61 @@
       pptkis = $("#pptkis").val();
     });
 
-
     $('#btncari').click(function () {
       if (agensi == null || pptkis == null) {
         alert("Pilih Agensi dan PPTKIS")
       }
       else {
-        $.post(" <?php echo base_url() ?>PKP/getDataPKP", {agid:agensi, ppkode:pptkis}, function(data, status){
-console.log('OVAN');
+        $.post(" <?php echo base_url(); ?>PKP/getDataPKP", {agid:agensi, ppkode:pptkis}, function(data, status){
           var listinput = $.parseJSON(data);
-          console.log(data);
-          console.log('OVAN');
-          table.clear();
-          $(wrapper_pkp).empty();
-          var listinput = $.parseJSON(data);
-          var i = 0;
+          $(wrapper_pkp).html('');
           for (var key in listinput) {
-            if(listinput.hasOwnProperty(key)){
-              table.row.add([
-                listinput[key]["pkpkode"],
-                listinput[key]["agnama"],
-                listinput[key]["ppnama"],
-                listinput[key]["pkptglawal"],
-                listinput[key]["pkptglakhir"],
-                listinput[key]["isverified"],
-                listinput[key]["isuploaded"],
-                listinput[key]["pkptimestamp"]
-              ]).draw();
-              i = i+1;
-            }
+            var string = '\
+            <tr>\
+              <td id="kodepkp" class="text-center" value = "' + listinput[key]["pkpkode"] +'"><a onclick=show("'+listinput[key]["pkpkode"]+'") data-toggle="modal" data-target=".bs-example-modal-lg">' + listinput[key]["pkpkode"] + '</a></td>\
+              <td>'+listinput[key]["pkptglawal"]+ '</td> \
+              <td>'+listinput[key]["pkptglakhir"]+ '</td> \
+              <td>'+listinput[key]["isverified"]+ '</td> \
+              <td>'+listinput[key]["isuploaded"]+ '</td> \
+              <td>'+listinput[key]["pkptimestamp"]+ '</td> \
+              <td><a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + listinput[key]["pkpkode"] +' ">UPLOAD</a> <a class="btn btn-xs btn-default" href="#">DOWNLOAD</a></td> \
+            </tr>'
+            $(wrapper_pkp).append(string);
           }
         });
       }
     });
 
+    show = function (bc)
+    {
+      //alert(bc);
+      $.post(" <?php echo base_url() ?>PKP/getDataFromBarcode", {barcode:bc}, function(data, status){
+        var obj = $.parseJSON(data);
+        console.log(data);
+        if(obj.length > 0) {
+          $("#pkpag").text(obj[0].agnama);
+          $("#pkptkis").text(obj[0].ppnama);
+          $("#pkpawal").text(obj[0].pkptglawal);
+          $("#pkpakhir").text(obj[0].pkptglakhir);
+            tableDetail.clear();
+            $(wrapper_detail).empty();
+            for (var key in obj) {
+              if (obj.hasOwnProperty(key)) {
+                tableDetail.row.add( [
+                  obj[key]["namajenispekerjaan"],
+                  obj[key]["pkpdl"],
+                  obj[key]["pkpdp"],
+                  obj[key]["pkpdc"]
+                ] ).draw();
+              }
+            }
+            $(".checked").show();
+        } else {
+          alert('Barcode tidak valid!');
+        }
 
-
-
-
-
+      });
+    }
 
 
 

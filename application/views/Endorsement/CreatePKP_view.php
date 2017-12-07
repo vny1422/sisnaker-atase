@@ -7,6 +7,14 @@
     .kuota{
       margin-left: -5%;
     }
+
+    .addButton{
+      margin-left: -70%;
+    }
+
+    .remove_field{
+      margin-left: -70%;
+    }
 </style>
 <!-- page content -->
 <div class="right_col" role="main">
@@ -92,7 +100,7 @@
           <div class="input_fields_wrap" id="wrapopsi">
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12">Jenis Pekerjaan <span class="required">*</span></label>
-            <div class="col-md-4">
+            <div class="col-md-5">
               <select name="jenispekerjaan[]" required="required" class="select2_single form-control">
                 <option></option>
                 <?php foreach($listjenispekerjaan as $row): ?>
@@ -100,7 +108,7 @@
                 <?php endforeach; ?>
               </select>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-5">
 
             </div>
             <div class="col-md-1">
@@ -111,7 +119,7 @@
               <div class="col-md-2">
 
               </div>
-              <div class="col-md-4">
+              <div class="col-md-5">
                 <div class="col-md-4 kuota">
                   <label class="control-label col-md-4 minilabel" for="name">L</label>
                   <div class="col-md-8 ">
@@ -173,11 +181,10 @@ $(document).ready(function() {
 
   $(add_button).click(function(e){ //on add input button click
     e.preventDefault();
-    if(x < max_fields){ //max input box allowed
-      $(wrapopsi).append('<div class="form-group">\
+    $(wrapopsi).append('<div class="form-group">\
                   <br /> <br /> <br />\
                   <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>\
-                  <div class="col-md-4">\
+                  <div class="col-md-5">\
                     <select name="jenispekerjaan[]" required="required" class="select2_single form-control">\
                       <option></option>\
                       <?php foreach($listjenispekerjaan as $row): ?>\
@@ -185,7 +192,7 @@ $(document).ready(function() {
                       <?php endforeach; ?>\
                     </select>\
                   </div>\
-                  <div class="col-md-6">\
+                  <div class="col-md-5">\
       \
                   </div>\
                   <div class="col-md-1">\
@@ -196,7 +203,7 @@ $(document).ready(function() {
                     <div class="col-md-2">\
       \
                     </div>\
-                    <div class="col-md-4">\
+                    <div class="col-md-5">\
                       <div class="col-md-4 kuota">\
                         <label class="control-label col-md-4 minilabel" for="name">L</label>\
                         <div class="col-md-8 ">\
@@ -222,7 +229,6 @@ $(document).ready(function() {
       \
                   </div>\
                 </div>'); //add input box
-    }
   });
 
   $(wrapopsi).on("click",".remove_field", function(e){ //user click on remove text

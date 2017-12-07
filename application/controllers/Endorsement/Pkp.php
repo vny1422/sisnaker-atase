@@ -33,17 +33,13 @@
           $this->data['dataagensi'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
         }
 
-        $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
-        $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
         if ($this->session->flashdata('data') != '')
         {
           $this->data = $this->session->flashdata('data');
         }
-        else {
-          $this->data['title'] = 'Lihat Data PKP';
-          $this->data['subtitle'] = 'Lihat Data PKP';
-          $this->data['subtitle2'] = 'Lihat Data PKP';
-        }
+
+        $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
+        $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
         $this->data['title'] = 'Lihat Data PKP';
         $this->data['subtitle'] = 'Lihat Data PKP';
         $this->data['subtitle2'] = 'Lihat Data PKP';
@@ -307,14 +303,9 @@
           $institusi = $this->session->userdata('institution');
           $this->Kuitansi_model->catat_kuitansi($username, $institusi, $barcodeku, 1);
           $this->session->set_flashdata('print', 'Segera Upload Dokumen Final PKP');
-          $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
-          $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
           $this->data['bc'] = $barcodeku;
           $this->data['kuitansiag'] = $this->input->post('kuitansiag', true);
           $this->data['kuitansipp'] = $this->input->post('kuitansipp', true);
-          $this->data['title'] = 'Lihat Data PKP';
-          $this->data['subtitle'] = 'Lihat Data PKP';
-          $this->data['subtitle2'] = 'Lihat Data PKP';
           $this->session->set_flashdata('data', $this->data);
           redirect('Pkp');
         }
@@ -326,14 +317,9 @@
         }
         $barcodeku = $this->generateBarcode();
         $this->session->set_flashdata('print', 'Segera Upload Dokumen Final PKP ');
-        $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
-        $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
         $this->data['bc'] = $barcodeku;
         $this->data['kuitansiag'] = $this->input->post('kuitansiag', true);
         $this->data['kuitansipp'] = $this->input->post('kuitansipp', true);
-        $this->data['title'] = 'Lihat Data PKP';
-        $this->data['subtitle'] = 'Lihat Data PKP';
-        $this->data['subtitle2'] = 'Lihat Data PKP';
         $this->session->set_flashdata('data', $this->data);
         redirect('Pkp');
       }

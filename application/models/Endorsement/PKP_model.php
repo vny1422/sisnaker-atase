@@ -15,6 +15,7 @@ class PKP_model extends CI_Model {
       'ppkode' => $this->input->post('pptkis', TRUE),
       'agid' => $this->input->post('agensi', TRUE),
       'idinstitution' => $this->session->userdata('institution'),
+      'idkantor' => $this->session->userdata('kantor'),
       'pkptglawal' => $this->input->post('start', TRUE),
       'pkptglakhir' => $this->input->post('end', TRUE)
     );
@@ -126,7 +127,7 @@ class PKP_model extends CI_Model {
     $this->db->where('p.agid', $agid);
     $this->db->where('p.ppkode', $ppkode);
     $this->db->where('p.idinstitution', $this->session->userdata('institution'));
-
+    $this->db->where('p.idkantor', $this->session->userdata('kantor'));
 
     return $this->db->get()->result();
   }

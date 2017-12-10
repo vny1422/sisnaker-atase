@@ -81,17 +81,18 @@ class PKP_model extends CI_Model {
     return $this->db->get()->result();
   }
 
-  function verify_barcode($bc){
+  function legalize_barcode($bc){
     $this->db->where('pkpkode', $bc);
     $this->db->where('idinstitution', $this->session->userdata('institution'));
-    $this->db->where('isverified', 1);
+    $this->db->where('isverified', 2);
     if ($this->db->get($this->table)->num_rows() > 0)
     {
       return FALSE;
     }
     else {
       $data = array(
-        'isverified' => 1
+        'isverified' => 2,
+        'pkptglendorsement' => date("Y-m-d")
       );
 
       $this->db->where('pkpkode', $bc);

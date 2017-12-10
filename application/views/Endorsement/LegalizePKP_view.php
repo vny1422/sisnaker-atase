@@ -85,10 +85,10 @@
           <div class="clearfix">
           </div>
           <div class="col-md-12 text-center">
-            <button id="verify" class="ladda-button" style="width: 20%" data-style="expand-right" data-color="green" data-size="xs"><span class="ladda-label" style="color:white"><b>VERIFY</b></span></button>
+            <button id="legalize" class="ladda-button" style="width: 20%" data-style="expand-right" data-color="green" data-size="xs"><span class="ladda-label" style="color:white"><b>LEGALIZE</b></span></button>
           </div>
         </div>
-        <div class="x_panel" id="checkedk" style="display: none">
+        <div class="x_panel checkedk" id="scroll" style="display: none">
         <div class="x_title">
           <ul class="nav navbar-right panel_toolbox">
               <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -152,20 +152,18 @@
               <input id="pemohon" type="text" name="pemohon" class="form-control">
             </div>
           </div><br /><br /><br />
-
-        <div class="form-group">
-          <div class="col-md-6 col-sm-6 col-xs-12">
-            <button type="reset" class="btn btn-primary">Cancel</button>
-            <button type="submit" id="ceksubmit" class="btn btn-success">Submit</button>
-          </div>
-        </div>
-        <br /><br />
-
-        </form>
-      </div>
       </div>
 
     </div>
+    <div class="form-group">
+      <div class="col-md-12 text-center checkedk" style="display: none">
+        <button type="submit" id="ceksubmit" style="width: 20%" class="btn btn-success">Submit</button>
+      </div>
+    </div>
+    <br /><br />
+
+    </form>
+  </div>
     <br />
   </div>
 </div>
@@ -247,7 +245,7 @@
     });
     var wrapper = $("#pkpdlist");
     var l = $("#check").ladda();
-    var lv = $("#verify").ladda();
+    var lv = $("#legalize").ladda();
     $(document).keypress(function(e) {
       if(e.which == 13) {
           $("#check").click();
@@ -287,20 +285,20 @@
       });
     });
 
-    $("#verify").click(function() {
-      confirms = confirm("Are you sure to verify this document?");
+    $("#legalize").click(function() {
+      confirms = confirm("Are you sure to legalize this document?");
       if (confirms == true)
       {
         lv.ladda('start');
         var code = $("#barcode").val();
-        $.post("<?php echo base_url()?>pkp/verifyBarcode", {barcode: code}, function(data,status){
+        $.post("<?php echo base_url()?>pkp/legalizeBarcode", {barcode: code}, function(data,status){
           lv.ladda('stop');
           var obj = $.parseJSON(data);
           if(obj) {
-              $("#checkedk").show();
-              smoothScrollTo(document.getElementById('checkedk').offsetTop);
+              $(".checkedk").show();
+              smoothScrollTo(document.getElementById('scroll').offsetTop);
           } else {
-            alert('PKP already has been verified before!');
+            alert('PKP already has been legalized before!');
           }
         });
       }

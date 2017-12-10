@@ -349,7 +349,8 @@ $log = "menginputkan masalah baru";
 $data_hist = array(
     'idmasalah' => $id_problem,
     'history' => $log,
-    'timestamp' => date('Y-m-d H:i:s')
+    'timestamp' => date('Y-m-d H:i:s'),
+    'user_username' => $this->session->userdata('user')
 );
 $this->Kasus_model->input_history($data_hist);
 }

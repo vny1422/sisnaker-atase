@@ -15,6 +15,10 @@
     .remove_field{
       margin-left: -70%;
     }
+
+    .caributton{
+      margin-left: -30%;
+    }
 </style>
 <!-- page content -->
 <div class="right_col" role="main">
@@ -85,9 +89,81 @@
               <input id="pkp" type="text" placeholder="autocomplete" name="pkp" required="required" class="form-control">
               <input type="hidden" id="pkphidden" name="pkphidden" class="form-control">
             </div>
-          </div><br /><br />
+            <div class="col-md-2">
+              <input id="btncari" class="btn btn-success caributton" type="button" name="btncari" value="CEK KODE PKP">
+            </div>
+          </div>
 
-          <hr>
+          <br /><br />
+
+        </hr>
+
+          <div class="row" style="padding-top: 20px">
+            <div class="col-md-10">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><strong>Detail PKP</strong></h2>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <div class="col-md-12">
+                    <div class="col-md-2">
+                      <label id="coba" class="control-label" >Agensi:</label>
+                    </div>
+                    <div class="col-md-10">
+                      <p id="pkpag"></p>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="col-md-2">
+                      <label class="control-label" >PPTKIS:</label>
+                    </div>
+                    <div class="col-md-10">
+                      <p id="pkptkis"></p>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="col-md-2">
+                      <label class="control-label" >Tanggal Mulai:</label>
+                    </div>
+                    <div class="col-md-10">
+                      <p id="pkpawal"></p>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="col-md-2">
+                      <label class="control-label" >Tanggal Akhir:</label>
+                    </div>
+                    <div class="col-md-10">
+                      <p id="pkpakhir"></p>
+                    </div>
+                  </div>
+                </div>
+
+              </hr>
+              <table id="tbpkpd" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
+                <thead>
+                  <tr>
+                    <th>Jenis Pekerjaan</th>
+                    <th>Laki-Laki</th>
+                    <th>Perempuan</th>
+                    <th>Campuran</th>
+                  </tr>
+                </thead>
+                <tbody id="pkpdlist">
+                </tbody>
+              </table>
+
+
+              </div>
+            </div>
+            <div class="col-md-2">
+
+            </div>
+
+
+            </div>
+
           <br /><br /><br />
 
           <div class="form-group" >
@@ -285,6 +361,48 @@ $(document).ready(function() {
     }
     });
   } );
+
+  $('#btncari').click(function () {
+    if ($("#pkp").val() == null) {
+      alert("Masukkan Kode PKP")
+    }
+    else {
+      $.post(" <?php echo base_url(); ?>PKP/getDataPKPbyKode", {pkpkode:$("#pkp").val()}, function(data, status){
+        var listinput = $.parseJSON(data);
+        $(wrapper_pkp).html('');
+        for (var key in listinput) {
+
+          if (listinput[key]["isverified"] == 1) {
+            if (listinput[key]["isuploaded"] == 1) {
+              console.log("uploaded");
+              td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + listinput[key]["pkpkode"] +'.pdf ">DOWNLOAD</a>'
+            }
+            else{
+              console.log("else1");
+              td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + listinput[key]["pkpkode"] +' ">UPLOAD</a>'
+            }
+          }
+          else {
+            console.log("else");
+            td = 'Segera Lakukan Verifikasi'
+          }
+
+          var string = '\
+          <tr>\
+            <td id="kodepkp" class="text-center" value = "' + listinput[key]["pkpkode"] +'"><a onclick=show("'+listinput[key]["pkpkode"]+'") data-toggle="modal" data-target=".bs-example-modal-lg">' + listinput[key]["pkpkode"] + '</a></td>\
+            <td>'+listinput[key]["pkptglawal"]+ '</td> \
+            <td>'+listinput[key]["pkptglakhir"]+ '</td> \
+            <td>'+ (listinput[key]["isverified"] == 1 ? "Sudah" : "Belum") + '</td> \
+            <td>'+ (listinput[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td> \
+            <td>'+listinput[key]["pkptimestamp"]+ '</td> \
+            <td class="text-center">'+ td + '</td> \
+          </tr>'
+          $(wrapper_pkp).append(string);
+        }
+      });
+    }
+  });
+
 
 
 

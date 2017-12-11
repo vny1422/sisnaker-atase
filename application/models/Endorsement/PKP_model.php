@@ -133,6 +133,19 @@ class PKP_model extends CI_Model {
     return $this->db->get()->result();
   }
 
+  function get_data_pkp_by_kode ($pkpkode) {
+    $this->db->select('p.pkpkode, ag.agnama, pp.ppnama, p.pkptglawal, p.pkptglakhir, p.isverified, p.isuploaded, p.pkptimestamp');
+    $this->db->from('pkp p');
+    $this->db->order_by("p.pkptimestamp", "desc");
+    $this->db->join('magensi ag', 'ag.agid = p.agid');
+    $this->db->join('mpptkis pp', 'pp.ppkode = p.ppkode');
+    $this->db->where('p.pkpkode', $pkpkode);
+    $this->db->where('p.idinstitution', $this->session->userdata('institution'));
+    $this->db->where('p.idkantor', $this->session->userdata('kantor'));
+
+    return $this->db->get()->result();
+  }
+
   //ajax autocomplete
   function ambilpkp($keyword) {
     $this->db->select('pkpkode');

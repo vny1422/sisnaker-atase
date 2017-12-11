@@ -1,7 +1,7 @@
   <?php
   defined('BASEPATH') OR exit('No direct script access allowed');
 
-  class PKP extends MY_Controller {
+  class JO extends MY_Controller {
 
     private $data;
 
@@ -13,9 +13,9 @@
       $this->load->model('Perlindungan/Pptkis_model');
       $this->load->model('SAdmin/Jobtype_model');
       $this->load->model('SAdmin/Institution_model');
-      $this->load->model('SAdmin/Currency_model');
-      $this->load->model('Endorsement/PKP_model');
-      $this->load->model('Endorsement/Kuitansi_model');
+      // $this->load->model('SAdmin/Currency_model');
+      // $this->load->model('Endorsement/PKP_model');
+      // $this->load->model('Endorsement/Kuitansi_model');
       $this->load_sidebar();
       $this->data['listdp'] = $this->listdp;
       $this->data['usedpg'] = $this->usedpg;
@@ -52,7 +52,7 @@
       }
     }
 
-    public function addPkp()
+    public function addJO()
     {
       if ($this->session->userdata('role') == 4 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
       {
@@ -75,10 +75,10 @@
           $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
           $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
           $this->data['listjenispekerjaan'] = $this->Jobtype_model->list_all_jobtype_by_institution($this->session->userdata('institution'));
-          $this->data['title'] = 'Pengajuan PKP';
+          $this->data['title'] = 'Pengajuan JO';
          // $this->load->view('templates/header', $this->data);
           $this->load->view('templates/headerendorsement', $this->data);
-          $this->load->view('Endorsement/CreatePKP_view', $this->data);
+          $this->load->view('Endorsement/CreateJOInter_view', $this->data);
           //$this->load->view('templates/footer');
           $this->load->view('templates/footerendorsement');
         }
@@ -324,17 +324,4 @@
         redirect('Pkp');
       }
     }
-
-    // AJAX AUTOCOMPLETE
-    public function ambilpkp(){
-      $keyword = $this->input->post('term',TRUE);
-      $query = $this->PKP_model->ambilpkp($keyword);
-      $json_array = array();
-      $r = new stdClass;
-      $i=0;
-      foreach ($query as $row)
-        $r->rows[$i++]=$row;
-      echo json_encode($r);
-    }
-
   }

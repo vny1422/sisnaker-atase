@@ -130,4 +130,14 @@ class PKP_model extends CI_Model {
 
     return $this->db->get()->result();
   }
+
+  //ajax autocomplete
+  function ambilpkp($keyword) {
+    $this->db->select('pkpkode');
+    $this->db->like('pkpkode', $keyword);
+    $this->db->from('pkp');
+    //$this->db->where('p.idkantor', $this->session->userdata('kantor'));
+    $query = $this->db->get();
+    return $query->result();
+  }
 }

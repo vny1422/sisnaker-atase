@@ -185,6 +185,47 @@
       echo json_encode($res);
     }
 
+    public function verify()
+    {
+      $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;
+      $currencyname = $this->Currency_model->get_currency_name($currencyid);
+      $this->data['listpkp'] = $this->PKP_model->get_pkp_verify_list();
+      $this->data['title'] = 'Endorsement';
+      $this->data['currency'] = $currencyname->currencyname;
+      $this->data['subtitle'] = 'Verifikasi PKP';
+      $this->data['subtitle2'] = 'Verifikasi PKP';
+      $this->load->view('templates/headerendorsement', $this->data);
+      $this->load->view('Endorsement/VerifyPKP_view', $this->data);
+      $this->load->view('templates/footerendorsement');
+    }
+
+    public function rejectPkp()
+    {
+      $idpkp = $this->input->post('hiddenidpkp', true);
+      if ($this->PKP_model->toggle_pkp($idpkp, TRUE))
+      {
+          $this->session->set_flashdata('information', 'PKP berhasil ditolak!');
+          redirect('Pkp/verify');
+      }
+      else {
+          $this->session->set_flashdata('information', 'PKP gagal ditolak!');
+          redirect('Pkp/verify');
+      }
+    }
+
+    public function verifyPkp($idpkp)
+    {
+      if ($this->PKP_model->toggle_pkp($idpkp))
+      {
+          $this->session->set_flashdata('information', 'PKP berhasil diverifikasi!');
+          redirect('Pkp/verify');
+      }
+      else {
+          $this->session->set_flashdata('information', 'PKP gagal diverifikasi!');
+          redirect('Pkp/verify');
+      }
+    }
+
     public function legalize()
     {
       $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;
@@ -291,7 +332,7 @@
         if ($this->form_validation->run() === FALSE)
         {
           $this->session->set_flashdata('information', 'Complete receipt form!');
-          redirect('PKP/verify');
+          redirect('PKP/legalize');
         }
         else {
           if (!($this->input->post('kuitansiag', true)))

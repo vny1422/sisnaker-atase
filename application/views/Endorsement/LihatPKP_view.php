@@ -218,16 +218,13 @@
 
           if (listinput[key]["isverified"] == 1) {
             if (listinput[key]["isuploaded"] == 1) {
-              console.log("uploaded");
               td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + listinput[key]["pkpkode"] +'.pdf ">DOWNLOAD</a>'
             }
             else{
-              console.log("else1");
               td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + listinput[key]["pkpkode"] +' ">UPLOAD</a>'
             }
           }
           else {
-            console.log("else");
             td = 'Segera Lakukan Verifikasi'
           }
 

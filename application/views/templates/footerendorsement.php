@@ -42,6 +42,9 @@
         <script src="<?php echo base_url('assets/js/datatables/responsive.bootstrap.min.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/datatables/dataTables.scroller.min.js'); ?>"></script>
 
+    <!-- Reorder Datatables -->
+    <script src="<?php echo base_url('assets/js/dataTables.rowReorder.js'); ?>"></script>
+
     <!-- Custom Theme Scripts -->
     <script src="<?php echo base_url('assets/build/js/custom.min.js'); ?>"></script>
 

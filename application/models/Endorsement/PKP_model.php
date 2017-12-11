@@ -1,11 +1,24 @@
 <?php
 class PKP_model extends CI_Model {
   private $table = 'pkp';
-	public function __construct()
-    {
-        $this->load->database('default');
-    }
+  public function __construct()
+  {
+    $this->load->database('default');
+  }
 
+  public function get_pkp_verify_list()
+  {
+    $this->db->select('p.pkpid, p.pkpkode, ag.agnama, pp.ppnama, p.pkptglawal, p.pkptglakhir, p.isverified, p.isuploaded, p.pkptimestamp');
+    $this->db->from('pkp p');
+    $this->db->order_by("p.pkptimestamp", "asc");
+    $this->db->join('magensi ag', 'ag.agid = p.agid');
+    $this->db->join('mpptkis pp', 'pp.ppkode = p.ppkode');
+    $this->db->where('p.isverified', 0);
+    $this->db->where('p.idinstitution', $this->session->userdata('institution'));
+    $this->db->where('p.idkantor', $this->session->userdata('kantor'));
+
+    return $this->db->get()->result();
+  }
 
   public function post_new_pkp()
   {
@@ -22,15 +35,15 @@ class PKP_model extends CI_Model {
 
     // generate barcode
     for ($i=0; $i < 101; $i++) {
-			$data["pkpkode"] = $this->createUID('P', 4);
-			$this->db->from('pkp');
-			$this->db->where('pkpkode', $data["pkpkode"]);
-			$total = $this->db->get()->num_rows();
-			if($total == 0)
-			{
-				break;
-			}
-		}
+      $data["pkpkode"] = $this->createUID('P', 4);
+      $this->db->from('pkp');
+      $this->db->where('pkpkode', $data["pkpkode"]);
+      $total = $this->db->get()->num_rows();
+      if($total == 0)
+      {
+        break;
+      }
+    }
 
     // save data pkp
     $this->db->insert($this->table, $data);
@@ -81,17 +94,36 @@ class PKP_model extends CI_Model {
     return $this->db->get()->result();
   }
 
+  function toggle_pkp($id, $reject=FALSE)
+  {
+    if(!$reject)
+    {
+      $data = array(
+        'isverified' => 2
+      );
+    }
+    else {
+      $data = array(
+        'isverified' => 1,
+        'alasanpenolakan' => $this->input->post('alasan', true)
+      );
+    }
+    $this->db->where('pkp.idinstitution', $this->session->userdata('institution'));
+    $this->db->where('pkp.idkantor', $this->session->userdata('kantor'));
+    return $this->db->update($this->table, $data);
+  }
+
   function legalize_barcode($bc){
     $this->db->where('pkpkode', $bc);
     $this->db->where('idinstitution', $this->session->userdata('institution'));
-    $this->db->where('isverified', 2);
+    $this->db->where('isverified', 3);
     if ($this->db->get($this->table)->num_rows() > 0)
     {
       return FALSE;
     }
     else {
       $data = array(
-        'isverified' => 2,
+        'isverified' => 3,
         'pkptglendorsement' => date("Y-m-d")
       );
 
@@ -102,22 +134,22 @@ class PKP_model extends CI_Model {
   }
 
   function createUID($tipe, $length = 3) {
-		return $tipe.date("y").date("m").$this->randomString($length);
-	}
+    return $tipe.date("y").date("m").$this->randomString($length);
+  }
 
   function randomString($length) {
-		$data = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		$data .= "0123456789";
-		$tmp = "";
+    $data = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $data .= "0123456789";
+    $tmp = "";
 
-		srand((double) microtime() * 1000000);
+    srand((double) microtime() * 1000000);
 
-		for ($i=0; $i<$length; $i++) {
-			$tmp .= substr($data, (rand()%(strlen($data))), 1);
-		}
+    for ($i=0; $i<$length; $i++) {
+      $tmp .= substr($data, (rand()%(strlen($data))), 1);
+    }
 
-		return $tmp;
-	}
+    return $tmp;
+  }
 
   function get_data_pkp_by_agensi_and_pptkis ($agid, $ppkode) {
     $this->db->select('p.pkpkode, ag.agnama, pp.ppnama, p.pkptglawal, p.pkptglakhir, p.isverified, p.isuploaded, p.pkptimestamp');

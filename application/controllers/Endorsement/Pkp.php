@@ -185,16 +185,16 @@
       echo json_encode($res);
     }
 
-    public function verify()
+    public function legalize()
     {
       $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;
       $currencyname = $this->Currency_model->get_currency_name($currencyid);
       $this->data['title'] = 'Endorsement';
       $this->data['currency'] = $currencyname->currencyname;
-      $this->data['subtitle'] = 'Verifikasi & Legalisasi PKP';
-      $this->data['subtitle2'] = 'Verifikasi & Legalisasi PKP';
+      $this->data['subtitle'] = 'Legalisasi PKP';
+      $this->data['subtitle2'] = 'Legalisasi PKP';
       $this->load->view('templates/headerendorsement', $this->data);
-      $this->load->view('Endorsement/VerifyPKP_view', $this->data);
+      $this->load->view('Endorsement/LegalizePKP_view', $this->data);
       $this->load->view('templates/footerendorsement');
     }
 
@@ -206,10 +206,10 @@
       echo json_encode($result);
     }
 
-    public function verifyBarcode()
+    public function legalizeBarcode()
     {
       $bc = $this->input->post('barcode', TRUE);
-      $result = $this->PKP_model->verify_barcode($bc);
+      $result = $this->PKP_model->legalize_barcode($bc);
 
       echo json_encode($result);
     }

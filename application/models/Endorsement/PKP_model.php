@@ -81,9 +81,30 @@ class PKP_model extends CI_Model {
     return $this->db->update($this->table, $data);
   }
 
+  public function editDate_from_bc($pkpkode)
+  {
+    $data = array(
+      'pkptglawal' => $this->input->post('tglawal', true),
+      'pkptglakhir' => $this->input->post('tglakhir', true)
+    );
+    $this->db->where('pkpkode',$pkpkode);
+    return $this->db->update($this->table, $data);
+  }
+
+  public function editPKPd($id)
+  {
+    $data = array(
+      'pkpdl' => $this->input->post('laki', true),
+      'pkpdp' => $this->input->post('perempuan', true),
+      'pkpdc' => $this->input->post('campuran', true)
+    );
+    $this->db->where('pkpdid',$id);
+    return $this->db->update('pkpdetail', $data);
+  }
+
   function get_pkp_from_barcode($bc)
   {
-    $this->db->select('p.*, ag.agnama, pp.ppnama, pd.pkpdl, pd.pkpdp, pd.pkpdc, jp.namajenispekerjaan');
+    $this->db->select('p.*, pd.pkpdid, ag.agnama, pp.ppnama, pd.pkpdl, pd.pkpdp, pd.pkpdc, jp.namajenispekerjaan');
     $this->db->from('pkp p');
     $this->db->join('pkpdetail pd', 'p.pkpid = pd.pkpid');
     $this->db->join('jenispekerjaan jp', 'pd.idjenispekerjaan = jp.idjenispekerjaan');

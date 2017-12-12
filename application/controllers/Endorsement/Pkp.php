@@ -388,4 +388,14 @@
       echo json_encode($r);
     }
 
+    //ajax
+
+    public function editPKP(){
+      echo json_encode($this->PKP_model->editDate_from_bc($this->input->post('pkpbc', true)));
+    }
+
+    public function editPKPd(){
+      echo json_encode($this->PKP_model->editPKPd($this->input->post('id', true)));
+    }
+
   }

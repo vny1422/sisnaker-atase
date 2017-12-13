@@ -122,6 +122,74 @@ class JO extends MY_Controller {
     }
   }
 
+  public function legalize()
+  {
+    $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;
+    $currencyname = $this->Currency_model->get_currency_name($currencyid);
+    $this->data['title'] = 'Endorsement';
+    $this->data['currency'] = $currencyname->currencyname;
+    $this->data['subtitle'] = 'Legalisasi JO';
+    $this->data['subtitle2'] = 'Legalisasi JO';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/LegalizeJO_view', $this->data);
+    $this->load->view('templates/footerendorsement');
+  }
+
+  public function legalizeBarcode()
+  {
+    $bc = $this->input->post('barcode', TRUE);
+    $result = $this->JO_model->legalize_barcode($bc);
+
+    echo json_encode($result);
+  }
+
+  public function catatKuitansi()
+  {
+    if ($this->input->post('catatkuitansi', TRUE))
+    {
+      $this->form_validation->set_rules('start', 'Tanggal Masuk', 'required|trim');
+      $this->form_validation->set_rules('tglkuitansi', 'Tanggal Kuitansi', 'required|trim');
+      $this->form_validation->set_rules('kuno', 'Nomor Kuitansi', 'required|trim');
+      $this->form_validation->set_rules('jmlterbayar', 'Jumlah Terbayar', 'required|trim');
+      $this->form_validation->set_rules('pemohon', 'Nama Pemohon', 'required|trim');
+
+      if ($this->form_validation->run() === FALSE)
+      {
+        $this->session->set_flashdata('information', 'Complete receipt form!');
+        redirect('jo/legalize');
+      }
+      else {
+        if (!($this->input->post('kuitansiag', true)))
+        {
+          redirect('jo');
+        }
+        $barcodeku = $this->generateBarcode();
+        $username = $this->session->userdata('user');
+        $institusi = $this->session->userdata('institution');
+        $this->Kuitansi_model->catat_kuitansi($username, $institusi, $barcodeku, 1);
+        $this->session->set_flashdata('print', 'Segera Upload Dokumen Final PKP');
+        $this->data['bc'] = $barcodeku;
+        $this->data['kuitansiag'] = $this->input->post('kuitansiag', true);
+        $this->data['kuitansipp'] = $this->input->post('kuitansipp', true);
+        $this->session->set_flashdata('data', $this->data);
+        redirect('jo');
+      }
+    }
+    else {
+      if (!($this->input->post('kuitansiag', true)))
+      {
+        redirect('jo');
+      }
+      $barcodeku = $this->generateBarcode();
+      $this->session->set_flashdata('print', 'Segera Upload Dokumen Final PKP ');
+      $this->data['bc'] = $barcodeku;
+      $this->data['kuitansiag'] = $this->input->post('kuitansiag', true);
+      $this->data['kuitansipp'] = $this->input->post('kuitansipp', true);
+      $this->session->set_flashdata('data', $this->data);
+      redirect('jo');
+    }
+  }
+
   //ajax
   public function editJO(){
     //var_dump($this->input->post('jobid', true));

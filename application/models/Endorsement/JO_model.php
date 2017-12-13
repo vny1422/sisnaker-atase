@@ -149,4 +149,24 @@ class JO_model extends CI_Model {
     $this->db->where('jo.idkantor', $this->session->userdata('kantor'));
     return $this->db->update($this->table, $data);
   }
+
+  function legalize_barcode($bc){
+    $this->db->where('jobno', $bc);
+    $this->db->where('idinstitution', $this->session->userdata('institution'));
+    $this->db->where('isverified', 3);
+    if ($this->db->get($this->table)->num_rows() > 0)
+    {
+      return FALSE;
+    }
+    else {
+      $data = array(
+        'isverified' => 3,
+        'jotglendorsement' => date("Y-m-d")
+      );
+
+      $this->db->where('jobno', $bc);
+      $this->db->where('idinstitution', $this->session->userdata('institution'));
+      return $this->db->update($this->table, $data);
+    }
+  }
 }

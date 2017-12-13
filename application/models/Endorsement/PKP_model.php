@@ -129,6 +129,7 @@ class PKP_model extends CI_Model {
         'alasanpenolakan' => $this->input->post('alasan', true)
       );
     }
+    $this->db->where('pkp.pkpid', $id);
     $this->db->where('pkp.idinstitution', $this->session->userdata('institution'));
     $this->db->where('pkp.idkantor', $this->session->userdata('kantor'));
     return $this->db->update($this->table, $data);

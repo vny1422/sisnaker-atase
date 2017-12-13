@@ -69,7 +69,7 @@ class PKP_model extends CI_Model {
       );
       array_push($detail, $datapkpdetail);
     }
-    return array($this->db->insert_batch('pkpdetail', $detail), $data["pkpkode"]);
+    return array($this->db->insert_batch('pkpdetail', $detail), $data["jobno"]);
   }
 
   public function upload_dokumen_final_pkp($pkpkode)
@@ -201,7 +201,7 @@ class PKP_model extends CI_Model {
 
   //ajax autocomplete
   function ambilpkp($keyword) {
-    $this->db->select('pkpkode');
+    $this->db->select('pkpkode, pkpid');
     $this->db->like('pkpkode', $keyword);
     $this->db->from('pkp');
     //$this->db->where('p.idkantor', $this->session->userdata('kantor'));

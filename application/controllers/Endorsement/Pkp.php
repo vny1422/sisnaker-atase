@@ -226,16 +226,6 @@
       }
     }
 
-    public function getDataPKPbyKode()
-    {
-      $agid = $this->input->post('pkpkode', TRUE);
-
-      $res = $this->PKP_model->get_data_pkp_by_agensi_and_pptkis($agid, $ppkode);
-      //$res = $this->PKP_model->get_data_pkp_by_agensi_and_pptkis(26926, 'ABD022');
-    //var_dump($res);
-      echo json_encode($res);
-    }
-
     public function legalize()
     {
       $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;

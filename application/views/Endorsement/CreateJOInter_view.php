@@ -47,7 +47,7 @@
             </div>
           </div>' ?>
         <?php endif; ?>
-          <?php echo form_open_multipart(base_url('PKP/addPkp')) ?>
+          <?php echo form_open(base_url('JO/addJo')) ?>
 
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12">Agensi <span class="required">*</span></label>
@@ -87,7 +87,7 @@
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Kode PKP <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
               <input id="pkp" type="text" placeholder="autocomplete" name="pkp" required="required" class="form-control">
-              <input type="hidden" id="pkphidden" name="pkphidden" class="form-control">
+              <input type="hidden" id="pkpid" name="pkpid" class="form-control">
             </div>
             <div class="col-md-2">
               <input id="btncari" class="btn btn-success caributton" type="button" name="btncari" value="CEK KODE PKP">
@@ -98,7 +98,7 @@
 
         </hr>
 
-          <div class="row" style="padding-top: 20px">
+          <div id="detPKP" class="row" style="padding-top: 20px; display: none;">
             <div class="col-md-10">
               <div class="x_panel">
                 <div class="x_title">
@@ -237,14 +237,6 @@
         </div>
         <br /><br /><br /><br />
 
-        <div class="form-group">
-          <label class="control-label col-md-2" for="name">Dokumen Pengajuan PKP<span class="required">*</span></label>
-          <div class="col-md-5 ">
-            <input id="dokumenpkp" type="file" name="dokumenpkp" class="form-control">
-          </div>
-        </div><br /><br /><br />
-
-
 
         <div class="ln_solid"></div>
         <div class="form-group">
@@ -266,6 +258,12 @@ $(document).ready(function() {
   var wrapper         = $("#wrapconn"); //Fields wrapper
   var wrapopsi        = $("#wrapopsi"); //Fields wrapper
   var add_button      = $(".addButton"); //Add button ID
+
+  var tableDetail = $('#tbpkpd').DataTable({
+    responsive: true
+  });
+
+  var wrapper_detail =('#pkpdlist')
 
 
   $(add_button).click(function(e){ //on add input button click
@@ -325,86 +323,59 @@ $(document).ready(function() {
     $(this).closest('.form-group').remove();
   })
 
-  // $(function() {
-  //   $("#pkp").autocomplete({
-  //     source: function(request, response) {
-  //       $.post('<?php echo base_url();?>/pkp/ambilpkp/', { term:request.term}, function(json) {
-  //         response( $.map( json.rows, function( item ) {
-  //           return {
-  //             label: item.kodepkp
-  //           }
-  //         }));
-  //       }, 'json');
-  //     },
-  //     minLength: 1,
-  //     select: function( event, ui ) {
-  //       $("#pkphidden").val(ui.item.label);
-  //     }
-  //   });
-  // } );
-
-
   $(function() {
     $( "#pkp" ).autocomplete({
       source: function(request, response) {
         $.post('<?php echo base_url();?>/pkp/ambilpkp/', { term:request.term}, function(json) {
           response( $.map( json.rows, function( item ) {
             return {
-              label: item.pkpkode
+              label: item.pkpkode,
+              id: item.pkpid
             }
           }));
         }, 'json');
       },
       minLength: 1,
     select: function( event, ui ) {
-      $("#pkphidden").val(ui.item.label);
+      $("#pkpid").val(ui.item.id);
     }
     });
   } );
 
   $('#btncari').click(function () {
-    if ($("#pkp").val() == null) {
-      alert("Masukkan Kode PKP")
+    if ($("#pkp").val() == "") {
+      alert("Masukkan Kode PKP");
     }
     else {
-      $.post(" <?php echo base_url(); ?>PKP/getDataPKPbyKode", {pkpkode:$("#pkp").val()}, function(data, status){
-        var listinput = $.parseJSON(data);
-        $(wrapper_pkp).html('');
-        for (var key in listinput) {
-
-          if (listinput[key]["isverified"] == 1) {
-            if (listinput[key]["isuploaded"] == 1) {
-              console.log("uploaded");
-              td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + listinput[key]["pkpkode"] +'.pdf ">DOWNLOAD</a>'
+      console.log("masuk bawah");
+      $("#detPKP").css("display", "block");
+      $.post(" <?php echo base_url(); ?>PKP/getDataFromBarcode", {barcode:$("#pkp").val()}, function(data, status){
+        var obj = $.parseJSON(data);
+        if (obj.length > 0) {
+          $("#pkpag").text(obj[0].agnama);
+          $("#pkptkis").text(obj[0].ppnama);
+          $("#pkpawal").text(obj[0].pkptglawal);
+          $("#pkpakhir").text(obj[0].pkptglakhir);
+            tableDetail.clear();
+            $(wrapper_detail).empty();
+            for (var key in obj) {
+              if (obj.hasOwnProperty(key)) {
+                tableDetail.row.add( [
+                  obj[key]["namajenispekerjaan"],
+                  obj[key]["pkpdl"],
+                  obj[key]["pkpdp"],
+                  obj[key]["pkpdc"]
+                ] ).draw();
+              }
             }
-            else{
-              console.log("else1");
-              td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + listinput[key]["pkpkode"] +' ">UPLOAD</a>'
-            }
-          }
-          else {
-            console.log("else");
-            td = 'Segera Lakukan Verifikasi'
-          }
-
-          var string = '\
-          <tr>\
-            <td id="kodepkp" class="text-center" value = "' + listinput[key]["pkpkode"] +'"><a onclick=show("'+listinput[key]["pkpkode"]+'") data-toggle="modal" data-target=".bs-example-modal-lg">' + listinput[key]["pkpkode"] + '</a></td>\
-            <td>'+listinput[key]["pkptglawal"]+ '</td> \
-            <td>'+listinput[key]["pkptglakhir"]+ '</td> \
-            <td>'+ (listinput[key]["isverified"] == 1 ? "Sudah" : "Belum") + '</td> \
-            <td>'+ (listinput[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td> \
-            <td>'+listinput[key]["pkptimestamp"]+ '</td> \
-            <td class="text-center">'+ td + '</td> \
-          </tr>'
-          $(wrapper_pkp).append(string);
+            $(".checked").show();
+        }
+        else {
+          alert('Barcode tidak valid!');
         }
       });
     }
   });
-
-
-
 
 });
 </script>

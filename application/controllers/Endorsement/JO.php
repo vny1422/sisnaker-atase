@@ -13,6 +13,7 @@
       $this->load->model('Perlindungan/Pptkis_model');
       $this->load->model('SAdmin/Jobtype_model');
       $this->load->model('SAdmin/Institution_model');
+      $this->load->model('Endorsement/JO_model');
       // $this->load->model('SAdmin/Currency_model');
       // $this->load->model('Endorsement/PKP_model');
       // $this->load->model('Endorsement/Kuitansi_model');
@@ -84,35 +85,20 @@
         }
         else
         {
-          $returnPKP = $this->PKP_model->post_new_pkp();
+          $returnPKP = $this->JO_model->post_new_jo();
           if ($returnPKP[0]) {
-            $config['upload_path'] = './uploads/dokumenpkp/';
-            $config['allowed_types'] = 'pdf';
-            $config['remove_spaces'] = TRUE;
-            $config['file_name'] = "Dokumen_PKP_$returnPKP[1]";
-
-            $this->load->library('upload', $config);
-
-            if ( !$this->upload->do_upload('dokumenpkp'))
-            {
-              $this->data['error'] = $this->upload->display_errors('','');
-            } else {
-              $this->data['error'] = "";
-              //$this->session->set_flashdata('information', 'Upload berhasil dilakukan');
-            }
             $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
           }
           else {
             $this->session->set_flashdata('information', 'Data gagal dimasukkan');
           }
-          redirect('PKP/addPkp');
+          redirect('JO/addJO');
         }
 
       }
       else {
         show_error("Access is forbidden.",403,"403 Forbidden");
       }
-
     }
 
     public function uploadDokFin($pkpkode)

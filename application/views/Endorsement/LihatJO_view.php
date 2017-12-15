@@ -79,13 +79,11 @@
 
           <div class="x_content">
             <br/><br/><br/>
-            <table id="datatable-pkp" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+            <table id="datatable-jo" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
               <thead>
                 <tr>
                   <th>Kode JO</th>
                   <th>Kode PKP</th>
-                  <!-- <th>Agensi</th>
-                  <th>PPTKIS</th> -->
                   <th>Tanggal Mulai</th>
                   <th>Tangggal Selesai</th>
                   <th>S. Verifikasi</th>
@@ -115,7 +113,7 @@
   </div>
 
 
-  <div id="modalDetail" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+  <div id="modalDetailPKP" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
 
@@ -186,13 +184,92 @@
     </div>
   </div>
 
+  <div id="modalDetailJO" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel">DETAIL JO</h4>
+        </div>
+        <div class="modal-body">
+          <div class="x_content checked" style="display: " >
+            <div class="row" style="padding-top: 20px">
+              <div class="col-md-12">
+                <div class="col-md-2">
+                  <label id="coba" class="control-label" >Agensi:</label>
+                </div>
+                <div class="col-md-10">
+                  <p id="joag"></p>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="col-md-2">
+                  <label class="control-label" >PPTKIS:</label>
+                </div>
+                <div class="col-md-10">
+                  <p id="jotkis"></p>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="col-md-2">
+                  <label class="control-label" >Kode PKP:</label>
+                </div>
+                <div class="col-md-10">
+                  <p id="kodepkp"></p>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="col-md-2">
+                  <label class="control-label" >Tanggal Mulai:</label>
+                </div>
+                <div class="col-md-10">
+                  <p id="jobtglawal"></p>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="col-md-2">
+                  <label class="control-label" >Tanggal Akhir:</label>
+                </div>
+                <div class="col-md-10">
+                  <p id="jobtglakhir"></p>
+                </div>
+              </div>
+            </div>
+            <hr/>
+            <table id="tbjod" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <th>Jenis Pekerjaan</th>
+                  <th>Laki-Laki</th>
+                  <th>Perempuan</th>
+                  <th>Campuran</th>
+                </tr>
+              </thead>
+              <tbody id="jodlist">
+              </tbody>
+            </table>
+            <div class="clearfix">
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <div class="modal fade bs-example-modal-lg" id="modalTolak" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="myModalLabel">PKP Ditolak</h4>
+          <h4 class="modal-title" id="myModalLabel">JO Ditolak</h4>
         </div>
         <div class="modal-body">
           <div class="x_content checked" style="display: " >
@@ -263,7 +340,7 @@
           <td id="kodepkp" class="text-center" value = "' + listinput[key]["pkpkode"] +'"><a onclick=show("'+listinput[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalDetail">' + listinput[key]["pkpkode"] + '</a></td>\
           <td>'+listinput[key]["pkptglawal"]+ '</td> \
           <td>'+listinput[key]["pkptglakhir"]+ '</td> \
-          <td>'+ (listinput[key]["isverified"] == 1 ? "Sudah" : "Belum") + '</td> \
+          <td>'+ (listinput[key]["isverified"] > 0 ? "Sudah" : "Belum") + '</td> \
           <td>'+ (listinput[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td> \
           <td>'+listinput[key]["pkptimestamp"]+ '</td> \
           <td class="text-center">'+ td + '</td> \
@@ -275,7 +352,7 @@
 
       //var table = ('#datatable-pkp');
 
-      var table = $('#datatable-pkp').DataTable({
+      var table = $('#datatable-jo').DataTable({
         "columnDefs": [
           {
             //"targets": [ 0 ],
@@ -284,14 +361,19 @@
         ]
       });
 
-      var tableDetail = $('#tbpkpd').DataTable({
+      var tableDetailPKP = $('#tbpkpd').DataTable({
+        responsive: true
+      });
+
+      var tableDetailJO = $('#tbjod').DataTable({
         responsive: true
       });
 
       var wrapper_pkp = ('#list-pkp')
-      var wrapper_detail =('#pkpdlist')
+      var wrapper_detail_pkp =('#pkpdlist')
+      var wrapper_detail_jo =('#jodlist')
 
-      $('#datatable-pkp').dataTable();
+      //$('#datatable-pkp').dataTable();
 
       $('#btncari').click(function () {
         if ($("#agensi").val() == null || $("#pptkis").val() == null) {
@@ -306,28 +388,28 @@
               for(var key in obj){
                 if(obj.hasOwnProperty(key)){
                   if (obj[key]["isverified"] == 1){
-                    td = '<a onclick=showTolak("'+obj[key]["jobno"]+'") data-toggle="modal" data-target="#modalTolak">JO Ditolak</a>'
+                    td = '<a onclick=showTolak("'+obj[key]["jokode"]+'") data-toggle="modal" data-target="#modalTolak">JO Ditolak</a>'
                   }
                   else if (obj[key]["isverified"] == 2) {
                     td = 'Segera Lakukan Legalisasi'
                   }
                   else if (obj[key]["isverified"] == 3) {
                     if (obj[key]["isuploaded"] == 1) {
-                      td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_JO_' + obj[key]["jobno"] +'.pdf ">DOWNLOAD</a>'
+                      td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinaljo/Dokumen_Final_JO_' + obj[key]["jokode"] +'.pdf ">DOWNLOAD</a>'
                     }
                     else{
-                      td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + obj[key]["jobno"] +' ">UPLOAD</a>'
+                      td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>JO/uploadDokFin/' + obj[key]["jokode"] +' ">UPLOAD</a>'
                     }
                   }
                   else {
                     td = 'Segera Lakukan Verifikasi'
                   }
                   table.row.add([
-                    '<td id="kodepkp" class="text-center" value = "' + obj[key]["jobno"] +'"><a onclick=show("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalDetail">' + obj[key]["jobno"] + '</a></td>',
-                    obj[key]["pkpkode"],
+                    '<td id="kodejo" class="text-center" value = "' + obj[key]["jokode"] +'"><a onclick=showJO("'+obj[key]["jokode"]+'") data-toggle="modal" data-target="#modalDetailJO">' + obj[key]["jokode"] + '</a></td>',
+                    '<td id="kodepkp" class="text-center" value = "' + obj[key]["pkpkode"] +'"><a onclick=showPKP("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalDetailPKP">' + obj[key]["pkpkode"] + '</a></td>',
                     obj[key]["jobtglawal"],
                     obj[key]["jobtglakhir"],
-                    '<td>'+ (obj[key]["isverified"] == 1 ? "Sudah" : "Belum") + '</td>',
+                    '<td>'+ (obj[key]["isverified"] > 0 ? "Sudah" : "Belum") + '</td>',
                     '<td>'+ (obj[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td>',
                     obj[key]["jobtimestamp"],
                     '<td class="text-center">'+ td + '</td>'
@@ -342,21 +424,21 @@
         }
       });
 
-      show = function (bc)
+      showPKP = function (bc)
       {
         //alert(bc);
-        $.post(" <?php echo base_url() ?>JO/getDataFromBarcode", {barcode:bc}, function(data, status){
+        $.post(" <?php echo base_url() ?>PKP/getDataFromBarcode", {barcode:bc}, function(data, status){
           var obj = $.parseJSON(data);
           if(obj.length > 0) {
             $("#pkpag").text(obj[0].agnama);
             $("#pkptkis").text(obj[0].ppnama);
             $("#pkpawal").text(obj[0].pkptglawal);
             $("#pkpakhir").text(obj[0].pkptglakhir);
-            tableDetail.clear();
-            $(wrapper_detail).empty();
+            tableDetailPKP.clear();
+            $(wrapper_detail_pkp).empty();
             for (var key in obj) {
               if (obj.hasOwnProperty(key)) {
-                tableDetail.row.add( [
+                tableDetailPKP.row.add( [
                   obj[key]["namajenispekerjaan"],
                   obj[key]["pkpdl"],
                   obj[key]["pkpdp"],
@@ -372,10 +454,41 @@
         });
       }
 
+      showJO = function (bc)
+      {
+        //alert(bc);
+        $.post(" <?php echo base_url() ?>JO/getDataFromBarcode", {jokode:bc}, function(data, status){
+          var obj = $.parseJSON(data);
+          if(obj.length > 0) {
+            $("#joag").text(obj[0].agnama);
+            $("#jotkis").text(obj[0].ppnama);
+            $("#kodepkp").text(obj[0].pkpkode);
+            $("#jobtglawal").text(obj[0].jobtglawal);
+            $("#jobtglakhir").text(obj[0].jobtglakhir);
+            tableDetailJO.clear();
+            $(wrapper_detail_jo).empty();
+            for (var key in obj) {
+              if (obj.hasOwnProperty(key)) {
+                tableDetailJO.row.add( [
+                  obj[key]["namajenispekerjaan"],
+                  obj[key]["jobdl"],
+                  obj[key]["jobdp"],
+                  obj[key]["jobdc"]
+                ] ).draw();
+              }
+            }
+            $(".checked").show();
+          } else {
+            alert('Barcode tidak valid!');
+          }
+
+        });
+      }
+
       showTolak = function (bc)
       {
         //alert(bc);
-        $.post(" <?php echo base_url() ?>PKP/getDataFromBarcode", {barcode:bc}, function(data, status){
+        $.post(" <?php echo base_url() ?>JO/getDataFromBarcode", {jokode:bc}, function(data, status){
           var obj = $.parseJSON(data);
           if(obj.length > 0) {
             $("#alasanPenolakan").text(obj[0].alasanpenolakan);

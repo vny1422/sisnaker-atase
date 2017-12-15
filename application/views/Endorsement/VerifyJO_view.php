@@ -39,7 +39,7 @@
               <?php
               foreach($listjo as $row): ?>
               <tr>
-                <td class="text-center"><a onclick=showDetail("<?php echo $row->jobno ?>") data-toggle="modal" data-target="#modaldetail"><?php echo $row->jobno ?></a></td>
+                <td class="text-center"><a onclick=showDetail("<?php echo $row->jokode ?>") data-toggle="modal" data-target="#modaldetail"><?php echo $row->jokode ?></a></td>
                 <td><?php echo $row->pkpkode ?></td>
                 <td><?php echo $row->ppnama ?></td>
                 <td><?php echo $row->agnama ?></td>
@@ -52,8 +52,8 @@
                 </td>
                 <td>
                   <div class="text-center">
-                    <a onclick=show("<?php echo $row->jobno ?>") data-toggle="modal" data-target="#modaltolak"><button class="btn btn-danger" type="button" name="button">Tolak</button></a>
-                    <a id="confirmVerify" href=" <?php echo base_url() ?>JO/verifyJO/<?php echo $row->jobno ?>"><button class="btn btn-success" type="button" name="button">Setujui</button></a>
+                    <a onclick=show("<?php echo $row->jokode ?>") data-toggle="modal" data-target="#modaltolak"><button class="btn btn-danger" type="button" name="button">Tolak</button></a>
+                    <a id="confirmVerify" href=" <?php echo base_url() ?>JO/verifyJO/<?php echo $row->jokode ?>"><button class="btn btn-success" type="button" name="button">Setujui</button></a>
                   </div>
                 </td>
               </tr>
@@ -69,96 +69,6 @@
   </div>
 </div>
 </div>
-
-<!-- <body>
-<table id="example" class="display" width="100%" cellspacing="0">
-<thead>
-<tr>
-<th>order</th>
-<th>name</th>
-<th>country</th>
-<th>action</th>
-</tr>
-</thead>
-</table> -->
-
-
-<!-- <table id="newRow" style="display:none">
-<tbody>
-<tr>
-<td>
-<select id="selectbasic" name="selectbasic" class="form-control">
-<option value="1">option 1</option>
-<option value="2">option 2</option>
-<option value="2">option 3</option>
-</select>
-</td>
-<td>DVap
-</td>
-<td>
-www</td>
-<td><i class="fa fa-pencil-square" aria-hidden="true"></i>
-<i class="fa fa-minus-square" aria-hidden="true"></i> </td>
-</tr>
-</tbody>
-</table> -->
-
-
-<!-- <script>
-$(document).ready(function() {
-
-var table;
-
-$("#example").on('mousedown.edit', "i.fa.fa-pencil-square", function(e) {
-
-$(this).removeClass().addClass("fa fa-envelope-o");
-var $row = $(this).closest("tr").off("mousedown");
-var $tds = $row.find("td").not(':first').not(':last');
-
-$.each($tds, function(i, el) {
-var txt = $(this).text();
-$(this).html("").append("<input type='text' value=\""+txt+"\">");
-});
-
-});
-
-$("#example").on('mousedown', "input", function(e) {
-e.stopPropagation();
-});
-
-$("#example").on('mousedown.save', "i.fa.fa-envelope-o", function(e) {
-
-$(this).removeClass().addClass("fa fa-pencil-square");
-var $row = $(this).closest("tr");
-var $tds = $row.find("td").not(':eq(1)').not(':last');
-
-$.each($tds, function(i, el) {
-var txt = $(this).find("input").val()
-$(this).html(txt);
-});
-});
-
-
-table = $('#example').DataTable({
-rowReorder: {
-dataSrc: 'order',
-selector: 'tr'
-},
-columns: [{
-data: 'order'
-}, {
-data: 'place'
-}, {
-data: 'name'
-}, {
-data: 'delete'
-}]
-});
-
-});
-</script>
-</body> -->
-
 
 <div class="modal fade bs-example-modal-lg" id="modaltolak" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -176,7 +86,7 @@ data: 'delete'
             <label class="control-label col-md-3 col-sm-2 col-xs-12" for="name">Alasan Penolakan <span class="required">*</span></label>
             <div class="col-md-9 col-sm-5 col-xs-12">
               <textarea name="alasan" class="form-control" rows="5" required></textarea>
-              <input type="hidden" id="hiddenjobno" name="hiddenjobno">
+              <input type="hidden" id="hiddenjokode" name="hiddenjokode">
             </div>
           </div>
         </div>
@@ -346,22 +256,22 @@ $(document).ready(function () {
       postData.push(txt);
       $(this).html(txt);
     });
-    $.post(" <?php echo base_url(); ?>JO/editJO", {jobno: bc, tglawal: postData[0], tglakhir: postData[1]}, function(data, status){
+    $.post(" <?php echo base_url(); ?>JO/editJO", {jokode: bc, tglawal: postData[0], tglakhir: postData[1]}, function(data, status){
       var listinput = $.parseJSON(data);
     });
   });
 
   table = $('#tbjo').DataTable();
 
-  show = function(jobno)
+  show = function(jokode)
   {
-    $("#hiddenjobno").val(jobno);
+    $("#hiddenjokode").val(jokode);
   }
 
   showDetail = function (bc)
   {
     //alert(bc);
-    $.post(" <?php echo base_url() ?>JO/getDataFromBarcode", {jobno:bc}, function(data, status){
+    $.post(" <?php echo base_url() ?>JO/getDataFromBarcode", {jokode:bc}, function(data, status){
       var obj = $.parseJSON(data);
       if(obj.length > 0) {
         $("#joag").text(obj[0].agnama);

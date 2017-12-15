@@ -264,7 +264,7 @@
       l.ladda('start');
       var code = $("#barcode").val();
 
-      $.post("<?php echo base_url()?>jo/getDataFromBarcode", {jobno: code}, function(data,status){
+      $.post("<?php echo base_url()?>jo/getDataFromBarcode", {jokode: code}, function(data,status){
         l.ladda('stop');
         var obj = $.parseJSON(data);
         if(obj.length > 0) {

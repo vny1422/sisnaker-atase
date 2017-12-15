@@ -22,9 +22,9 @@ class JO_model extends CI_Model {
 
     // generate barcode
     for ($i=0; $i < 101; $i++) {
-      $data["jobno"] = $this->createUID('J', 4);
+      $data["jokode"] = $this->createUID('J', 4);
       $this->db->from('jo');
-      $this->db->where('jobno', $data["jobno"]);
+      $this->db->where('jokode', $data["jokode"]);
       $total = $this->db->get()->num_rows();
       if($total == 0)
       {
@@ -63,7 +63,7 @@ class JO_model extends CI_Model {
   }
 
   function get_data_jo_by_agensi_and_pptkis ($agid, $ppkode) {
-    $this->db->select('j.jobno, pkp.pkpkode, ag.agnama, pp.ppnama, j.jobtglawal, j.jobtglakhir, j.isverified, j.isuploaded, j.jobtimestamp');
+    $this->db->select('j.jokode, pkp.pkpkode, ag.agnama, pp.ppnama, j.jobtglawal, j.jobtglakhir, j.isverified, j.isuploaded, j.jobtimestamp');
     $this->db->from('jo j');
     $this->db->order_by("j.jobtimestamp", "desc");
     $this->db->join('magensi ag', 'ag.agid = j.agid');
@@ -93,7 +93,7 @@ class JO_model extends CI_Model {
 
   public function get_jo_verify_list()
   {
-    $this->db->select('j.jobid, j.jobno, ag.agnama, pp.ppnama, j.jobtglawal, j.jobtglakhir, j.isverified, j.isuploaded, j.jobtimestamp, pkp.pkpkode');
+    $this->db->select('j.jobid, j.jokode, ag.agnama, pp.ppnama, j.jobtglawal, j.jobtglakhir, j.isverified, j.isuploaded, j.jobtimestamp, pkp.pkpkode');
     $this->db->from('jo j');
     $this->db->order_by("j.jobtimestamp", "dsc");
     $this->db->join('magensi ag', 'ag.agid = j.agid');
@@ -108,13 +108,22 @@ class JO_model extends CI_Model {
     return $this->db->get()->result();
   }
 
-  public function editDate_from_bc($jobno)
+  public function upload_dokumen_final_jo($jokode)
+  {
+    $data = array(
+      'isuploaded' => '1'
+    );
+    $this->db->where('jokode', $jokode);
+    return $this->db->update($this->table, $data);
+  }
+
+  public function editDate_from_bc($jokode)
   {
     $data = array(
       'jobtglawal' => $this->input->post('tglawal', true),
       'jobtglakhir' => $this->input->post('tglakhir', true)
     );
-    $this->db->where('jobno', $jobno);
+    $this->db->where('jokode', $jokode);
     //$this->db->update($this->table, $data);
     //echo $this->db->last_query();
     return $this->db->update($this->table, $data);
@@ -131,7 +140,7 @@ class JO_model extends CI_Model {
     return $this->db->update('jodetail', $data);
   }
 
-  function get_jo_from_barcode($jobno) // bc = jobno
+  function get_jo_from_barcode($jokode)
   {
     $this->db->select('j.*, jd.jobdid, ag.agnama, pp.ppnama, jd.jobdl, jd.jobdp, jd.jobdc, jp.namajenispekerjaan, pkp.pkpkode');
     $this->db->from('jo j');
@@ -140,12 +149,12 @@ class JO_model extends CI_Model {
     $this->db->join('magensi ag', 'j.agid = ag.agid');
     $this->db->join('mpptkis pp', 'j.ppkode = pp.ppkode');
     $this->db->join('pkp', 'pkp.pkpid = j.pkpid');
-    $this->db->where('jobno', $jobno);
+    $this->db->where('jokode', $jokode);
     $this->db->where('j.idinstitution', $this->session->userdata('institution'));
     return $this->db->get()->result();
   }
 
-  function toggle_jo($jobno, $reject=FALSE)
+  function toggle_jo($jokode, $reject=FALSE)
   {
     if(!$reject)
     {
@@ -159,14 +168,14 @@ class JO_model extends CI_Model {
         'alasanpenolakan' => $this->input->post('alasan', true)
       );
     }
-    $this->db->where('jo.jobno', $jobno);
+    $this->db->where('jo.jokode', $jokode);
     $this->db->where('jo.idinstitution', $this->session->userdata('institution'));
     $this->db->where('jo.idkantor', $this->session->userdata('kantor'));
     return $this->db->update($this->table, $data);
   }
 
   function legalize_barcode($bc){
-    $this->db->where('jobno', $bc);
+    $this->db->where('jokode', $bc);
     $this->db->where('idinstitution', $this->session->userdata('institution'));
     $this->db->where('isverified', 3);
     if ($this->db->get($this->table)->num_rows() > 0)
@@ -179,7 +188,7 @@ class JO_model extends CI_Model {
         'jotglendorsement' => date("Y-m-d")
       );
 
-      $this->db->where('jobno', $bc);
+      $this->db->where('jokode', $bc);
       $this->db->where('idinstitution', $this->session->userdata('institution'));
       return $this->db->update($this->table, $data);
     }

@@ -168,7 +168,7 @@
 
       <div class="form-group" >
         <label class="col-sm-2 control-label">Tanggal Mulai</label>
-        <div class="col-sm-2">
+        <div class="col-sm-4">
           <div class="input-group date datepicker col-md-12 col-xs-12" data-provide="datepicker" ng-class="{'has-error':(pst && shForm.inDate.$invalid)}">
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
             <input id="pkpstart" type="text" class="form-control tglformat" ng-model="shelterform['in']" name="start" required></input>
@@ -178,7 +178,7 @@
 
       <div class="form-group" >
         <label class="col-sm-2 control-label">Tanggal Selesai</label>
-        <div class="col-sm-2">
+        <div class="col-sm-4">
           <div class="input-group date datepicker col-md-12 col-xs-12" data-provide="datepicker" ng-class="{'has-error':(pst && shForm.inDate.$invalid)}">
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
             <input id="pkpend" type="text" class="form-control tglformat" ng-model="shelterform['in']" name="end" required></input>
@@ -208,7 +208,7 @@
             <div class="col-md-2">
 
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
               <div class="col-md-4 kuota">
                 <label class="control-label col-md-4 minilabel" for="name">L</label>
                 <div class="col-md-8 ">

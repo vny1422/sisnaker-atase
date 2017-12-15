@@ -241,34 +241,45 @@
       $("#agensi").val(<?php echo $kuitansiag ?>);
       $("#pptkis").val('<?php echo $kuitansipp ?>');
       $.post(" <?php echo base_url(); ?>PKP/getDataPKP", {agid:$("#agensi").val(), ppkode:$("#pptkis").val()}, function(data, status){
-        var listinput = $.parseJSON(data);
-        $(wrapper_pkp).html('');
-        for (var key in listinput) {
 
-          if (listinput[key]["isverified"] == 1) {
-            if (listinput[key]["isuploaded"] == 1) {
-              td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + listinput[key]["pkpkode"] +'.pdf ">DOWNLOAD</a>'
-            }
-            else{
-              td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + listinput[key]["pkpkode"] +' ">UPLOAD</a>'
+          var obj = $.parseJSON(data);
+          if(obj.length > 0){
+            table.clear();
+            $(wrapper_pkp).empty();
+            for(var key in obj){
+              if(obj.hasOwnProperty(key)){
+                if (obj[key]["isverified"] == 1){
+                  td = '<a onclick=showTolak("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalTolak">PKP Ditolak</a>'
+                }
+                else if (obj[key]["isverified"] == 2) {
+                  td = 'Segera Lakukan Legalisasi'
+                }
+                else if (obj[key]["isverified"] == 3) {
+                  if (obj[key]["isuploaded"] == 1) {
+                    td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + obj[key]["pkpkode"] +'.pdf ">DOWNLOAD</a>'
+                  }
+                  else{
+                    td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + obj[key]["pkpkode"] +' ">UPLOAD</a>'
+                  }
+                }
+                else {
+                  td = 'Segera Lakukan Verifikasi'
+                }
+                table.row.add([
+                  '<td id="kodepkp" class="text-center" value = "' + obj[key]["pkpkode"] +'"><a onclick=show("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalDetail">' + obj[key]["pkpkode"] + '</a></td>',
+                  obj[key]["pkptglawal"],
+                  obj[key]["pkptglakhir"],
+                  '<td>'+ (obj[key]["isverified"] == 1 ? "Sudah" : "Belum") + '</td>',
+                  '<td>'+ (obj[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td>',
+                  obj[key]["pkptimestamp"],
+                  '<td class="text-center">'+ td + '</td>'
+                ]).draw();
+              }
             }
           }
           else {
-            td = 'Segera Lakukan Verifikasi'
+            alert('Choose Agensi and PPTKIS');
           }
-
-          var string = '\
-          <tr>\
-          <td id="kodepkp" class="text-center" value = "' + listinput[key]["pkpkode"] +'"><a onclick=show("'+listinput[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalDetail">' + listinput[key]["pkpkode"] + '</a></td>\
-          <td>'+listinput[key]["pkptglawal"]+ '</td> \
-          <td>'+listinput[key]["pkptglakhir"]+ '</td> \
-          <td>'+ (listinput[key]["isverified"] == 1 ? "Sudah" : "Belum") + '</td> \
-          <td>'+ (listinput[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td> \
-          <td>'+listinput[key]["pkptimestamp"]+ '</td> \
-          <td class="text-center">'+ td + '</td> \
-          </tr>'
-          $(wrapper_pkp).append(string);
-        }
       });
       <?php endif; ?>
 

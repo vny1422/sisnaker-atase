@@ -415,9 +415,16 @@ class Endorsement extends MY_Controller {
 
   function getJodetail()
   {
-  	$agensi = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
-    $ppkode = $this->input->post('ppkode', TRUE);
-    $listjob = $this->Endorsement_model->get_jodetail($ppkode,$agensi->agid);
+    if($this->input->post('agid', true))
+    {
+      $ppkode = $this->input->post('ppkode', TRUE);
+      $listjob = $this->Endorsement_model->get_jodetail($ppkode,$this->input->post('agid'), true);
+    }
+    else {
+      $agensi = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
+      $ppkode = $this->input->post('ppkode', TRUE);
+      $listjob = $this->Endorsement_model->get_jodetail($ppkode,$agensi->agid);
+    }
     $i=0;
     foreach ($listjob as $row):
       $sisa = $this->getSisa($row->jobdid, $row->idjenispekerjaan);
@@ -662,6 +669,7 @@ public function insertEJ()
   $data["joclatgl"] = $splittgl[0]."-".$splittgl[1]."-".$splittgl[2];
   $data["agid"] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'))->agid;
   $data["idinstitution"] = $this->session->userdata('institution');
+  $data["idkantor"] = $this->session->userdata('kantor');
   $ejid = $this->Endorsement_model->insert_ej($data);
   $this->Endorsement_model->update_kuota($jo,$job,$laki,$perempuan,$campuran);
   $datatki = array();

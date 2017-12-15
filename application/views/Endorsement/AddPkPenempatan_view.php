@@ -334,9 +334,12 @@
                                   <form name="aduanform" enctype="multipart/form-data" ng-init="formWarn=false">
                                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                     </ul>
-                                    <h4><strong>THIRD-STEP:</strong> EMPLOYER DATA</h4>
-                                    <div class="clearfix"></div>
-                                  </div>
+                                    <div class="col-md-12">
+                                      <div class="col-md-4"><h4><strong>THIRD-STEP:</strong> EMPLOYER DATA</h4></div>
+                                      <div class="col-md-8" style="margin-left: -9%">
+                                          <button type="button" class="btn btn-primary" id="quick">Quick</button>
+                                      </div>
+                                    </div>
                                   <div class="x_content">
                                     <div class="col-md-10 center-margin">
                                       <form class="form-horizontal form-label-left">
@@ -596,6 +599,11 @@
                                                 alert("Please input The Passport No. of Worker!");
                                                 return;
                                               }
+                                              else if (tkidata.length > 0)
+                                              {
+                                                alert("You already added another Worker!");
+                                                return;
+                                              }
                                               else {
                                                 $("#loading2nd").mask("Loading...");
                                                 $.post("<?php echo base_url()?>Endorsement/requestTKI", {paspor: paspor, jpid: jpid}, function(xml,status){
@@ -676,6 +684,21 @@
                                                 });
                                               }
                                             });
+
+                                            $("#quick").click(function(e){
+                                              $.post("<?php echo base_url()?>PkNew/quickInfo", { agency: $("#agency".val(), ppkode: ppkode }, function(data, status){
+                                                var obj = $.parseJSON(data);
+                                                $("#idno").val(obj.mjktp);
+                                                $("#employer").val(obj.mjnama);
+                                                $("#employer2").val(obj.mjnamacn);
+                                                $("#address").val(obj.mjalmt);
+                                                $("#address2").val(obj.mjalmtcn);
+                                                $("#phone").val(obj.mjtelp);
+                                                $("#fax").val(obj.mjfax);
+                                                $("#pngjwb").val(obj.mjpngjwb);
+                                                $("#pngjwb2").val(obj.mjpngjwbcn);
+                                              })
+                                            })
 
                                             function editDialog(data,isEdit)
                                             {

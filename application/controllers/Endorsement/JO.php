@@ -30,7 +30,29 @@ class JO extends MY_Controller {
 
   public function index()
   {
+    if ($this->session->userdata('role') == 4 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7){
 
+      if($this->session->userdata('role') == 4){
+        $this->data['dataagensi'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
+      }
+
+      if ($this->session->flashdata('data') != '')
+      {
+        $this->data = $this->session->flashdata('data');
+      }
+
+      $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
+      $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
+      $this->data['title'] = 'Endorsement';
+      $this->data['subtitle'] = 'Lihat Data JO';
+      $this->data['subtitle2'] = 'Lihat Data JO';
+      $this->load->view('templates/headerendorsement', $this->data);
+      $this->load->view('Endorsement/LihatJO_view', $this->data);
+      $this->load->view('templates/footerendorsement');
+    }
+    else {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
   }
 
   public function addJO()
@@ -208,5 +230,16 @@ class JO extends MY_Controller {
     $result = $this->JO_model->get_jo_from_barcode($jobno);
 
     echo json_encode($result);
+  }
+
+  public function getDataJO()
+  {
+    $agid = $this->input->post('agid', TRUE);
+    $ppkode = $this->input->post('ppkode', TRUE);
+
+    $res = $this->JO_model->get_data_jo_by_agensi_and_pptkis($agid, $ppkode);
+    //$res = $this->PKP_model->get_data_pkp_by_agensi_and_pptkis(26926, 'ABD022');
+  //var_dump($res);
+    echo json_encode($res);
   }
 }

@@ -172,7 +172,7 @@ data: 'delete'
           <?php echo form_open(base_url('Pkp/rejectPkp/')) ?>
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Alasan Penolakan <span class="required">*</span></label>
-            <div class="col-md-5 col-sm-5 col-xs-12">
+            <div class="col-md-10 col-sm-5 col-xs-12">
               <textarea name="alasan" class="form-control" rows="5" required></textarea>
               <input type="hidden" id="hiddenidpkp" name="hiddenidpkp">
             </div>

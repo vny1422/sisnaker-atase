@@ -40,7 +40,7 @@
 
         $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
         $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
-        $this->data['title'] = 'Lihat Data PKP';
+        $this->data['title'] = 'Endorsement';
         $this->data['subtitle'] = 'Lihat Data PKP';
         $this->data['subtitle2'] = 'Lihat Data PKP';
         $this->load->view('templates/headerendorsement', $this->data);
@@ -64,7 +64,6 @@
         $this->form_validation->set_rules('laki[]', 'Jumlah Kuota Laki-laki', 'required|trim');
         $this->form_validation->set_rules('perempuan[]', 'Jumlah Kuota Perempuan', 'required|trim');
         $this->form_validation->set_rules('campuran[]', 'Jumlah Kuota Campuran', 'required|trim');
-        //$this->form_validation->set_rules('dokumenpkp', 'DokumenPKP', 'required|trim');
 
         if ($this->form_validation->run() === FALSE)
         {
@@ -86,20 +85,6 @@
         {
           $returnPKP = $this->PKP_model->post_new_pkp();
           if ($returnPKP[0]) {
-            $config['upload_path'] = './uploads/dokumenpkp/';
-            $config['allowed_types'] = 'pdf';
-            $config['remove_spaces'] = TRUE;
-            $config['file_name'] = "Dokumen_PKP_$returnPKP[1]";
-
-            $this->load->library('upload', $config);
-
-            if ( !$this->upload->do_upload('dokumenpkp'))
-            {
-              $this->data['error'] = $this->upload->display_errors('','');
-            } else {
-              $this->data['error'] = "";
-              //$this->session->set_flashdata('information', 'Upload berhasil dilakukan');
-            }
             $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
           }
           else {
@@ -107,7 +92,6 @@
           }
           redirect('PKP/addPkp');
         }
-
       }
       else {
         show_error("Access is forbidden.",403,"403 Forbidden");

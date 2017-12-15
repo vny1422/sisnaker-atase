@@ -82,6 +82,7 @@
             <table id="datatable-pkp" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
               <thead>
                 <tr>
+                  <th>Kode JO</th>
                   <th>Kode PKP</th>
                   <!-- <th>Agensi</th>
                   <th>PPTKIS</th> -->
@@ -104,7 +105,7 @@
           <div class="ln_solid"></div>
           <div class="form-group">
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <a class="btn btn-warning" href=" <?php echo base_url('PKP/addPkp') ?> ">Tambah PKP</a>
+              <a class="btn btn-warning" href=" <?php echo base_url('PKP/addJO') ?> ">Tambah JO</a>
             </div>
           </div>
 
@@ -297,7 +298,7 @@
           alert("Pilih Agensi dan PPTKIS")
         }
         else {
-          $.post(" <?php echo base_url(); ?>PKP/getDataPKP", {agid:$("#agensi").val(), ppkode:$("#pptkis").val()}, function(data, status){
+          $.post(" <?php echo base_url(); ?>JO/getDataJO", {agid:$("#agensi").val(), ppkode:$("#pptkis").val()}, function(data, status){
             var obj = $.parseJSON(data);
             if(obj.length > 0){
               table.clear();
@@ -305,29 +306,30 @@
               for(var key in obj){
                 if(obj.hasOwnProperty(key)){
                   if (obj[key]["isverified"] == 1){
-                    td = '<a onclick=showTolak("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalTolak">PKP Ditolak</a>'
+                    td = '<a onclick=showTolak("'+obj[key]["jobno"]+'") data-toggle="modal" data-target="#modalTolak">JO Ditolak</a>'
                   }
                   else if (obj[key]["isverified"] == 2) {
                     td = 'Segera Lakukan Legalisasi'
                   }
                   else if (obj[key]["isverified"] == 3) {
                     if (obj[key]["isuploaded"] == 1) {
-                      td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + obj[key]["pkpkode"] +'.pdf ">DOWNLOAD</a>'
+                      td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_JO_' + obj[key]["jobno"] +'.pdf ">DOWNLOAD</a>'
                     }
                     else{
-                      td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + obj[key]["pkpkode"] +' ">UPLOAD</a>'
+                      td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + obj[key]["jobno"] +' ">UPLOAD</a>'
                     }
                   }
                   else {
                     td = 'Segera Lakukan Verifikasi'
                   }
                   table.row.add([
-                    '<td id="kodepkp" class="text-center" value = "' + obj[key]["pkpkode"] +'"><a onclick=show("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalDetail">' + obj[key]["pkpkode"] + '</a></td>',
-                    obj[key]["pkptglawal"],
-                    obj[key]["pkptglakhir"],
+                    '<td id="kodepkp" class="text-center" value = "' + obj[key]["jobno"] +'"><a onclick=show("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalDetail">' + obj[key]["jobno"] + '</a></td>',
+                    obj[key]["pkpkode"],
+                    obj[key]["jobtglawal"],
+                    obj[key]["jobtglakhir"],
                     '<td>'+ (obj[key]["isverified"] == 1 ? "Sudah" : "Belum") + '</td>',
                     '<td>'+ (obj[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td>',
-                    obj[key]["pkptimestamp"],
+                    obj[key]["jobtimestamp"],
                     '<td class="text-center">'+ td + '</td>'
                   ]).draw();
                 }
@@ -343,7 +345,7 @@
       show = function (bc)
       {
         //alert(bc);
-        $.post(" <?php echo base_url() ?>PKP/getDataFromBarcode", {barcode:bc}, function(data, status){
+        $.post(" <?php echo base_url() ?>JO/getDataFromBarcode", {barcode:bc}, function(data, status){
           var obj = $.parseJSON(data);
           if(obj.length > 0) {
             $("#pkpag").text(obj[0].agnama);

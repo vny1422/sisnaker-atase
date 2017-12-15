@@ -62,6 +62,21 @@ class JO_model extends CI_Model {
     return $tipe.date("y").date("m").$this->randomString($length);
   }
 
+  function get_data_jo_by_agensi_and_pptkis ($agid, $ppkode) {
+    $this->db->select('j.jobno, pkp.pkpkode, ag.agnama, pp.ppnama, j.jobtglawal, j.jobtglakhir, j.isverified, j.isuploaded, j.jobtimestamp');
+    $this->db->from('jo j');
+    $this->db->order_by("j.jobtimestamp", "desc");
+    $this->db->join('magensi ag', 'ag.agid = j.agid');
+    $this->db->join('mpptkis pp', 'pp.ppkode = j.ppkode');
+    $this->db->join('pkp', 'pkp.pkpid = j.pkpid');
+    $this->db->where('j.agid', $agid);
+    $this->db->where('j.ppkode', $ppkode);
+    $this->db->where('j.idinstitution', $this->session->userdata('institution'));
+    $this->db->where('j.idkantor', $this->session->userdata('kantor'));
+
+    return $this->db->get()->result();
+  }
+
   function randomString($length) {
     $data = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     $data .= "0123456789";

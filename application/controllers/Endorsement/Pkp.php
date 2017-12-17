@@ -40,7 +40,7 @@
 
         $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
         $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
-        $this->data['title'] = 'Lihat Data PKP';
+        $this->data['title'] = 'Endorsement';
         $this->data['subtitle'] = 'Lihat Data PKP';
         $this->data['subtitle2'] = 'Lihat Data PKP';
         $this->load->view('templates/headerendorsement', $this->data);
@@ -64,7 +64,6 @@
         $this->form_validation->set_rules('laki[]', 'Jumlah Kuota Laki-laki', 'required|trim');
         $this->form_validation->set_rules('perempuan[]', 'Jumlah Kuota Perempuan', 'required|trim');
         $this->form_validation->set_rules('campuran[]', 'Jumlah Kuota Campuran', 'required|trim');
-        //$this->form_validation->set_rules('dokumenpkp', 'DokumenPKP', 'required|trim');
 
         if ($this->form_validation->run() === FALSE)
         {
@@ -86,20 +85,6 @@
         {
           $returnPKP = $this->PKP_model->post_new_pkp();
           if ($returnPKP[0]) {
-            $config['upload_path'] = './uploads/dokumenpkp/';
-            $config['allowed_types'] = 'pdf';
-            $config['remove_spaces'] = TRUE;
-            $config['file_name'] = "Dokumen_PKP_$returnPKP[1]";
-
-            $this->load->library('upload', $config);
-
-            if ( !$this->upload->do_upload('dokumenpkp'))
-            {
-              $this->data['error'] = $this->upload->display_errors('','');
-            } else {
-              $this->data['error'] = "";
-              //$this->session->set_flashdata('information', 'Upload berhasil dilakukan');
-            }
             $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
           }
           else {
@@ -107,7 +92,6 @@
           }
           redirect('PKP/addPkp');
         }
-
       }
       else {
         show_error("Access is forbidden.",403,"403 Forbidden");
@@ -189,12 +173,53 @@
     {
       $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;
       $currencyname = $this->Currency_model->get_currency_name($currencyid);
+      $this->data['listpkp'] = $this->PKP_model->get_pkp_verify_list();
       $this->data['title'] = 'Endorsement';
       $this->data['currency'] = $currencyname->currencyname;
-      $this->data['subtitle'] = 'Verifikasi & Legalisasi PKP';
-      $this->data['subtitle2'] = 'Verifikasi & Legalisasi PKP';
+      $this->data['subtitle'] = 'Verifikasi PKP';
+      $this->data['subtitle2'] = 'Verifikasi PKP';
       $this->load->view('templates/headerendorsement', $this->data);
       $this->load->view('Endorsement/VerifyPKP_view', $this->data);
+      $this->load->view('templates/footerendorsement');
+    }
+
+    public function rejectPkp()
+    {
+      $idpkp = $this->input->post('hiddenidpkp', true);
+      if ($this->PKP_model->toggle_pkp($idpkp, TRUE))
+      {
+          $this->session->set_flashdata('information', 'PKP berhasil ditolak!');
+          redirect('Pkp/verify');
+      }
+      else {
+          $this->session->set_flashdata('information', 'PKP gagal ditolak!');
+          redirect('Pkp/verify');
+      }
+    }
+
+    public function verifyPkp($idpkp)
+    {
+      if ($this->PKP_model->toggle_pkp($idpkp))
+      {
+          $this->session->set_flashdata('information', 'PKP berhasil diverifikasi!');
+          redirect('Pkp/verify');
+      }
+      else {
+          $this->session->set_flashdata('information', 'PKP gagal diverifikasi!');
+          redirect('Pkp/verify');
+      }
+    }
+
+    public function legalize()
+    {
+      $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;
+      $currencyname = $this->Currency_model->get_currency_name($currencyid);
+      $this->data['title'] = 'Endorsement';
+      $this->data['currency'] = $currencyname->currencyname;
+      $this->data['subtitle'] = 'Legalisasi PKP';
+      $this->data['subtitle2'] = 'Legalisasi PKP';
+      $this->load->view('templates/headerendorsement', $this->data);
+      $this->load->view('Endorsement/LegalizePKP_view', $this->data);
       $this->load->view('templates/footerendorsement');
     }
 
@@ -206,10 +231,10 @@
       echo json_encode($result);
     }
 
-    public function verifyBarcode()
+    public function legalizeBarcode()
     {
       $bc = $this->input->post('barcode', TRUE);
-      $result = $this->PKP_model->verify_barcode($bc);
+      $result = $this->PKP_model->legalize_barcode($bc);
 
       echo json_encode($result);
     }
@@ -291,7 +316,7 @@
         if ($this->form_validation->run() === FALSE)
         {
           $this->session->set_flashdata('information', 'Complete receipt form!');
-          redirect('PKP/verify');
+          redirect('PKP/legalize');
         }
         else {
           if (!($this->input->post('kuitansiag', true)))
@@ -324,4 +349,27 @@
         redirect('Pkp');
       }
     }
+
+    // AJAX AUTOCOMPLETE
+    public function ambilpkp(){
+      $keyword = $this->input->post('term',TRUE);
+      $query = $this->PKP_model->ambilpkp($keyword);
+      $json_array = array();
+      $r = new stdClass;
+      $i=0;
+      foreach ($query as $row)
+        $r->rows[$i++]=$row;
+      echo json_encode($r);
+    }
+
+    //ajax
+
+    public function editPKP(){
+      echo json_encode($this->PKP_model->editDate_from_bc($this->input->post('pkpbc', true)));
+    }
+
+    public function editPKPd(){
+      echo json_encode($this->PKP_model->editPKPd($this->input->post('id', true)));
+    }
+
   }

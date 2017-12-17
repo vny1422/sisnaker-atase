@@ -228,26 +228,15 @@
                     <div class="x_content">
                       <div class="col-md-8 center-margin">
                         <form class="form-horizontal form-label-left">
-
-                          <div class="form-group">
-                            <label>Agency</label>
-                            <div>
-                              <select class="form-control input1st" id="agency" toggle-dropdown>
-                                <option>
-                                </option>
-                                <?php foreach($listconnag as $row): ?>
-                                    <option value="<?php echo $row->agid ?>"><?php echo $row->agnama ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                          </div>
-                        </div>
-
                           <div class="form-group">
                             <label>PPTKIS</label>
                             <div>
                               <select class="form-control input1st" id="pptkis" toggle-dropdown>
                                 <option>
                                 </option>
+                                <?php foreach($listconnpp as $row): ?>
+                                    <option value="<?php echo $row->ppkode."/".$row->jobid ?>"><?php echo $row->ppnama ?></option>
+                                <?php endforeach; ?>
                             </select>
                           </div>
                         </div>
@@ -334,7 +323,12 @@
                                   <form name="aduanform" enctype="multipart/form-data" ng-init="formWarn=false">
                                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                     </ul>
-                                    <h4><strong>THIRD-STEP:</strong> EMPLOYER DATA</h4>
+                                    <div class="col-md-12">
+                                      <div class="col-md-4"><h4><strong>THIRD-STEP:</strong> EMPLOYER DATA</h4></div>
+                                      <div class="col-md-8" style="margin-left: -9%">
+                                          <button type="button" class="btn btn-primary" id="quick">Quick</button>
+                                      </div>
+                                    </div>
                                     <div class="clearfix"></div>
                                   </div>
                                   <div class="x_content">
@@ -596,6 +590,11 @@
                                                 alert("Please input The Passport No. of Worker!");
                                                 return;
                                               }
+                                              else if (tkidata.length > 0)
+                                              {
+                                                alert("You already added another Worker!");
+                                                return;
+                                              }
                                               else {
                                                 $("#loading2nd").mask("Loading...");
                                                 $.post("<?php echo base_url()?>Endorsement/requestTKI", {paspor: paspor, jpid: jpid}, function(xml,status){
@@ -676,6 +675,21 @@
                                                 });
                                               }
                                             });
+
+                                            $("#quick").click(function(e){
+                                              $.post("<?php echo base_url()?>PkNew/quickInfo", { ppkode: ppkode }, function(data, status){
+                                                var obj = $.parseJSON(data);
+                                                $("#idno").val(obj.mjktp);
+                                                $("#employer").val(obj.mjnama);
+                                                $("#employer2").val(obj.mjnamacn);
+                                                $("#address").val(obj.mjalmt);
+                                                $("#address2").val(obj.mjalmtcn);
+                                                $("#phone").val(obj.mjtelp);
+                                                $("#fax").val(obj.mjfax);
+                                                $("#pngjwb").val(obj.mjpngjwb);
+                                                $("#pngjwb2").val(obj.mjpngjwbcn);
+                                              })
+                                            })
 
                                             function editDialog(data,isEdit)
                                             {
@@ -790,7 +804,6 @@
                                                       }
 
                                                       delete tkidata[i];
-                                                      console.log(tkidata);
                                                       break;
                                                     }
                                                   }
@@ -921,29 +934,6 @@
 
                                             });
 
-                                            $("#agency").change(function(){
-                                              $("#loading1st").mask("Loading...");
-                                              $('#pptkis')
-                                              .find('option')
-                                              .remove()
-                                              .end()
-                                              .append('<option></option>');;
-                                              var value = $("#agency").val();
-                                              if(value != "")
-                                              {
-                                                $.post("<?php echo base_url()?>Endorsement/getConnPPTKIS", {agid: value}, function(data,status){
-                                                  var obj = $.parseJSON(data);
-                                                  $.each(obj, function (i, item) {
-                                                    $('#pptkis').append($('<option>', {
-                                                      value: item.ppkode+'/'+item.jobid,
-                                                      text : item.ppnama
-                                                    }));
-                                                  });
-                                                });
-                                                $("#loading1st").unmask();
-                                              }
-                                              $("#loading1st").unmask();
-                                            });
 
 
                                             $("#pptkis").change(function(){
@@ -959,7 +949,7 @@
                                                 var splitter = value.split('/');
                                                 ppkode = splitter[0];
                                                 jo = splitter[1];
-                                                $.post("<?php echo base_url()?>Endorsement/getJodetail", {agid: $("#agency").val(), ppkode: ppkode}, function(data,status){
+                                                $.post("<?php echo base_url()?>Endorsement/getJodetail", {ppkode : ppkode}, function(data,status){
                                                   var obj = $.parseJSON(data);
                                                   console.log(data);
                                                   $.each(obj, function (i, item) {

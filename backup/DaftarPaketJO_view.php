@@ -64,7 +64,7 @@
     $(function() {
       $( "#agensi" ).autocomplete({
         source: function(request, response) {
-          $.ajax({ 
+          $.ajax({
             url: "<?php echo base_url(); ?>/Paket/ambilnamaagensi/",
             data: { kode: request.term},
             dataType: "json",
@@ -80,7 +80,7 @@
     $(function() {
       $( "#pptkis" ).autocomplete({
         source: function(request, response) {
-          $.ajax({ 
+          $.ajax({
             url: "<?php echo base_url(); ?>/Paket/ambilnamapptkis/",
             data: { kode: request.term},
             dataType: "json",
@@ -94,4 +94,3 @@
     } );
   });
   </script>
-

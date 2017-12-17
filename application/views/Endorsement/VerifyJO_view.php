@@ -22,10 +22,11 @@
             </div>
             </div>' ?>
           <?php endif; ?>
-          <table id="tbpkp" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
+          <table id="tbjo" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
             <thead>
               <tr>
-                <th>Barcode PKP</th>
+                <th>Nomor JO</th>
+                <th>Kode PKP</th>
                 <th>PPTKIS</th>
                 <th>Agensi</th>
                 <th>Tanggal Awal</th>
@@ -34,15 +35,16 @@
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody id="pkplist">
+            <tbody id="jolist">
               <?php
-              foreach($listpkp as $row): ?>
+              foreach($listjo as $row): ?>
               <tr>
-                <td class="text-center"><a onclick=showDetail("<?php echo $row->pkpkode ?>") data-toggle="modal" data-target="#modaldetail"><?php echo $row->pkpkode ?></a></td>
+                <td class="text-center"><a onclick=showDetail("<?php echo $row->jokode ?>") data-toggle="modal" data-target="#modaldetail"><?php echo $row->jokode ?></a></td>
+                <td><?php echo $row->pkpkode ?></td>
                 <td><?php echo $row->ppnama ?></td>
                 <td><?php echo $row->agnama ?></td>
-                <td><?php echo $row->pkptglawal ?></td>
-                <td><?php echo $row->pkptglakhir ?></td>
+                <td><?php echo $row->jobtglawal ?></td>
+                <td><?php echo $row->jobtglakhir ?></td>
                 <td>
                   <div class="text-center">
                     <i class="fa fa-pencil-square fa-2x" aria-hidden="true"></i>
@@ -50,113 +52,23 @@
                 </td>
                 <td>
                   <div class="text-center">
-                    <a onclick=show("<?php echo $row->pkpid ?>") data-toggle="modal" data-target="#modaltolak"><button class="btn btn-danger" type="button" name="button">Tolak</button></a>
-                    <a id="confirmVerify" href=" <?php echo base_url() ?>Pkp/verifyPKP/<?php echo $row->pkpid ?>"><button class="btn btn-success" type="button" name="button">Setujui</button></a>
+                    <a onclick=show("<?php echo $row->jokode ?>") data-toggle="modal" data-target="#modaltolak"><button class="btn btn-danger" type="button" name="button">Tolak</button></a>
+                    <a id="confirmVerify" href=" <?php echo base_url() ?>JO/verifyJO/<?php echo $row->jokode ?>"><button class="btn btn-success" type="button" name="button">Setujui</button></a>
                   </div>
                 </td>
-                </tr>
-                <?php
-              endforeach;
-              ?>
-            </tbody>
-          </table>
-        </div>
-
+              </tr>
+              <?php
+            endforeach;
+            ?>
+          </tbody>
+        </table>
       </div>
-      <br />
+
     </div>
+    <br />
   </div>
 </div>
-
-<!-- <body>
-<table id="example" class="display" width="100%" cellspacing="0">
-<thead>
-<tr>
-<th>order</th>
-<th>name</th>
-<th>country</th>
-<th>action</th>
-</tr>
-</thead>
-</table> -->
-
-
-<!-- <table id="newRow" style="display:none">
-<tbody>
-<tr>
-<td>
-<select id="selectbasic" name="selectbasic" class="form-control">
-<option value="1">option 1</option>
-<option value="2">option 2</option>
-<option value="2">option 3</option>
-</select>
-</td>
-<td>DVap
-</td>
-<td>
-www</td>
-<td><i class="fa fa-pencil-square" aria-hidden="true"></i>
-<i class="fa fa-minus-square" aria-hidden="true"></i> </td>
-</tr>
-</tbody>
-</table> -->
-
-
-<!-- <script>
-$(document).ready(function() {
-
-var table;
-
-$("#example").on('mousedown.edit', "i.fa.fa-pencil-square", function(e) {
-
-$(this).removeClass().addClass("fa fa-envelope-o");
-var $row = $(this).closest("tr").off("mousedown");
-var $tds = $row.find("td").not(':first').not(':last');
-
-$.each($tds, function(i, el) {
-var txt = $(this).text();
-$(this).html("").append("<input type='text' value=\""+txt+"\">");
-});
-
-});
-
-$("#example").on('mousedown', "input", function(e) {
-e.stopPropagation();
-});
-
-$("#example").on('mousedown.save', "i.fa.fa-envelope-o", function(e) {
-
-$(this).removeClass().addClass("fa fa-pencil-square");
-var $row = $(this).closest("tr");
-var $tds = $row.find("td").not(':eq(1)').not(':last');
-
-$.each($tds, function(i, el) {
-var txt = $(this).find("input").val()
-$(this).html(txt);
-});
-});
-
-
-table = $('#example').DataTable({
-rowReorder: {
-dataSrc: 'order',
-selector: 'tr'
-},
-columns: [{
-data: 'order'
-}, {
-data: 'place'
-}, {
-data: 'name'
-}, {
-data: 'delete'
-}]
-});
-
-});
-</script>
-</body> -->
-
+</div>
 
 <div class="modal fade bs-example-modal-lg" id="modaltolak" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -165,16 +77,16 @@ data: 'delete'
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
         </button>
-        <h4 class="modal-title" id="myModalLabel">Tolak PKP</h4>
+        <h4 class="modal-title" id="myModalLabel">Tolak JO</h4>
       </div>
       <div class="modal-body">
         <div class="x_content">
-          <?php echo form_open(base_url('Pkp/rejectPkp/')) ?>
+          <?php echo form_open(base_url('JO/rejectJO/')) ?>
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Alasan Penolakan <span class="required">*</span></label>
-            <div class="col-md-10 col-sm-5 col-xs-12">
+            <label class="control-label col-md-3 col-sm-2 col-xs-12" for="name">Alasan Penolakan <span class="required">*</span></label>
+            <div class="col-md-9 col-sm-5 col-xs-12">
               <textarea name="alasan" class="form-control" rows="5" required></textarea>
-              <input type="hidden" id="hiddenidpkp" name="hiddenidpkp">
+              <input type="hidden" id="hiddenjokode" name="hiddenjokode">
             </div>
           </div>
         </div>
@@ -198,7 +110,7 @@ data: 'delete'
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
         </button>
-        <h4 class="modal-title" id="myModalLabel">DETAIL PKP</h4>
+        <h4 class="modal-title" id="myModalLabel">DETAIL JO</h4>
       </div>
       <div class="modal-body">
         <div class="x_content checked" style="display: " >
@@ -208,7 +120,7 @@ data: 'delete'
                 <label id="coba" class="control-label" >Agensi:</label>
               </div>
               <div class="col-md-10">
-                <p id="pkpag"></p>
+                <p id="joag"></p>
               </div>
             </div>
             <div class="col-md-12">
@@ -216,7 +128,15 @@ data: 'delete'
                 <label class="control-label" >PPTKIS:</label>
               </div>
               <div class="col-md-10">
-                <p id="pkptkis"></p>
+                <p id="jotkis"></p>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="col-md-2">
+                <label class="control-label" >Kode PKP:</label>
+              </div>
+              <div class="col-md-10">
+                <p id="jopkpkode"></p>
               </div>
             </div>
             <div class="col-md-12">
@@ -224,7 +144,7 @@ data: 'delete'
                 <label class="control-label" >Tanggal Mulai:</label>
               </div>
               <div class="col-md-10">
-                <p id="pkpawal"></p>
+                <p id="joawal"></p>
               </div>
             </div>
             <div class="col-md-12">
@@ -232,12 +152,12 @@ data: 'delete'
                 <label class="control-label" >Tanggal Akhir:</label>
               </div>
               <div class="col-md-10">
-                <p id="pkpakhir"></p>
+                <p id="joakhir"></p>
               </div>
             </div>
           </div>
           <hr/>
-          <table id="tbpkpd" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
+          <table id="tbjod" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
             <thead>
               <tr>
                 <th>ID</th>
@@ -248,7 +168,7 @@ data: 'delete'
                 <th>Edit</th>
               </tr>
             </thead>
-            <tbody id="pkpdlist">
+            <tbody id="jodlist">
             </tbody>
           </table>
           <div class="clearfix">
@@ -268,18 +188,18 @@ data: 'delete'
 
 $(document).ready(function () {
 
-  var tableDetail = $('#tbpkpd').DataTable({
+  var tableDetail = $('#tbjod').DataTable({
     responsive: true,
     "columnDefs": [
-{
-    "targets": [ 0 ],
-    "visible": false
-}
-]
+      {
+        "targets": [ 0 ],
+        "visible": false
+      }
+    ]
   });
-  var wrapper_detail =('#pkpdlist');
+  var wrapper_detail =('#jodlist');
 
-  $("#tbpkpd").on("mousedown.edit", "i.fa.fa-pencil-square", function(e) {
+  $("#tbjod").on("mousedown.edit", "i.fa.fa-pencil-square", function(e) {
     $(this).removeClass().addClass("fa fa-envelope-o fa-lg");
     $row = $(this).closest("tr").off("mousedown");
     tds = $row.find("td").not(':first').not(':last');
@@ -290,10 +210,10 @@ $(document).ready(function () {
     });
   });
 
-  $("#tbpkpd").on('mousedown.save', "i.fa.fa-envelope-o", function(e) {
+  $("#tbjod").on('mousedown.save', "i.fa.fa-envelope-o", function(e) {
 
     $(this).removeClass().addClass("fa fa-pencil-square fa-2x");
-    idpkpd = tableDetail.row($(this).closest('tr')).data()[0];
+    idjod = tableDetail.row($(this).closest('tr')).data()[0];
     $row = $(this).closest("tr").off("mousedown");
     tds = $row.find("td").not(':first').not(':last');
     postData = []
@@ -302,17 +222,17 @@ $(document).ready(function () {
       postData.push(txt);
       $(this).html(txt);
     });
-    $.post(" <?php echo base_url(); ?>PKP/editPKPd", {id: idpkpd, laki: postData[0], perempuan: postData[1], campuran: postData[2]}, function(data, status){
+    $.post(" <?php echo base_url(); ?>JO/editJOd", {id: idjod, laki: postData[0], perempuan: postData[1], campuran: postData[2]}, function(data, status){
       var listinput = $.parseJSON(data);
     });
   });
 
-  $("#tbpkp").on('mousedown.edit', "i.fa.fa-pencil-square", function(e) {
+  $("#tbjo").on('mousedown.edit', "i.fa.fa-pencil-square", function(e) {
     $(this).removeClass().addClass("fa fa-envelope-o fa-lg");
     $row = $(this).closest("tr").off("mousedown");
     // var $tds = $row.find("td").not(':first').not(':last');
-    $td1 = $row.find("td").eq(3);
-    $td2 = $row.find("td").eq(4);
+    $td1 = $row.find("td").eq(4);
+    $td2 = $row.find("td").eq(5);
     var tds = [$td1, $td2];
     $.each(tds, function(i, el) {
       var txt = $(this).text();
@@ -321,13 +241,13 @@ $(document).ready(function () {
 
   });
 
-  $("#tbpkp").on('mousedown.save', "i.fa.fa-envelope-o", function(e) {
+  $("#tbjo").on('mousedown.save', "i.fa.fa-envelope-o", function(e) {
 
     $(this).removeClass().addClass("fa fa-pencil-square fa-2x");
     $row = $(this).closest("tr").off("mousedown");
     // var $tds = $row.find("td").not(':first').not(':last');
-    $td1 = $row.find("td").eq(3);
-    $td2 = $row.find("td").eq(4);
+    $td1 = $row.find("td").eq(4);
+    $td2 = $row.find("td").eq(5);
     bc = $row.find("td").eq(0).text();
     tds = [$td1, $td2];
     postData = []
@@ -336,47 +256,48 @@ $(document).ready(function () {
       postData.push(txt);
       $(this).html(txt);
     });
-    $.post(" <?php echo base_url(); ?>PKP/editPKP", {pkpbc: bc, tglawal: postData[0], tglakhir: postData[1]}, function(data, status){
+    $.post(" <?php echo base_url(); ?>JO/editJO", {jokode: bc, tglawal: postData[0], tglakhir: postData[1]}, function(data, status){
       var listinput = $.parseJSON(data);
     });
   });
 
-  table = $('#tbpkp').DataTable();
+  table = $('#tbjo').DataTable();
 
-  show = function(id)
+  show = function(jokode)
   {
-    $("#hiddenidpkp").val(id);
+    $("#hiddenjokode").val(jokode);
   }
 
   showDetail = function (bc)
   {
     //alert(bc);
-    $.post(" <?php echo base_url() ?>PKP/getDataFromBarcode", {barcode:bc}, function(data, status){
+    $.post(" <?php echo base_url() ?>JO/getDataFromBarcode", {jokode:bc}, function(data, status){
       var obj = $.parseJSON(data);
       if(obj.length > 0) {
-        $("#pkpag").text(obj[0].agnama);
-        $("#pkptkis").text(obj[0].ppnama);
-        $("#pkpawal").text(obj[0].pkptglawal);
-        $("#pkpakhir").text(obj[0].pkptglakhir);
-          tableDetail.clear();
-          $(wrapper_detail).empty();
-          for (var key in obj) {
-            if (obj.hasOwnProperty(key)) {
-              tableDetail.row.add( [
-                obj[key]["pkpdid"],
-                obj[key]["namajenispekerjaan"],
-                obj[key]["pkpdl"],
-                obj[key]["pkpdp"],
-                obj[key]["pkpdc"],
-                '<td>\
-                  <div class="text-center">\
-                    <i class="fa fa-pencil-square fa-2x" aria-hidden="true"></i>\
-                  </div>\
-                </td>'
-              ] ).draw();
-            }
+        $("#joag").text(obj[0].agnama);
+        $("#jotkis").text(obj[0].ppnama);
+        $("#jopkpkode").text(obj[0].pkpkode);
+        $("#joawal").text(obj[0].jobtglawal);
+        $("#joakhir").text(obj[0].jobtglakhir);
+        tableDetail.clear();
+        $(wrapper_detail).empty();
+        for (var key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            tableDetail.row.add( [
+              obj[key]["jobdid"],
+              obj[key]["namajenispekerjaan"],
+              obj[key]["jobdl"],
+              obj[key]["jobdp"],
+              obj[key]["jobdc"],
+              '<td>\
+              <div class="text-center">\
+              <i class="fa fa-pencil-square fa-2x" aria-hidden="true"></i>\
+              </div>\
+              </td>'
+            ] ).draw();
           }
-          $(".checked").show();
+        }
+        $(".checked").show();
       } else {
         alert('Barcode tidak valid!');
       }
@@ -385,7 +306,7 @@ $(document).ready(function () {
   }
 
   $("#confirmVerify").click(function(e){
-    confirms = confirm('Apakah anda yakin ingin memverifikasi PKP ini?');
+    confirms = confirm('Apakah anda yakin ingin memverifikasi JO ini?');
     if (!confirms)
     {
       e.preventDefault();

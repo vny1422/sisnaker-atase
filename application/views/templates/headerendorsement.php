@@ -73,6 +73,9 @@
     <script src="<?php echo base_url('assets/jqgrid/js/i18n/grid.locale-en.js'); ?>"></script>
     <script src="<?php echo base_url('assets/jqgrid/js/jquery.jqGrid.min.js'); ?>"></script>
 
+    <!-- Reorder Datatables -->
+    <link rel="stylesheet" href="//cdn.datatables.net/rowreorder/1.2.0/css/rowReorder.dataTables.min.css" />
+
     <style type="text/css">
         .ui-datepicker select.ui-datepicker-month, .ui-datepicker select.ui-datepicker-year {
           color: black;
@@ -124,12 +127,12 @@
       }
 
       @-webkit-keyframes animatebottom {
-          from { bottom:-100px; opacity:0 } 
+          from { bottom:-100px; opacity:0 }
           to { bottom:0px; opacity:1 }
       }
 
-      @keyframes animatebottom { 
-          from{ bottom:-100px; opacity:0 } 
+      @keyframes animatebottom {
+          from{ bottom:-100px; opacity:0 }
           to{ bottom:0; opacity:1 }
       }
     </style>

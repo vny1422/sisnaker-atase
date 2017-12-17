@@ -7,23 +7,24 @@ class Pusat extends MY_Controller {
 
 	public function __construct()
     {
-			parent::__construct();
-	    $this->load_sidebar();
+		parent::__construct();
 	    $this->load->model('Pusat/Pusat_model');
 	    $this->load->model('Endorsement/Paket_model');
 	    $this->load->model('Perlindungan/Agency_model');
-			$this->load->model('Perlindungan/Pptkis_model');
+		$this->load->model('Perlindungan/Pptkis_model');
 	    $this->load->model('SAdmin/Input_model');
-			$this->load->model('SAdmin/Institution_model');
-			$this->load->model('Perlindungan/Formulir_model');
-			$this->load->model('Perlindungan/Perlindungan_model');
-			$this->load->model('Perlindungan/Infografik_model');
-			$this->load->model('Perlindungan/View_model');
-			$this->load->model('Perlindungan/Kasus_model');
-			$this->load->model('SAdmin/Currency_model');
-			$this->load->model('Perlindungan/TKI_model');
+		$this->load->model('SAdmin/Institution_model');
+		$this->load->model('Perlindungan/Formulir_model');
+		$this->load->model('Perlindungan/Perlindungan_model');
+		$this->load->model('Perlindungan/Infografik_model');
+		$this->load->model('Perlindungan/View_model');
+		$this->load->model('Perlindungan/Kasus_model');
+		$this->load->model('SAdmin/Currency_model');
+		$this->load->model('Perlindungan/TKI_model');
 
+		$this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'pusat_'));
 
+		$this->load_sidebar();
 	    $this->data['listdp'] = $this->listdp;
 	    $this->data['usedpg'] = $this->usedpg;
 	    $this->data['usedmpg'] = $this->usedmpg;
@@ -31,148 +32,197 @@ class Pusat extends MY_Controller {
 
 	    if(empty($this->namakantor->nama)){
 	    	$this->data['namakantor'] = "";
-	    }
-	    else{
+	    } else{
 	    	$this->data['namakantor'] = $this->namakantor->nama;
 	    }
+
 	    $this->data['sidebar'] = 'SAdmin/Sidebar';
     }
 
-		public function index()
-	  {
-			if ($this->session->userdata('role') > 5)
-			{
-				show_error("Access is forbidden.",403,"403 Forbidden");
-			}
-			$this->data['month'] = date('m');
-			$data['month']  = date('m');
-			$data['year']   = date('Y');
-			$petugas = array();
-			$shelter = array();
-			$petugasArr = $this->Perlindungan_model->get_officer_username('all');
-			foreach ($petugasArr->result_array() as $row):
-					array_push($petugas,$row['username']);
-			endforeach;
-			$shelterArr = $this->Perlindungan_model->get_shelter_id('all');
-			foreach ($shelterArr->result_array() as $row):
-					array_push($shelter,$row['id']);
-			endforeach;
+    public function index()
+    {
+    	if ($this->session->userdata('role') != 5)
+    	{
+    		show_error("Access is forbidden.",403,"403 Forbidden");
+    	}
 
-			/// this year
-			$this->data['datathisyear']           = $this->Perlindungan_model->get_problem_this_year($data['year']);
-			$this->data['datafinishthisyear']     = $this->Perlindungan_model->get_finish_this_year($data['year']);
-			$this->data['dataprocessthisyear']    = $this->Perlindungan_model->get_process_this_year($data['year']);
+    	$this->data['month'] = date('m');
+
+    	$currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
+        $this->data['namacurrency'] = strtoupper($currency->currencyname);
+
+        $this->data['institusi'] = $this->Institution_model->list_active_institution();
+
+    	$this->data['tahunpenempatan'] = $this->Pusat_model->get_all_year();
+    	$tahunperlindungan = $this->Pusat_model->get_all_year_perlindungan();
+
+    	if (sizeof($this->data['tahunpenempatan']) >= sizeof($tahunperlindungan)) {
+    		$this->data['tahunstatistik'] = $this->data['tahunpenempatan'];
+    	} else {
+    		$this->data['tahunstatistik'] = $tahunperlindungan;
+    	}
+
+    	$this->data['title'] = 'DASHBOARD';
+    	$this->data['subtitle'] = 'KANTOR PUSAT';
+    	$this->load->view('templates/headerpusatdashboard', $this->data);
+    	$this->load->view('Pusat/Pusat_view', $this->data);
+    	$this->load->view('templates/footerpusat');
+    }
+
+    public function indexold()
+    {
+    	if ($this->session->userdata('role') != 5)
+    	{
+    		show_error("Access is forbidden.",403,"403 Forbidden");
+    	}
+
+    	$this->data['month'] = date('m');
+    	$data['month']  = date('m');
+    	$data['year']   = date('Y');
+    	$petugas = array();
+    	$petugasArr = $this->Perlindungan_model->get_officer_username('all');
+    	foreach ($petugasArr->result_array() as $row):
+    		array_push($petugas,$row['username']);
+    	endforeach;
+
+		/// this year
+    	$this->data['datathisyear']           = $this->Perlindungan_model->get_problem_this_year($data['year']);
+    	$this->data['datafinishthisyear']     = $this->Perlindungan_model->get_finish_this_year($data['year']);
+    	$this->data['dataprocessthisyear']    = $this->Perlindungan_model->get_process_this_year($data['year']);
 			// var_dump($this->data['datathisyear']);
 			/// this month
-			$this->data['datathismonth']          = $this->Perlindungan_model->get_problem_this_month($data['month'],$data['year']);
-			$this->data['datafinishthismonth']    = $this->Perlindungan_model->get_finish_this_month($data['month'],$data['year']);
-			$this->data['dataprocessthismonth']   = $this->Perlindungan_model->get_process_this_month($data['month'],$data['year']);
+    	$this->data['datathismonth']          = $this->Perlindungan_model->get_problem_this_month($data['month'],$data['year']);
+    	$this->data['datafinishthismonth']    = $this->Perlindungan_model->get_finish_this_month($data['month'],$data['year']);
+    	$this->data['dataprocessthismonth']   = $this->Perlindungan_model->get_process_this_month($data['month'],$data['year']);
 
 			/// performance
-			list($offname, $offpic, $offperform)           = $this->Perlindungan_model->get_officer_performance($data['year'], $petugas);
-			$this->data['officername']            = $offname;
-			$this->data['officerpicture']         = $offpic;
-			$this->data['performance']            = $offperform;
+    	list($offname, $offpic, $offperform)           = $this->Perlindungan_model->get_officer_performance($data['year'], $petugas);
+    	$this->data['officername']            = $offname;
+    	$this->data['officerpicture']         = $offpic;
+    	$this->data['performance']            = $offperform;
 
-			$this->data['year_performance']       = $this->Perlindungan_model->get_year_performance($data['year']);
+    	$this->data['year_performance']       = $this->Perlindungan_model->get_year_performance($data['year']);
 
 			/// list tahun
-			$this->data['tahundb']                = $this->Perlindungan_model->get_all_yeardb();
+    	$this->data['tahundb']                = $this->Perlindungan_model->get_all_yeardb();
 
 			/// kasus
-			$this->data['kasusproses']            = $this->Perlindungan_model->get_all_problem_process();
-			$this->data['kasusselesai']           = $this->Perlindungan_model->get_all_problem_finished();
+    	$this->data['kasusproses']            = $this->Perlindungan_model->get_all_problem_process();
+    	$this->data['kasusselesai']           = $this->Perlindungan_model->get_all_problem_finished();
 
-			if($this->data['year_performance'] <= 50){
-					$this->data['panel_color'] = 'panel-danger';
-			} else {
-					$this->data['panel_color'] = 'panel-success';
-			}
+    	if($this->data['year_performance'] <= 50){
+    		$this->data['panel_color'] = 'panel-danger';
+    	} else {
+    		$this->data['panel_color'] = 'panel-success';
+    	}
 
-			$currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
-			$this->data['namacurrency'] = strtoupper($currency->currencyname);
+    	$currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
+    	$this->data['namacurrency'] = strtoupper($currency->currencyname);
 
-			$this->data['institusi'] = $this->Institution_model->list_active_institution();
+    	$this->data['institusi'] = $this->Institution_model->list_active_institution();
 
 	    /// list tahun
-	    $this->data['tahunpenempatan'] = $this->Pusat_model->get_all_year();
+    	$this->data['tahunpenempatan'] = $this->Pusat_model->get_all_year();
 
-	    $this->data['title'] = 'DASHBOARD';
-	    $this->data['subtitle'] = 'KANTOR PUSAT';
-	    $this->load->view('templates/headerpusatdashboard', $this->data);
-	    $this->load->view('Pusat/Pusat_view', $this->data);
-	    $this->load->view('templates/footerpusat');
-	   }
+    	$this->data['title'] = 'DASHBOARD';
+    	$this->data['subtitle'] = 'KANTOR PUSAT';
+    	$this->load->view('templates/headerpusatdashboard', $this->data);
+    	$this->load->view('Pusat/PusatOld_view', $this->data);
+    	$this->load->view('templates/footerpusat');
+    }
 
-	  public function get_info_year_dashboard(){
-	    $year = $this->input->post('y');
-	    $month = $this->input->post('m');
-			$institution = $this->input->post('i');
+    public function get_info_year_dashboard_penempatan()
+    {
+    	$year = $this->input->post('y');
+    	$month = $this->input->post('m');
+    	$institution = $this->input->post('i');
 
-	    $all = array();
+    	if (!$all = $this->cache->get('penempatan_'.$institution.'_'.$year.'_'.$month)) {
+    		$all = array();
 
-	    $year_jk = $this->Pusat_model->get_jk_this_year($year,$institution);
-	    $total_year_jk = 0;
-	    foreach ($year_jk as $jk) {
-	      $total_year_jk += $jk->total;
-	    }
+    		$year_jk = $this->Pusat_model->get_jk_this_year($year,$institution);
+    		$total_year_jk = 0;
+    		foreach ($year_jk as $jk) {
+    			$total_year_jk += $jk->total;
+    		}
 
-	    $month_jk = $this->Pusat_model->get_jk_this_month($year,$month,$institution);
-	    $total_month_jk = 0;
-	    foreach ($month_jk as $jk) {
-	      $total_month_jk += $jk->total;
-	    }
+    		$month_jk = $this->Pusat_model->get_jk_this_month($year,$month,$institution);
+    		$total_month_jk = 0;
+    		foreach ($month_jk as $jk) {
+    			$total_month_jk += $jk->total;
+    		}
 
-	    $year_sektor = $this->Pusat_model->get_sektor_this_year($year,$institution);
-	    $total_year_sektor = 0;
-	    foreach ($year_sektor as $sektor) {
-	      $total_year_sektor += $sektor->total;
-	    }
+    		$year_sektor = $this->Pusat_model->get_sektor_this_year($year,$institution);
+    		$total_year_sektor = 0;
+    		foreach ($year_sektor as $sektor) {
+    			$total_year_sektor += $sektor->total;
+    		}
 
-	    $month_sektor = $this->Pusat_model->get_sektor_this_month($year,$month,$institution);
-	    $total_month_sektor = 0;
-	    foreach ($month_sektor as $sektor) {
-	      $total_month_sektor += $sektor->total;
-	    }
+    		$month_sektor = $this->Pusat_model->get_sektor_this_month($year,$month,$institution);
+    		$total_month_sektor = 0;
+    		foreach ($month_sektor as $sektor) {
+    			$total_month_sektor += $sektor->total;
+    		}
 
-	    $iterm = range(1,12);
-	    $nm_month = array(1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr',
-	      5 => 'Mei', 6 => 'Jun', 7 => 'Jul', 8 => 'Agu',
-	      9 => 'Sep', 10 => 'Okt', 11 => 'Nop', 12=> 'Des'
-	      );
-	    $listjp = [];
-	    $listjpdb = $this->Pusat_model->get_list_jp_this_year($year,$institution);
-	    foreach ($listjpdb as $jp) {
-	      array_push($listjp, $jp->namajenispekerjaan);
-	    }
+    		$iterm = range(1,12);
+    		$nm_month = array(1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr',
+    			5 => 'Mei', 6 => 'Jun', 7 => 'Jul', 8 => 'Agu',
+    			9 => 'Sep', 10 => 'Okt', 11 => 'Nop', 12=> 'Des'
+    			);
+    		$nm_month_complete = array(1 => 'January', 2 => 'February', 3 => 'March', 4 => 'April',
+    			5 => 'May', 6 => 'June', 7 => 'July', 8 => 'August',
+    			9 => 'September', 10 => 'October', 11 => 'November', 12=> 'December'
+    			);
 
-	    $jppermonth = [];
-	    for($i=0;$i<count($iterm);$i++){
-	      $temp_1 = array('bulan' => $nm_month[$iterm[$i]]);
-	      $tot = 0;
-	      foreach($listjp as $jp){
-	        $temp_1[$jp] = $this->Pusat_model->count_jp_this_month($year,$iterm[$i],$jp,$institution);
-	        $tot += $temp_1[$jp];
-	      }
-	      $temp_1['total'] = $tot;
-	      array_push($jppermonth, $temp_1);
-	    }
+    		$list_jp_temp_names = array();
+    		$list_jp_months = array();
 
-	    array_push($all,$total_year_jk);
-	    array_push($all,$year_jk);
-	    array_push($all,$total_month_jk);
-	    array_push($all,$month_jk);
-	    array_push($all,$total_year_sektor);
-	    array_push($all,$year_sektor);
-	    array_push($all,$total_month_sektor);
-	    array_push($all,$month_sektor);
-	    array_push($all,$listjp);
-	    array_push($all,$jppermonth);
+    		$list_jp = $this->Pusat_model->get_list_jp_this_year($year,$institution);
+    		foreach ($list_jp as $jp) {
+    			array_push($list_jp_temp_names, $jp->namajenispekerjaan);
+    			$list_jp_months[$jp->namajenispekerjaan][$jp->month] = $jp->count;
+    		}
 
-	    echo json_encode($all);
-	  }
+    		$list_jp_names = array();
+    		$list_jp_temp_names = array_unique($list_jp_temp_names);
+    		foreach ($list_jp_temp_names as $jp_name) {
+    			array_push($list_jp_names, $jp_name);
+    		}
 
-		public function modal()
+    		$list_jp = array();
+    		for($i = 0; $i < count($iterm); $i++){
+    			$temp_1 = array('bulan' => $nm_month[$iterm[$i]]);
+    			$tot = 0;
+    			foreach ($list_jp_names as $jp_name) {
+    				if (array_key_exists($nm_month_complete[$iterm[$i]], $list_jp_months[$jp_name])) {
+    					$temp_1[$jp_name] = (int)$list_jp_months[$jp_name][$nm_month_complete[$iterm[$i]]];
+    				} else {
+    					$temp_1[$jp_name] = 0;
+    				}
+    				$tot += $temp_1[$jp_name];
+    			}
+    			$temp_1['total'] = $tot;
+    			array_push($list_jp, $temp_1);
+    		}
+
+    		array_push($all,$total_year_jk);
+    		array_push($all,$year_jk);
+    		array_push($all,$total_month_jk);
+    		array_push($all,$month_jk);
+    		array_push($all,$total_year_sektor);
+    		array_push($all,$year_sektor);
+    		array_push($all,$total_month_sektor);
+    		array_push($all,$month_sektor);
+    		array_push($all,$list_jp_names);
+    		array_push($all,$list_jp);
+
+    		$this->cache->save('penempatan_'.$institution.'_'.$year.'_'.$month, $all, 300);
+    	}
+
+    	echo json_encode($all);
+    }
+
+	public function modal()
     {
         $name_month = array('01' => 'Januari','02' => 'Februari',
                             '03' => 'Maret', '04' => 'April',
@@ -250,87 +300,75 @@ class Pusat extends MY_Controller {
         echo json_encode($combine);
     }
 
-		public function get_info_year_dashboard_perlindungan(){
-				$year = $this->input->post('y');
-				$all = array();
-				$institution = $this->input->post('i');
+    public function get_info_year_dashboard_perlindungan(){
+    	$year = $this->input->post('y');
+    	$institution = $this->input->post('idinstitution');
 
-				list($year_problem,$month_problem,$year_money,$month_money) = $this->count_info_year_dashboard($year,$institution);
-				$year_money = $this->Infografik_model->formatMoney($year_money);
+    	if ($institution == null) {
+            $institution = 'all';
+        }
 
-				array_push($all,$year_problem);
-				array_push($all,$month_problem);
-				array_push($all,$year_money);
-				array_push($all,$month_money);
+    	$all = array();
 
-				echo json_encode($all);
-		}
+    	list($year_problem,$month_problem,$year_money,$month_money) = $this->count_info_year_dashboard($year,$institution);
+    	$year_money = $this->Infografik_model->formatMoney($year_money);
 
-		public function count_info_year_dashboard($year,$institution) {
+    	array_push($all,$year_problem);
+    	array_push($all,$month_problem);
+    	array_push($all,$year_money);
+    	array_push($all,$month_money);
 
-				$month = range(1,12);
-				$nm_month = array(1=>'Jan', '2'=> 'Feb', '3' => 'Mar', 4 => 'Apr',
-													5=> 'Mei', 6 => 'Jun', 7 => 'Jul', 8 => 'Agu',
-													9 => 'Sep', 10 => 'Okt', 11 => 'Nop', 12=> 'Des'
-													);
+    	echo json_encode($all);
+    }
 
-				$all_problem = array();
-				$fin_problem = array();
-				$pro_problem = array();
-				$mon_money   = array();
+    public function count_info_year_dashboard($year,$institution) {
+    	$month = range(1,12);
+    	$nm_month = array(1=>'Jan', '2'=> 'Feb', '3' => 'Mar', 4 => 'Apr',
+    		5=> 'Mei', 6 => 'Jun', 7 => 'Jul', 8 => 'Agu',
+    		9 => 'Sep', 10 => 'Okt', 11 => 'Nop', 12=> 'Des'
+    		);
 
-				$month_problem = array();
-				$month_money   = array();
+    	$mon_money   = array();
+    	$month_problem = array();
+    	$month_money   = array();
 
-				for($i=0;$i<count($month);$i++){
+    	for($i=0;$i<count($month);$i++){
+    		list($all,$fin,$pro) = $this->Infografik_model->get_total_problem_year($month[$i],$year,$institution);
+    		$mon_money = $this->Infografik_model->get_total_money($month[$i],$year,$institution);
+    		$mon_money_sektoral = $this->Infografik_model->get_total_money_sektoral($month[$i],$year,$institution);
+    		$uang = $mon_money->row_array();
+    		if ($uang['uang'] == ''){
+    			$uang['uang'] = '0';
+    		}
 
-						list($all,$fin,$pro) = $this->Infografik_model->get_total_problem_year($month[$i],$year,$institution);
-						$mon_money = $this->Infografik_model->get_total_money($month[$i],$year,$institution);
-						$mon_money_sektoral = $this->Infografik_model->get_total_money_sektoral($month[$i],$year,$institution);
-						$uang = $mon_money->row_array();
-						if ($uang['uang'] == ''){
-								$uang['uang'] = '0';
-						}
+    		$temporary = array(
+    			'bulan' => $nm_month[$month[$i]],
+    			'total' => $all,
+    			'fin' => $fin,
+    			'pro' => $pro
+    			);
 
-						$temporary = array(
-														'bulan' => $nm_month[$month[$i]],
-														'total' => $all,
-														'fin' => $fin,
-														'pro' => $pro
-														);
+    		$temp_money = array(
+    			'bulan' => $nm_month[$month[$i]],
+    			'uang'  => $uang['uang'],
+    			'formal' => $mon_money_sektoral['formal'],
+    			'informal' => $mon_money_sektoral['informal']
+    			);
 
-						$temp_money = array(
-														'bulan' => $nm_month[$month[$i]],
-														'uang'  => $uang['uang'],
-														'formal' => $mon_money_sektoral['formal'],
-														'informal' => $mon_money_sektoral['informal']
-														);
+    		array_push($month_problem, $temporary);
+    		array_push($month_money,$temp_money);
+    	}
 
+    	$year_total_problem = $this->Infografik_model->get_total_problem_a_year($year,$institution);
+    	$year_money = $this->Infografik_model->get_total_money_year($year,$institution);
+    	$year_total_money   = $year_money->row_array();
 
-						array_push($month_problem, $temporary);
-						array_push($month_money,$temp_money);
-				}
+    	return array($year_total_problem,$month_problem,$year_total_money['uang'],$month_money);
+    }
 
-				$year_total_problem = $this->Infografik_model->get_total_problem_a_year($year,$institution);
-				//$year_total_finish = $this->Infografik_model->get_finish_this_year($year);
-				//$year_total_finish_within = $this->Infografik_model->get_finish_within_year($year);
-				$year_money = $this->Infografik_model->get_total_money_year($year,$institution);
-				$year_total_money   = $year_money->row_array();
-
-				// $ratio = ($year_total_finish / $year_total_problem)*100;
-				// $ratio = round($ratio,1);
-				// $ratiowithin = ($year_total_finish_within / $year_total_problem)*100;
-				// $ratiowithin = round($ratiowithin,1);
-
-				return array($year_total_problem,$month_problem,$year_total_money['uang'],$month_money);
-		}
-
-		public function convertToPDF($idproblem)
+	public function convertToPDF($idproblem)
     {
         $values = $this->Kasus_model->get_kasus($idproblem);
-        if($values->idinstitution != $this->session->userdata('institution')){
-            show_error("Access is forbidden.",403,"403 Forbidden");
-        }
 
         $this->load->library('Pdf');
         $Objdata = $this->Formulir_model->formulir_pengaduan($idproblem);
@@ -1004,58 +1042,251 @@ class Pusat extends MY_Controller {
 	}
 
 	public function cekalpptkis()
-  {
-    $this->form_validation->set_rules('pptkis', 'PPTKIS', 'required|trim');
-    if ($this->form_validation->run() === FALSE)
-    {
-      $this->data['list'] = $this->Pptkis_model->get_all_pptkis();
-      $this->data['listcekal'] = $this->Pptkis_model->get_pptkis(true);
-      $this->data['title'] = 'Cekal PPTKIS';
-      $this->data['subtitle'] = 'Cekal PPTKIS';
-      $this->data['subtitle2'] = 'Tabel Cekal PPTKIS';
+	{
+		$this->form_validation->set_rules('pptkis', 'PPTKIS', 'required|trim');
+		if ($this->form_validation->run() === FALSE)
+		{
+			$this->data['list'] = $this->Pptkis_model->get_all_pptkis();
+			$this->data['listcekal'] = $this->Pptkis_model->get_pptkis(true);
+			$this->data['title'] = 'Cekal PPTKIS';
+			$this->data['subtitle'] = 'Cekal PPTKIS';
+			$this->data['subtitle2'] = 'Tabel Cekal PPTKIS';
 			$this->load->view('templates/headerpusat', $this->data);
 			$this->load->view('Pusat/CekalPPTKIS_view', $this->data);
 			$this->load->view('templates/footerpusat');
+		}
+		else {
+			if($this->input->post('active',TRUE))
+			{
+				if ($this->getTime($this->input->post('start',TRUE)) < $this->getTime($this->input->post('end',TRUE))) {
+					$this->Pptkis_model->post_new_cekal();
+					$this->session->set_flashdata('information', 'Data berhasil dimasukkan');
+					$this->data['list'] = $this->Pptkis_model->get_all_pptkis();
+					$this->data['listcekal'] = $this->Pptkis_model->get_pptkis(true);
+					$this->data['title'] = 'Cekal PPTKIS';
+					$this->data['subtitle'] = 'Cekal PPTKIS';
+					$this->data['subtitle2'] = 'Tabel Cekal PPTKIS';
+					$this->load->view('templates/headerpusat', $this->data);
+					$this->load->view('Pusat/CekalPPTKIS_view', $this->data);
+					$this->load->view('templates/footerpusat');
+				}
+				else {
+					$this->session->set_flashdata('information', 'Pastikan tanggal berakhir sesudah tanggal mulai!');
+					$this->data['list'] = $this->Pptkis_model->get_all_pptkis();
+					$this->data['listcekal'] = $this->Pptkis_model->get_pptkis(true);
+					$this->data['title'] = 'Cekal PPTKIS';
+					$this->data['subtitle'] = 'Cekal PPTKIS';
+					$this->data['subtitle2'] = 'Tabel Cekal PPTKIS';
+					$this->load->view('templates/headerpusat', $this->data);
+					$this->load->view('Pusat/CekalPPTKIS_view', $this->data);
+					$this->load->view('templates/footerpusat');
+				}
+			}
+			else {
+				$this->Pptkis_model->post_new_cekal();
+				$this->session->set_flashdata('information', 'Data berhasil dimasukkan');
+				$this->data['list'] = $this->Pptkis_model->get_all_pptkis();
+				$this->data['listcekal'] = $this->Pptkis_model->get_pptkis(true);
+				$this->data['title'] = 'Cekal PPTKIS';
+				$this->data['subtitle'] = 'Cekal PPTKIS';
+				$this->data['subtitle2'] = 'Tabel Cekal PPTKIS';
+				$this->load->view('templates/headerpusat', $this->data);
+				$this->load->view('Pusat/CekalPPTKIS_view', $this->data);
+				$this->load->view('templates/footerpusat');
+			}
+		}
+	}
+
+	public function data($key,$idinstitution) {
+        $mont_name = array ('01' => 'Januari', '02' => 'Februari', '03' => 'Maret',
+                '04' => 'April', '05' => 'Mei', '06' => 'Juni',
+                '07' => 'Juli', '08' => 'Agustus', '09' => 'September',
+                '10' => 'Oktober', '11' => 'Nopember', '12' => 'Desember');
+
+        $year  = date('Y');
+        $month = date('m');
+
+        switch ($key) {
+            case 'year':
+                $this->data['tab2']           = 0;
+                $this->data['subtitle']          = 'Data Kasus Tahun '.$year;
+                $this->data['kasusproses']    = $this->View_model->data_year_process($year, $idinstitution);
+                $this->data['kasusselesai']   = $this->View_model->data_year_finish($year, $idinstitution);
+                break;
+
+            case 'month':
+                $this->data['tab2']           = 0;
+                $this->data['subtitle']          = 'Data Kasus '.$mont_name[$month].' '.$year;
+                $this->data['kasusproses']    = $this->View_model->data_month_process($month, $year, $idinstitution);
+                $this->data['kasusselesai']   = $this->View_model->data_month_finish($month, $year, $idinstitution);
+                break;
+        }
+
+        $this->data['title'] = 'Data Kasus';
+        $this->load->view('templates/headerperlindungan', $this->data);
+        $this->load->view('Perlindungan/ViewData_view',$this->data);
+        $this->load->view('templates/footerperlindungan');
     }
-    else {
-      if($this->input->post('active',TRUE))
-      {
-        if ($this->getTime($this->input->post('start',TRUE)) < $this->getTime($this->input->post('end',TRUE))) {
-          $this->Pptkis_model->post_new_cekal();
-          $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
-          $this->data['list'] = $this->Pptkis_model->get_all_pptkis();
-          $this->data['listcekal'] = $this->Pptkis_model->get_pptkis(true);
-          $this->data['title'] = 'Cekal PPTKIS';
-          $this->data['subtitle'] = 'Cekal PPTKIS';
-          $this->data['subtitle2'] = 'Tabel Cekal PPTKIS';
-					$this->load->view('templates/headerpusat', $this->data);
-	        $this->load->view('Pusat/CekalPPTKIS_view', $this->data);
-	        $this->load->view('templates/footerpusat');
+
+    public function officer($name) {
+        $year = date('Y');
+        $officer                = $this->View_model->get_officer_name($name);
+        $data['officer']        = $officer->row();
+
+        $this->data['subtitle']          = "Data Kasus <strong>".$data['officer']->name."</strong> Tahun ".($year-1)." - ".$year;
+
+        $tmp1                = $this->View_model->data_officer_process($name,$year-1)->result_array();
+        $this->data['kasusproses'] = $this->View_model->data_officer_process($name,$year)->result_array();
+        $limit = count($tmp1);
+        for($i=0;$i<$limit;$i++){
+            array_push($this->data['kasusproses'],$tmp1[$i]);
         }
-        else {
-          $this->session->set_flashdata('information', 'Pastikan tanggal berakhir sesudah tanggal mulai!');
-          $this->data['list'] = $this->Pptkis_model->get_all_pptkis();
-          $this->data['listcekal'] = $this->Pptkis_model->get_pptkis(true);
-          $this->data['title'] = 'Cekal PPTKIS';
-          $this->data['subtitle'] = 'Cekal PPTKIS';
-          $this->data['subtitle2'] = 'Tabel Cekal PPTKIS';
-					$this->load->view('templates/headerpusat', $this->data);
-	        $this->load->view('Pusat/CekalPPTKIS_view', $this->data);
-	        $this->load->view('templates/footerpusat');
+
+        $tmp1                   = $this->View_model->data_officer_finish($name,$year-1)->result_array();
+        $this->data['kasusselesai']   = $this->View_model->data_officer_finish($name,$year)->result_array();
+        $limit = count($tmp1);
+        for($i=0;$i<$limit;$i++){
+            array_push($this->data['kasusselesai'],$tmp1[$i]);
         }
-     }
-     else {
-       $this->Pptkis_model->post_new_cekal();
-       $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
-       $this->data['list'] = $this->Pptkis_model->get_all_pptkis();
-       $this->data['listcekal'] = $this->Pptkis_model->get_pptkis(true);
-       $this->data['title'] = 'Cekal PPTKIS';
-       $this->data['subtitle'] = 'Cekal PPTKIS';
-       $this->data['subtitle2'] = 'Tabel Cekal PPTKIS';
-       $this->load->view('templates/headerpusat', $this->data);
-       $this->load->view('Pusat/CekalPPTKIS_view', $this->data);
-       $this->load->view('templates/footerpusat');
-     }
-   }
- }
+
+        $this->data['title'] = 'Data Kasus';
+        $this->load->view('templates/headerperlindungan', $this->data);
+        $this->load->view('Perlindungan/ViewOfficer_view',$this->data);
+        $this->load->view('templates/footerperlindungan');
+    }
+
+	public function collect_dashboard_perlindungan_info() {
+		$year_now = date('Y');
+        $month_now = date('m');
+
+        $institution = $this->input->post('idinstitution');
+
+        if (!$results = $this->cache->get('perlindungan_'.$institution)) {
+	        $results = array();
+
+	        $petugas = array();
+	        $petugasArr = $this->Perlindungan_model->get_officer_username($institution);
+	        foreach ($petugasArr->result_array() as $row):
+	        	array_push($petugas, $row['username']);
+	        endforeach;
+
+	        // Performance this Year
+	        $results['year_performance'] = $this->Perlindungan_model->get_year_performance($year_now, $institution);
+	        $results['kasus_finish_this_year'] = $this->Perlindungan_model->get_finish_this_year($year_now, $institution);
+	        $results['kasus_inprocess_this_year'] = $this->Perlindungan_model->get_process_this_year($year_now, $institution);
+
+	        if($results['year_performance'] <= 50){
+	        	$results['panel_color'] = 'panel-danger';
+	        } else {
+	        	$results['panel_color'] = 'panel-success';
+	        }
+
+	        // Performance this Month
+	        $results['month_performance'] = $this->Perlindungan_model->get_problem_this_month($month_now, $year_now, $institution);
+	        $results['kasus_finish_this_month'] = $this->Perlindungan_model->get_finish_this_month($month_now, $year_now, $institution);
+	        $results['kasus_inprocess_this_month'] = $this->Perlindungan_model->get_process_this_month($month_now, $year_now, $institution);
+
+	        // Officers Performance
+	        list($offname, $offpic, $offperform) = $this->Perlindungan_model->get_officer_performance($year_now, $petugas);
+	        $results['officers_name'] = $offname;
+	        $results['officers_picture'] = $offpic;
+	        $results['officers_performance'] = $offperform;
+
+	        // Cases
+	        $results['cases_process'] = $this->Perlindungan_model->get_all_problem_process($institution);
+	        $results['cases_finished'] = $this->Perlindungan_model->get_all_problem_finished($institution);
+
+	        // Year List (that had cases)
+	        $results['list_of_years'] = $this->Perlindungan_model->get_all_yeardb($institution);
+
+	        $this->cache->save('perlindungan_'.$institution, $results, 300);
+	    }
+
+        echo json_encode($results);
+	}
+
+	public function get_info_year_dashboard_statistik() {
+		$iterm = range(1,12);
+		$nm_month = array(1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr',
+			5 => 'Mei', 6 => 'Jun', 7 => 'Jul', 8 => 'Agu',
+			9 => 'Sep', 10 => 'Okt', 11 => 'Nop', 12=> 'Des'
+			);
+		$nm_month_complete = array(1 => 'January', 2 => 'February', 3 => 'March', 4 => 'April',
+			5 => 'May', 6 => 'June', 7 => 'July', 8 => 'August',
+			9 => 'September', 10 => 'October', 11 => 'November', 12=> 'December'
+			);
+
+		$year = $this->input->post('y');
+
+		$all = array();
+
+		$list_institution_cases_temp_names = array();
+		$list_institution_cases_months = array();
+
+		$list_institution_cases = $this->Pusat_model->get_list_institutions_cases($year);
+		foreach ($list_institution_cases as $institution) {
+			array_push($list_institution_cases_temp_names, $institution->nameinstitution);
+			$list_institution_cases_months[$institution->nameinstitution][$institution->month] = $institution->count;
+		}
+
+		$list_institution_cases_names = array();
+		$list_institution_cases_temp_names = array_unique($list_institution_cases_temp_names);
+		foreach ($list_institution_cases_temp_names as $institution_name) {
+			array_push($list_institution_cases_names, $institution_name);
+		}
+
+		$list_institution_cases = array();
+		for($i = 0; $i < count($iterm); $i++){
+			$temp_1 = array('bulan' => $nm_month[$iterm[$i]]);
+			$tot = 0;
+			foreach ($list_institution_cases_names as $institution_name) {
+				if (array_key_exists($nm_month_complete[$iterm[$i]], $list_institution_cases_months[$institution_name])) {
+					$temp_1[$institution_name] = $list_institution_cases_months[$institution_name][$nm_month_complete[$iterm[$i]]];
+				} else {
+					$temp_1[$institution_name] = 0;
+				}
+				$tot += $temp_1[$institution_name];
+			}
+			$temp_1['total'] = $tot;
+			array_push($list_institution_cases, $temp_1);
+		}
+
+		$list_institution_placements_temp_names = array();
+		$list_institution_placements_months = array();
+
+		$list_institution_placements = $this->Pusat_model->get_list_institutions_placements($year);
+		foreach ($list_institution_placements as $institution) {
+			array_push($list_institution_placements_temp_names, $institution->nameinstitution);
+			$list_institution_placements_months[$institution->nameinstitution][$institution->month] = $institution->count;
+		}
+
+		$list_institution_placements_names = array();
+		$list_institution_placements_temp_names = array_unique($list_institution_placements_temp_names);
+		foreach ($list_institution_placements_temp_names as $institution_name) {
+			array_push($list_institution_placements_names, $institution_name);
+		}
+
+		$list_institution_placements = array();
+		for($i = 0; $i < count($iterm); $i++){
+			$temp_1 = array('bulan' => $nm_month[$iterm[$i]]);
+			$tot = 0;
+			foreach ($list_institution_placements_names as $institution_name) {
+				if (array_key_exists($nm_month_complete[$iterm[$i]], $list_institution_placements_months[$institution_name])) {
+					$temp_1[$institution_name] = $list_institution_placements_months[$institution_name][$nm_month_complete[$iterm[$i]]];
+				} else {
+					$temp_1[$institution_name] = 0;
+				}
+				$tot += $temp_1[$institution_name];
+			}
+			$temp_1['total'] = $tot;
+			array_push($list_institution_placements, $temp_1);
+		}
+
+		array_push($all, $list_institution_placements_names);
+		array_push($all, $list_institution_placements);
+		array_push($all, $list_institution_cases_names);
+		array_push($all, $list_institution_cases);
+
+		echo json_encode($all);
+	}
 }

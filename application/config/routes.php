@@ -119,6 +119,7 @@ $route['(?i)pkp/(:any)'] = 'Endorsement/PKP/$1';
 $route['(?i)jo/(:any)'] = 'Endorsement/JO/$1';
 $route['(?i)institution/(:any)/(:any)'] = 'SAdmin/Institution/$1/$2';
 $route['(?i)pusat/(:any)/(:any)'] = 'Pusat/Pusat/$1/$2';
+$route['(?i)pusat/(:any)/(:any)/(:any)'] = 'Pusat/Pusat/$1/$2/$3';
 $route['(?i)kantor/(:any)/(:any)'] = 'SAdmin/Kantor/$1/$2';
 $route['(?i)jobtype/(:any)/(:any)'] = 'SAdmin/Jobtype/$1/$2';
 $route['(?i)currency/(:any)/(:any)'] = 'SAdmin/Currency/$1/$2';

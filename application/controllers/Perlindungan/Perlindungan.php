@@ -22,12 +22,23 @@ class Perlindungan extends MY_Controller {
     	$this->data['listdp'] = $this->listdp;
     	$this->data['usedpg'] = $this->usedpg;
 		$this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
-		$this->data['namakantor'] = $this->namakantor->nama;
+		
+        if(empty($this->namakantor->nama)){
+            $this->data['namakantor'] = "";
+        } else{
+            $this->data['namakantor'] = $this->namakantor->nama;
+        }
+
     	$this->data['usedmpg'] = $this->usedmpg;
     	$this->data['sidebar'] = 'SAdmin/Sidebar';
     }
 
     public function index() {
+        if ($this->session->userdata('role') != 3)
+        {
+            show_error("Access is forbidden.",403,"403 Forbidden");
+        }
+
         $this->data['kantors'] = $this->Kantor_model->list_all_kantor_institution($this->session->userdata('institution'));
 
         $currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
@@ -42,6 +53,11 @@ class Perlindungan extends MY_Controller {
 
 	public function indextaiwan()
 	{
+        if ($this->session->userdata('role') != 3)
+        {
+            show_error("Access is forbidden.",403,"403 Forbidden");
+        }
+
         $data['month']  = date('m');
         $data['year']   = date('Y');
         
@@ -570,7 +586,7 @@ class Perlindungan extends MY_Controller {
             // Year List (that had cases)
             $results['list_of_years'] = $this->Perlindungan_model->get_all_yeardb($institution, $kantor);
 
-            $this->cache->save($kantor, $results, 180);
+            $this->cache->save($kantor, $results, 300);
         }
 
         echo json_encode($results);
@@ -618,19 +634,18 @@ class Perlindungan extends MY_Controller {
             }
 
             $temporary = array(
-                            'bulan' => $nm_month[$month[$i]],
-                            'total' => $all,
-                            'fin' => $fin,
-                            'pro' => $pro
-                            );
+                'bulan' => $nm_month[$month[$i]],
+                'total' => $all,
+                'fin' => $fin,
+                'pro' => $pro
+                );
 
             $temp_money = array(
-                            'bulan' => $nm_month[$month[$i]],
-                            'uang'  => $uang['uang'],
-                            'formal' => $mon_money_sektoral['formal'],
-                            'informal' => $mon_money_sektoral['informal']
-                            );
-
+                'bulan' => $nm_month[$month[$i]],
+                'uang'  => $uang['uang'],
+                'formal' => $mon_money_sektoral['formal'],
+                'informal' => $mon_money_sektoral['informal']
+                );
 
             array_push($month_problem, $temporary);
             array_push($month_money,$temp_money);

@@ -398,8 +398,6 @@
       type    : "post",
       dataType  : "json",
       success   : function(data) {
-        // TODO: delete this
-        console.log(data);
         $("#loader").hide();
         $("#view_parent").show();
         $("#kantor").prop('disabled', false);

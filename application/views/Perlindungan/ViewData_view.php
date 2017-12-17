@@ -40,7 +40,7 @@
                           <thead>
                             <tr class="btn-danger">
                               <th class="text-center col-lg-1">Nomor</th>
-                              <th class="text-center col-lg-4">Nama BMI</th>
+                              <th class="text-center col-lg-4">Nama TKI</th>
                               <th class="text-center col-lg-1">Paspor</th>
                               <th class="text-center col-lg-1">Status TKI</th>
                               <th class="text-center col-lg-2">Klasifikasi Kasus</th>

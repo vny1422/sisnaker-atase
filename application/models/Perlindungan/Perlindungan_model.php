@@ -5,15 +5,18 @@ class Perlindungan_model extends CI_Model {
 		parent::__construct();
 	}
 
-	function get_officer_username($idinstitution) {
+	function get_officer_username($institution = 'all',$kantor = 'all') {
 		$this->db->select('username');
 		$this->db->from('user');
-		if ($idinstitution != 'all')
+		if ($institution != 'all')
 		{
-			$this->db->where('idinstitution',$idinstitution);
+			$this->db->where('idinstitution',$institution);
 		}
-		$where = '(idlevel = 3)';
-		$this->db->where($where);
+		if ($kantor != 'all')
+		{
+			$this->db->where('idkantor',$kantor);
+		}
+		$this->db->where('idlevel', 3);
 		$query = $this->db->get();
 
 		return $query;
@@ -32,29 +35,39 @@ class Perlindungan_model extends CI_Model {
 		return $query;
 	}
 
-	function get_problem_this_month($month,$year,$institution = 'all') {
-		$this->db->from('masalah');
-		if ($institution != 'all')
+	function get_problem_this_month($month,$year,$institution = 'all',$kantor = 'all') {
+		$this->db->select('m.idmasalah');
+		$this->db->from('masalah m, tkimasalah t, klasifikasi k, jenispekerjaan j');
+		$this->db->where('m.idmasalah = t.idmasalah');
+		$this->db->where('m.idklasifikasi = k.id');
+		$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
+		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
+		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
+		$this->db->where('m.enable',1);
+		if($institution != 'all')
 		{
-			$this->db->where('idinstitution',$institution);
+			$this->db->where('m.idinstitution', $institution);
 		}
-		$this->db->where('MONTH(tanggalpengaduan)',$month);
-		$this->db->where('YEAR(tanggalpengaduan)',$year);
-		$this->db->where('enable',1);
-
+		if($kantor != 'all')
+		{
+			$this->db->where('m.idkantor', $kantor);
+		}
+		$this->db->group_by('m.idmasalah');
 		$query = $this->db->count_all_results();
-
 
 		return $query;
 	}
 
-	function get_problem_this_year($year,$institution = 'all') {
+	function get_problem_this_year($year,$institution = 'all',$kantor = 'all') {
 		$this->db->from('masalah');
 		$this->db->where('YEAR(tanggalpengaduan)',$year);
 		$this->db->where('enable',1);
 		if ($institution != 'all')
 		{
 			$this->db->where('idinstitution',$institution);
+		}
+		if ($kantor != 'all') {
+			$this->db->where('idkantor',$kantor);
 		}
 		$query = $this->db->count_all_results();
 
@@ -94,16 +107,24 @@ class Perlindungan_model extends CI_Model {
 	// 	return $query;
 	// }
 
-	function get_finish_this_year($year,$institution = 'all') {
-		$this->db->from('masalah');
-		$this->db->where('YEAR(tanggalpengaduan)',$year);
-		$this->db->where('statusmasalah',2);
-		$this->db->where('enable',1);
-		//$this->db->where('(recap=1 OR recap=0)');
-		if ($institution != 'all')
+	function get_finish_this_year($year,$institution = 'all',$kantor = 'all') {
+		$this->db->select('m.idmasalah');
+		$this->db->from('masalah m, tkimasalah t, klasifikasi k, jenispekerjaan j');
+		$this->db->where('m.idmasalah = t.idmasalah');
+		$this->db->where('m.idklasifikasi = k.id');
+		$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
+		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
+		$this->db->where('m.statusmasalah',2);
+		$this->db->where('m.enable',1);
+		if($institution != 'all')
 		{
-			$this->db->where('idinstitution',$institution);
+			$this->db->where('m.idinstitution', $institution);
 		}
+		if($kantor != 'all')
+		{
+			$this->db->where('m.idkantor', $kantor);
+		}
+		$this->db->group_by('m.idmasalah');
 		$query = $this->db->count_all_results();
 
 		return $query;
@@ -126,51 +147,72 @@ class Perlindungan_model extends CI_Model {
 		return $query;
 	}
 
-	function get_process_this_year($year,$institution = 'all') {
-		$this->db->from('masalah');
-		$this->db->where('YEAR(tanggalpengaduan)', $year);
-		$this->db->where('statusmasalah',1);
-		$this->db->where('enable',1);
-		if ($institution != 'all')
+	function get_process_this_year($year,$institution = 'all',$kantor = 'all') {
+		$this->db->select('m.idmasalah');
+		$this->db->from('masalah m, tkimasalah t, klasifikasi k, jenispekerjaan j');
+		$this->db->where('m.idmasalah = t.idmasalah');
+		$this->db->where('m.idklasifikasi = k.id');
+		$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
+		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
+		$this->db->where('m.statusmasalah',1);
+		$this->db->where('m.enable',1);
+		if($institution != 'all')
 		{
-			$this->db->where('idinstitution',$institution);
+			$this->db->where('m.idinstitution', $institution);
 		}
-		//$this->db->where('(recap=1 OR recap=0)');
-
+		if($kantor != 'all')
+		{
+			$this->db->where('m.idkantor', $kantor);
+		}
+		$this->db->group_by('m.idmasalah');
 		$query = $this->db->count_all_results();
 
 		return $query;
 	}
 
-	function get_finish_this_month($month,$year,$institution = 'all') {
-		$this->db->from('masalah');
-		$this->db->where('MONTH(tanggalpengaduan)',$month);
-		$this->db->where('YEAR(tanggalpengaduan)', $year);
-		$this->db->where('statusmasalah',2);
-		$this->db->where('enable',1);
-		if ($institution != 'all')
+	function get_finish_this_month($month,$year,$institution = 'all',$kantor = 'all') {
+		$this->db->select('m.idmasalah');
+		$this->db->from('masalah m, tkimasalah t, klasifikasi k, jenispekerjaan j');
+		$this->db->where('m.idmasalah = t.idmasalah');
+		$this->db->where('m.idklasifikasi = k.id');
+		$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
+		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
+		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
+		$this->db->where('m.statusmasalah',2);
+		$this->db->where('m.enable',1);
+		if($institution != 'all')
 		{
-			$this->db->where('idinstitution',$institution);
+			$this->db->where('m.idinstitution', $institution);
 		}
-		//$this->db->where('(recap=1 OR recap=0)');
-
+		if($kantor != 'all')
+		{
+			$this->db->where('m.idkantor', $kantor);
+		}
+		$this->db->group_by('m.idmasalah');
 		$query = $this->db->count_all_results();
 
 		return $query;
 	}
 
-	function get_process_this_month($month,$year,$institution = 'all') {
-		$this->db->from('masalah');
-		$this->db->where('MONTH(tanggalpengaduan)',$month);
-		$this->db->where('YEAR(tanggalpengaduan)', $year);
-		$this->db->where('statusmasalah',1);
-		$this->db->where('enable',1);
-		if ($institution != 'all')
+	function get_process_this_month($month,$year,$institution = 'all',$kantor = 'all') {
+		$this->db->select('m.idmasalah');
+		$this->db->from('masalah m, tkimasalah t, klasifikasi k, jenispekerjaan j');
+		$this->db->where('m.idmasalah = t.idmasalah');
+		$this->db->where('m.idklasifikasi = k.id');
+		$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
+		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
+		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
+		$this->db->where('m.statusmasalah',1);
+		$this->db->where('m.enable',1);
+		if($institution != 'all')
 		{
-			$this->db->where('idinstitution',$institution);
+			$this->db->where('m.idinstitution', $institution);
 		}
-		//$this->db->where('(recap=1 OR recap=0)');
-
+		if($kantor != 'all')
+		{
+			$this->db->where('m.idkantor', $kantor);
+		}
+		$this->db->group_by('m.idmasalah');
 		$query = $this->db->count_all_results();
 
 		return $query;
@@ -188,26 +230,36 @@ class Perlindungan_model extends CI_Model {
 			$obj = $this->db->get()->row();
 
 			/* All Problem */
-			$this->db->from('masalah');
-			$this->db->where('petugaspenanganan', $nama);
-			$this->db->where('YEAR(tanggalpengaduan)', $year);
-			$this->db->where('enable',1);
+			$this->db->select('m.idmasalah');
+			$this->db->from('masalah m, tkimasalah t, klasifikasi k, jenispekerjaan j');
+			$this->db->where('m.idmasalah = t.idmasalah');
+			$this->db->where('m.idklasifikasi = k.id');
+			$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
+			$this->db->where('m.petugaspenanganan', $nama);
+			$this->db->where('YEAR(m.tanggalpengaduan)',$year);
+			$this->db->where('m.enable',1);
+			$this->db->group_by('m.idmasalah');
 			$all = $this->db->count_all_results();
 
-			/* Unfinished Problem */
-			$this->db->from('masalah');
-			$this->db->where('petugaspenanganan', $nama);
-			$this->db->where('YEAR(tanggalpengaduan)', $year);
-			$this->db->where('statusmasalah', 2);
-			$this->db->where('enable',1);
+			/* Finished Problem */
+			$this->db->select('m.idmasalah');
+			$this->db->from('masalah m, tkimasalah t, klasifikasi k, jenispekerjaan j');
+			$this->db->where('m.idmasalah = t.idmasalah');
+			$this->db->where('m.idklasifikasi = k.id');
+			$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
+			$this->db->where('m.petugaspenanganan', $nama);
+			$this->db->where('YEAR(m.tanggalpengaduan)',$year);
+			$this->db->where('m.statusmasalah',2);
+			$this->db->where('m.enable',1);
+			$this->db->group_by('m.idmasalah');
 			$finished = $this->db->count_all_results();
 
-			$rat=0;
+			$ratio = 0;
 			if($all != 0){
-				$rat = ($finished/$all)*100;
+				$ratio = ($finished / $all) * 100;
 			}
 
-			$performance[$nama] = array($all,$rat, $finished, $all-$finished);
+			$performance[$nama] = array($all, $ratio, $finished, $all - $finished);
 			$officername[$nama] = $obj->name;
 			$officerpic[$nama] = $obj->picture;
 		}
@@ -253,23 +305,26 @@ class Perlindungan_model extends CI_Model {
 		return array($sheltername, $performance);
 	}
 
-	function get_year_performance($year,$institution = 'all') {
-		$this->db->from('masalah');
-		$this->db->where('YEAR(tanggalpengaduan)',$year);
-		$this->db->where('enable', 1);
-		//$this->db->where('(recap=1 OR recap=0)');
+	function get_year_performance($year,$institution = 'all',$kantor = 'all') {
+		$this->db->select('m.idmasalah');
+		$this->db->from('masalah m, tkimasalah t, klasifikasi k, jenispekerjaan j');
+		$this->db->where('m.idmasalah = t.idmasalah');
+		$this->db->where('m.idklasifikasi = k.id');
+		$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
+		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
+		$this->db->where('m.enable',1);
+		if($institution != 'all')
+		{
+			$this->db->where('m.idinstitution', $institution);
+		}
+		if($kantor != 'all')
+		{
+			$this->db->where('m.idkantor', $kantor);
+		}
+		$this->db->group_by('m.idmasalah');
 		$all = $this->db->count_all_results();
 
-		$this->db->from('masalah');
-		$this->db->where('YEAR(tanggalpengaduan)',$year);
-		$this->db->where('statusmasalah', 2);
-		$this->db->where('enable', 1);
-		if ($institution != 'all')
-		{
-			$this->db->where('idinstitution',$institution);
-		}
-		//$this->db->where('(recap=1 OR recap=0)');
-		$finished = $this->db->count_all_results();
+		$finished = $this->get_finish_this_year($year, $institution, $kantor);
 
 		$performance=0;
 		if($all != 0){
@@ -315,7 +370,7 @@ class Perlindungan_model extends CI_Model {
 		return $query;
 	}
 
-	function get_all_problem_process($institution = 'all') {
+	function get_all_problem_process($institution = 'all',$kantor = 'all') {
 		$this->db->select('m.idmasalah, m.tanggalpengaduan, t.namatki, t.paspor, m.statustki,i.nameinstitution');
 		$this->db->select('k.name AS klasifikasi, j.namajenispekerjaan AS jenis, u.name AS nama, m.keyword');
 		$this->db->select('count(t.idtkimasalah) AS jumlah, DATEDIFF(CURDATE(), m.tanggalpengaduan) AS lama');
@@ -324,49 +379,59 @@ class Perlindungan_model extends CI_Model {
 		$this->db->where('m.idklasifikasi = k.id');
 		$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
 		$this->db->where('m.petugaspenanganan = u.username');
-		$this->db->where('m.petugaspenanganan = u.username');
-		$this->db->where('m.statusmasalah',1);
+		$this->db->where('m.statusmasalah', 1);
 		if ($institution != 'all')
 		{
 			$this->db->where('m.idinstitution',$institution);
+		}
+		if ($kantor != 'all')
+		{
+			$this->db->where('m.idkantor',$kantor);
 		}
 		$this->db->where('m.enable',1);
 		$this->db->group_by('m.idmasalah');
 		$this->db->order_by('m.tanggalpengaduan','DESC');
 		$query = $this->db->get();
 
-		return $query;
+		return $query->result();
 	}
 
-	function get_all_problem_finished($institution = 'all') {
+	function get_all_problem_finished($institution = 'all',$kantor = 'all') {
 		$this->db->select('m.idmasalah, m.tanggalpengaduan, t.namatki, t.paspor, m.statustki,i.nameinstitution');
 		$this->db->select('k.name AS klasifikasi, j.namajenispekerjaan AS jenis, u.name AS nama, m.keyword');
 		$this->db->select('count(t.idtkimasalah) AS jumlah, DATEDIFF(CURDATE(), m.tanggalpengaduan) AS lama');
 		$this->db->from('masalah m, tkimasalah t, klasifikasi k, jenispekerjaan j, user u,institution i');
 		$this->db->where('m.idmasalah = t.idmasalah');
 		$this->db->where('m.idklasifikasi = k.id');
+		$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
+		$this->db->where('m.petugaspenanganan = u.username');
+		$this->db->where('m.statusmasalah', 2);
 		if ($institution != 'all')
 		{
 			$this->db->where('m.idinstitution',$institution);
 		}
-		$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
-		$this->db->where('m.petugaspenanganan = u.username');
-		$this->db->where('m.statusmasalah',2);
+		if ($kantor != 'all')
+		{
+			$this->db->where('m.idkantor',$kantor);
+		}
 		$this->db->where('m.enable',1);
 		$this->db->group_by('m.idmasalah');
 		$this->db->order_by('m.tanggalpengaduan','DESC');
 		$query = $this->db->get();
 
-		return $query;
+		return $query->result();
 	}
 
 	function get_problem_officer_detail($id) {
 		$this->db->select('idshelter');
-		$this->db->from('masalah_has_shelter');
 		$this->db->where('idmasalah',$id);
-		$where_clause = $this->db->get_compiled_select();
+		$where_clause = $this->db->get_compiled_select('masalah_has_shelter', FALSE);
+		$is_in_shelter = $this->db->count_all_results();
 
-		$this->db->select('m.idmasalah, s.name AS organisasi, m.nomormasalah, me.name AS media');
+		if ($is_in_shelter > 0) {
+			$this->db->select('s.name AS organisasi');
+		}
+		$this->db->select('m.idmasalah, m.nomormasalah, me.name AS media');
 		$this->db->select('m.namapelapor, m.teleponpelapor, m.alamatpelapor');
 		$this->db->select('m.tanggalpengaduan, m.penerimapengaduan, u.name as petugaspenanganan');
 		$this->db->select('m.tanggalmasuktaiwan, m.agensi, m.cpagensi');
@@ -374,10 +439,15 @@ class Perlindungan_model extends CI_Model {
 		$this->db->select('j.namajenispekerjaan AS jenis, j.sektor, m.statustki, m.permasalahan');
 		$this->db->select('m.tuntutan, m.uang, m.statusmasalah');
 		$this->db->select('m.tanggalpenyelesaian, m.agid, cur.currencyname');
-		$this->db->from('masalah m, shelter s, user u, jenispekerjaan j, klasifikasi k, media me, currency cur');
+		$this->db->from('masalah m, user u, jenispekerjaan j, klasifikasi k, media me, currency cur');
+		if ($is_in_shelter > 0) {
+			$this->db->from('shelter s');
+		}
 		$this->db->join('institution', 'm.idinstitution = institution.idinstitution');
 		$this->db->where('m.idmasalah',$id);
-		$this->db->where("`s`.`id` = ($where_clause)", NULL, FALSE);
+		if ($is_in_shelter > 0) {
+			$this->db->where("`s`.`id` = ($where_clause)", NULL, FALSE);
+		}
 		$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
 		$this->db->where('m.idklasifikasi = k.id');
 		$this->db->where('m.idmedia = me.id');
@@ -524,17 +594,21 @@ class Perlindungan_model extends CI_Model {
 		return $query;
 	}
 
-	function get_all_yeardb($idinstitution=NULL){
+	function get_all_yeardb($institution = 'all',$kantor = 'all'){
 		$this->db->distinct();
 		$this->db->select('YEAR(tanggalpengaduan) as tahun');
 		$this->db->from('masalah');
-		if($idinstitution) {
-			$this->db->where('idinstitution',$idinstitution);
+		if($institution != 'all') {
+			$this->db->where('idinstitution',$institution);
+		}
+		if ($kantor != 'all')
+		{
+			$this->db->where('idkantor',$kantor);
 		}
 		$this->db->order_by('tanggalpengaduan','desc');
 		$query = $this->db->get();
 
-		return $query;
+		return $query->result();
 	}
 
 	public function get_klasifikasi_institution($idinstitution)

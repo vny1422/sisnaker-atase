@@ -5,29 +5,38 @@ class Infografik_model extends CI_Model {
 		parent::__construct();
 	}
 
-  function get_total_problem_year($month,$year,$institution='all'){
+  function get_total_problem_year($month,$year,$institution='all',$kantor='all'){
 		$this->db->start_cache();
-		$this->db->select('*');
-		$this->db->from('masalah m');
-		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
+		$this->db->select('m.idmasalah');
+		$this->db->from('masalah m, tkimasalah t, klasifikasi k, jenispekerjaan j');
+		$this->db->where('m.idmasalah = t.idmasalah');
+		$this->db->where('m.idklasifikasi = k.id');
+		$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
+		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('m.enable', 1);
 		if($institution != 'all')
 		{
 			$this->db->where('m.idinstitution',$institution);
 		}
-		// $this->db->where('(m.recap=1 OR m.recap=0)');
+		if($kantor != 'all')
+		{
+			$this->db->where('m.idkantor',$kantor);
+		}
 		$this->db->stop_cache();
 
 		// All problems
+		$this->db->group_by('m.idmasalah');
 		$all = $this->db->count_all_results();
 
 		// Finished
 		$this->db->where('m.statusmasalah', 2);
+		$this->db->group_by('m.idmasalah');
 		$fin = $this->db->count_all_results();
 
 		// Processed
 		$this->db->where('m.statusmasalah', 1);
+		$this->db->group_by('m.idmasalah');
 		$pro = $this->db->count_all_results();
 
 		$this->db->flush_cache();
@@ -35,77 +44,97 @@ class Infografik_model extends CI_Model {
 		return array($all, $fin, $pro);
 	}
 
-  function get_total_money($month,$year,$institution='all'){
+  function get_total_money($month,$year,$institution='all',$kantor='all'){
 		$this->db->select_sum('m.uang');
-		$this->db->from('masalah m');
-		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
+		$this->db->from('masalah m, tkimasalah t, klasifikasi k, jenispekerjaan j');
+		$this->db->where('m.idmasalah = t.idmasalah');
+		$this->db->where('m.idklasifikasi = k.id');
+		$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
+		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('m.enable', 1);
 		if($institution != 'all')
 		{
 			$this->db->where('m.idinstitution',$institution);
 		}
-		// $this->db->where('(m.recap=1 OR m.recap=0)');
+		if($kantor != 'all')
+		{
+			$this->db->where('m.idkantor',$kantor);
+		}
 		$query = $this->db->get();
 
 		return $query;
 	}
 
-  function get_total_money_sektoral($month,$year,$institution='all'){
+  function get_total_money_sektoral($month,$year,$institution='all',$kantor='all'){
 		$result = array('formal'=>0, 'informal'=>0);
 		///informal
 		$this->db->select_sum('m.uang');
-		$this->db->from('masalah m');
-		$this->db->join('jenispekerjaan j', 'j.idjenispekerjaan=m.idjenispekerjaan', 'left');
-		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
+		$this->db->from('masalah m, tkimasalah t, klasifikasi k, jenispekerjaan j');
+		$this->db->where('m.idmasalah = t.idmasalah');
+		$this->db->where('m.idklasifikasi = k.id');
+		$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
+		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('m.enable', 1);
 		$this->db->where('j.sektor', 1);
 		if($institution != 'all')
 		{
 			$this->db->where('m.idinstitution',$institution);
 		}
-		// $this->db->where('(m.recap=1 OR m.recap=0)');
+		if($kantor != 'all')
+		{
+			$this->db->where('m.idkantor',$kantor);
+		}
 		$query = $this->db->get();
 		$tmp = $query->row_array();
-			if ($tmp['uang'] == ''){
-				$tmp['uang'] = '0';
-			}
+		if ($tmp['uang'] == ''){
+			$tmp['uang'] = '0';
+		}
 		$result['informal'] = $tmp['uang'];
 
 		///formal
 		$this->db->select_sum('m.uang');
-		$this->db->from('masalah m');
-		$this->db->join('jenispekerjaan j', 'j.idjenispekerjaan=m.idjenispekerjaan', 'left');
-		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
+		$this->db->from('masalah m, tkimasalah t, klasifikasi k, jenispekerjaan j');
+		$this->db->where('m.idmasalah = t.idmasalah');
+		$this->db->where('m.idklasifikasi = k.id');
+		$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
+		$this->db->where('MONTH(m.tanggalpengaduan)',$month);
 		$this->db->where('m.enable', 1);
 		$this->db->where('j.sektor', 2);
 		if($institution != 'all')
 		{
 			$this->db->where('m.idinstitution',$institution);
 		}
-		// $this->db->where('(m.recap=1 OR m.recap=0)');
 		$query = $this->db->get();
 		$tmp = $query->row_array();
-			if ($tmp['uang'] == ''){
-				$tmp['uang'] = '0';
-			}
+		if ($tmp['uang'] == ''){
+			$tmp['uang'] = '0';
+		}
 		$result['formal'] = $tmp['uang'];
+
 		return $result;
 	}
 
 
-	function get_total_problem_a_year($year,$institution='all'){
-		$this->db->select('*');
-		$this->db->from('masalah m');
+	function get_total_problem_a_year($year,$institution='all',$kantor='all'){
+		$this->db->select('m.idmasalah');
+		$this->db->from('masalah m, tkimasalah t, klasifikasi k, jenispekerjaan j');
+		$this->db->where('m.idmasalah = t.idmasalah');
+		$this->db->where('m.idklasifikasi = k.id');
+		$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		$this->db->where('m.enable', 1);
 		if($institution != 'all')
 		{
 			$this->db->where('m.idinstitution',$institution);
 		}
-		// $this->db->where('(recap=1 OR recap=0)');
+		if($kantor != 'all')
+		{
+			$this->db->where('m.idkantor',$kantor);
+		}
+		$this->db->group_by('m.idmasalah');
 		$query = $this->db->count_all_results();
 
 		return $query;
@@ -159,21 +188,27 @@ function get_finish_within_year($year) {
   return $query;
 }
 
-function get_total_money_year($year,$institution='all'){
-  $this->db->select_sum('m.uang');
-  $this->db->from('masalah m');
-  $this->db->where('YEAR(m.tanggalpengaduan)',$year);
-  $this->db->where('m.enable', 1);
+function get_total_money_year($year,$institution='all',$kantor='all') {
+	$this->db->select_sum('m.uang');
+	$this->db->from('masalah m, tkimasalah t, klasifikasi k, jenispekerjaan j');
+	$this->db->where('m.idmasalah = t.idmasalah');
+	$this->db->where('m.idklasifikasi = k.id');
+	$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
+	$this->db->where('YEAR(m.tanggalpengaduan)',$year);
+	$this->db->where('m.enable', 1);
 	if($institution != 'all')
 	{
 		$this->db->where('m.idinstitution',$institution);
 	}
-  // $this->db->where('(m.recap=1 OR m.recap=0)');
+	if($kantor != 'all')
+	{
+		$this->db->where('m.idkantor',$kantor);
+	}
+	$query = $this->db->get();
 
-  $query = $this->db->get();
-
-  return $query;
+	return $query;
 }
+
 function formatMoney($number, $fractional=false) {
   if ($fractional) {
     $number = sprintf('%.2f', $number);

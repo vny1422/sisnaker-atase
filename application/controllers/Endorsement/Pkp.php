@@ -41,8 +41,8 @@
         $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
         $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
         $this->data['title'] = 'Endorsement';
-        $this->data['subtitle'] = 'Lihat Data PKP';
-        $this->data['subtitle2'] = 'Lihat Data PKP';
+        $this->data['subtitle'] = 'View Data PKP (Rec. Agreement)';
+        $this->data['subtitle2'] = 'View Data PKP (Rec. Agreement)';
         $this->load->view('templates/headerendorsement', $this->data);
         $this->load->view('Endorsement/LihatPKP_view', $this->data);
         $this->load->view('templates/footerendorsement');
@@ -74,7 +74,7 @@
           $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
           $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
           $this->data['listjenispekerjaan'] = $this->Jobtype_model->list_all_jobtype_by_institution($this->session->userdata('institution'));
-          $this->data['title'] = 'Pengajuan PKP';
+          $this->data['title'] = 'Create PKP (Rec. Agreement)';
          // $this->load->view('templates/header', $this->data);
           $this->load->view('templates/headerendorsement', $this->data);
           $this->load->view('Endorsement/CreatePKP_view', $this->data);
@@ -117,7 +117,7 @@
           $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
           $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
           $this->data['listjenispekerjaan'] = $this->Jobtype_model->list_all_jobtype_by_institution($this->session->userdata('institution'));
-          $this->data['title'] = 'Pengajuan PKP';
+          $this->data['title'] = 'Create PKP (Rec. Agreement)';
          // $this->load->view('templates/header', $this->data);
           $this->load->view('templates/headerendorsement', $this->data);
           $this->load->view('Endorsement/CreatePKPalt_view', $this->data);
@@ -160,9 +160,9 @@
           echo "masukkk awal";
           $this->data['values'] = $pkpkode;
 
-          $this->data['title'] = 'Upload Dokumen Final PKP';
-          $this->data['subtitle'] = 'Upload Dokumen Final PKP';
-          $this->data['subtitle2'] = 'Upload Dokumen Final PKP';
+          $this->data['title'] = 'Upload Dokumen Final PKP (Rec. Agreement)';
+          $this->data['subtitle'] = 'Upload Dokumen Final PKP (Rec. Agreement)';
+          $this->data['subtitle2'] = 'Upload Dokumen Final PKP (Rec. Agreement)';
           $this->load->view('templates/headerendorsement', $this->data);
           $this->load->view('Endorsement/UploadDokumenPKP_view', $this->data);
           $this->load->view('templates/footerendorsement');
@@ -219,8 +219,8 @@
       $this->data['listpkp'] = $this->PKP_model->get_pkp_verify_list();
       $this->data['title'] = 'Endorsement';
       $this->data['currency'] = $currencyname->currencyname;
-      $this->data['subtitle'] = 'Verifikasi PKP';
-      $this->data['subtitle2'] = 'Verifikasi PKP';
+      $this->data['subtitle'] = 'Verification PKP (Rec. Agreement)';
+      $this->data['subtitle2'] = 'Verification PKP (Rec. Agreement)';
       $this->load->view('templates/headerendorsement', $this->data);
       $this->load->view('Endorsement/VerifyPKP_view', $this->data);
       $this->load->view('templates/footerendorsement');
@@ -259,8 +259,8 @@
       $currencyname = $this->Currency_model->get_currency_name($currencyid);
       $this->data['title'] = 'Endorsement';
       $this->data['currency'] = $currencyname->currencyname;
-      $this->data['subtitle'] = 'Legalisasi PKP';
-      $this->data['subtitle2'] = 'Legalisasi PKP';
+      $this->data['subtitle'] = 'Endorsement PKP (Rec. Agreement)';
+      $this->data['subtitle2'] = 'Endorsement PKP (Rec. Agreement)';
       $this->load->view('templates/headerendorsement', $this->data);
       $this->load->view('Endorsement/LegalizePKP_view', $this->data);
       $this->load->view('templates/footerendorsement');

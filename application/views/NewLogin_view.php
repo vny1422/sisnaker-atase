@@ -43,7 +43,7 @@
   .column { display: inline-block; width: 100%; white-space: normal; }
 
   a{
-    color: white;
+    color: black;
   }
 
   a:hover{
@@ -63,7 +63,7 @@
 
   <div class="row text-white">
     <div class="col-md-6 kiri text-center">
-      <div class="content">
+      <div id="sec-bg-1" class="content" >
         <img style="text-align:center;" class="logo" src="<?php echo base_url('assets/images/sisnaker_logo_white.png'); ?>">
         <h1 class=""><b>ONLINE - ATNAKER</b></h1>
         <div class="control-label form-gorup">
@@ -85,46 +85,92 @@
           </div>
 
           <div id="sec2-ar" class="col-md-6" style="display:none;">
-            <h4><a class="btn btn-default" href="#">Embassy of The Republic of Indonesia in Riyadh</a></h4>
-            <h4><a class="btn btn-default" href="#">Consulate General of The Republic of Indonesia in Jeddah</a></h4>
+            <h4><a id="kbriyadh" class="btn btn-default" href="#">Embassy of The Republic of Indonesia in Riyadh</a></h4>
+            <h4><a id="kjjeddah" class="btn btn-default" href="#">Consulate General of The Republic of Indonesia in Jeddah</a></h4>
             <br> <a href="#" class="back btn btn-warning input-sm btn-sm">Back</a>
           </div>
 
           <div id="sec2-hk" class="col-md-6" style="display:none;">
-            <a href="#" class="btn btn-default">Consulate General of The Republic of Indonesia in Hongkong</a> <br>
+            <a id="kjhk" href="#" class="btn btn-default">Consulate General of The Republic of Indonesia in Hongkong</a> <br>
             <br> <a  href="#" class="back btn btn-warning input-sm btn-sm">Back</a>
           </div>
 
           <div id="sec2-kw" class="col-md-6" style="display:none;">
-            <a href="#" class="btn btn-default">Embassy of The Republic of Indonesia in Kuwait</a> <br>
+            <a id="kbkw" href="#" class="btn btn-default">Embassy of The Republic of Indonesia in Kuwait</a> <br>
             <br> <a href="#" class="back btn btn-warning input-sm btn-sm">Back</a>
           </div>
 
           <div id="sec2-ml" class="col-md-6" style="display:none;">
-            <h4><a class="btn btn-default" href="#">Embassy of The Republic of Indonesia in Kuala Lumpur</a></h4>
-            <h4><a class="btn btn-default" href="#">Consulate General of The Republic of Indonesia in Johor Bahru</a></h4>
-            <h4><a class="btn btn-default" href="#">Consulate General of The Republic of Indonesia in Penang</a></h4>
-            <h4><a class="btn btn-default" href="#">Consulate General of The Republic of Indonesia in Kuching Sarawak</a></h4>
-            <h4><a class="btn btn-default" href="#">Consulate General of The Republic of Indonesia in Kota Kinabalu</a></h4>
-            <h4><a class="btn btn-default" href="#">Consulate General of The Republic of Indonesia in Tawau</a></h4>
+            <h4><a id="kbkl" class="btn btn-default" href="#">Embassy of The Republic of Indonesia in Kuala Lumpur</a></h4>
+            <h4><a id="kjjohor" class="btn btn-default" href="#">Consulate General of The Republic of Indonesia in Johor Bahru</a></h4>
+            <h4><a id="kjpenang" class="btn btn-default" href="#">Consulate General of The Republic of Indonesia in Penang</a></h4>
+            <h4><a id="kjkuching" class="btn btn-default" href="#">Consulate General of The Republic of Indonesia in Kuching Sarawak</a></h4>
+            <h4><a id="kjkina" class="btn btn-default" href="#">Consulate General of The Republic of Indonesia in Kota Kinabalu</a></h4>
+            <h4><a id="kjtawau" class="btn btn-default" href="#">Consulate General of The Republic of Indonesia in Tawau</a></h4>
             <br> <a href="#" class="back btn btn-warning input-sm btn-sm">Back</a>
           </div>
 
           <div id="sec2-sg" class="col-md-6" style="display:none;">
-            <h4><a class="btn btn-default" href="#">Embassy of The Republic of Indonesia in Singapore</a></h4>
+            <h4><a id="kjsg" class="btn btn-default" href="#">Embassy of The Republic of Indonesia in Singapore</a></h4>
             <br> <a href="#" class="back btn btn-warning input-sm btn-sm">Back</a>
           </div>
 
           <div id="sec2-tw" class="col-md-6" style="display:none;">
-            <h4><a class="btn btn-default" href="#">Indonesian Economic and Trade Office to Taipei</a></h4>
+            <h4><a id="kdtai" class="btn btn-default" href="#">Indonesian Economic and Trade Office to Taipei</a></h4>
             <br> <a href="#" class="back btn btn-warning input-sm btn-sm">Back</a>
           </div>
 
           <div id="sec2-uae" class="col-md-6" style="display:none;">
-            <a class="btn btn-default" href="#">Embassy of The Republic of Indonesia in Abu Dhabi</a> <br>
-            <a class="btn btn-default" href="#">Consulate General of The Republic of Indonesia in Dubai</a> <br>
+            <a id="kbabu"class="btn btn-default" href="#">Embassy of The Republic of Indonesia in Abu Dhabi</a> <br>
+            <a id="kjdubai" class="btn btn-default" href="#">Consulate General of The Republic of Indonesia in Dubai</a> <br>
             <br> <a href="#" class="back btn btn-warning input-sm btn-sm">Back</a>
           </div>
+          <div class="col-md-3">
+          </div>
+        </div>
+      </div>
+
+      <div id="sec-bg-2" class="content"  style="display:none">
+        <img style="text-align:center;" class="logo" src="<?php echo base_url('assets/images/garuda.png'); ?>">
+
+
+        <div class="control-label form-gorup">
+          <div class="col-md-3">
+
+          </div>
+          <div id="sec1" class="col-md-6">
+            <h3 id="dkbriyadh" style="display:none;"><b>Embassy of The Republic of Indonesia in Riyadh</b></h3>
+            <h3 id="dkjjeddah" style="display:none;"><b>Consulate General of The Republic of Indonesia in Jeddah</b></h3>
+
+
+            <h3 id="dkjhk" style="display:none;"><b>Consulate General of The Republic of Indonesia in Hongkong</b></h3>
+
+            <h3 id="dkbkw" style="display:none;"><b>Embassy of The Republic of Indonesia in Kuwait</b></h3>
+
+            <h3 id="dkbkl" style="display:none;"><b>Embassy of The Republic of Indonesia in Kuala Lumpur</b></h3>
+            <h3 id="dkjjohor" style="display:none;"><b>Consulate General of The Republic of Indonesia in Johor</b></h3>
+            <h3 id="dkjpenang" style="display:none;"><b>Consulate General of The Republic of Indonesia in Penang</b></h3>
+            <h3 id="dkjkuching" style="display:none;"><b>Consulate General of The Republic of Indonesia in Kuching Sarawak</b></h3>
+            <h3 id="dkjkina" style="display:none;"><b>Consulate General of The Republic of Indonesia in Kota Kinabalu</b></h3>
+            <h3 id="dkjtawau" style="display:none;"><b>Consulate General of The Republic of Indonesia in Tawau</b></h3>
+
+
+            <h3 id="dkjsg" style="display:none;"><b>Consulate General of The Republic of Indonesia in Singapore</b></h3>
+
+            <h3 id="dkdtai" style="display:none;"><b>Indonesian Economic and Trade Office to Taipei</b></h3>
+
+            <h3 id="dkbabu" style="display:none;"><b>Embassy of The Republic of Indonesia in Abu Dhabi</b></h3>
+            <h3 id="dkjdubai" style="display:none;"><b>Consulate General of The Republic of Indonesia in Dubai</b></h3>
+
+
+
+            <br><br><br><br>
+            <img style="text-align:center; width:20%" src="<?php echo base_url('assets/images/sisnaker_logo_white.png'); ?>">
+            <h4 class=""><b>ONLINE - ATNAKER</b></h4>
+          </div>
+
+
+
           <div class="col-md-3">
           </div>
         </div>
@@ -156,6 +202,10 @@
                 <input type="password" name="password" class="form-control" placeholder="Password" required="" />
               </br>
               <button class="btn btn-success submit" value="Login" type="submit" name="button">LOGIN</button>
+
+
+              <br><br><br><br><br>
+              <h5 id="daftar" style="display:none;"><a href="<?php echo base_url() ?>/Login/Daftar">For Agency, click to apply for user name</a></h5>
             </div>
             <div class="col-md-2">
 
@@ -210,9 +260,7 @@ $(document).ready(function() {
     $("#sec2-tw").hide();
     $("#sec2-uae").hide();
     $("#sec1").show(1000);
-  })
-
-
+  });
 
   $('.btn-default').on('click', function(){
     $("#sec2-ar").hide();
@@ -223,7 +271,279 @@ $(document).ready(function() {
     $("#sec2-tw").hide();
     $("#sec2-uae").hide();
     $("#sec1").show(1000);
-  })
+  });
+
+  $('#kbriyadh').on('click', function(){
+    $("#sec-bg-1").hide();
+    $("#sec-bg-2").show(1000);
+    $("#dkbriyadh").show();
+    $("#dkjjeddah").hide();
+    $("#dkjhk").hide();
+    $("#dkbkw").hide();
+    $("#dkbkl").hide();
+    $("#dkjjohor").hide();
+    $("#dkjpenang").hide();
+    $("#dkjkuching").hide();
+    $("#dkjkina").hide();
+    $("#dkjtawau").hide();
+    $("#dkjsg").hide();
+    $("#dkdtai").hide();
+    $("#dkbabu").hide();
+    $("#dkjdubai").hide();
+  });
+
+  $('#kjjeddah').on('click', function(){
+    $("#sec-bg-1").hide();
+    $("#sec-bg-2").show(1000);
+    $("#dkbriyadh").hide();
+    $("#dkjjeddah").show();
+    $("#dkjhk").hide();
+    $("#dkbkw").hide();
+    $("#dkbkl").hide();
+    $("#dkjjohor").hide();
+    $("#dkjpenang").hide();
+    $("#dkjkuching").hide();
+    $("#dkjkina").hide();
+    $("#dkjtawau").hide();
+    $("#dkjsg").hide();
+    $("#dkdtai").hide();
+    $("#dkbabu").hide();
+    $("#dkjdubai").hide();
+  });
+
+  $('#kjhk').on('click', function(){
+    $("#daftar").show(1000);
+    $("#sec-bg-1").hide();
+    $("#sec-bg-2").show(1000);
+    $("#dkbriyadh").hide();
+    $("#dkjjeddah").hide();
+    $("#dkjhk").show();
+    $("#dkbkw").hide();
+    $("#dkbkl").hide();
+    $("#dkjjohor").hide();
+    $("#dkjpenang").hide();
+    $("#dkjkuching").hide();
+    $("#dkjkina").hide();
+    $("#dkjtawau").hide();
+    $("#dkjsg").hide();
+    $("#dkdtai").hide();
+    $("#dkbabu").hide();
+    $("#dkjdubai").hide();
+  });
+
+  $('#kbkw').on('click', function(){
+    $("#sec-bg-1").hide();
+    $("#sec-bg-2").show(1000);
+    $("#dkbriyadh").hide();
+    $("#dkjjeddah").hide();
+    $("#dkjhk").hide();
+    $("#dkbkw").show();
+    $("#dkbkl").hide();
+    $("#dkjjohor").hide();
+    $("#dkjpenang").hide();
+    $("#dkjkuching").hide();
+    $("#dkjkina").hide();
+    $("#dkjtawau").hide();
+    $("#dkjsg").hide();
+    $("#dkdtai").hide();
+    $("#dkbabu").hide();
+    $("#dkjdubai").hide();
+  });
+
+  $('#kbkl').on('click', function(){
+    $("#sec-bg-1").hide();
+    $("#sec-bg-2").show(1000);
+    $("#dkbriyadh").hide();
+    $("#dkjjeddah").hide();
+    $("#dkjhk").hide();
+    $("#dkbkw").hide();
+    $("#dkbkl").show();
+    $("#dkjjohor").hide();
+    $("#dkjpenang").hide();
+    $("#dkjkuching").hide();
+    $("#dkjkina").hide();
+    $("#dkjtawau").hide();
+    $("#dkjsg").hide();
+    $("#dkdtai").hide();
+    $("#dkbabu").hide();
+    $("#dkjdubai").hide();
+  });
+
+  $('#kjjohor').on('click', function(){
+    $("#sec-bg-1").hide();
+    $("#sec-bg-2").show(1000);
+    $("#dkbriyadh").hide();
+    $("#dkjjeddah").hide();
+    $("#dkjhk").hide();
+    $("#dkbkw").hide();
+    $("#dkbkl").hide();
+    $("#dkjjohor").show();
+    $("#dkjpenang").hide();
+    $("#dkjkuching").hide();
+    $("#dkjkina").hide();
+    $("#dkjtawau").hide();
+    $("#dkjsg").hide();
+    $("#dkdtai").hide();
+    $("#dkbabu").hide();
+    $("#dkjdubai").hide();
+  });
+
+  $('#kjpenang').on('click', function(){
+    $("#sec-bg-1").hide();
+    $("#sec-bg-2").show(1000);
+    $("#dkbriyadh").hide();
+    $("#dkjjeddah").hide();
+    $("#dkjhk").hide();
+    $("#dkbkw").hide();
+    $("#dkbkl").hide();
+    $("#dkjjohor").hide();
+    $("#dkjpenang").show();
+    $("#dkjkuching").hide();
+    $("#dkjkina").hide();
+    $("#dkjtawau").hide();
+    $("#dkjsg").hide();
+    $("#dkdtai").hide();
+    $("#dkbabu").hide();
+    $("#dkjdubai").hide();
+  });
+
+  $('#kjkuching').on('click', function(){
+    $("#sec-bg-1").hide();
+    $("#sec-bg-2").show(1000);
+    $("#dkbriyadh").hide();
+    $("#dkjjeddah").hide();
+    $("#dkjhk").hide();
+    $("#dkbkw").hide();
+    $("#dkbkl").hide();
+    $("#dkjjohor").hide();
+    $("#dkjpenang").hide();
+    $("#dkjkuching").show();
+    $("#dkjkina").hide();
+    $("#dkjtawau").hide();
+    $("#dkjsg").hide();
+    $("#dkdtai").hide();
+    $("#dkbabu").hide();
+    $("#dkjdubai").hide();
+  });
+
+  $('#kjkina').on('click', function(){
+    $("#sec-bg-1").hide();
+    $("#sec-bg-2").show(1000);
+    $("#dkbriyadh").hide();
+    $("#dkjjeddah").hide();
+    $("#dkjhk").hide();
+    $("#dkbkw").hide();
+    $("#dkbkl").hide();
+    $("#dkjjohor").hide();
+    $("#dkjpenang").hide();
+    $("#dkjkuching").hide();
+    $("#dkjkina").show();
+    $("#dkjtawau").hide();
+    $("#dkjsg").hide();
+    $("#dkdtai").hide();
+    $("#dkbabu").hide();
+    $("#dkjdubai").hide();
+  });
+
+  $('#kjtawau').on('click', function(){
+    $("#sec-bg-1").hide();
+    $("#sec-bg-2").show(1000);
+    $("#dkbriyadh").hide();
+    $("#dkjjeddah").hide();
+    $("#dkjhk").hide();
+    $("#dkbkw").hide();
+    $("#dkbkl").hide();
+    $("#dkjjohor").hide();
+    $("#dkjpenang").hide();
+    $("#dkjkuching").hide();
+    $("#dkjkina").hide();
+    $("#dkjtawau").show();
+    $("#dkjsg").hide();
+    $("#dkdtai").hide();
+    $("#dkbabu").hide();
+    $("#dkjdubai").hide();
+  });
+
+  $('#kjsg').on('click', function(){
+    $("#daftar").show(1000);
+    $("#sec-bg-1").hide();
+    $("#sec-bg-2").show(1000);
+    $("#dkbriyadh").hide();
+    $("#dkjjeddah").hide();
+    $("#dkjhk").hide();
+    $("#dkbkw").hide();
+    $("#dkbkl").hide();
+    $("#dkjjohor").hide();
+    $("#dkjpenang").hide();
+    $("#dkjkuching").hide();
+    $("#dkjkina").hide();
+    $("#dkjtawau").hide();
+    $("#dkjsg").show();
+    $("#dkdtai").hide();
+    $("#dkbabu").hide();
+    $("#dkjdubai").hide();
+  });
+
+  $('#kdtai').on('click', function(){
+    $("#daftar").show(1000);
+    $("#sec-bg-1").hide();
+    $("#sec-bg-2").show(1000);
+    $("#dkbriyadh").hide();
+    $("#dkjjeddah").hide();
+    $("#dkjhk").hide();
+    $("#dkbkw").hide();
+    $("#dkbkl").hide();
+    $("#dkjjohor").hide();
+    $("#dkjpenang").hide();
+    $("#dkjkuching").hide();
+    $("#dkjkina").hide();
+    $("#dkjtawau").hide();
+    $("#dkjsg").hide();
+    $("#dkdtai").show();
+    $("#dkbabu").hide();
+    $("#dkjdubai").hide();
+  });
+
+  $('#kbabu').on('click', function(){
+    $("#daftar").show(1000);
+    $("#sec-bg-1").hide();
+    $("#sec-bg-2").show(1000);
+    $("#dkbriyadh").hide();
+    $("#dkjjeddah").hide();
+    $("#dkjhk").hide();
+    $("#dkbkw").hide();
+    $("#dkbkl").hide();
+    $("#dkjjohor").hide();
+    $("#dkjpenang").hide();
+    $("#dkjkuching").hide();
+    $("#dkjkina").hide();
+    $("#dkjtawau").hide();
+    $("#dkjsg").hide();
+    $("#dkdtai").hide();
+    $("#dkbabu").show();
+    $("#dkjdubai").hide();
+  });
+
+  $('#kjdubai').on('click', function(){
+    $("#daftar").show(1000);
+    $("#sec-bg-1").hide();
+    $("#sec-bg-2").show(1000);
+    $("#dkbriyadh").hide();
+    $("#dkjjeddah").hide();
+    $("#dkjhk").hide();
+    $("#dkbkw").hide();
+    $("#dkbkl").hide();
+    $("#dkjjohor").hide();
+    $("#dkjpenang").hide();
+    $("#dkjkuching").hide();
+    $("#dkjkina").hide();
+    $("#dkjtawau").hide();
+    $("#dkjsg").hide();
+    $("#dkdtai").hide();
+    $("#dkbabu").hide();
+    $("#dkjdubai").show();
+  });
+
 
 
 });

@@ -45,8 +45,8 @@ class JO extends MY_Controller {
       $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
       $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
       $this->data['title'] = 'Endorsement';
-      $this->data['subtitle'] = 'Lihat Data JO';
-      $this->data['subtitle2'] = 'Lihat Data JO';
+      $this->data['subtitle'] = 'View Data JO';
+      $this->data['subtitle2'] = 'View Data JO';
       $this->load->view('templates/headerendorsement', $this->data);
       $this->load->view('Endorsement/LihatJO_view', $this->data);
       $this->load->view('templates/footerendorsement');
@@ -79,7 +79,7 @@ class JO extends MY_Controller {
         $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
         $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
         $this->data['listjenispekerjaan'] = $this->Jobtype_model->list_all_jobtype_by_institution($this->session->userdata('institution'));
-        $this->data['title'] = 'Pengajuan JO';
+        $this->data['title'] = 'Create JO';
         // $this->load->view('templates/header', $this->data);
         $this->load->view('templates/headerendorsement', $this->data);
         $this->load->view('Endorsement/CreateJOInter_view', $this->data);
@@ -152,8 +152,8 @@ class JO extends MY_Controller {
     //var_dump($this->data['listjo']);
     $this->data['title'] = 'Endorsement';
     $this->data['currency'] = $currencyname->currencyname;
-    $this->data['subtitle'] = 'Verifikasi JO';
-    $this->data['subtitle2'] = 'Verifikasi JO';
+    $this->data['subtitle'] = 'Verification JO';
+    $this->data['subtitle2'] = 'Verification JO';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/VerifyJO_view', $this->data);
     $this->load->view('templates/footerendorsement');
@@ -192,8 +192,8 @@ class JO extends MY_Controller {
     $currencyname = $this->Currency_model->get_currency_name($currencyid);
     $this->data['title'] = 'Endorsement';
     $this->data['currency'] = $currencyname->currencyname;
-    $this->data['subtitle'] = 'Legalisasi JO';
-    $this->data['subtitle2'] = 'Legalisasi JO';
+    $this->data['subtitle'] = 'Endorsement JO';
+    $this->data['subtitle2'] = 'Endorsement JO';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/LegalizeJO_view', $this->data);
     $this->load->view('templates/footerendorsement');

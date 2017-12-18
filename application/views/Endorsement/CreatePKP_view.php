@@ -46,7 +46,7 @@
           <?php echo form_open(base_url('PKP/addPkp')) ?>
 
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12">Agensi <span class="required">*</span></label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12">Agency <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
               <?php if (isset($dataagensi)) { ?>
                 <select name="agensi" required="required" class="select2_single form-control" tabindex="-1" disabled>
@@ -78,7 +78,7 @@
           </div><br /><br /><br />
 
           <div class="form-group" >
-            <label class="col-sm-2 control-label">Tanggal Mulai</label>
+            <label class="col-sm-2 control-label">Start Date</label>
             <div class="col-sm-4">
               <div class="input-group date datepicker col-md-12 col-xs-12" data-provide="datepicker" ng-class="{'has-error':(pst && shForm.inDate.$invalid)}">
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
@@ -88,7 +88,7 @@
           </div><br /><br /><br /><br />
 
           <div class="form-group" >
-            <label class="col-sm-2 control-label">Tanggal Selesai</label>
+            <label class="col-sm-2 control-label">End Date</label>
             <div class="col-sm-4">
               <div class="input-group date datepicker col-md-12 col-xs-12" data-provide="datepicker" ng-class="{'has-error':(pst && shForm.inDate.$invalid)}">
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
@@ -99,7 +99,7 @@
 
           <div class="input_fields_wrap" id="wrapopsi">
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12">Jenis Pekerjaan <span class="required">*</span></label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12">Job Type <span class="required">*</span></label>
             <div class="col-md-5">
               <select name="jenispekerjaan[]" required="required" class="select2_single form-control">
                 <option></option>

@@ -56,6 +56,7 @@ class Institution extends MY_Controller {
         {
             $this->Institution_model->post_new_institution();
             $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
+						$this->data['currency'] = $this->Currency_model->list_all_currency();
             $this->data['title'] = 'Tambah Institusi';
             $this->load->view('templates/header', $this->data);
             $this->load->view('SAdmin/AddInstitution_view', $this->data);

@@ -21,13 +21,13 @@
       $this->data['usedpg'] = $this->usedpg;
       $this->data['usedmpg'] = $this->usedmpg;
       $this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
-      $this->data['namakantor'] = $this->namakantor->nama;
+      $this->data['namakantor'] = $this->namakantor ? $this->namakantor->nama : ' ' ;
       $this->data['sidebar'] = 'SAdmin/Sidebar';
     }
 
     public function index()
     {
-      if ($this->session->userdata('role') == 4 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7){
+      if ($this->session->userdata('role') == 4 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 5){
 
         if($this->session->userdata('role') == 4){
           $this->data['dataagensi'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));

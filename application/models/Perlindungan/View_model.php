@@ -23,7 +23,7 @@ class View_model extends CI_Model {
 		return $query;
 	}
 
-	function data_year_process($year,$institution=NULL) {
+	function data_year_process($year,$institution='all',$kantor='all') {
 		$this->db->select('m.idmasalah, m.tanggalpengaduan, t.namatki, t.paspor, m.statustki');
 		$this->db->select('k.name AS klasifikasi, j.namajenispekerjaan AS jenis, u.name AS nama');
 		$this->db->select('count(t.idtkimasalah) as jumlah, DATEDIFF(CURDATE(), m.tanggalpengaduan ) as lama');
@@ -33,9 +33,13 @@ class View_model extends CI_Model {
 		$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
 		$this->db->where('m.petugaspenanganan = u.username');
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
-		if($institution)
+		if($institution != 'all')
 		{
 			$this->db->where('m.idinstitution', $institution);
+		}
+		if($kantor != 'all')
+		{
+			$this->db->where('m.idkantor', $kantor);
 		}
 		$this->db->where('m.statusmasalah',1);
 		$this->db->where('m.enable',1);
@@ -46,7 +50,7 @@ class View_model extends CI_Model {
 		return $query;
 	}
 
-	function data_year_finish($year,$institution=NULL) {
+	function data_year_finish($year,$institution='all',$kantor='all') {
 		$this->db->select('m.idmasalah, m.tanggalpengaduan, t.namatki, t.paspor, m.statustki');
 		$this->db->select('k.name AS klasifikasi, j.namajenispekerjaan AS jenis, u.name AS nama');
 		$this->db->select('count(t.idtkimasalah) as jumlah, DATEDIFF(CURDATE(), m.tanggalpengaduan ) as lama');
@@ -56,9 +60,13 @@ class View_model extends CI_Model {
 		$this->db->where('m.idjenispekerjaan = j.idjenispekerjaan');
 		$this->db->where('m.petugaspenanganan = u.username');
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
-		if($institution)
+		if($institution != 'all')
 		{
 			$this->db->where('m.idinstitution', $institution);
+		}
+		if($kantor != 'all')
+		{
+			$this->db->where('m.idkantor', $kantor);
 		}
 		$this->db->where('m.statusmasalah',2);
 		$this->db->where('m.enable',1);
@@ -70,7 +78,7 @@ class View_model extends CI_Model {
 	}
 
 
-	function data_month_process($month,$year,$institution=NULL) {
+	function data_month_process($month,$year,$institution='all',$kantor='all') {
 		$this->db->select('m.idmasalah, m.tanggalpengaduan, t.namatki, t.paspor, m.statustki');
 		$this->db->select('k.name AS klasifikasi, j.namajenispekerjaan AS jenis, u.name AS nama');
 		$this->db->select('count(t.idtkimasalah) as jumlah, DATEDIFF(CURDATE(), m.tanggalpengaduan ) as lama');
@@ -81,9 +89,13 @@ class View_model extends CI_Model {
 		$this->db->where('m.petugaspenanganan = u.username');
 		$this->db->where('MONTH(m.tanggalpengaduan)', $month);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
-		if($institution)
+		if($institution != 'all')
 		{
 			$this->db->where('m.idinstitution', $institution);
+		}
+		if($kantor != 'all')
+		{
+			$this->db->where('m.idkantor', $kantor);
 		}
 		$this->db->where('m.statusmasalah',1);
 		$this->db->where('m.enable',1);
@@ -94,7 +106,7 @@ class View_model extends CI_Model {
 		return $query;
 	}
 
-	function data_month_finish($month,$year,$institution=NULL) {
+	function data_month_finish($month,$year,$institution='all',$kantor='all') {
 		$this->db->select('m.idmasalah, m.tanggalpengaduan, t.namatki, t.paspor, m.statustki');
 		$this->db->select('k.name AS klasifikasi, j.namajenispekerjaan AS jenis, u.name AS nama');
 		$this->db->select('count(t.idtkimasalah) as jumlah, DATEDIFF(CURDATE(), m.tanggalpengaduan ) as lama');
@@ -106,9 +118,13 @@ class View_model extends CI_Model {
 		$this->db->where('MONTH(m.tanggalpengaduan)', $month);
 		$this->db->where('YEAR(m.tanggalpengaduan)',$year);
 		$this->db->where('m.statusmasalah',2);
-		if($institution)
+		if($institution != 'all')
 		{
 			$this->db->where('m.idinstitution', $institution);
+		}
+		if($kantor != 'all')
+		{
+			$this->db->where('m.idkantor', $kantor);
 		}
 		$this->db->where('m.enable',1);
 		$this->db->group_by('m.idmasalah');

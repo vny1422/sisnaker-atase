@@ -233,7 +233,7 @@
                                 </tr>
                               </thead>
                               <tbody class="table-hover">
-                                <?php $i = 1; foreach ($kasusproses->result() as $row ) { ?>
+                                <?php $i = 1; foreach ($kasusproses as $row ) { ?>
                                   <tr>
                                     <td class="text-center"><?php echo $i ?></td>
                                     <td>
@@ -267,7 +267,7 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <?php $i = 1; foreach ($kasusselesai->result() as $row ) { ?>
+                                  <?php $i = 1; foreach ($kasusselesai as $row ) { ?>
                                     <tr>
                                       <td class="text-center"><?php echo $i ?></td>
                                       <td>
@@ -303,7 +303,7 @@
                               </div>
                               <div class="col-lg-3">
                                 <select class="form-control" name="" data-size="3" data-live-search="true" id="tahunperlindungan" class="col-xs-7">
-                                  <?php foreach ($tahundb->result() as $row ) {?>
+                                  <?php foreach ($tahundb as $row ) {?>
                                     <option value="<?php echo $row->tahun?>"><?php echo $row->tahun?></option>
                                     <?php }?>
                                   </select>

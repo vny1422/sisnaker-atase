@@ -14,29 +14,57 @@ class Perlindungan extends MY_Controller {
         $this->load->model('Perlindungan/View_model');
         $this->load->model('Perlindungan/Kasus_model');
         $this->load->model('SAdmin/Currency_model');
+        $this->load->model('Sadmin/Kantor_model');
+
+        $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'perlindungan_'));
 
         $this->load_sidebar();
     	$this->data['listdp'] = $this->listdp;
     	$this->data['usedpg'] = $this->usedpg;
-			$this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
-			$this->data['namakantor'] = $this->namakantor->nama;
+		$this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
+		
+        if(empty($this->namakantor->nama)){
+            $this->data['namakantor'] = "";
+        } else{
+            $this->data['namakantor'] = $this->namakantor->nama;
+        }
+
     	$this->data['usedmpg'] = $this->usedmpg;
     	$this->data['sidebar'] = 'SAdmin/Sidebar';
     }
 
-	public function index()
+    public function index() {
+        if ($this->session->userdata('role') != 3)
+        {
+            show_error("Access is forbidden.",403,"403 Forbidden");
+        }
+
+        $this->data['kantors'] = $this->Kantor_model->list_all_kantor_institution($this->session->userdata('institution'));
+
+        $currency = $this->Currency_model->get_currency_name_institution($this->session->userdata('institution'));
+        $this->data['namacurrency'] = strtoupper($currency->currencyname);
+
+        $this->data['title'] = 'DASHBOARD';
+        $this->data['subtitle'] = 'STAFF PERLINDUNGAN';
+        $this->load->view('templates/headerperlindungan', $this->data);
+        $this->load->view('Perlindungan/Dashboard_view', $this->data);
+        $this->load->view('templates/footerperlindungan');
+    }
+
+	public function indextaiwan()
 	{
+        if ($this->session->userdata('role') != 3)
+        {
+            show_error("Access is forbidden.",403,"403 Forbidden");
+        }
+
         $data['month']  = date('m');
         $data['year']   = date('Y');
+        
         $petugas = array();
-        $shelter = array();
         $petugasArr = $this->Perlindungan_model->get_officer_username($_SESSION['institution']);
         foreach ($petugasArr->result_array() as $row):
             array_push($petugas,$row['username']);
-        endforeach;
-        $shelterArr = $this->Perlindungan_model->get_shelter_id($_SESSION['institution']);
-        foreach ($shelterArr->result_array() as $row):
-            array_push($shelter,$row['id']);
         endforeach;
 
         /// this year
@@ -76,11 +104,11 @@ class Perlindungan extends MY_Controller {
 		$this->data['title'] = 'DASHBOARD';
         $this->data['subtitle'] = 'STAFF PERLINDUNGAN';
 		$this->load->view('templates/headerperlindungan', $this->data);
-		$this->load->view('Perlindungan/Dashboard_view', $this->data);
+		$this->load->view('Perlindungan/DashboardTaiwan_view', $this->data);
 		$this->load->view('templates/footerperlindungan');
 	}
 
-    public function data($key) {
+    public function data($key,$kantor='all') {
         $mont_name = array ('01' => 'Januari', '02' => 'Februari', '03' => 'Maret',
                 '04' => 'April', '05' => 'Mei', '06' => 'Juni',
                 '07' => 'Juli', '08' => 'Agustus', '09' => 'September',
@@ -93,15 +121,15 @@ class Perlindungan extends MY_Controller {
             case 'year':
                 $this->data['tab2']           = 0;
                 $this->data['subtitle']          = 'Data Kasus Tahun '.$year;
-                $this->data['kasusproses']    = $this->View_model->data_year_process($year,$_SESSION['institution']);
-                $this->data['kasusselesai']   = $this->View_model->data_year_finish($year,$_SESSION['institution']);
+                $this->data['kasusproses']    = $this->View_model->data_year_process($year,$_SESSION['institution'],$kantor);
+                $this->data['kasusselesai']   = $this->View_model->data_year_finish($year,$_SESSION['institution'],$kantor);
                 break;
 
             case 'month':
                 $this->data['tab2']           = 0;
                 $this->data['subtitle']          = 'Data Kasus '.$mont_name[$month].' '.$year;
-                $this->data['kasusproses']    = $this->View_model->data_month_process($month,$year,$_SESSION['institution']);
-                $this->data['kasusselesai']   = $this->View_model->data_month_finish($month,$year,$_SESSION['institution']);
+                $this->data['kasusproses']    = $this->View_model->data_month_process($month,$year,$_SESSION['institution'],$kantor);
+                $this->data['kasusselesai']   = $this->View_model->data_month_finish($month,$year,$_SESSION['institution'],$kantor);
                 break;
         }
 
@@ -513,11 +541,68 @@ class Perlindungan extends MY_Controller {
          */
     }
 
+    public function collect_dashboard_info() {
+        $year_now = date('Y');
+        $month_now = date('m');
+
+        $institution = $this->session->userdata('institution');
+        $kantor = $this->input->post('idkantor');
+
+        if (!$results = $this->cache->get($kantor)) {
+            $results = array();
+
+            $petugas = array();
+            $petugasArr = $this->Perlindungan_model->get_officer_username($institution, $kantor);
+            foreach ($petugasArr->result_array() as $row):
+                array_push($petugas, $row['username']);
+            endforeach;
+
+            // Performance this Year
+            $results['year_performance'] = $this->Perlindungan_model->get_year_performance($year_now, $institution, $kantor);
+            $results['kasus_finish_this_year'] = $this->Perlindungan_model->get_finish_this_year($year_now, $institution, $kantor);
+            $results['kasus_inprocess_this_year'] = $this->Perlindungan_model->get_process_this_year($year_now, $institution, $kantor);
+
+            if($results['year_performance'] <= 50){
+                $results['panel_color'] = 'panel-danger';
+            } else {
+                $results['panel_color'] = 'panel-success';
+            }
+
+            // Performance this Month
+            $results['month_performance'] = $this->Perlindungan_model->get_problem_this_month($month_now, $year_now, $institution, $kantor);
+            $results['kasus_finish_this_month'] = $this->Perlindungan_model->get_finish_this_month($month_now, $year_now, $institution, $kantor);
+            $results['kasus_inprocess_this_month'] = $this->Perlindungan_model->get_process_this_month($month_now, $year_now, $institution, $kantor);
+
+            // Officers Performance
+            list($offname, $offpic, $offperform) = $this->Perlindungan_model->get_officer_performance($year_now, $petugas);
+            $results['officers_name'] = $offname;
+            $results['officers_picture'] = $offpic;
+            $results['officers_performance'] = $offperform;
+
+            // Cases
+            $results['cases_process'] = $this->Perlindungan_model->get_all_problem_process($institution, $kantor);
+            $results['cases_finished'] = $this->Perlindungan_model->get_all_problem_finished($institution, $kantor);
+
+            // Year List (that had cases)
+            $results['list_of_years'] = $this->Perlindungan_model->get_all_yeardb($institution, $kantor);
+
+            $this->cache->save($kantor, $results, 300);
+        }
+
+        echo json_encode($results);
+    }
+
     public function get_info_year_dashboard(){
         $year = $this->input->post('y');
+        $kantor = $this->input->post('idkantor');
+
+        if ($kantor == null) {
+            $kantor = 'all';
+        }
+
         $all = array();
 
-        list($year_problem,$month_problem,$year_money,$month_money) = $this->count_info_year_dashboard($year);
+        list($year_problem,$month_problem,$year_money,$month_money) = $this->count_info_year_dashboard($year, $kantor);
         $year_money = $this->Infografik_model->formatMoney($year_money);
 
         array_push($all,$year_problem);
@@ -528,61 +613,47 @@ class Perlindungan extends MY_Controller {
         echo json_encode($all);
     }
 
-    public function count_info_year_dashboard($year) {
-
+    public function count_info_year_dashboard($year, $kantor='all') {
         $month = range(1,12);
         $nm_month = array(1=>'Jan', '2'=> 'Feb', '3' => 'Mar', 4 => 'Apr',
                           5=> 'Mei', 6 => 'Jun', 7 => 'Jul', 8 => 'Agu',
                           9 => 'Sep', 10 => 'Okt', 11 => 'Nop', 12=> 'Des'
                           );
 
-        $all_problem = array();
-        $fin_problem = array();
-        $pro_problem = array();
         $mon_money   = array();
-
         $month_problem = array();
         $month_money   = array();
 
         for($i=0;$i<count($month);$i++){
-
-            list($all,$fin,$pro) = $this->Infografik_model->get_total_problem_year($month[$i],$year,$_SESSION['institution']);
-            $mon_money = $this->Infografik_model->get_total_money($month[$i],$year,$_SESSION['institution']);
-            $mon_money_sektoral = $this->Infografik_model->get_total_money_sektoral($month[$i],$year,$_SESSION['institution']);
+            list($all,$fin,$pro) = $this->Infografik_model->get_total_problem_year($month[$i],$year,$_SESSION['institution'],$kantor);
+            $mon_money = $this->Infografik_model->get_total_money($month[$i],$year,$_SESSION['institution'],$kantor);
+            $mon_money_sektoral = $this->Infografik_model->get_total_money_sektoral($month[$i],$year,$_SESSION['institution'],$kantor);
             $uang = $mon_money->row_array();
             if ($uang['uang'] == ''){
                 $uang['uang'] = '0';
             }
 
             $temporary = array(
-                            'bulan' => $nm_month[$month[$i]],
-                            'total' => $all,
-                            'fin' => $fin,
-                            'pro' => $pro
-                            );
+                'bulan' => $nm_month[$month[$i]],
+                'total' => $all,
+                'fin' => $fin,
+                'pro' => $pro
+                );
 
             $temp_money = array(
-                            'bulan' => $nm_month[$month[$i]],
-                            'uang'  => $uang['uang'],
-                            'formal' => $mon_money_sektoral['formal'],
-                            'informal' => $mon_money_sektoral['informal']
-                            );
-
+                'bulan' => $nm_month[$month[$i]],
+                'uang'  => $uang['uang'],
+                'formal' => $mon_money_sektoral['formal'],
+                'informal' => $mon_money_sektoral['informal']
+                );
 
             array_push($month_problem, $temporary);
             array_push($month_money,$temp_money);
         }
 
-        $year_total_problem = $this->Infografik_model->get_total_problem_a_year($year,$_SESSION['institution']);
-        //$year_total_finish = $this->Infografik_model->get_finish_this_year($year);
-        //$year_total_finish_within = $this->Infografik_model->get_finish_within_year($year);
-        $year_money = $this->Infografik_model->get_total_money_year($year,$_SESSION['institution']);
-        $year_total_money   = $year_money->row_array();
-
-        // $ratio = ($year_total_finish / $year_total_problem)*100;
-        // $ratio = round($ratio,1);
-        // $ratiowithin = ($year_total_finish_within / $year_total_problem)*100;
-        // $ratiowithin = round($ratiowithin,1);
+        $year_total_problem = $this->Infografik_model->get_total_problem_a_year($year,$_SESSION['institution'],$kantor);
+        $year_money = $this->Infografik_model->get_total_money_year($year,$_SESSION['institution'],$kantor);
+        $year_total_money = $year_money->row_array();
 
         return array($year_total_problem,$month_problem,$year_total_money['uang'],$month_money);
     }

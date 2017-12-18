@@ -123,14 +123,41 @@
     <!-- Bootstrap Progressbar JavaScript -->
     <script src="<?php echo base_url('assets/js/progressbar/bootstrap-progressbar.min.js') ?>"></script>
 
+    <!-- Mustache -->
+    <script src="<?php echo base_url('assets/js/mustache.min.js') ?>"></script>
+
     <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+    
     <style type="text/css">
     .slider-selection {
       background: red;
     }
-    </style>
-    <style type="text/css">
+
     .ngdialog-content{width :70% !important;}
+
+    #loader {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #029E8D;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
     </style>
 
   </head>

@@ -58,6 +58,59 @@ class JO_model extends CI_Model {
     return array($this->db->insert_batch('jodetail', $detail), $data["pkpkode"]);
   }
 
+  public function post_new_jo_alt()
+  {
+    // get data dari form
+    $data = array(
+      'ppkode' => $this->input->post('pptkis', TRUE),
+      'agid' => $this->input->post('agensi', TRUE),
+      'idinstitution' => $this->session->userdata('institution'),
+      'idkantor' => $this->session->userdata('kantor'),
+      'jobtglawal' => $this->input->post('start', TRUE),
+      'jobtglakhir' => $this->input->post('end', TRUE),
+      'pkpid' => $this->input->post('pkpid', TRUE),
+      'username' => $this->session->userdata('user'),
+      'isverified' => 2
+    );
+
+    // generate barcode
+    for ($i=0; $i < 101; $i++) {
+      $data["jokode"] = $this->createUID('J', 4);
+      $this->db->from('jo');
+      $this->db->where('jokode', $data["jokode"]);
+      $total = $this->db->get()->num_rows();
+      if($total == 0)
+      {
+        break;
+      }
+    }
+
+    // save data pkp
+    $this->db->insert($this->table, $data);
+
+    #BAGIAN SAVE DATA PKP DETAIL
+    // get id pkp
+    $id = $this->db->insert_id();
+
+    $detail = array();
+
+    $laki = $this->input->post('laki', TRUE);
+    $perempuan = $this->input->post('perempuan', TRUE);
+    $campuran = $this->input->post('campuran', TRUE);
+
+    foreach ($this->input->post('jenispekerjaan', TRUE) as $key => $value) {
+      $datajodetail = array(
+        'jobid' => $id,
+        'idjenispekerjaan' => $value,
+        'jobdl' => $laki[$key],
+        'jobdp' => $perempuan[$key],
+        'jobdc' => $campuran[$key]
+      );
+      array_push($detail, $datajodetail);
+    }
+    return array($this->db->insert_batch('jodetail', $detail), $data["pkpkode"]);
+  }
+
   function createUID($tipe, $length = 3) {
     return $tipe.date("y").date("m").$this->randomString($length);
   }

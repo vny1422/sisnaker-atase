@@ -72,6 +72,58 @@ class PKP_model extends CI_Model {
     return array($this->db->insert_batch('pkpdetail', $detail), $data["jobno"]);
   }
 
+  public function post_new_pkp_alt()
+  {
+    // get data dari form
+    $data = array(
+      'ppkode' => $this->input->post('pptkis', TRUE),
+      'agid' => $this->input->post('agensi', TRUE),
+      'idinstitution' => $this->session->userdata('institution'),
+      'idkantor' => $this->session->userdata('kantor'),
+      'pkptglawal' => $this->input->post('start', TRUE),
+      'pkptglakhir' => $this->input->post('end', TRUE),
+      'isverified' => 2
+    );
+
+    // generate barcode
+    for ($i=0; $i < 101; $i++) {
+      $data["pkpkode"] = $this->createUID('P', 4);
+      $this->db->from('pkp');
+      $this->db->where('pkpkode', $data["pkpkode"]);
+      $total = $this->db->get()->num_rows();
+      if($total == 0)
+      {
+        break;
+      }
+    }
+
+    // save data pkp
+    $this->db->insert($this->table, $data);
+
+    #BAGIAN SAVE DATA PKP DETAIL
+    // get id pkp
+    $id = $this->db->insert_id();
+
+    $detail = array();
+
+    $laki = $this->input->post('laki', TRUE);
+    $perempuan = $this->input->post('perempuan', TRUE);
+    $campuran = $this->input->post('campuran', TRUE);
+
+
+    foreach ($this->input->post('jenispekerjaan', TRUE) as $key => $value) {
+      $datapkpdetail = array(
+        'pkpid' => $id,
+        'idjenispekerjaan' => $value,
+        'pkpdl' => $laki[$key],
+        'pkpdp' => $perempuan[$key],
+        'pkpdc' => $campuran[$key]
+      );
+      array_push($detail, $datapkpdetail);
+    }
+    return array($this->db->insert_batch('pkpdetail', $detail), $data["jobno"]);
+  }
+
   public function upload_dokumen_final_pkp($pkpkode)
   {
     $data = array(

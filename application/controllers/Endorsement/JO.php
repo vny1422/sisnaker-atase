@@ -103,6 +103,47 @@ class JO extends MY_Controller {
     }
   }
 
+  public function jonew()
+  {
+    if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
+    {
+      $this->form_validation->set_rules('agensi', 'Agensi', 'required|trim');
+      $this->form_validation->set_rules('pptkis', 'PPTKIS', 'required|trim');
+      $this->form_validation->set_rules('start', 'Tanggal Mulai', 'required|trim');
+      $this->form_validation->set_rules('end', 'Tanggal Selesai', 'required|trim');
+      $this->form_validation->set_rules('jenispekerjaan[]', 'Jenis Pekerjaan', 'required|trim');
+      $this->form_validation->set_rules('laki[]', 'Jumlah Kuota Laki-laki', 'required|trim');
+      $this->form_validation->set_rules('perempuan[]', 'Jumlah Kuota Perempuan', 'required|trim');
+      $this->form_validation->set_rules('campuran[]', 'Jumlah Kuota Campuran', 'required|trim');
+
+      if ($this->form_validation->run() === FALSE)
+      {
+        $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
+        $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
+        $this->data['listjenispekerjaan'] = $this->Jobtype_model->list_all_jobtype_by_institution($this->session->userdata('institution'));
+        $this->data['title'] = 'Pengajuan JO';
+        // $this->load->view('templates/header', $this->data);
+        $this->load->view('templates/headerendorsement', $this->data);
+        $this->load->view('Endorsement/CreateJOInterAlt_view', $this->data);
+        $this->load->view('templates/footerendorsement');
+      }
+      else
+      {
+        $returnPKP = $this->JO_model->post_new_jo_alt();
+        if ($returnPKP[0]) {
+          $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
+        }
+        else {
+          $this->session->set_flashdata('information', 'Data gagal dimasukkan');
+        }
+        redirect('jo/jonew');
+      }
+    }
+    else {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
+  }
+
   public function verify()
   {
     $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;

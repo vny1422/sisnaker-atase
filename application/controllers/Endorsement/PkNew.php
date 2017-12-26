@@ -23,13 +23,13 @@ public function __construct()
     $this->data['usedpg'] = $this->usedpg;
     $this->data['usedmpg'] = $this->usedmpg;
     $this->data['namainstitusi'] = $this->namainstitusi->nameinstitution;
-    $this->data['namakantor'] = $this->namakantor->nama;
+      $this->data['namakantor'] = $this->namakantor ? $this->namakantor->nama : ' ' ;
     $this->data['sidebar'] = 'SAdmin/Sidebar';
   }
 
   public function index()
   {
-    if ($this->session->userdata('role') == 4 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7){
+    if ($this->session->userdata('role') == 4 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 5){
 
       if($this->session->userdata('role') == 4){
         $this->data['dataagensi'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
@@ -42,9 +42,9 @@ public function __construct()
 
       $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
       $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
-      $this->data['title'] = 'Lihat Data PK';
-      $this->data['subtitle'] = 'Lihat Data PK';
-      $this->data['subtitle2'] = 'Lihat Data PK';
+      $this->data['title'] = 'Endorsement';
+      $this->data['subtitle'] = 'View Data PK (LC)';
+      $this->data['subtitle2'] = 'View Data PK (LC)';
       $this->load->view('templates/headerendorsement', $this->data);
       $this->load->view('Endorsement/LihatPK_view', $this->data);
       $this->load->view('templates/footerendorsement');
@@ -73,7 +73,7 @@ public function __construct()
     $this->data['employer'] = $this->Input_model->get_input_dataworker($this->session->userdata('institution'));
     $this->data['joborder'] = $this->Input_model->get_input_joborder($this->session->userdata('institution'));
     $this->data['title'] = 'Endorsement';
-    $this->data['subtitle'] = 'Create JO Packet';
+    $this->data['subtitle'] = 'Create PK (LC)';
     $this->data['subtitle2'] = 'Worker Data';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/AddPK_view', $this->data);
@@ -86,7 +86,7 @@ public function __construct()
     $this->data['employer'] = $this->Input_model->get_input_dataworker($this->session->userdata('institution'));
     $this->data['joborder'] = $this->Input_model->get_input_joborder($this->session->userdata('institution'));
     $this->data['title'] = 'Endorsement';
-    $this->data['subtitle'] = 'Create JO Packet';
+    $this->data['subtitle'] = 'Create PK (LC)';
     $this->data['subtitle2'] = 'Worker Data';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/addPkPenempatan_view', $this->data);
@@ -110,8 +110,8 @@ public function __construct()
     $currencyname = $this->Currency_model->get_currency_name($currencyid);
     $this->data['title'] = 'Endorsement';
     $this->data['currency'] = $currencyname->currencyname;
-    $this->data['subtitle'] = 'Legalisasi PK';
-    $this->data['subtitle2'] = 'Legalisasi PK';
+    $this->data['subtitle'] = 'Endorsement PK (LC)';
+    $this->data['subtitle2'] = 'Endorsement PK (LC)';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/LegalizePK_view', $this->data);
     $this->load->view('templates/footerendorsement');

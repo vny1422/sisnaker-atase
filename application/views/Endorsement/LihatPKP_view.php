@@ -252,7 +252,7 @@
                   td = '<a onclick=showTolak("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalTolak">PKP Ditolak</a>'
                 }
                 else if (obj[key]["isverified"] == 2) {
-                  td = 'Segera Lakukan Legalisasi'
+                  td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + obj[key]["pkpkode"] +'.pdf ">DOWNLOAD Dokumen Pengajuan PKP</a>'
                 }
                 else if (obj[key]["isverified"] == 3) {
                   if (obj[key]["isuploaded"] == 1) {
@@ -319,7 +319,7 @@
                     td = '<a onclick=showTolak("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalTolak">PKP Ditolak</a>'
                   }
                   else if (obj[key]["isverified"] == 2) {
-                    td = 'Segera Lakukan Legalisasi'
+                    td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + obj[key]["pkpkode"] +'.pdf ">DOWNLOAD Dokumen Pengajuan PKP</a>'
                   }
                   else if (obj[key]["isverified"] == 3) {
                     if (obj[key]["isuploaded"] == 1) {

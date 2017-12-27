@@ -340,7 +340,7 @@
           </div>
         </div>
       </div>
-      <?php
+      <!-- <?php
             foreach($listcategory as $category): ?>
               <div class="row">
                   <div class="col-md-12 col-sm-12 col-xs-12">
@@ -400,7 +400,7 @@
                       </div>
                     </div>
                   </div>
-            <?php endforeach; ?>
+            <?php endforeach; ?> -->
 
       <div class="row">
           <div class="col-md-12 col-sm-12 col-xs-12">
@@ -463,6 +463,15 @@
 
                       <div class="form-group">
                         <label>Klasifikasi Pengaduan</label>
+                        <div>
+                          <select id="tipepengaduan" class="form-control" ng-model="formdata['tipepengaduan']" ng-options="z.id as z.name for z in sop.tipepengaduan"
+													selectpicker="{dropupAuto:false}" toggle-dropdown ng-disabled="disableAll">
+											</select>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label>Jenis Pengaduan</label>
                         <div>
                           <select class="form-control" ng-model="formdata['klasifikasi']" ng-options="k.id as k.name for k in sop.klasifikasi"
 													selectpicker="{dropupAuto:false}" toggle-dropdown data-live-search="true" data-size="8" ng-disabled="disableAll">

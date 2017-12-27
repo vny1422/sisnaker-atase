@@ -20,6 +20,7 @@
               <tr>
                 <th>ID Klasifikasi</th>
                 <th>Nama Klasifikasi</th>
+                <th>Tipe Klasifikasi</th>
                 <th>Edit</th>
                 <th>Hapus</th>
               </tr>
@@ -30,6 +31,7 @@
                 <tr>
                   <td><?php echo $row->id ?></td>
                   <td><?php echo $row->name ?></td>
+                  <td><?php echo $row->tipe ? 'Non-Ketenagakerjaan' : 'Ketenagakerjaan' ?></td>
                   <td>
                     <div class="center-button"><a href="<?php echo base_url() ?>classification/edit/<?php echo $row->id ?> "><button class="btn btn-info" type="button" name="button">Edit</button></a></div>
                   </td>

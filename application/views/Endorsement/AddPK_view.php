@@ -201,7 +201,7 @@
   <br />
   <div class="row" >
     <div class="col-md-12 col-sm-12 col-xs-12">
-      <h3 style="text-align: center;"><strong>CREATE JO PACKET</strong></h3>
+      <h3 style="text-align: center;"><strong>Apply PK (Labour Contract)</strong></h3>
       <div class="clearfix"></br></div>
       <div class="x_panel">
 
@@ -435,13 +435,13 @@
                                               <div class="col-md-10 center-margin">
                                                 <form class="form-horizontal form-label-left">
                                                   <div class="form-group">
-                                                    <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">CLA Recruitment Letter No.<span class="required">*</span></label>
+                                                    <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Local Manpower Authority Recruitment Letter No.<span class="required">*</span></label>
                                                     <div class="col-md-5 col-sm-5 col-xs-12">
                                                       <input type="text" name="name" required="required" id="clano" class="form-control input4th">
                                                     </div>
                                                   </div><br /><br /><br />
                                                   <div class="form-group" >
-                                                      <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">CLA Recruitment Letter Date<span class="required">*</span></label>
+                                                      <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Local Manpower Authority Recruitment Letter Date<span class="required">*</span></label>
                                                       <div class="col-md-5 col-sm-5 col-xs-12">
                                                       <div class="input-group date datepicker col-md-12 col-xs-12" data-provide="datepicker" ng-class="{'has-error':(pst && shForm.inDate.$invalid)}">
                                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>

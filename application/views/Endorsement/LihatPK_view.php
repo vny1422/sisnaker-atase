@@ -106,7 +106,8 @@
         <div class="ln_solid"></div>
         <div class="form-group">
           <div class="col-md-6 col-sm-6 col-xs-12">
-            <a class="btn btn-warning" href=" <?php echo base_url('PKNew/addPk') ?> ">Tambah PK</a>
+            <?php $href = isset($dataagensi) ? 'PKNew/addPkPenempatan' : 'PKNew/addPk' ?>
+            <a class="btn btn-warning" href=" <?php echo base_url($href) ?> ">Tambah PK</a>
           </div>
         </div>
 

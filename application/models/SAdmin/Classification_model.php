@@ -9,7 +9,8 @@ class Classification_model extends CI_Model {
     public function post_new_classification()
     {
     	$data = array(
-		    'name' => $this->input->post('name',TRUE)
+		    'name' => $this->input->post('name', TRUE),
+        'tipe' => $this->input->post('tipe', TRUE)
 		);
     return $this->db->insert($this->table, $data);
     }

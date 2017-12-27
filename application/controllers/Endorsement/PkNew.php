@@ -42,9 +42,9 @@ public function __construct()
 
       $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
       $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
-      $this->data['title'] = 'Endorsement';
-      $this->data['subtitle'] = 'View Data PK (LC)';
-      $this->data['subtitle2'] = 'View Data PK (LC)';
+      $this->data['title'] = 'View PK (Labour Contract)';
+      $this->data['subtitle'] = 'View PK (Labour Contract)';
+      $this->data['subtitle2'] = 'View PK (Labour Contract)';
       $this->load->view('templates/headerendorsement', $this->data);
       $this->load->view('Endorsement/LihatPK_view', $this->data);
       $this->load->view('templates/footerendorsement');
@@ -72,8 +72,8 @@ public function __construct()
     }
     $this->data['employer'] = $this->Input_model->get_input_dataworker($this->session->userdata('institution'));
     $this->data['joborder'] = $this->Input_model->get_input_joborder($this->session->userdata('institution'));
-    $this->data['title'] = 'Endorsement';
-    $this->data['subtitle'] = 'Create PK (LC)';
+    $this->data['title'] = 'Apply PK (LC)';
+    $this->data['subtitle'] = 'Apply PK (Labour Contract)';
     $this->data['subtitle2'] = 'Worker Data';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/AddPK_view', $this->data);
@@ -85,8 +85,8 @@ public function __construct()
     $this->data['listconnag'] =  $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'),false,true);
     $this->data['employer'] = $this->Input_model->get_input_dataworker($this->session->userdata('institution'));
     $this->data['joborder'] = $this->Input_model->get_input_joborder($this->session->userdata('institution'));
-    $this->data['title'] = 'Endorsement';
-    $this->data['subtitle'] = 'Create PK (LC)';
+    $this->data['title'] = 'Apply PK (LC)';
+    $this->data['subtitle'] = 'Apply PK (Labour Contract)';
     $this->data['subtitle2'] = 'Worker Data';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/addPkPenempatan_view', $this->data);
@@ -108,10 +108,10 @@ public function __construct()
   {
     $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;
     $currencyname = $this->Currency_model->get_currency_name($currencyid);
-    $this->data['title'] = 'Endorsement';
+    $this->data['title'] = 'Endorse PK (Labour Contract)';
     $this->data['currency'] = $currencyname->currencyname;
-    $this->data['subtitle'] = 'Endorsement PK (LC)';
-    $this->data['subtitle2'] = 'Endorsement PK (LC)';
+    $this->data['subtitle'] = 'Endorse PK (Labour Contract)';
+    $this->data['subtitle2'] = 'Endorse PK (Labour Contract)';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/LegalizePK_view', $this->data);
     $this->load->view('templates/footerendorsement');

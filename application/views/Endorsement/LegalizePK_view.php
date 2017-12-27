@@ -56,7 +56,7 @@
           <div class="clearfix">
           </div>
           <div class="col-md-12 text-center">
-            <button id="legalize" class="ladda-button" style="width: 20%" data-style="expand-right" data-color="green" data-size="xs"><span class="ladda-label" style="color:white"><b>LEGALIZE</b></span></button>
+            <button id="legalize" class="ladda-button" style="width: 20%" data-style="expand-right" data-color="green" data-size="xs"><span class="ladda-label" style="color:white"><b>ENDORSE</b></span></button>
           </div>
         </div>
         <div class="x_panel checkedk" id="scroll" style="display: none">

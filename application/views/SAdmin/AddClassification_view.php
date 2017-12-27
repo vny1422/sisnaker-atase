@@ -36,6 +36,17 @@
                             <div class="col-md-5 col-sm-5 col-xs-12">
                                 <input type="text" name="name" required="required" class="form-control">
                             </div>
+                        </div><br /><br /><br />
+
+                        <div class="form-group">
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12">Klasifikasi <span class="required">*</span></label>
+                          <div class="col-md-5 col-sm-5 col-xs-12">
+                            <select name="tipe" required="required" class="select2_single form-control" tabindex="-1">
+                              <option></option>
+                              <option value="0">Ketenagakerjaan</option>
+                              <option value="1">Non-Ketenagakerjaan</option>
+                            </select>
+                          </div>
                         </div><br /><br />
 
 

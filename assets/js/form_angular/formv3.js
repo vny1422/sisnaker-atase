@@ -81,7 +81,7 @@ formApp.controller('FormController',['$scope','FormService','LookupService','Upl
 
                         $("#modaltki").modal('show');
                     }
-                });       
+                });
               });
             });
         };
@@ -118,6 +118,11 @@ formApp.controller('FormController',['$scope','FormService','LookupService','Upl
         $("#modaltki").modal('hide');
     });
 
+    $("#tipepengaduan").change( function(e) {
+      var test = ($scope.sop['klasifikasicol']).filter(klasifikasi => klasifikasi.tipe == $("#tipepengaduan").val());
+      $scope.sop['klasifikasi'] = test;
+    });
+
     /// menu label
     $scope.menu = [{title:"Input Kasus",btn:"Simpan kasus"},{title:"Edit Kasus",btn:"Update kasus"}];
     $scope.menulabel = 0;
@@ -149,12 +154,17 @@ formApp.controller('FormController',['$scope','FormService','LookupService','Upl
     /////////////////////////////////
     ////// grab important parameter
     FormService.getOptions().success(function(res){
-        //console.log(res);
+        var test = (res.klasifikasi).filter(klasifikasi => klasifikasi.tipe == 1);
         $scope.sop['klasifikasi'] = angular.copy(res.klasifikasi);
+        $scope.sop['klasifikasicol'] = angular.copy(res.klasifikasi);
         $scope.sop['pekerjaan'] = angular.copy(res.worktype);
         $scope.sop['petugas'] = angular.copy(res.petugas);
         $scope.sop['media'] = angular.copy(res.media);
-
+        $scope.sop['tipepengaduan'] =
+        [
+          {id:0, name: 'Ketenagakerjaan'},
+          {id:1, name: 'Non-Ketenagakerjaan'}
+        ]
         $scope.self = FormService.getCRX();
 
         //console.log($scope.self);

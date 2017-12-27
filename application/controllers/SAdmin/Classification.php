@@ -83,13 +83,12 @@ class Classification extends MY_Controller {
 
       public function assign()
       {
-          if ($this->session->userdata('institution') == 1) {
+          if ($this->session->userdata('role') == 1) {
             $this->data['listinstitution'] = $this->Institution_model->list_active_institution();
           } else {
             $this->data['listinstitution'] = $this->Institution_model->get_institution($this->session->userdata('institution'));
           }
           $this->data['listklasifikasi'] = $this->Classification_model->list_all_classification();
-
           $this->data['title'] = 'Assign Klasifikasi';
           $this->load->view('templates/header', $this->data);
           $this->load->view('SAdmin/AssignKlasifikasi_view', $this->data);

@@ -93,6 +93,19 @@ public function __construct()
     $this->load->view('templates/footerendorsement');
   }
 
+  public function addPkTransfer()
+  {
+    $this->data['listconnag'] =  $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'),false,true);
+    $this->data['employer'] = $this->Input_model->get_input_dataworker($this->session->userdata('institution'));
+    $this->data['joborder'] = $this->Input_model->get_input_joborder($this->session->userdata('institution'));
+    $this->data['title'] = 'Transfer (LC)';
+    $this->data['subtitle'] = 'Create Transfer (Labour Contract)';
+    $this->data['subtitle2'] = 'Worker Data';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/addPkTransfer_view', $this->data);
+    $this->load->view('templates/footerendorsement');
+  }
+
   public function quickInfo()
   {
     $agid = $this->input->post('agency', true);
@@ -102,6 +115,14 @@ public function __construct()
     }
     $ppkode = $this->input->post('ppkode', true);
     echo json_encode($this->PK_model->last_pk($agid, $ppkode));
+  }
+
+  function checkPaspor()
+  {
+    $paspor = $this->input->post('paspor', TRUE);
+    $data = $this->PK_model->query_paspor($paspor);
+
+    echo json_encode($data);
   }
 
   public function legalize()
@@ -115,6 +136,45 @@ public function __construct()
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/LegalizePK_view', $this->data);
     $this->load->view('templates/footerendorsement');
+  }
+
+  public function insertEJ()
+  {
+    $postdata = $this->input->post('postdata', TRUE);
+    $posttki = $this->input->post('posttki', TRUE);
+    $postdata = json_decode($postdata);
+    $posttki = json_decode($posttki);
+    $data = array();
+    foreach(get_object_vars($postdata) as $prop => $val)
+    {
+      $data["$prop"] = $val;
+    }
+    $date = date('Y-m-d');
+    $data['ejdatefilled'] = $date;
+    $url = $this->Endorsement_model->geturlpekerjaan($data["idjenispekerjaan"]);
+    $data["jodownloadurl"] = $url->curjodownloadurl;
+    $splittgl = explode("/", $data["joclatgl"]);
+    $data["joclatgl"] = $splittgl[0]."-".$splittgl[1]."-".$splittgl[2];
+    if(!(array_key_exists('agid', $data)))
+    {
+      $data["agid"] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'))->agid;
+    }
+    $data["idinstitution"] = $this->session->userdata('institution');
+    $data["idkantor"] = $this->session->userdata('kantor');
+    $ejid = $this->Endorsement_model->insert_ej($data);
+    $datatki = array();
+    foreach($posttki as $tki)
+    {
+        $datatki["ejid"] = $ejid;
+        $datatki["tkidownloadurl"] = $url->curtkidownloadurl;
+        $datatki["md5ej"] = md5($ejid);
+        $check = $this->Endorsement_model->find_tkipaspor($tki->tkpaspor);
+        if($check > 0)
+        {
+          $this->Endorsement_model->update_TKI($datatki,$tki->tkpaspor);
+        }
+    }
+    echo json_encode(md5($ejid));
   }
 
   public function getDataFromBarcode()

@@ -686,7 +686,7 @@
                                             });
 
                                             $("#quick").click(function(e){
-                                              $.post("<?php echo base_url()?>PkNew/quickInfo", { agency: $("#agency".val(), ppkode: ppkode }, function(data, status){
+                                              $.post("<?php echo base_url()?>PkNew/quickInfo", { agency: $("#agency").val(), ppkode: ppkode }, function(data, status){
                                                 var obj = $.parseJSON(data);
                                                 $("#idno").val(obj.mjktp);
                                                 $("#employer").val(obj.mjnama);
@@ -915,6 +915,7 @@
                                               var selisihc = upperboundc-campuran;
                                               $('jobtype').val()
                                               var postdata = {
+                                                agid:$('agency').val(),
                                                 mjktp:$('#idno').val(),
                                                 mjnama:$('#employer').val(),
                                                 mjnamacn:$('#employer2').val(),

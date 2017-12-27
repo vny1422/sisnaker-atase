@@ -41,11 +41,19 @@ class PK_model extends CI_Model {
 
   function last_pk($agid, $ppkode)
   {
-    $this->db->select('mjktp, mjnama, mjnamacn, mjalmt, mjtelp, mjfax, mjpngjwb, mjpngjwbcn');
+    $this->db->select('mjktp, mjnama, mjnamacn, mjalmt, mhalmtcn, mjtelp, mjfax, mjpngjwb, mjpngjwbcn');
     $this->db->order_by('pktimestamp', 'desc');
     $this->db->where('agid', $agid);
     $this->db->where('ppkode', $ppkode);
     return $this->db->get($this->table)->row();
+  }
+
+  function query_paspor($paspor)
+  {
+    $this->db->select('tk.*, ej.jpgaji, ej.mjktp, ej.mjnama, ej.mjnamacn, ej.mjalmt, ej.mjalmtcn, ej.mjtelp, ej.mjfax, ej.mjpngjwb, ej.mjpngjwbcn, ej.ppkode, ej.agid, ej.idjenispekerjaan');
+    $this->db->where('tk.tkpaspor', $paspor);
+    $this->db->from('entryjo ej, tki tk');
+    return $this->db->get()->row();
   }
 
   function legalize_barcode($bc){

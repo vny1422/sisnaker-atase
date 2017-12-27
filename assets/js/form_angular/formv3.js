@@ -118,10 +118,10 @@ formApp.controller('FormController',['$scope','FormService','LookupService','Upl
         $("#modaltki").modal('hide');
     });
 
-    $("#tipepengaduan").change( function(e) {
+    $scope.onChange = function() {
       var test = ($scope.sop['klasifikasicol']).filter(klasifikasi => klasifikasi.tipe == $("#tipepengaduan").val());
-      $scope.sop['klasifikasi'] = test;
-    });
+      $scope.sop['klasifikasi'] = angular.copy(test);
+    };
 
     /// menu label
     $scope.menu = [{title:"Input Kasus",btn:"Simpan kasus"},{title:"Edit Kasus",btn:"Update kasus"}];

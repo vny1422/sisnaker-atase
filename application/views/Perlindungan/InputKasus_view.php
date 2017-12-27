@@ -464,7 +464,7 @@
                       <div class="form-group">
                         <label>Klasifikasi Pengaduan</label>
                         <div>
-                          <select id="tipepengaduan" class="form-control" ng-model="formdata['tipepengaduan']" ng-options="z.id as z.name for z in sop.tipepengaduan"
+                          <select id="tipepengaduan" class="form-control" ng-change="onChange()" ng-model="formdata['tipepengaduan']" ng-options="z.id as z.name for z in sop.tipepengaduan"
 													selectpicker="{dropupAuto:false}" toggle-dropdown ng-disabled="disableAll">
 											</select>
                         </div>

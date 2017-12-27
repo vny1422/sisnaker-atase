@@ -667,7 +667,10 @@ public function insertEJ()
   $data["jodownloadurl"] = $url->curjodownloadurl;
   $splittgl = explode("/", $data["joclatgl"]);
   $data["joclatgl"] = $splittgl[0]."-".$splittgl[1]."-".$splittgl[2];
-  $data["agid"] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'))->agid;
+  if(!(array_key_exists('agid', $data)))
+  {
+    $data["agid"] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'))->agid;
+  }
   $data["idinstitution"] = $this->session->userdata('institution');
   $data["idkantor"] = $this->session->userdata('kantor');
   $ejid = $this->Endorsement_model->insert_ej($data);

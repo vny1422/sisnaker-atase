@@ -43,12 +43,12 @@
             <label class="control-label col-md-2">Agensi</label>
             <div class="col-md-5">
               <?php if (isset($dataagensi)) { ?>
-                <select name="agensi" required="required" class="select2_single form-control" tabindex="-1" disabled>
+                <select name="agensi" required="required" class="agensi select2_single form-control" tabindex="-1" disabled>
                   <option value="<?php echo $dataagensi->agid ?>"><?php echo $dataagensi->agnama ?></option>
                 </select>
                 <input id="agensi" type="hidden" name="agensi" value="<?php echo $dataagensi->agid ?>"/>
               <?php } else{ ?>
-                <select id="agensi" name="agensi" required="required" class="select2_single form-control" tabindex="-1">
+                <select id="agensi" name="agensi" required="required" class="agensi select2_single form-control" tabindex="-1">
                   <option></option>
                   <?php foreach($listagensi as $row): ?>
                     <option value="<?php echo $row->agid ?>"><?php echo $row->agnama ?></option>
@@ -61,12 +61,21 @@
           <div class="form-group">
             <label class="control-label col-md-2">PPTKIS <span class="required">*</span></label>
             <div class="col-md-5">
-              <select id="pptkis" name="pptkis" required="required" class="select2_single form-control" tabindex="-1">
-                <option></option>
-                <?php foreach($listpptkis as $row): ?>
-                  <option value="<?php echo $row->ppkode ?>"><?php echo $row->ppnama ?></option>
-                <?php endforeach; ?>
-              </select>
+              <?php if (isset($datapptkis)){ ?>
+                <select id="pptkis" name="pptkis" required="required" class="pptkis select2_single form-control" tabindex="-1">
+                  <option></option>
+                  <?php foreach($datapptkis as $row): ?>
+                    <option value="<?php echo $row->ppkode ?>"><?php echo $row->ppnama ?></option>
+                  <?php endforeach; ?>
+                </select>
+              <?php } else{ ?>
+                <select id="pptkis" name="pptkis" required="required" class="pptkis select2_single form-control" tabindex="-1">
+                  <option></option>
+                  <?php foreach($listpptkis as $row): ?>
+                    <option value="<?php echo $row->ppkode ?>"><?php echo $row->ppnama ?></option>
+                  <?php endforeach; ?>
+                </select>
+              <?php } ?>
             </div>
             <div class="col-md-2">
               <input id="btncari" class="btn btn-success caributton" type="button" name="btncari" value="CARI">
@@ -422,6 +431,23 @@
             }
           });
         }
+      });
+
+      $('.agensi').on('change', function() {
+        //alert( this.value );
+        $.post(" <?php echo base_url() ?>JO/getPPTKISByAgensi", {agid:this.value}, function(data, status){
+          var obj = $.parseJSON(data);
+          if(obj.length > 0) {
+            $(".pptkis").empty();
+            for (var key in obj) {
+              //$(".pptkis").add(new Option(obj[key].ppnama, obj[key].ppkode));
+              $(".pptkis").append($("<option></option>")
+                 .attr("value", obj[key].ppkode).text(obj[key].ppnama));
+            }
+          } else {
+            alert('Data tidak ada');
+          }
+        });
       });
 
       showPKP = function (bc)

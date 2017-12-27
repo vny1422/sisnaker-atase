@@ -43,12 +43,12 @@
             <label class="control-label col-md-2">Agensi</label>
             <div class="col-md-5">
               <?php if (isset($dataagensi)) { ?>
-                <select name="agensi" required="required" class="select2_single form-control" tabindex="-1" disabled>
+                <select name="agensi" required="required" class="agensi select2_single form-control" tabindex="-1" disabled>
                   <option value="<?php echo $dataagensi->agid ?>"><?php echo $dataagensi->agnama ?></option>
                 </select>
                 <input id="agensi" type="hidden" name="agensi" value="<?php echo $dataagensi->agid ?>"/>
               <?php } else{ ?>
-                <select id="agensi" name="agensi" required="required" class="select2_single form-control" tabindex="-1">
+                <select id="agensi" name="agensi" required="required" class="agensi select2_single form-control" tabindex="-1">
                   <option></option>
                   <?php foreach($listagensi as $row): ?>
                     <option value="<?php echo $row->agid ?>"><?php echo $row->agnama ?></option>
@@ -61,12 +61,21 @@
           <div class="form-group">
             <label class="control-label col-md-2">PPTKIS <span class="required">*</span></label>
             <div class="col-md-5">
-              <select id="pptkis" name="pptkis" required="required" class="select2_single form-control" tabindex="-1">
-                <option></option>
-                <?php foreach($listpptkis as $row): ?>
-                  <option value="<?php echo $row->ppkode ?>"><?php echo $row->ppnama ?></option>
-                <?php endforeach; ?>
-              </select>
+              <?php if (isset($datapptkis)){ ?>
+                <select id="pptkis" name="pptkis" required="required" class="pptkis select2_single form-control" tabindex="-1">
+                  <option></option>
+                  <?php foreach($datapptkis as $row): ?>
+                    <option value="<?php echo $row->ppkode ?>"><?php echo $row->ppnama ?></option>
+                  <?php endforeach; ?>
+                </select>
+              <?php } else{ ?>
+                <select id="pptkis" name="pptkis" required="required" class="pptkis select2_single form-control" tabindex="-1">
+                  <option></option>
+                  <?php foreach($listpptkis as $row): ?>
+                    <option value="<?php echo $row->ppkode ?>"><?php echo $row->ppnama ?></option>
+                  <?php endforeach; ?>
+                </select>
+              <?php } ?>
             </div>
             <div class="col-md-2">
               <input id="btncari" class="btn btn-success caributton" type="button" name="btncari" value="CARI">
@@ -242,44 +251,44 @@
       $("#pptkis").val('<?php echo $kuitansipp ?>');
       $.post(" <?php echo base_url(); ?>PKP/getDataPKP", {agid:$("#agensi").val(), ppkode:$("#pptkis").val()}, function(data, status){
 
-          var obj = $.parseJSON(data);
-          if(obj.length > 0){
-            table.clear();
-            $(wrapper_pkp).empty();
-            for(var key in obj){
-              if(obj.hasOwnProperty(key)){
-                if (obj[key]["isverified"] == 1){
-                  td = '<a onclick=showTolak("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalTolak">PKP Ditolak</a>'
-                }
-                else if (obj[key]["isverified"] == 2) {
-                  td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + obj[key]["pkpkode"] +'.pdf ">DOWNLOAD Dokumen Pengajuan PKP</a>'
-                }
-                else if (obj[key]["isverified"] == 3) {
-                  if (obj[key]["isuploaded"] == 1) {
-                    td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + obj[key]["pkpkode"] +'.pdf ">DOWNLOAD</a>'
-                  }
-                  else{
-                    td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + obj[key]["pkpkode"] +' ">UPLOAD</a>'
-                  }
-                }
-                else {
-                  td = 'Segera Lakukan Verifikasi'
-                }
-                table.row.add([
-                  '<td id="kodepkp" class="text-center" value = "' + obj[key]["pkpkode"] +'"><a onclick=show("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalDetail">' + obj[key]["pkpkode"] + '</a></td>',
-                  obj[key]["pkptglawal"],
-                  obj[key]["pkptglakhir"],
-                  '<td>'+ (obj[key]["isverified"] == 1 ? "Sudah" : "Belum") + '</td>',
-                  '<td>'+ (obj[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td>',
-                  obj[key]["pkptimestamp"],
-                  '<td class="text-center">'+ td + '</td>'
-                ]).draw();
+        var obj = $.parseJSON(data);
+        if(obj.length > 0){
+          table.clear();
+          $(wrapper_pkp).empty();
+          for(var key in obj){
+            if(obj.hasOwnProperty(key)){
+              if (obj[key]["isverified"] == 1){
+                td = '<a onclick=showTolak("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalTolak">PKP Ditolak</a>'
               }
+              else if (obj[key]["isverified"] == 2) {
+                td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + obj[key]["pkpkode"] +'.pdf ">DOWNLOAD Dokumen Pengajuan PKP</a>'
+              }
+              else if (obj[key]["isverified"] == 3) {
+                if (obj[key]["isuploaded"] == 1) {
+                  td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + obj[key]["pkpkode"] +'.pdf ">DOWNLOAD</a>'
+                }
+                else{
+                  td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + obj[key]["pkpkode"] +' ">UPLOAD</a>'
+                }
+              }
+              else {
+                td = 'Segera Lakukan Verifikasi'
+              }
+              table.row.add([
+                '<td id="kodepkp" class="text-center" value = "' + obj[key]["pkpkode"] +'"><a onclick=show("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalDetail">' + obj[key]["pkpkode"] + '</a></td>',
+                obj[key]["pkptglawal"],
+                obj[key]["pkptglakhir"],
+                '<td>'+ (obj[key]["isverified"] == 1 ? "Sudah" : "Belum") + '</td>',
+                '<td>'+ (obj[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td>',
+                obj[key]["pkptimestamp"],
+                '<td class="text-center">'+ td + '</td>'
+              ]).draw();
             }
           }
-          else {
-            alert('Choose Agensi and PPTKIS');
-          }
+        }
+        else {
+          alert('Choose Agensi and PPTKIS');
+        }
       });
       <?php endif; ?>
 
@@ -345,11 +354,29 @@
               }
             }
             else {
-              alert('Choose Agensi and PPTKIS');
+              alert('Data tidak ditemukan');
             }
           });
         }
       });
+
+      $('.agensi').on('change', function() {
+        //alert( this.value );
+        $.post(" <?php echo base_url() ?>PKP/getPPTKISByAgensi", {agid:this.value}, function(data, status){
+          var obj = $.parseJSON(data);
+          if(obj.length > 0) {
+            $(".pptkis").empty();
+            for (var key in obj) {
+              //$(".pptkis").add(new Option(obj[key].ppnama, obj[key].ppkode));
+              $(".pptkis").append($("<option></option>")
+                 .attr("value", obj[key].ppkode).text(obj[key].ppnama));
+            }
+          } else {
+            alert('Data tidak ada');
+          }
+        });
+      });
+
 
       show = function (bc)
       {
@@ -399,4 +426,4 @@
 
 
     });
-  </script>
+    </script>

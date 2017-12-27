@@ -100,6 +100,27 @@ class PPTKIS_model extends CI_Model {
       return $this->db->get($this->table)->result();
     }
 
+    function get_pptkis_by_agensi_in_pkp($agid){
+      $this->db->distinct();
+      $this->db->select('m.*, p.agid');
+      $this->db->from('mpptkis m');
+      $this->db->join('pkp p', 'p.ppkode = m.ppkode');
+      $this->db->where('p.agid', $agid);
+      $this->db->order_by('m.ppnama', 'asc');
+      return $this->db->get($this->table)->result();
+    }
+
+
+    function get_pptkis_by_agensi_in_jo($agid){
+      $this->db->distinct();
+      $this->db->select('m.*, j.agid');
+      $this->db->from('mpptkis m');
+      $this->db->join('jo j', 'j.ppkode = m.ppkode');
+      $this->db->where('j.agid', $agid);
+      $this->db->order_by('m.ppnama', 'asc');
+      return $this->db->get($this->table)->result();
+    }
+
     function get_pptkis_from_agency($id){
   $qtext = "SELECT mpptkis.ppnama, jobtglawal, jobtglakhir,namajenispekerjaan
         FROM jo, jodetail, magensi, mpptkis, jenispekerjaan

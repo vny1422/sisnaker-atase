@@ -35,6 +35,7 @@ class JO extends MY_Controller {
 
       if($this->session->userdata('role') == 4){
         $this->data['dataagensi'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
+        $this->data['datapptkis'] = $this->Pptkis_model->get_pptkis_by_agensi_in_jo($this->data['dataagensi']->agid);
       }
 
       if ($this->session->flashdata('data') != '')
@@ -44,9 +45,9 @@ class JO extends MY_Controller {
 
       $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
       $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
-      $this->data['title'] = 'Endorsement';
-      $this->data['subtitle'] = 'View Data JO';
-      $this->data['subtitle2'] = 'View Data JO';
+      $this->data['title'] = 'View JO (Labour Contract)';
+      $this->data['subtitle'] = 'View JO (Labour Contract)';
+      $this->data['subtitle2'] = 'View JO (Labour Contract)';
       $this->load->view('templates/headerendorsement', $this->data);
       $this->load->view('Endorsement/LihatJO_view', $this->data);
       $this->load->view('templates/footerendorsement');
@@ -121,7 +122,7 @@ class JO extends MY_Controller {
         $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
         $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
         $this->data['listjenispekerjaan'] = $this->Jobtype_model->list_all_jobtype_by_institution($this->session->userdata('institution'));
-        $this->data['title'] = 'Pengajuan JO';
+        $this->data['title'] = 'Apply JO (Job Order)';
         // $this->load->view('templates/header', $this->data);
         $this->load->view('templates/headerendorsement', $this->data);
         $this->load->view('Endorsement/CreateJOInterAlt_view', $this->data);
@@ -150,10 +151,10 @@ class JO extends MY_Controller {
     $currencyname = $this->Currency_model->get_currency_name($currencyid);
     $this->data['listjo'] = $this->JO_model->get_jo_verify_list();
     //var_dump($this->data['listjo']);
-    $this->data['title'] = 'Endorsement';
+    $this->data['title'] = 'Verify JO (Job Order)';
     $this->data['currency'] = $currencyname->currencyname;
-    $this->data['subtitle'] = 'Verification JO';
-    $this->data['subtitle2'] = 'Verification JO';
+    $this->data['subtitle'] = 'Verify JO (Job Order)';
+    $this->data['subtitle2'] = 'Verify JO (Job Order)';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/VerifyJO_view', $this->data);
     $this->load->view('templates/footerendorsement');
@@ -190,10 +191,10 @@ class JO extends MY_Controller {
   {
     $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;
     $currencyname = $this->Currency_model->get_currency_name($currencyid);
-    $this->data['title'] = 'Endorsement';
+    $this->data['title'] = 'Endorse JO (Job Order)';
     $this->data['currency'] = $currencyname->currencyname;
-    $this->data['subtitle'] = 'Endorsement JO';
-    $this->data['subtitle2'] = 'Endorsement JO';
+    $this->data['subtitle'] = 'Endorse JO (Job Order)';
+    $this->data['subtitle2'] = 'Endorse JO (Job Order)';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/LegalizeJO_view', $this->data);
     $this->load->view('templates/footerendorsement');
@@ -332,7 +333,7 @@ class JO extends MY_Controller {
         //echo "masukkk awal";
         $this->data['values'] = $jokode;
 
-        $this->data['title'] = 'Endorsement';
+        $this->data['title'] = 'Upload Dokumen Final JO';
         $this->data['subtitle'] = 'Upload Dokumen Final JO';
         $this->data['subtitle2'] = 'Upload Dokumen Final JO';
         $this->load->view('templates/headerendorsement', $this->data);
@@ -402,5 +403,13 @@ class JO extends MY_Controller {
     //$res = $this->PKP_model->get_data_pkp_by_agensi_and_pptkis(26926, 'ABD022');
   //var_dump($res);
     echo json_encode($res);
+  }
+
+  public function getPPTKISByAgensi()
+  {
+    $agid = $this->input->post('agid', TRUE);
+    $result = $this->Pptkis_model->get_pptkis_by_agensi_in_jo($agid);
+
+    echo json_encode($result);
   }
 }

@@ -26,7 +26,7 @@
   }
 
   .logo{
-    width: 25%;
+    width: 35%;
   }
 
   .text-white{
@@ -64,7 +64,7 @@
   <div class="row text-white">
     <div class="col-md-6 kiri text-center">
       <div id="sec-bg-1" class="content" >
-        <img style="text-align:center;" class="logo" src="<?php echo base_url('assets/images/sisnaker_logo_white.png'); ?>">
+        <img style="text-align:center;" class="logo" src="<?php echo base_url('assets/images/logo_kemnaker_white.png'); ?>">
         <h1 class=""><b>ONLINE - ATNAKER</b></h1>
         <div class="control-label form-gorup">
           <div class="col-md-3">
@@ -121,8 +121,8 @@
           </div>
 
           <div id="sec2-uae" class="col-md-6" style="display:none;">
-            <a id="kbabu"class="btn btn-default" href="#">Embassy of The Republic of Indonesia in Abu Dhabi</a> <br>
-            <a id="kjdubai" class="btn btn-default" href="#">Consulate General of The Republic of Indonesia in Dubai</a> <br>
+            <h4><a id="kbabu"class="btn btn-default" href="#">Embassy of The Republic of Indonesia in Abu Dhabi</a> <br></h4>
+            <h4><a id="kjdubai" class="btn btn-default" href="#">Consulate General of The Republic of Indonesia in Dubai</a> <br></h4>
             <br> <a href="#" class="back btn btn-warning input-sm btn-sm">Back</a>
           </div>
           <div class="col-md-3">

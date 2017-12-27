@@ -31,6 +31,7 @@
 
         if($this->session->userdata('role') == 4){
           $this->data['dataagensi'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
+          $this->data['datapptkis'] = $this->Pptkis_model->get_pptkis_by_agensi_in_pkp($this->data['dataagensi']->agid);
         }
 
         if ($this->session->flashdata('data') != '')
@@ -40,7 +41,7 @@
 
         $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
         $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
-        $this->data['title'] = 'Endorsement';
+        $this->data['title'] = 'View PKP (Rec. Agreement) ';
         $this->data['subtitle'] = 'View Data PKP (Rec. Agreement)';
         $this->data['subtitle2'] = 'View Data PKP (Rec. Agreement)';
         $this->load->view('templates/headerendorsement', $this->data);
@@ -217,7 +218,7 @@
       $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;
       $currencyname = $this->Currency_model->get_currency_name($currencyid);
       $this->data['listpkp'] = $this->PKP_model->get_pkp_verify_list();
-      $this->data['title'] = 'Endorsement';
+      $this->data['title'] = 'Verification PKP (Rec. Agreement)';
       $this->data['currency'] = $currencyname->currencyname;
       $this->data['subtitle'] = 'Verification PKP (Rec. Agreement)';
       $this->data['subtitle2'] = 'Verification PKP (Rec. Agreement)';
@@ -257,10 +258,10 @@
     {
       $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;
       $currencyname = $this->Currency_model->get_currency_name($currencyid);
-      $this->data['title'] = 'Endorsement';
+      $this->data['title'] = 'Endorse PKP (Rec. Agreement)';
       $this->data['currency'] = $currencyname->currencyname;
-      $this->data['subtitle'] = 'Endorsement PKP (Rec. Agreement)';
-      $this->data['subtitle2'] = 'Endorsement PKP (Rec. Agreement)';
+      $this->data['subtitle'] = 'Endorse PKP (Rec. Agreement)';
+      $this->data['subtitle2'] = 'Endorse PKP (Rec. Agreement)';
       $this->load->view('templates/headerendorsement', $this->data);
       $this->load->view('Endorsement/LegalizePKP_view', $this->data);
       $this->load->view('templates/footerendorsement');
@@ -273,6 +274,17 @@
 
       echo json_encode($result);
     }
+
+    public function getPPTKISByAgensi()
+    {
+      $agid = $this->input->post('agid', TRUE);
+      $result = $this->Pptkis_model->get_pptkis_by_agensi_in_pkp($agid);
+
+      echo json_encode($result);
+    }
+
+
+
 
     public function legalizeBarcode()
     {

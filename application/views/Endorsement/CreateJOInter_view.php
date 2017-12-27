@@ -356,6 +356,7 @@ $(document).ready(function() {
           $("#pkptkis").text(obj[0].ppnama);
           $("#pkpawal").text(obj[0].pkptglawal);
           $("#pkpakhir").text(obj[0].pkptglakhir);
+          $("#pkpid").val(obj[0].pkpid);
           tableDetail.clear();
           $(wrapper_detail).empty();
           for (var key in obj) {

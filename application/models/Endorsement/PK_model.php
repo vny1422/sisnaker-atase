@@ -23,7 +23,7 @@ class PK_model extends CI_Model {
   }
 
   function get_data_pk_reentry_by_agensi_and_pptkis ($agid, $ppkode) {
-    $this->db->select('p.ejbcsp, p.mjnama, p.jomkthn, p.jomkbln, p.jomkhr, tk.tknama, jp.namajenispekerjaan, ag.agnama, pp.ppnama, p.isverified, p.isuploaded, p.pktimestamp');
+    $this->db->select('p.ejbcsp, p.mjnama, p.jomkthn, p.jomkbln, p.jomkhr, tk.tknama, jp.namajenispekerjaan, ag.agnama, pp.ppnama, p.isverified, p.isuploaded, p.pktimestamp, p.bantuanpp, p.backtoid');
     $this->db->from('entryjo p');
     $this->db->order_by("p.pktimestamp", "desc");
     $this->db->join('magensi ag', 'ag.agid = p.agid');

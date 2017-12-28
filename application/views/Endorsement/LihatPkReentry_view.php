@@ -98,6 +98,8 @@
                   <th>Nama TKI</th>
                   <th>Pekerjaan</th>
                   <th>Durasi Kerja</th>
+                  <th>Bantuan PPTKIS?</th>
+                  <th>Pulang Indonesia?</th>
                   <th>S. Legalisasi</th>
                   <th>S. Upload</th>
                   <th>Date Modified</th>
@@ -175,6 +177,8 @@
             <td>'+listinput[key]["tknama"]+ '</td> \
             <td>'+listinput[key]["namajenispekerjaan"]+ '</td> \
             <td>'+listinput[key]["jomkthn"]+' yr ' + listinput[key]["jomkbln"] + ' mth ' + listinput[key]["jomkhr"] + ' days </td> \
+            <td>'+ (listinput[key]["bantuanpp"] == 1 ? "Ya" : "Tidak") + '</td> \
+            <td>'+ (listinput[key]["backtoid"] == 1 ? "Ya" : "Tidak") + '</td> \
             <td>'+ (listinput[key]["isverified"] == 1 ? "Sudah" : "Belum") + '</td> \
             <td>'+ (listinput[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td> \
             <td>'+listinput[key]["pktimestamp"]+ '</td> \
@@ -230,6 +234,8 @@
               <td>'+listinput[key]["tknama"]+ '</td> \
               <td>'+listinput[key]["namajenispekerjaan"]+ '</td> \
               <td>'+listinput[key]["jomkthn"]+' yr ' + listinput[key]["jomkbln"] + ' mth ' + listinput[key]["jomkhr"] + ' days </td> \
+              <td>'+ (listinput[key]["bantuanpp"] == 1 ? "Ya" : "Tidak") + '</td> \
+              <td>'+ (listinput[key]["backtoid"] == 1 ? "Ya" : "Tidak") + '</td> \
               <td>'+ (listinput[key]["isverified"] == 1 ? "Sudah" : "Belum") + '</td> \
               <td>'+ (listinput[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td> \
               <td>'+listinput[key]["pktimestamp"]+ '</td> \

@@ -55,6 +55,62 @@ public function __construct()
     }
   }
 
+  public function viewPkReentry()
+  {
+    if ($this->session->userdata('role') == 4 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 5){
+
+      if($this->session->userdata('role') == 4){
+        $this->data['dataagensi'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
+        $this->data['datapptkis'] = $this->Pptkis_model->get_pptkis_by_agensi_in_pk($this->data['dataagensi']->agid);
+      }
+
+      if ($this->session->flashdata('data') != '')
+      {
+        $this->data = $this->session->flashdata('data');
+      }
+
+      $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
+      $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
+      $this->data['title'] = 'View Reentry Hiring';
+      $this->data['subtitle'] = 'View Reentry Hiring';
+      $this->data['subtitle2'] = 'View Reentry Hiring';
+      $this->load->view('templates/headerendorsement', $this->data);
+      $this->load->view('Endorsement/LihatPKReentry_view', $this->data);
+      $this->load->view('templates/footerendorsement');
+    }
+    else {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
+  }
+
+  public function viewPkTransfer()
+  {
+    if ($this->session->userdata('role') == 4 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 5){
+
+      if($this->session->userdata('role') == 4){
+        $this->data['dataagensi'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
+        $this->data['datapptkis'] = $this->Pptkis_model->get_pptkis_by_agensi_in_pk($this->data['dataagensi']->agid);
+      }
+
+      if ($this->session->flashdata('data') != '')
+      {
+        $this->data = $this->session->flashdata('data');
+      }
+
+      $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
+      $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
+      $this->data['title'] = 'View Transfer';
+      $this->data['subtitle'] = 'View Transfer';
+      $this->data['subtitle2'] = 'View Transfer';
+      $this->load->view('templates/headerendorsement', $this->data);
+      $this->load->view('Endorsement/LihatPKTransfer_view', $this->data);
+      $this->load->view('templates/footerendorsement');
+    }
+    else {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
+  }
+
   public function uploadDokFin($pkkode)
   {
     if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
@@ -111,6 +167,26 @@ public function __construct()
     $agid = $this->input->post('agid', TRUE);
     $ppkode = $this->input->post('ppkode', TRUE);
     $res = $this->PK_model->get_data_pk_by_agensi_and_pptkis($agid, $ppkode);
+    //$res = $this->PKP_model->get_data_pkp_by_agensi_and_pptkis(26926, 'ABD022');
+  //var_dump($res);
+    echo json_encode($res);
+  }
+
+  public function getDataPKReentry()
+  {
+    $agid = $this->input->post('agid', TRUE);
+    $ppkode = $this->input->post('ppkode', TRUE);
+    $res = $this->PK_model->get_data_pk_reentry_by_agensi_and_pptkis($agid, $ppkode);
+    //$res = $this->PKP_model->get_data_pkp_by_agensi_and_pptkis(26926, 'ABD022');
+  //var_dump($res);
+    echo json_encode($res);
+  }
+
+  public function getDataPKTransfer()
+  {
+    $agid = $this->input->post('agid', TRUE);
+    $ppkode = $this->input->post('ppkode', TRUE);
+    $res = $this->PK_model->get_data_pk_transfer_by_agensi_and_pptkis($agid, $ppkode);
     //$res = $this->PKP_model->get_data_pkp_by_agensi_and_pptkis(26926, 'ABD022');
   //var_dump($res);
     echo json_encode($res);

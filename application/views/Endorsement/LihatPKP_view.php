@@ -372,7 +372,8 @@
                  .attr("value", obj[key].ppkode).text(obj[key].ppnama));
             }
           } else {
-            alert('Data tidak ada');
+            $(".pptkis").empty();
+            //alert('Data tidak ada');
           }
         });
       });

@@ -33,6 +33,7 @@ public function __construct()
 
       if($this->session->userdata('role') == 4){
         $this->data['dataagensi'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
+        $this->data['datapptkis'] = $this->Pptkis_model->get_pptkis_by_agensi_in_pk($this->data['dataagensi']->agid);
       }
 
       if ($this->session->flashdata('data') != '')
@@ -250,6 +251,14 @@ public function __construct()
   {
     $bc = $this->input->post('barcode', TRUE);
     $result = $this->PK_model->legalize_barcode($bc);
+
+    echo json_encode($result);
+  }
+
+  public function getPPTKISByAgensi()
+  {
+    $agid = $this->input->post('agid', TRUE);
+    $result = $this->Pptkis_model->get_pptkis_by_agensi_in_pk($agid);
 
     echo json_encode($result);
   }

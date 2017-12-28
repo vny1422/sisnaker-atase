@@ -54,6 +54,57 @@ public function __construct()
     }
   }
 
+  public function uploadDokFin($pkkode)
+  {
+    if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
+    {
+      if (empty($_FILES['dokumenfinalpk']['name']))
+      {
+        $this->form_validation->set_rules('dokumenfinalpk', 'Document', 'required');
+        $this->form_validation->run();
+
+        $this->data['values'] = $pkkode;
+
+        $this->data['title'] = 'Upload Dokumen Final PK (Labour Contract)';
+        $this->data['subtitle'] = 'Upload Dokumen Final PK (Labour Contract)';
+        $this->data['subtitle2'] = 'Upload Dokumen Final PK (Labour Contract)';
+        $this->load->view('templates/headerendorsement', $this->data);
+        $this->load->view('Endorsement/UploadDokumenPK_view', $this->data);
+        $this->load->view('templates/footerendorsement');
+      }
+      else
+      {
+        $returnUploadPK = $this->PK_model->upload_dokumen_final_pk($pkkode);
+        if ($returnUploadPK) {
+          //echo "masuk if";
+          $config['upload_path'] = './uploads/dokumenfinalpk/';
+          $config['allowed_types'] = '*';
+          $config['remove_spaces'] = TRUE;
+          $config['file_name'] = "Dokumen_Final_PK_$pkkode";
+
+          $this->load->library('upload', $config);
+
+          if ( !$this->upload->do_upload('dokumenfinalpk'))
+          {
+            $this->data['error'] = $this->upload->display_errors('','');
+          } else {
+            $this->data['error'] = "";
+            //$this->session->set_flashdata('information', 'Upload berhasil dilakukan');
+          }
+          $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
+        }
+        else {
+          $this->session->set_flashdata('information', 'Data gagal dimasukkan');
+        }
+        redirect('PkNew/');
+      }
+
+    }
+    else {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
+  }
+
   public function getDataPK()
   {
     $agid = $this->input->post('agid', TRUE);
@@ -93,9 +144,20 @@ public function __construct()
     $this->load->view('templates/footerendorsement');
   }
 
+  public function addPkReentry()
+  {
+    $this->data['employer'] = $this->Input_model->get_input_dataworker($this->session->userdata('institution'));
+    $this->data['joborder'] = $this->Input_model->get_input_joborder($this->session->userdata('institution'));
+    $this->data['title'] = 'Reentry Hiring (LC)';
+    $this->data['subtitle'] = 'Create Reentry Hiring (Labour Contract)';
+    $this->data['subtitle2'] = 'Worker Data';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/addPkReentry_view', $this->data);
+    $this->load->view('templates/footerendorsement');
+  }
+
   public function addPkTransfer()
   {
-    $this->data['listconnag'] =  $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'),false,true);
     $this->data['employer'] = $this->Input_model->get_input_dataworker($this->session->userdata('institution'));
     $this->data['joborder'] = $this->Input_model->get_input_joborder($this->session->userdata('institution'));
     $this->data['title'] = 'Transfer (LC)';
@@ -281,7 +343,7 @@ public function __construct()
         $username = $this->session->userdata('user');
         $institusi = $this->session->userdata('institution');
         $this->Kuitansi_model->catat_kuitansi($username, $institusi, $barcodeku, 1);
-        $this->session->set_flashdata('print', 'Segera Upload Dokumen Final PKP');
+        $this->session->set_flashdata('print', 'Segera Upload Dokumen Final PK');
         $this->data['bc'] = $barcodeku;
         $this->data['kuitansiag'] = $this->input->post('kuitansiag', true);
         $this->data['kuitansipp'] = $this->input->post('kuitansipp', true);
@@ -295,7 +357,7 @@ public function __construct()
         redirect('PkNew');
       }
       $barcodeku = $this->generateBarcode();
-      $this->session->set_flashdata('print', 'Segera Upload Dokumen Final PKP ');
+      $this->session->set_flashdata('print', 'Segera Upload Dokumen Final PK ');
       $this->data['bc'] = $barcodeku;
       $this->data['kuitansiag'] = $this->input->post('kuitansiag', true);
       $this->data['kuitansipp'] = $this->input->post('kuitansipp', true);

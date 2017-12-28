@@ -22,6 +22,16 @@ class PK_model extends CI_Model {
     return $this->db->get()->result();
   }
 
+  public function upload_dokumen_final_pk($pkkode)
+  {
+    $data = array(
+      'isuploaded' => '1'
+    );
+    $this->db->where('ejbcsp',$pkkode);
+    return $this->db->update($this->table, $data);
+  }
+
+
   function get_pk_from_barcode ($bc) {
     $this->db->select('p.ejbcsp, p.mjnama, p.jomkthn, p.jomkbln, p.jomkhr, tk.tknama, jp.namajenispekerjaan, ag.agnama, ag.agid, pp.ppkode, pp.ppnama, p.isverified, p.isuploaded, p.pktimestamp');
     $this->db->from('entryjo p');
@@ -57,12 +67,13 @@ class PK_model extends CI_Model {
   }
 
   function legalize_barcode($bc){
+    $this->db->where('isverified', 1);
+    $this->db->where('idinstitution', $this->session->userdata('institution'));
+    $this->db->where('idkantor', $this->session->userdata('kantor'));
     $this->db->where('ejbcsp', $bc);
     $this->db->or_where('ejbcform', $bc);
     $this->db->or_where('ejbcsk', $bc);
-    $this->db->where('idinstitution', $this->session->userdata('institution'));
-    $this->db->where('idkantor', $this->session->userdata('kantor'));
-    $this->db->where('isverified', 1);
+
     if ($this->db->get($this->table)->num_rows() > 0)
     {
       return FALSE;

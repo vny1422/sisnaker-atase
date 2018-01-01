@@ -277,6 +277,32 @@ public function __construct()
     $this->load->view('templates/footerendorsement');
   }
 
+  public function legalizeReentry()
+  {
+    $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;
+    $currencyname = $this->Currency_model->get_currency_name($currencyid);
+    $this->data['title'] = 'Endorse PK (Labour Contract)';
+    $this->data['currency'] = $currencyname->currencyname;
+    $this->data['subtitle'] = 'Endorse PK Reentry(Labour Contract)';
+    $this->data['subtitle2'] = 'Endorse PK Reentry(Labour Contract)';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/LegalizePKReentry_view', $this->data);
+    $this->load->view('templates/footerendorsement');
+  }
+
+  public function legalizeTransfer()
+  {
+    $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;
+    $currencyname = $this->Currency_model->get_currency_name($currencyid);
+    $this->data['title'] = 'Endorse PK (Labour Contract)';
+    $this->data['currency'] = $currencyname->currencyname;
+    $this->data['subtitle'] = 'Endorse PK Transfer (Labour Contract)';
+    $this->data['subtitle2'] = 'Endorse PK Transfer (Labour Contract)';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/LegalizePKTransfer_view', $this->data);
+    $this->load->view('templates/footerendorsement');
+  }
+
   public function insertEJ()
   {
     $postdata = $this->input->post('postdata', TRUE);
@@ -319,7 +345,8 @@ public function __construct()
   public function getDataFromBarcode()
   {
     $bc = $this->input->post('barcode', TRUE);
-    $result = $this->PK_model->get_pk_from_barcode($bc);
+    $status = $this->input->post('status', TRUE) ? $this->input->post('status', TRUE) : 0;
+    $result = $this->PK_model->get_pk_from_barcode($bc, $status);
     echo json_encode($result);
   }
 

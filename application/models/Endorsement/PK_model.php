@@ -66,19 +66,23 @@ class PK_model extends CI_Model {
   }
 
 
-  function get_pk_from_barcode ($bc) {
-    $this->db->select('p.ejbcsp, p.mjnama, p.jomkthn, p.jomkbln, p.jomkhr, tk.tknama, jp.namajenispekerjaan, ag.agnama, ag.agid, pp.ppkode, pp.ppnama, p.isverified, p.isuploaded, p.pktimestamp');
+  function get_pk_from_barcode ($bc, $status = 0) {
+    $this->db->select('p.bantuanpp, p.backtoid, p.ejbcsp, p.mjnama, p.jomkthn, p.jomkbln, p.jomkhr, tk.tknama, jp.namajenispekerjaan, ag.agnama, ag.agid, pp.ppkode, pp.ppnama, p.isverified, p.isuploaded, p.pktimestamp');
     $this->db->from('entryjo p');
     $this->db->order_by("p.pktimestamp", "desc");
     $this->db->join('magensi ag', 'ag.agid = p.agid');
     $this->db->join('mpptkis pp', 'pp.ppkode = p.ppkode');
     $this->db->join('tki tk', 'tk.ejid = p.ejid');
     $this->db->join('jenispekerjaan jp', 'jp.idjenispekerjaan = p.idjenispekerjaan');
+    if($status > 0)
+    {
+      $this->db->where('p.jenispk', $status);
+    }
+    $this->db->where('p.idinstitution', $this->session->userdata('institution'));
+    $this->db->where('p.idkantor', $this->session->userdata('kantor'));
     $this->db->where('p.ejbcsp', $bc);
     $this->db->or_where('p.ejbcform', $bc);
     $this->db->or_where('p.ejbcsk', $bc);
-    $this->db->where('p.idinstitution', $this->session->userdata('institution'));
-    $this->db->where('p.idkantor', $this->session->userdata('kantor'));
 
     return $this->db->get()->result();
   }
@@ -118,11 +122,11 @@ class PK_model extends CI_Model {
         'ejtglendorsement' => date("Y-m-d")
       );
 
+      $this->db->where('idinstitution', $this->session->userdata('institution'));
+      $this->db->where('idkantor', $this->session->userdata('kantor'));
       $this->db->where('ejbcsp', $bc);
       $this->db->or_where('ejbcform', $bc);
       $this->db->or_where('ejbcsk', $bc);
-      $this->db->where('idinstitution', $this->session->userdata('institution'));
-      $this->db->where('idkantor', $this->session->userdata('kantor'));
       return $this->db->update($this->table, $data);
     }
   }

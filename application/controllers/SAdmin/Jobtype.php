@@ -53,7 +53,7 @@ class Jobtype extends MY_Controller {
 			$this->Jobtype_model->post_new_jobtype();
 			$this->session->set_flashdata('information', 'Data berhasil dimasukkan');
 		}
-		
+
 		if($this->session->userdata('role') == '1')
 		{
 			$this->data['listinstitution'] = $this->Institution_model->list_active_institution();
@@ -62,7 +62,7 @@ class Jobtype extends MY_Controller {
 		{
 			$this->data['listinstitution'] = array();
 			array_push($this->data['listinstitution'],$this->Institution_model->get_institution($this->session->userdata('institution')));
-		}	
+		}
 		$this->data['title'] = 'Add New Job Type';
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('SAdmin/AddJobType_view', $this->data);
@@ -120,5 +120,4 @@ class Jobtype extends MY_Controller {
         	show_error("Access is forbidden.",403,"403 Forbidden");
         }
 	}
-
 }

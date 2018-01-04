@@ -165,7 +165,7 @@
 
 
             <br><br><br><br>
-            <img style="text-align:center; width:20%" src="<?php echo base_url('assets/images/sisnaker_logo_white.png'); ?>">
+            <img style="text-align:center; width:20%" src="<?php echo base_url('assets/images/logo_kemnaker_white.png'); ?>">
             <h4 class=""><b>ONLINE - ATNAKER</b></h4>
           </div>
 

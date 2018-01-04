@@ -216,7 +216,7 @@ class Endorsement extends MY_Controller {
 
   public function updateagency()
   {
-    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2 || $this->session->userdata('role') == 4)
+    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2 || $this->session->userdata('role') == 8)
     {
       $this->form_validation->set_rules('name', 'Agency Name', 'required|trim');
       if ($this->form_validation->run() === FALSE)
@@ -305,7 +305,7 @@ class Endorsement extends MY_Controller {
 
   public function viewJO()
   {
-    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2 || $this->session->userdata('role') == 4 || $this->session->userdata('role') == 7)
+    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2 || $this->session->userdata('role') == 8 || $this->session->userdata('role') == 7)
     {
     	$agensi = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
     	if(!empty($agensi)) {

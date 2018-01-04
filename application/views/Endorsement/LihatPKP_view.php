@@ -274,11 +274,12 @@
               else {
                 td = 'Segera Lakukan Verifikasi'
               }
+              console.log(obj[key]["isverified"]);
               table.row.add([
                 '<td id="kodepkp" class="text-center" value = "' + obj[key]["pkpkode"] +'"><a onclick=show("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalDetail">' + obj[key]["pkpkode"] + '</a></td>',
                 obj[key]["pkptglawal"],
                 obj[key]["pkptglakhir"],
-                '<td>'+ (obj[key]["isverified"] == 1 ? "Sudah" : "Belum") + '</td>',
+                '<td>'+ (obj[key]["isverified"] > 1 ? "Sudah" : "Belum") + '</td>',
                 '<td>'+ (obj[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td>',
                 obj[key]["pkptimestamp"],
                 '<td class="text-center">'+ td + '</td>'
@@ -341,11 +342,12 @@
                   else {
                     td = 'Segera Lakukan Verifikasi'
                   }
+                  console.log(obj[key]["isverified"]);
                   table.row.add([
                     '<td id="kodepkp" class="text-center" value = "' + obj[key]["pkpkode"] +'"><a onclick=show("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalDetail">' + obj[key]["pkpkode"] + '</a></td>',
                     obj[key]["pkptglawal"],
                     obj[key]["pkptglakhir"],
-                    '<td>'+ (obj[key]["isverified"] == 1 ? "Sudah" : "Belum") + '</td>',
+                    '<td>'+ (obj[key]["isverified"] > 1 ? "Sudah" : "Belum") + '</td>',
                     '<td>'+ (obj[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td>',
                     obj[key]["pkptimestamp"],
                     '<td class="text-center">'+ td + '</td>'

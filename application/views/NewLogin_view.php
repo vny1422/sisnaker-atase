@@ -205,7 +205,9 @@
 
 
               <br><br><br><br><br>
-              <h5 id="daftar" style="display:none;"><a href="<?php echo base_url() ?>/Login/Daftar">For Agency, click to apply for user name</a></h5>
+              <h5 id="daftar" style="display:none;"><a href="<?php echo base_url() ?>Login/Daftar">For Agency, click to apply for user name</a></h5>
+              <h5 id="usermanual"><a href="<?php echo base_url() ?>uploads/SISNAKER_MANUAL.pdf" target="_blank">For tutorial, please download this document</a></h5>
+
             </div>
             <div class="col-md-2">
 

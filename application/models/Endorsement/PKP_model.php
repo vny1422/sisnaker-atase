@@ -253,10 +253,12 @@ class PKP_model extends CI_Model {
   }
 
   //ajax autocomplete
-  function ambilpkp($keyword) {
+  function ambilpkp($keyword, $idagency, $kodepptkis) {
     $this->db->select('pkpkode, pkpid');
     $this->db->like('pkpkode', $keyword);
     $this->db->from('pkp');
+    $this->db->where('agid', $idagency);
+    $this->db->where('ppkode', $kodepptkis);
     //$this->db->where('p.idkantor', $this->session->userdata('kantor'));
     $query = $this->db->get();
     return $query->result();

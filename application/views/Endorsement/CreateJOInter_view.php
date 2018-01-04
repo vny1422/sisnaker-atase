@@ -56,7 +56,7 @@
                 <select name="agensi" required="required" class="select2_single form-control" tabindex="-1" disabled>
                   <option value="<?php echo $dataagensi->agid ?>"><?php echo $dataagensi->agnama ?></option>
                 </select>
-                <input type="hidden" name="agensi" value="<?php echo $dataagensi->agid ?>"/>
+                <input id="idagency" type="hidden" name="agensi" value="<?php echo $dataagensi->agid ?>"/>
               <?php } else{ ?>
                 <select name="agensi" required="required" class="select2_single form-control" tabindex="-1">
                   <option></option>
@@ -72,12 +72,28 @@
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12">PPTKIS <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-              <select name="pptkis" required="required" class="select2_single form-control" tabindex="-1">
-                <option></option>
-                <?php foreach($listpptkis as $row): ?>
-                  <option value="<?php echo $row->ppkode ?>"><?php echo $row->ppnama ?></option>
-                <?php endforeach; ?>
-              </select>
+              <?php if (isset($datapptkis)) { ?>
+                <select id="kodepptkis" name="pptkis" required="required" class="select2_single form-control" tabindex="-1">
+                  <option></option>
+                  <?php foreach($datapptkis as $row): ?>
+                    <option value="<?php echo $row->ppkode ?>"><?php echo $row->ppnama ?></option>
+                  <?php endforeach; ?>
+                </select>
+              <?php } else{ ?>
+                <select id="kodepptkis" name="pptkis" required="required" class="select2_single form-control" tabindex="-1">
+                  <option></option>
+                  <?php foreach($listpptkis as $row): ?>
+                    <option value="<?php echo $row->ppkode ?>"><?php echo $row->ppnama ?></option>
+                  <?php endforeach; ?>
+                </select>
+              <?php } ?>
+
+
+
+
+
+
+
             </div>
           </div><br /><br /><br />
 
@@ -190,11 +206,11 @@
         <div class="form-group">
           <label class="control-label col-md-2 col-sm-2 col-xs-12">Job Type <span class="required">*</span></label>
           <div class="col-md-5">
-            <select name="jenispekerjaan[]" required="required" class="select2_single form-control">
+            <select name="jenispekerjaan[]" id="jenispekerjaan" required="required" class="select2_single form-control">
               <option></option>
-              <?php foreach($listjenispekerjaan as $row): ?>
-                <option value="<?php echo $row->idjenispekerjaan ?>"><?php echo $row->namajenispekerjaan ?></option>
-              <?php endforeach; ?>
+              <!-- <?php //foreach($listjenispekerjaan as $row): ?>
+                <option value="<?php //echo $row->idjenispekerjaan ?>"><?php //echo $row->namajenispekerjaan ?></option>
+              <?php //endforeach; ?> -->
             </select>
           </div>
           <div class="col-md-5">
@@ -272,7 +288,7 @@ $(document).ready(function() {
     <br /> <br /> <br />\
     <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>\
     <div class="col-md-5">\
-    <select name="jenispekerjaan[]" required="required" class="select2_single form-control">\
+    <select name="jenispekerjaan[]" required="required" class="select2_single form-control jenispekerjaan">\
     <option></option>\
     <?php foreach($listjenispekerjaan as $row): ?>\
     <option value="<?php echo $row->idjenispekerjaan ?>"><?php echo $row->namajenispekerjaan ?></option>\
@@ -316,6 +332,29 @@ $(document).ready(function() {
     \
     </div>\
     </div>'); //add input box
+
+
+    $.post(" <?php echo base_url(); ?>JO/get_jobtype_by_pkp", {idpkp:$("#pkpid").val()}, function(data, status){
+      var obj2 = $.parseJSON(data);
+      //alert(obj2.length);
+      if (obj2.length > 0) {
+        $(".jenispekerjaan").empty();
+        for(var key in obj2){
+          // $("#jenispekerjaan").add(new Option(obj2[key].namajenispekerjaan, obj2[key].idjenispekerjaan));
+          $(".jenispekerjaan").append($("<option></option>")
+             .attr("value", obj2[key].idjenispekerjaan).text(obj2[key].namajenispekerjaan));
+        }
+      }
+      else {
+        $(".pptkis").empty();
+        //alert("Data Pekerjaan Tidak Ada");
+      }
+    });
+
+
+
+
+
   });
 
   $(wrapopsi).on("click",".remove_field", function(e){ //user click on remove text
@@ -326,7 +365,7 @@ $(document).ready(function() {
   $(function() {
     $( "#pkp" ).autocomplete({
       source: function(request, response) {
-        $.post('<?php echo base_url();?>pkp/ambilpkp/', { term:request.term}, function(json) {
+        $.post('<?php echo base_url();?>pkp/ambilpkp/', { term:request.term, agency:$("#idagency").val(), pptkis:$("#kodepptkis").val()}, function(json) {
           response( $.map( json.rows, function( item ) {
             return {
               label: item.pkpkode,
@@ -375,6 +414,24 @@ $(document).ready(function() {
           alert('Barcode tidak valid!');
         }
       });
+
+      $.post(" <?php echo base_url(); ?>JO/get_jobtype_by_pkp", {idpkp:$("#pkpid").val()}, function(data, status){
+        var obj2 = $.parseJSON(data);
+        //alert(obj2.length);
+        if (obj2.length > 0) {
+          $("#jenispekerjaan").empty();
+          for(var key in obj2){
+            // $("#jenispekerjaan").add(new Option(obj2[key].namajenispekerjaan, obj2[key].idjenispekerjaan));
+            $("#jenispekerjaan").append($("<option></option>")
+               .attr("value", obj2[key].idjenispekerjaan).text(obj2[key].namajenispekerjaan));
+          }
+        }
+        else {
+          $(".pptkis").empty();
+          //alert("Data Pekerjaan Tidak Ada");
+        }
+      });
+
     }
   });
 

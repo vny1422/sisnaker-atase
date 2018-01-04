@@ -408,7 +408,9 @@
     // AJAX AUTOCOMPLETE
     public function ambilpkp(){
       $keyword = $this->input->post('term',TRUE);
-      $query = $this->PKP_model->ambilpkp($keyword);
+      $idagency = $this->input->post('agency',TRUE);
+      $kodepptkis = $this->input->post('pptkis',TRUE);
+      $query = $this->PKP_model->ambilpkp($keyword, $idagency, $kodepptkis);
       $json_array = array();
       $r = new stdClass;
       $i=0;

@@ -81,4 +81,15 @@ class Jobtype_model extends CI_Model {
       $query = $query->row();
       return $query->sektor;
     }
+
+
+    //AJAX
+    function get_jobtype_by_pkp($idpkp) {
+      $this->db->select('p.idjenispekerjaan, j.namajenispekerjaan');
+      $this->db->from('pkpdetail p');
+      $this->db->join('jenispekerjaan j', 'j.idjenispekerjaan = p.idjenispekerjaan');
+      $this->db->where('p.pkpid',$idpkp);
+      $query = $this->db->get();
+      return $query->result();
+    }
 }

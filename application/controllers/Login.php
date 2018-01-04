@@ -27,7 +27,7 @@ class Login extends CI_Controller {
 			{
 				redirect('perlindungan');
 			}
-			else if($this->session->userdata('role') == 4)
+			else if($this->session->userdata('role') == 4 || $this->session->userdata('role') == 8)
 			{
 				redirect('endorsement/dashboard');
 			}
@@ -35,7 +35,7 @@ class Login extends CI_Controller {
 			{
 				redirect('pusat');
 			}
-			else if($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 )
+			else if($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9)
 			{
 				redirect('endorsement');
 			}
@@ -62,7 +62,7 @@ class Login extends CI_Controller {
 			{
 				redirect('perlindungan');
 			}
-			else if($this->session->userdata('role') == 4)
+			else if($this->session->userdata('role') == 4 || $this->session->userdata('role') == 8)
 			{
 				redirect('endorsement/dashboard');
 			}
@@ -70,7 +70,7 @@ class Login extends CI_Controller {
 			{
 				redirect('pusat');
 			}
-			else if($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 )
+			else if($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9 )
 			{
 				redirect('endorsement');
 			}

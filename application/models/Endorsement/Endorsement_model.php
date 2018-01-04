@@ -277,7 +277,7 @@ class Endorsement_model extends CI_Model {
 		$this->db->select('magensi.agid');
 		$this->db->from('magensi');
 		$this->db->where('magensi.idinstitution', $this->session->userdata('institution'));
-		$this->db->where('magensi.username', $this->session->userdata('name'));
+		$this->db->where('magensi.username', $this->session->userdata('user'));
 		return $this->db->get()->result();
 	}
 

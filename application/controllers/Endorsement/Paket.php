@@ -28,7 +28,7 @@ class Paket extends MY_Controller {
 
   public function index()
   {
-    if (!($this->session->userdata('role') <= 2 || $this->session->userdata('role') == 4 || $this->session->userdata('role') == 5 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7))
+    if (!($this->session->userdata('role') <= 2 || $this->session->userdata('role') == 4 || $this->session->userdata('role') == 5 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9))
     {
       show_error("Access is forbidden.",403,"403 Forbidden");
     }
@@ -46,7 +46,7 @@ class Paket extends MY_Controller {
 
   public function add()
   {
-    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
+    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9)
     {
       $this->data['title'] = 'Paket PK';
       $this->data['subtitle'] = 'Register Quota';

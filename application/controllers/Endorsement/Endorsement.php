@@ -127,8 +127,6 @@ class Endorsement extends MY_Controller {
     $all = array();
     $agid = $this->Endorsement_model->get_agid();
 
-
-
     $year_jk = $this->Endorsement_model->get_jk_this_year_agensi($year, $agid[0]->agid);
     $total_year_jk = 0;
     foreach ($year_jk as $jk) {
@@ -260,7 +258,7 @@ class Endorsement extends MY_Controller {
 
   public function checkBarcode()
   {
-    if (!($this->session->userdata('role') <= 2 || $this->session->userdata('role') == 5 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7))
+    if (!($this->session->userdata('role') <= 2 || $this->session->userdata('role') == 5 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9))
     {
       show_error("Access is forbidden.",403,"403 Forbidden");
     }

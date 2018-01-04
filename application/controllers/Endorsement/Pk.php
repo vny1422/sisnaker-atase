@@ -29,7 +29,7 @@ class Pk extends MY_Controller {
 
   public function revisi()
   {
-    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2|| $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
+    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2|| $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9)
     {
       $this->data['title'] = 'Perjanjian Kerja';
       $this->data['subtitle'] = 'Revisi Perjanjian Kerja';

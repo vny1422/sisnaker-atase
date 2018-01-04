@@ -34,7 +34,7 @@ class RekapEndorsement extends MY_Controller {
 		$this->data['namakantor'] = $this->namakantor->nama;
 		$this->data['sidebar'] = 'SAdmin/Sidebar';
 
-		if ($this->session->userdata('role') != 1 && $this->session->userdata('role') != 2 && $this->session->userdata('role') != 6 && $this->session->userdata('role') != 7)
+		if ($this->session->userdata('role') != 1 && $this->session->userdata('role') != 2 && $this->session->userdata('role') != 6 && $this->session->userdata('role') != 7 && $this->session->userdata('role') != 9)
 		{
 			show_error("Access is forbidden.",403,"403 Forbidden");
 		}

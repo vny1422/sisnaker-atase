@@ -207,6 +207,20 @@ class JO_model extends CI_Model {
     return $this->db->get()->result();
   }
 
+  function get_jo_for_report($jokode)
+  {
+    $this->db->select('*');
+    $this->db->from('jo j');
+    $this->db->join('jodetail jd', 'j.jobid = jd.jobid');
+    $this->db->join('jenispekerjaan jp', 'jd.idjenispekerjaan = jp.idjenispekerjaan');
+    $this->db->join('magensi ag', 'j.agid = ag.agid');
+    $this->db->join('mpptkis pp', 'j.ppkode = pp.ppkode');
+    $this->db->join('pkp', 'pkp.pkpid = j.pkpid');
+    $this->db->where('jokode', $jokode);
+    $this->db->where('j.idinstitution', $this->session->userdata('institution'));
+    return $this->db->get()->row_array();
+  }  
+
   function toggle_jo($jokode, $reject=FALSE)
   {
     if(!$reject)

@@ -375,6 +375,24 @@ class JO extends MY_Controller {
     }
   }
 
+  public function downloadDokFin($param)
+  {
+    //if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
+    //{          
+        $data['jo'] = $this->JO_model->get_jo_for_report($param);
+        ini_set('memory_limit', '64M');          
+        $nama_dokumen = "JO_Report";		
+        $html = $this->load->view('Endorsement/DownloadJO_view', $data, true); //render the view into HTML
+        $this->load->library('pdfm');
+        $pdf=$this->pdfm->load();
+        $pdf->WriteHTML($html); //write the HTML into PDF	
+        $pdf->Output($nama_dokumen.".pdf" ,'I');               
+    //}
+    //else {
+      //show_error("Access is forbidden.",403,"403 Forbidden");
+    //}
+  }
+
   //ajax
   public function editJO(){
     //var_dump($this->input->post('jobid', true));

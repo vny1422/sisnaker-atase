@@ -408,7 +408,8 @@
                     td = '<a onclick=showTolak("'+obj[key]["jokode"]+'") data-toggle="modal" data-target="#modalTolak">JO Ditolak</a>'
                   }
                   else if (obj[key]["isverified"] == 2) {
-                    td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinaljo/Dokumen_Final_JO_' + obj[key]["jokode"] +'.pdf ">DOWNLOAD Dokumen Pengajuan JO</a>'
+                    td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>JO/downloadDokFin/' + obj[key]["jokode"] + ' ">DOWNLOAD Dokumen Pengajuan JO</a>'   
+                    //td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinaljo/Dokumen_Final_JO_' + obj[key]["jokode"] +'.pdf ">DOWNLOAD Dokumen Pengajuan JO</a>'
                   }
                   else if (obj[key]["isverified"] == 3) {
                     if (obj[key]["isuploaded"] == 1) {

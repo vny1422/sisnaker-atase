@@ -218,7 +218,7 @@ class JO_model extends CI_Model {
     $this->db->join('pkp', 'pkp.pkpid = j.pkpid');
     $this->db->where('jokode', $jokode);
     $this->db->where('j.idinstitution', $this->session->userdata('institution'));
-    return $this->db->get()->row_array();
+    return $this->db->get()->result_array();
   }  
 
   function toggle_jo($jokode, $reject=FALSE)

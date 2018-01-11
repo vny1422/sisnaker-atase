@@ -205,22 +205,20 @@
     public function downloadDokFin($param)
     {
       //if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
-      //{          
-          $data['pkp'] = $this->PKP_model->get_all_data_pkp_by_kode($param);
-          $data['param'] = $param;
+      //{                    
+          $data['pkp'] = $this->PKP_model->get_pkp_for_report($param);
           ini_set('memory_limit', '64M');          
-          $nama_dokumen = "PK_Report";		
+          $nama_dokumen = "PKP_Report";		
           $html = $this->load->view('Endorsement/DownloadPKP_view', $data, true); //render the view into HTML
           $this->load->library('pdfm');
           $pdf=$this->pdfm->load();
-          $pdf->autoLangToFont = false;
           $pdf->WriteHTML($html); //write the HTML into PDF	
           $pdf->Output($nama_dokumen.".pdf" ,'I');               
       //}
       //else {
         //show_error("Access is forbidden.",403,"403 Forbidden");
       //}
-    } 
+    }    
 
     public function getDataPKP()
     {

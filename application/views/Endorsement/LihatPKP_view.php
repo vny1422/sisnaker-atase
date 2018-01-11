@@ -329,15 +329,14 @@
                     td = '<a onclick=showTolak("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalTolak">PKP Ditolak</a>'
                   }
                   else if (obj[key]["isverified"] == 2) {
-                    td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + obj[key]["pkpkode"] +'.pdf ">DOWNLOAD Dokumen Pengajuan PKP</a>'
+                    td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>pkp/downloadDokFin/' + obj[key]["pkpkode"] + ' ">DOWNLOAD Dokumen Pengajuan PKP</a>'
                   }
                   else if (obj[key]["isverified"] == 3) {
                     if (obj[key]["isuploaded"] == 1) {
                       td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + obj[key]["pkpkode"] +'.pdf ">DOWNLOAD</a>'
                     }
                     else{
-                      td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>pkp/downloadDokFin/' + obj[key]["pkpkode"] + ' ">DOWNLOAD</a>'
-                      //td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + obj[key]["pkpkode"] +' ">UPLOAD</a>'
+                      td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + obj[key]["pkpkode"] +' ">UPLOAD</a>'
                     }
                   }
                   else {

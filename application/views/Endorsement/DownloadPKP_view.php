@@ -28,7 +28,7 @@
 
 <?php
   $this->db->select('*');
-  $this->db->where('idinstitution',$pkp["idinstitution"]);
+  $this->db->where('idinstitution',$pkp[0]["idinstitution"]);
   $country = $this->db->get('institution')->row_array();
 ?> 
 
@@ -58,37 +58,32 @@
           <tr>
             <td width="15%">Name</td>
             <td width="5%">:</td>
-            <td width="80%"><?= $pkp["agnama"];?></td>
+            <td width="80%"><?= $pkp[0]["agnama"];?></td>
           </tr>
           <tr>
             <td >License No.</td>
-            <td >:</td>
-            <?php
-              $this->db->select('*');
-              $this->db->like('agnama',$pkp["agnama"]);
-              $agen = $this->db->get('magensi')->row_array();
-            ?>            
-            <td ><?= $agen["agnoijincla"]; ?></td>
+            <td >:</td>      
+            <td ><?= $pkp[0]["agnoijincla"]; ?></td>
           </tr>
           <tr>
             <td >Address</td>
             <td >:</td>
-            <td ><?= $agen["agalmtkantor"]; ?></td>
+            <td ><?= $pkp[0]["agalmtkantor"]; ?></td>
           </tr>
           <tr>
             <td >Phone No.</td>
             <td >:</td>
-            <td ><?= $agen["agtelp"]; ?></td>
+            <td ><?= $pkp[0]["agtelp"]; ?></td>
           </tr>          
           <tr>
             <td >Fax No.</td>
             <td >:</td>
-            <td ><?= $agen["agfax"]; ?></td>
+            <td ><?= $pkp[0]["agfax"]; ?></td>
           </tr>
           <tr>
             <td >E-mail</td>
             <td >:</td>
-            <td ><?= $agen["agemail"]; ?></td>
+            <td ><?= $pkp[0]["agemail"]; ?></td>
           </tr>                              
         </table>
       </td>
@@ -103,7 +98,7 @@
           <tr>
             <td width="15%">Name</td>
             <td width="5%">:</td>
-            <td width="80%"><?= $agen["agpngjwb"]; ?></td>
+            <td width="80%"><?= $pkp[0]["agpngjwb"]; ?></td>
           </tr>
           <tr>
             <td >Position</td>
@@ -145,33 +140,28 @@
           </tr>
           <tr>
             <td width="15%">Name</td>
-            <td width="5%">:</td>
-            <?php
-              $this->db->select('*');
-              $this->db->like('ppnama',$pkp["ppnama"]);
-              $agenid = $this->db->get('mpptkis')->row_array();
-            ?>              
-            <td width="80%"><?= $agenid["ppnama"]; ?></td>
+            <td width="5%">:</td>        
+            <td width="80%"><?= $pkp[0]["ppnama"]; ?></td>
           </tr>
           <tr>
             <td >License No.</td>
             <td >:</td>
-            <td ><?= $agenid["ppijin"]; ?></td>
+            <td ><?= $pkp[0]["ppijin"]; ?></td>
           </tr>
           <tr>
             <td >Address</td>
             <td >:</td>
-            <td ><?= $agenid["ppalmtkantor"]; ?></td>
+            <td ><?= $pkp[0]["ppalmtkantor"]; ?></td>
           </tr>
           <tr>
             <td >Phone No.</td>
             <td >:</td>
-            <td ><?= $agenid["pptelp"]; ?></td>
+            <td ><?= $pkp[0]["pptelp"]; ?></td>
           </tr>          
           <tr>
             <td >Fax No.</td>
             <td >:</td>
-            <td ><?= $agenid["ppfax"]; ?></td>
+            <td ><?= $pkp[0]["ppfax"]; ?></td>
           </tr>
           <tr>
             <td >E-mail</td>
@@ -191,7 +181,7 @@
           <tr>
             <td width="15%">Name</td>
             <td width="5%">:</td>
-            <td width="80%"><?= $agenid["pppngjwb"]; ?></td>
+            <td width="80%"><?= $pkp[0]["pppngjwb"]; ?></td>
           </tr>
           <tr>
             <td >Position</td>
@@ -249,19 +239,24 @@
       <td valign="top"></td>
       <td >
         <table class="borderless">
-          <?php
-            $this->db->select('*');
-            $this->db->where('pkpid',$pkp["pkpid"]);
-            $det = $this->db->get('pkpdetail')->row_array();
-
-            $this->db->select('*');
-            $this->db->where('idjenispekerjaan',$det["idjenispekerjaan"]);
-            $job = $this->db->get('jenispekerjaan')->row_array();
-          ?>         
+        <?php 
+        $c = 0;
+        foreach($pkp as $p){
+          $c++;
+        }
+        ?>
           <tr>
             <td width="15%">Job Title</td>
             <td width="5%">:</td>           
-            <td width="80%"><?= $job["namajenispekerjaan"]; ?></td>
+            <td width="80%">
+            <?php for($i=0; $i<$c; $i++){
+              if($i==$c-1)
+                echo $pkp[$i]["namajenispekerjaan"];
+              else
+                echo $pkp[$i]["namajenispekerjaan"].", ";
+            } 
+            ?>
+            </td>            
           </tr>
           <tr>
             <td >Duties of the Job</td>
@@ -271,14 +266,22 @@
           <tr>
             <td >Number needed elaborated in dispatching Schedule from Indonesia</td>
             <td >:</td>
-            <td ><?= $det["pkpdl"]." MALE / ".$det["pkpdp"]." FEMALE / ".$det["pkpdc"]." MIX"; ?> </td>
+            <td >
+            <?php for($i=0; $i<$c; $i++){
+              if($i==$c-1)
+                echo $pkp[$i]["namajenispekerjaan"]." L : ".$pkp[$i]["pkpdl"].", P : ".$pkp[$i]["pkpdp"].", C : ".$pkp[$i]["pkpdc"];
+              else
+              echo $pkp[$i]["namajenispekerjaan"]." L : ".$pkp[$i]["pkpdl"].", P : ".$pkp[$i]["pkpdp"].", C : ".$pkp[$i]["pkpdc"]."; ";
+            } 
+            ?>            
+            </td>            
           </tr>
           <tr>
             <td >Propose Duration of Service</td>
             <td >:</td>
             <?php
-              $start_date = $pkp["pkptglawal"];              
-              $end_date = $pkp["pkptglakhir"];              
+              $start_date = $pkp[0]["pkptglawal"];              
+              $end_date = $pkp[0]["pkptglakhir"];              
            
               $diff = abs(strtotime($end_date) - strtotime($start_date));
               $years = floor($diff / (365*60*60*24));
@@ -335,12 +338,20 @@
           <tr>
             <td width="15%">Number of Working Hours</td>
             <td width="5%">:</td>
-            <td width="80%">8 HOURS/DAY,40 HOURS/WEEK, 80 HOURS/2WEEKS</td>
+            <td width="80%"></td>
           </tr>
           <tr>
             <td >Wage per Day/Week/Month Specified according to jobs</td>
             <td >:</td>
-            <td ></td>
+            <td >
+            <?php for($i=0; $i<$c; $i++){
+              if($i==$c-1)
+                echo $pkp[$i]["namajenispekerjaan"]." : ".$pkp[$i]["jpgaji"];
+              else
+                echo $pkp[$i]["namajenispekerjaan"]." : ".$pkp[$i]["jpgaji"].", ";
+            } 
+            ?>            
+            </td>
           </tr>
           <tr>
             <td >Other Benefits</td>
@@ -423,7 +434,7 @@ div {
 <br>
 <br>
 <br>
-<p>(<?= $agenid["pppngjwb"]; ?>)</p>
+<p>(<?= $pkp[0]["pppngjwb"]; ?>)</p>
 <p>(...................................)</p>
 </div>
 
@@ -434,7 +445,7 @@ Indonesia Economic & Trade Office of <?= $country["nameinstitution"]; ?>
  Kantor Dagang dan Ekonomi Indonesia (KDEI)
 </div>
 
-<barcode style="margin-top: 5cm; margin-left:400px; " code="<?= $param;?>" type="C39" />
-<p style="margin-left: 400px; text-align:center;"><?= $param;?></p>
+<barcode style="margin-top: 5cm; margin-left:400px; " code="<?= $pkp[0]["pkpkode"];?>" type="C39" />
+<p style="margin-left: 400px; text-align:center;"><?= $pkp[0]["pkpkode"];?></p>
 
 </body>

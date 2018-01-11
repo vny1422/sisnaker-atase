@@ -28,7 +28,7 @@
 
 <?php
   $this->db->select('*');
-  $this->db->where('idinstitution',$jo["idinstitution"]);
+  $this->db->where('idinstitution',$jo[0]["idinstitution"]);
   $country = $this->db->get('institution')->row_array();
 ?> 
 
@@ -58,32 +58,32 @@
           <tr>
             <td width="15%">Name</td>
             <td width="5%">:</td>
-            <td width="80%"><?= $jo["agnama"];?></td>
+            <td width="80%"><?= $jo[0]["agnama"];?></td>
           </tr>
           <tr>
             <td >License No.</td>
-            <td >:</td>
-            <td ><?= $jo["agnoijincla"]; ?></td>
+            <td >:</td>      
+            <td ><?= $jo[0]["agnoijincla"]; ?></td>
           </tr>
           <tr>
             <td >Address</td>
             <td >:</td>
-            <td ><?= $jo["agalmtkantor"]; ?></td>
+            <td ><?= $jo[0]["agalmtkantor"]; ?></td>
           </tr>
           <tr>
             <td >Phone No.</td>
             <td >:</td>
-            <td ><?= $jo["agtelp"]; ?></td>
+            <td ><?= $jo[0]["agtelp"]; ?></td>
           </tr>          
           <tr>
             <td >Fax No.</td>
             <td >:</td>
-            <td ><?= $jo["agfax"]; ?></td>
+            <td ><?= $jo[0]["agfax"]; ?></td>
           </tr>
           <tr>
             <td >E-mail</td>
             <td >:</td>
-            <td ><?= $jo["agemail"]; ?></td>
+            <td ><?= $jo[0]["agemail"]; ?></td>
           </tr>                              
         </table>
       </td>
@@ -98,7 +98,7 @@
           <tr>
             <td width="15%">Name</td>
             <td width="5%">:</td>
-            <td width="80%"><?= $jo["agpngjwb"]; ?></td>
+            <td width="80%"><?= $jo[0]["agpngjwb"]; ?></td>
           </tr>
           <tr>
             <td >Position</td>
@@ -140,28 +140,28 @@
           </tr>
           <tr>
             <td width="15%">Name</td>
-            <td width="5%">:</td>
-            <td width="80%"><?= $jo["ppnama"]; ?></td>
+            <td width="5%">:</td>        
+            <td width="80%"><?= $jo[0]["ppnama"]; ?></td>
           </tr>
           <tr>
             <td >License No.</td>
             <td >:</td>
-            <td ><?= $jo["ppijin"]; ?></td>
+            <td ><?= $jo[0]["ppijin"]; ?></td>
           </tr>
           <tr>
             <td >Address</td>
             <td >:</td>
-            <td ><?= $jo["ppalmtkantor"]; ?></td>
+            <td ><?= $jo[0]["ppalmtkantor"]; ?></td>
           </tr>
           <tr>
             <td >Phone No.</td>
             <td >:</td>
-            <td ><?= $jo["pptelp"]; ?></td>
+            <td ><?= $jo[0]["pptelp"]; ?></td>
           </tr>          
           <tr>
             <td >Fax No.</td>
             <td >:</td>
-            <td ><?= $jo["ppfax"]; ?></td>
+            <td ><?= $jo[0]["ppfax"]; ?></td>
           </tr>
           <tr>
             <td >E-mail</td>
@@ -181,7 +181,7 @@
           <tr>
             <td width="15%">Name</td>
             <td width="5%">:</td>
-            <td width="80%"><?= $jo["pppngjwb"]; ?></td>
+            <td width="80%"><?= $jo[0]["pppngjwb"]; ?></td>
           </tr>
           <tr>
             <td >Position</td>
@@ -238,11 +238,25 @@
     <tr>
       <td valign="top"></td>
       <td >
-        <table class="borderless">  
+        <table class="borderless">
+        <?php 
+        $c = 0;
+        foreach($jo as $p){
+          $c++;
+        }
+        ?>
           <tr>
             <td width="15%">Job Title</td>
             <td width="5%">:</td>           
-            <td width="80%"><?= $jo["namajenispekerjaan"]; ?></td>
+            <td width="80%">
+            <?php for($i=0; $i<$c; $i++){
+              if($i==$c-1)
+                echo $jo[$i]["namajenispekerjaan"];
+              else
+                echo $jo[$i]["namajenispekerjaan"].", ";
+            } 
+            ?>
+            </td>            
           </tr>
           <tr>
             <td >Duties of the Job</td>
@@ -252,14 +266,22 @@
           <tr>
             <td >Number needed elaborated in dispatching Schedule from Indonesia</td>
             <td >:</td>
-            <td ><?= $jo["jobdl"]." MALE / ".$jo["jobdp"]." FEMALE / ".$jo["jobdc"]." MIX"; ?> </td>
+            <td >
+            <?php for($i=0; $i<$c; $i++){
+              if($i==$c-1)
+                echo $jo[$i]["namajenispekerjaan"]." L : ".$jo[$i]["jobdl"].", P : ".$jo[$i]["jobdp"].", C : ".$jo[$i]["jobdc"];
+              else
+              echo $jo[$i]["namajenispekerjaan"]." L : ".$jo[$i]["jobdl"].", P : ".$jo[$i]["jobdp"].", C : ".$jo[$i]["jobdc"]."; ";
+            } 
+            ?>            
+            </td>            
           </tr>
           <tr>
             <td >Propose Duration of Service</td>
             <td >:</td>
             <?php
-              $start_date = $jo["jobtglawal"];              
-              $end_date = $jo["jobtglakhir"];              
+              $start_date = $jo[0]["jobtglawal"];              
+              $end_date = $jo[0]["jobtglakhir"];              
            
               $diff = abs(strtotime($end_date) - strtotime($start_date));
               $years = floor($diff / (365*60*60*24));
@@ -316,12 +338,20 @@
           <tr>
             <td width="15%">Number of Working Hours</td>
             <td width="5%">:</td>
-            <td width="80%">8 HOURS/DAY,40 HOURS/WEEK, 80 HOURS/2WEEKS</td>
+            <td width="80%"></td>
           </tr>
           <tr>
             <td >Wage per Day/Week/Month Specified according to jobs</td>
             <td >:</td>
-            <td ><?= $jo["jpgaji"]?></td>
+            <td >
+            <?php for($i=0; $i<$c; $i++){
+              if($i==$c-1)
+                echo $jo[$i]["namajenispekerjaan"]." : ".$jo[$i]["jpgaji"];
+              else
+                echo $jo[$i]["namajenispekerjaan"]." : ".$jo[$i]["jpgaji"].", ";
+            } 
+            ?>            
+            </td>
           </tr>
           <tr>
             <td >Other Benefits</td>
@@ -404,7 +434,7 @@ div {
 <br>
 <br>
 <br>
-<p>(<?= $jo["pppngjwb"]; ?>)</p>
+<p>(<?= $jo[0]["pppngjwb"]; ?>)</p>
 <p>(...................................)</p>
 </div>
 
@@ -415,7 +445,7 @@ Indonesia Economic & Trade Office of <?= $country["nameinstitution"]; ?>
  Kantor Dagang dan Ekonomi Indonesia (KDEI)
 </div>
 
-<barcode style="margin-top: 5cm; margin-left:400px; " code="<?= $jo["jokode"];?>" type="C39" />
-<p style="margin-left: 400px; text-align:center;"><?= $jo["jokode"];?></p>
+<barcode style="margin-top: 5cm; margin-left:400px; " code="<?= $jo[0]["jokode"];?>" type="C39" />
+<p style="margin-left: 400px; text-align:center;"><?= $jo[0]["jokode"];?></p>
 
 </body>

@@ -252,6 +252,19 @@ class PKP_model extends CI_Model {
     return $this->db->get()->result();
   }
 
+  function get_all_data_pkp_by_kode ($pkpkode) {
+    $this->db->select('*');
+    $this->db->from('pkp p');
+    $this->db->order_by("p.pkptimestamp", "desc");
+    $this->db->join('magensi ag', 'ag.agid = p.agid');
+    $this->db->join('mpptkis pp', 'pp.ppkode = p.ppkode');
+    $this->db->where('p.pkpkode', $pkpkode);
+    $this->db->where('p.idinstitution', $this->session->userdata('institution'));
+    $this->db->where('p.idkantor', $this->session->userdata('kantor'));
+
+    return $this->db->get()->row_array();
+  } 
+
   //ajax autocomplete
   function ambilpkp($keyword, $idagency, $kodepptkis) {
     $this->db->select('pkpkode, pkpid');

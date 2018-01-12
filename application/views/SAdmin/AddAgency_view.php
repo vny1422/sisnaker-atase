@@ -69,13 +69,13 @@
                         echo '<div class="form-group">
                             <label class="control-label col-md-2 col-sm-2 col-xs-12">User Agensi <span class="required">*</span></label>
                             <div class="col-md-5 col-sm-5 col-xs-12">
-                              <select name="user" required="required" class="select2_single form-control" tabindex="-1">
+                              <select name="user" class="select2_single form-control" tabindex="-1">
                                 <option></option>';
                               elseif($this->session->userdata('role') == 2):
                         echo '<div class="form-group">
                             <label class="control-label col-md-2 col-sm-2 col-xs-12">User Agensi <span class="required">*</span></label>
                             <div class="col-md-5 col-sm-5 col-xs-12">
-                              <select name="user" required="required" class="select2_single form-control" tabindex="0">';
+                              <select name="user" class="select2_single form-control" tabindex="0">';
                             endif; ?>
                                 <option></option>
                                 <?php foreach($listuser as $row): ?>

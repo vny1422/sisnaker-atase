@@ -21,7 +21,7 @@ class Agency_model extends CI_Model {
         'agnoijincla' => $this->input->post('noijin', TRUE),
         'agalmtkantor' => $this->input->post('address', TRUE),
         'agalmtkantoroth' => $this->input->post('addressother', TRUE),
-        'username' => $this->input->post('user',TRUE),
+        'username' => $this->input->post('user',TRUE) ? $this->input->post('user',TRUE) : NULL,
         'idinstitution' => $this->input->post('institution',TRUE),
         'agpngjwb' => $this->input->post('penanggung',TRUE),
         'agpngjwboth' => $this->input->post('penanggungother',TRUE),

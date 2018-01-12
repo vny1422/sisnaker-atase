@@ -107,7 +107,7 @@ class PPTKIS_model extends CI_Model {
       $this->db->join('pkp p', 'p.ppkode = m.ppkode');
       $this->db->where('p.agid', $agid);
       $this->db->order_by('m.ppnama', 'asc');
-      return $this->db->get($this->table)->result();
+      return $this->db->get()->result();
     }
 
 
@@ -118,7 +118,7 @@ class PPTKIS_model extends CI_Model {
       $this->db->join('jo j', 'j.ppkode = m.ppkode');
       $this->db->where('j.agid', $agid);
       $this->db->order_by('m.ppnama', 'asc');
-      return $this->db->get($this->table)->result();
+      return $this->db->get()->result();
     }
 
     function get_pptkis_by_agensi_in_pk($agid){
@@ -128,7 +128,7 @@ class PPTKIS_model extends CI_Model {
       $this->db->join('entryjo j', 'j.ppkode = m.ppkode');
       $this->db->where('j.agid', $agid);
       $this->db->order_by('m.ppnama', 'asc');
-      return $this->db->get($this->table)->result();
+      return $this->db->get()->result();
     }
 
     function get_pptkis_from_agency($id){

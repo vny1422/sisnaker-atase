@@ -161,6 +161,23 @@ public function __construct()
       show_error("Access is forbidden.",403,"403 Forbidden");
     }
   }
+  public function downloadDokFin($param)
+  {
+    //if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
+    //{                    
+        $data['pk'] = $this->PK_model->get_pk_for_report($param, 0);
+        ini_set('memory_limit', '64M');          
+        $nama_dokumen = "PK_Report";		
+        $html = $this->load->view('Endorsement/DownloadPK_view', $data, true); //render the view into HTML
+        $this->load->library('pdfm');
+        $pdf=$this->pdfm->load();
+        $pdf->WriteHTML($html); //write the HTML into PDF	
+        $pdf->Output($nama_dokumen.".pdf" ,'I');               
+    //}
+    //else {
+      //show_error("Access is forbidden.",403,"403 Forbidden");
+    //}
+  } 
 
   public function getDataPK()
   {

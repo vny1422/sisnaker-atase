@@ -157,7 +157,7 @@
         for (var key in listinput) {
 
           if (listinput[key]["isverified"] == 1) {
-            if (listinput[key]["isuploaded"] == 1) {
+            if (listinput[key]["isuploaded"] == 1) {           
               td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpk/Dokumen_Final_PK_' + listinput[key]["ejbcsp"] +'.pdf ">DOWNLOAD</a>'
             }
             else{
@@ -213,7 +213,8 @@
 
             if (listinput[key]["isverified"] == 1) {
               if (listinput[key]["isuploaded"] == 1) {
-                td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpk/Dokumen_Final_PK_' + listinput[key]["ejbcsp"] +'.pdf ">DOWNLOAD</a>'
+                td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>PkNew/downloadDokFin/' + listinput[key]["ejbcsp"] + ' ">DOWNLOAD</a>'      
+                //td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpk/Dokumen_Final_PK_' + listinput[key]["ejbcsp"] +'.pdf ">DOWNLOAD</a>'
               }
               else{
                 td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PkNew/uploadDokFin/' + listinput[key]["ejbcsp"] +' ">UPLOAD</a>'

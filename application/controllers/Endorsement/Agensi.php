@@ -126,7 +126,7 @@ class Agensi extends MY_Controller {
 		$this->email->set_newline("\r\n");
 
 		$this->email->from('budi.pangestu.t@gmail.com', 'Budi Pangestu');
-		$this->email->to('veinya@hotmail.com');
+		$this->email->to($email);
 
 		$this->email->subject('Sisnaker Username Validated');
 		$this->email->message("Your Registration hass been validated. Username and Password are given below: \nUsername :$user \nPassword :$user\n");

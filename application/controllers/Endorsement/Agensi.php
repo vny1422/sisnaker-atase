@@ -117,15 +117,15 @@ class Agensi extends MY_Controller {
 				'protocol' => 'smtp',
 				'smtp_host' => 'ssl://smtp.googlemail.com',
 				'smtp_port' => 465,
-				'smtp_user' => 'budi.pangestu.t@gmail.com',
-				'smtp_pass' => 'blackYueru',
+				'smtp_user' => 'sisnaker.noreply@gmail.com',
+				'smtp_pass' => 'kmzwa8awaa',
 				'mailtype'  => 'html',
 				'charset'   => 'iso-8859-1'
 		);
 		$this->load->library('email', $config);
 		$this->email->set_newline("\r\n");
 
-		$this->email->from('budi.pangestu.t@gmail.com', 'Budi Pangestu');
+		$this->email->from('sisnaker.noreply@gmail.com', 'No Reply - Atnaker Online');
 		$this->email->to($email);
 
 		$this->email->subject('Sisnaker Username Validated');

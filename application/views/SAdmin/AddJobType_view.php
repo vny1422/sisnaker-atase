@@ -61,7 +61,7 @@
                         <br /><br /><br />
 
                             <div class="form-group">
-                                <label class="control-label col-md-2 col-sm-2 col-xs-12">BNP2TKI </label>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">ID Pekerjaan </label>
                                 <div class="col-md-5 col-sm-5 col-xs-12">
                                     <input type="text" name="bnptki" class="form-control">
                             </div>

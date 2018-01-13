@@ -39,6 +39,8 @@ class Currency extends MY_Controller {
         $this->form_validation->set_rules('name', 'Currency Name', 'required|trim');
         $this->form_validation->set_rules('kurs', 'Kurs', 'required|trim');
 
+				$this->data['currency_master'] = $this->Currency_model->get_all_currency_master();
+
         if ($this->form_validation->run() === FALSE)
         {
             $this->data['title'] = 'Tambah Currency';

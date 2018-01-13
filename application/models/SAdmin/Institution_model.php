@@ -74,4 +74,12 @@ class Institution_model extends CI_Model {
         $this->db->where('idinstitution',$id);
         return $this->db->delete($this->table);
     }
+
+    function get_all_country()
+    {
+      $this->db->select('c.*');
+      $this->db->from('country c');
+      $this->db->order_by('c.nicename', 'asc');
+      return $this->db->get()->result();
+    }
 }

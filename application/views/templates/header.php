@@ -29,14 +29,19 @@
     <link href="<?php echo base_url('assets/css/icheck/flat/green.css'); ?>" rel="stylesheet" />
     <link href="<?php echo base_url('assets/css/floatexamples.css'); ?>" rel="stylesheet" type="text/css" />
 
+
+
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/js/jquery.min.js'); ?>"></script>
 
     <!-- Bootstrap -->
     <script src="<?php echo base_url('assets/vendors/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
 
+
     <!-- DataTables -->
     <link href="<?php echo base_url('assets/css/datatables/css/dataTables.bootstrap.css'); ?>" rel="stylesheet">
+
+    <link href="<?php echo base_url('assets/css/jquery-ui.css'); ?>" rel="stylesheet">
 
   </head>
 

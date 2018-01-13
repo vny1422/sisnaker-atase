@@ -33,18 +33,28 @@
                         <?php echo form_open(base_url('institution/add')) ?>
 
                             <div class="form-group">
-                                <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Name <span class="required">*</span></label>
-                                <div class="col-md-5 col-sm-5 col-xs-12">
-                                    <input type="text" name="name" required="required" class="form-control">
-                                </div>
+                              <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Nama Negara <span class="required">*</span></label>
+                              <div class="col-md-5 col-sm-5 col-xs-12">
+                                <select name="name" id="name" required="required" class="select2_single form-control" tabindex="-1">
+                                  <option></option>
+                                  <?php foreach($country as $row): ?>
+                                    <option value="<?php echo $row->nicename ?>"><?php echo $row->nicename ?></option>
+                                  <?php endforeach; ?>
+                                </select>
+                              </div>
                             </div><br /><br /><br />
 
                             <div class="form-group">
-                                <label class="control-label col-md-2 col-sm-2 col-xs-12" for="type">Endorsement Type <span class="required">*</span></label>
-                                <div class="col-md-5 col-sm-5 col-xs-12">
-                                    <input type="text" name="type" required="required" class="form-control">
-                                </div>
+                              <label class="control-label col-md-2 col-sm-2 col-xs-12">Endorsement Type <span class="required">*</span></label>
+                              <div class="col-md-5 col-sm-5 col-xs-12">
+                                <select name="type" required="required" class="select2_single form-control" tabindex="-1">
+                                  <option></option>
+                                  <option value="Agensi">Agensi</option>
+                                  <option value="Agensi">Swainput</option>
+                                </select>
+                              </div>
                             </div><br /><br /><br />
+
 
                             <div class="form-group">
                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Currency <span class="required">*</span></label>

@@ -47,6 +47,8 @@ class Institution extends MY_Controller {
         if ($this->form_validation->run() === FALSE)
         {
 						$this->data['currency'] = $this->Currency_model->list_all_currency();
+						$this->data['country'] = $this->Institution_model->get_all_country();
+
             $this->data['title'] = 'Tambah Institusi';
             $this->load->view('templates/header', $this->data);
             $this->load->view('SAdmin/AddInstitution_view', $this->data);

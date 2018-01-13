@@ -184,12 +184,15 @@ $this->load->view('templates/footer');
 
 public function assignPenempatan()
 {
-  if ($this->session->userdata('institution') == 1) {
+  if ($this->session->userdata('role') == 1) {
     $this->data['listinstitution'] = $this->Institution_model->list_active_institution();
+    //var_dump($this->data['listinstitution']);
   } else {
     $this->data['listinstitution'] = $this->Institution_model->get_institution($this->session->userdata('institution'));
+    //var_dump($this->data['listinstitution']);
   }
   $this->data['listinput'] = $this->Input_model->list_all_input('penempatan');
+  //var_dump($this->data['listinput']);
 
   $this->data['listnamacategory'] = array();
   foreach ($this->data['listinput'] as $row):

@@ -36,7 +36,7 @@ class Privilege extends MY_Controller {
 
       if ($this->form_validation->run() === FALSE)
       {
-        $this->data['title'] = 'Add Master Privilege Group';
+        $this->data['title'] = 'Tambah Grup Master Akses Pengguna';
         $this->load->view('templates/header', $this->data);
         $this->load->view('SAdmin/AddMasterPrivilegeGroup_view', $this->data);
         $this->load->view('templates/footer');
@@ -45,7 +45,7 @@ class Privilege extends MY_Controller {
       {
         $result = $this->Privilege_model->post_new_mpg();
         $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
-        $this->data['title'] = 'Add Master Privilege Group';
+        $this->data['title'] = 'Tambah Grup Master Akses Pengguna';
         $this->load->view('templates/header', $this->data);
         $this->load->view('SAdmin/AddMasterPrivilegeGroup_view', $this->data);
         $this->load->view('templates/footer');
@@ -60,7 +60,7 @@ class Privilege extends MY_Controller {
       if ($this->form_validation->run() === FALSE)
       {
         $this->data['listmpg'] = $this->Privilege_model->list_all_mpg();
-        $this->data['title'] = 'Add Privilege Group';
+        $this->data['title'] = 'Tambah Grup Akses Pengguna';
         $this->load->view('templates/header', $this->data);
         $this->load->view('SAdmin/AddPrivilegeGroup_view', $this->data );
         $this->load->view('templates/footer');
@@ -70,7 +70,7 @@ class Privilege extends MY_Controller {
         $this->Privilege_model->post_new_pg();
         $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
         $this->data['listmpg'] = $this->Privilege_model->list_all_mpg();
-        $this->data['title'] = 'Add Privilege Group';
+        $this->data['title'] = 'Tambah Grup Akses Pengguna';
         $this->load->view('templates/header', $this->data);
         $this->load->view('SAdmin/AddPrivilegeGroup_view', $this->data );
         $this->load->view('templates/footer');
@@ -86,7 +86,7 @@ class Privilege extends MY_Controller {
       if ($this->form_validation->run() === FALSE)
       {
         $this->data['list'] = $this->Privilege_model->list_all_pg();
-        $this->data['title'] = 'Tambah Detail Privilege';
+        $this->data['title'] = 'Tambah Detail Akses Pengguna';
         $this->load->view('templates/header', $this->data);
         $this->load->view('SAdmin/AddDetailPrivilege_view', $this->data);
         $this->load->view('templates/footer');
@@ -96,7 +96,7 @@ class Privilege extends MY_Controller {
         $this->Privilege_model->post_new_dp();
         $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
         $this->data['list'] = $this->Privilege_model->list_all_pg();
-        $this->data['title'] = 'Tambah Detail Privilege';
+        $this->data['title'] = 'Tambah Detail Akses Pengguna';
         $this->load->view('templates/header', $this->data);
         $this->load->view('SAdmin/AddDetailPrivilege_view', $this->data);
         $this->load->view('templates/footer');
@@ -106,7 +106,7 @@ class Privilege extends MY_Controller {
     public function viewMPG()
     {
       $this->data['list'] = $this->Privilege_model->list_all_mpg();
-      $this->data['title'] = 'View Master Privilege Group';
+      $this->data['title'] = 'Lihat Grup Master Akses Pengguna';
       $this->load->view('templates/header', $this->data);
       $this->load->view('SAdmin/MasterPrivilegeGroup_view', $this->data);
       $this->load->view('templates/footer');
@@ -119,7 +119,7 @@ class Privilege extends MY_Controller {
       foreach ($this->data['list'] as $row):
         array_push($this->data['listnama'],$this->Privilege_model->get_mpg_name($row->masterprivilegegroupid));
       endforeach;
-      $this->data['title'] = 'View Privilege Group';
+      $this->data['title'] = 'Lihat Grup Akses Pengguna';
       $this->load->view('templates/header', $this->data);
       $this->load->view('SAdmin/PrivilegeGroup_view', $this->data);
       $this->load->view('templates/footer');
@@ -134,7 +134,7 @@ class Privilege extends MY_Controller {
       {
         $this->data['values'] = $this->Privilege_model->get_pg($id);
         $this->data['listmpg'] = $this->Privilege_model->list_all_mpg();
-        $this->data['title'] = 'Edit Privilege Group';
+        $this->data['title'] = 'Edit Grup Akses Pengguna';
         $this->load->view('templates/header', $this->data);
         $this->load->view('SAdmin/EditPrivilegeGroup_view', $this->data);
         $this->load->view('templates/footer');
@@ -153,7 +153,7 @@ class Privilege extends MY_Controller {
     foreach ($this->data['list'] as $row):
       array_push($this->data['listnama'],$this->Privilege_model->get_pg_name($row->idprivilegegroup));
     endforeach;
-    $this->data['title'] = 'Lihat Privilege Detail';
+    $this->data['title'] = 'Lihat Detail Akses Pengguna';
     $this->load->view('templates/header', $this->data);
     $this->load->view('SAdmin/DetailPrivilege_view', $this->data);
     $this->load->view('templates/footer');
@@ -169,7 +169,7 @@ class Privilege extends MY_Controller {
     {
       $this->data['values'] = $this->Privilege_model->get_dp($id);
       $this->data['listpg'] = $this->Privilege_model->list_all_pg();
-      $this->data['title'] = 'Edit Detail Privilege';
+      $this->data['title'] = 'Edit Detail Akses Pengguna';
       $this->load->view('templates/header', $this->data);
       $this->load->view('SAdmin/EditDetailPrivilege_view', $this->data);
       $this->load->view('templates/footer');
@@ -188,7 +188,7 @@ class Privilege extends MY_Controller {
     if ($this->form_validation->run() === FALSE)
     {
       $this->data['values'] = $this->Privilege_model->get_mpg($id);
-      $this->data['title'] = 'Edit Master Privilege Group';
+      $this->data['title'] = 'Edit Master Grup Akses Pengguna';
       $this->load->view('templates/header', $this->data);
       $this->load->view('SAdmin/EditMasterPrivilegeGroup_view', $this->data);
       $this->load->view('templates/footer');
@@ -225,7 +225,7 @@ public function viewlala()
   foreach ($this->data['list'] as $row):
     array_push($this->data['listnama'],$this->Privilege_model->get_mpg_name($row->masterprivilegegroupid));
   endforeach;
-  $this->data['title'] = 'View Privilege Group';
+  $this->data['title'] = 'Lihat Grup Akses Pengguna';
   $this->load->view('templates/header', $this->data);
   $this->load->view('SAdmin/HunianShelter_view', $this->data);
   $this->load->view('templates/footer');

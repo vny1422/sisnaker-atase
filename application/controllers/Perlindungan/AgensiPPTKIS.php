@@ -50,12 +50,12 @@ class AgensiPPTKIS extends MY_Controller {
 			if($this->session->userdata('role') == '1')
 			{
 				$this->data['listinstitution'] = $this->Institution_model->list_active_institution();
-				$this->data['listuser'] = $this->User_model->list_all_user();
+				//$this->data['listuser'] = $this->User_model->list_all_user();
 			}
 			else {
 				$this->data['listinstitution'] = array();
 				array_push($this->data['listinstitution'],$this->Institution_model->get_institution($this->session->userdata('institution')));
-				$this->data['listuser'] = $this->User_model->list_all_user_by_institution($this->session->userdata('institution'));
+				//$this->data['listuser'] = $this->User_model->list_all_user_by_institution($this->session->userdata('institution'));
 			}
 			$this->data['title'] = 'Tambah Agensi';
 			$this->load->view('templates/header', $this->data);
@@ -139,7 +139,8 @@ class AgensiPPTKIS extends MY_Controller {
 				$this->Pptkis_model->post_new_pptkis();
 				$this->session->set_flashdata('information', 'Data berhasil dimasukkan');
 			}
-			$this->data['title'] = 'Tambah PPTKISi';
+			$this->data['title'] = 'Tambah PPTKIS';
+			$this->data['provinsi'] =  $this->Pptkis_model->get_all_propinsi();
 			$this->load->view('templates/header', $this->data);
 			$this->load->view('SAdmin/AddPPTKIS_view', $this->data);
 			$this->load->view('templates/footer');
@@ -320,5 +321,32 @@ class AgensiPPTKIS extends MY_Controller {
 
 		echo json_encode($return);
 	}
+
+	// AJAX AUTOCOMPLETE
+	public function get_user_agensi(){
+		$keyword = $this->input->post('term',TRUE);
+		$query = $this->User_model->list_all_user_by_institution_autocomplete($keyword, $this->session->userdata('institution'));
+
+		$json_array = array();
+		$r = new stdClass;
+		$i=0;
+		foreach ($query as $row)
+			$r->rows[$i++]=$row;
+		echo json_encode($r);
+	}
+
+	public function get_kota_by_prov()
+	{
+		$prov_id = $this->input->post('prov_id', TRUE);
+		$result = $this->Pptkis_model->get_kota_by_prov($prov_id);
+
+		echo json_encode($result);
+	}
+
+
+
+
+
+
 
 }

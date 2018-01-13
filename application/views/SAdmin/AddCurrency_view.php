@@ -32,16 +32,21 @@
                         <?php echo form_open(base_url('currency/add')) ?>
 
                         <div class="form-group">
-                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Name <span class="required">*</span></label>
-                            <div class="col-md-5 col-sm-5 col-xs-12">
-                                <input type="text" name="name" required="required" class="form-control">
-                            </div>
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Name <span class="required">*</span></label>
+                          <div class="col-md-5 col-sm-5 col-xs-12">
+                            <select name="name" id="name" required="required" class="select2_single form-control" tabindex="-1">
+                              <option></option>
+                              <?php foreach($currency_master as $row): ?>
+                                <option value="<?php echo $row->code." | ".$row->name ?>"><?php echo $row->code." | ".$row->name ?></option>
+                              <?php endforeach; ?>
+                            </select>
+                          </div>
                         </div><br /><br /><br />
 
                         <div class="form-group">
                             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Kurs <span class="required">*</span></label>
                             <div class="col-md-5 col-sm-5 col-xs-12">
-                                <input type="number" name="kurs" required="required" class="form-control">
+                                <input type="number" min="0" name="kurs" required="required" class="form-control">
                             </div>
                         </div><br />
 

@@ -187,7 +187,7 @@
 
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button class="btn btn-primary pull-left" type="button">Login</button>
+                          <a href=" <?php echo base_url() ?>login " class="btn btn-primary pull-left">Login</a>
                           <button type="submit" class="pull-right btn btn-success">Submit</button>
 						  <button class="pull-right btn btn-primary" type="reset">Reset</button>
 

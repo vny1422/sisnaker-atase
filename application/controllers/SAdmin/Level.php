@@ -28,7 +28,7 @@ class Level extends MY_Controller {
 	public function index()
 	{
 		$this->data['list'] = $this->Level_model->list_all_level();
-		$this->data['title'] = 'View Level';
+		$this->data['title'] = 'Lihat Level Pengguna';
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('SAdmin/Level_view', $this->data);
 		$this->load->view('templates/footer');
@@ -40,7 +40,7 @@ class Level extends MY_Controller {
 
 		if ($this->form_validation->run() === FALSE)
 		{
-			$this->data['title'] = 'Add Level';
+			$this->data['title'] = 'Tambah Level Pengguna';
 			$this->load->view('templates/header', $this->data);
 			$this->load->view('SAdmin/AddLevel_view', $this->data);
 			$this->load->view('templates/footer');
@@ -49,7 +49,7 @@ class Level extends MY_Controller {
 		{
 			$this->Level_model->post_new_level();
 			$this->session->set_flashdata('information', 'Data berhasil dimasukkan');
-			$this->data['title'] = 'Add Level';
+			$this->data['title'] = 'Tambah Level Pengguna';
 			$this->load->view('templates/header', $this->data);
 			$this->load->view('SAdmin/AddLevel_view', $this->data);
 			$this->load->view('templates/footer');
@@ -64,7 +64,7 @@ class Level extends MY_Controller {
 		if ($this->form_validation->run() === FALSE)
 		{
 			$this->data['values'] = $this->Level_model->get_level($id);
-			$this->data['title'] = 'Edit Level';
+			$this->data['title'] = 'Edit Level Pengguna';
 			$this->load->view('templates/header', $this->data);
 			$this->load->view('SAdmin/EditLevel_view', $this->data);
 			$this->load->view('templates/footer');
@@ -92,7 +92,7 @@ class Level extends MY_Controller {
 			array_push($this->data['listnamapg'],$this->Privilege_model->get_pg_name($row->idprivilegegroup));
 		endforeach;
 
-		$this->data['title'] = 'Assign Level';
+		$this->data['title'] = 'Assign Level Pengguna';
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('SAdmin/AssignLevel_view', $this->data);
 		$this->load->view('templates/footer');

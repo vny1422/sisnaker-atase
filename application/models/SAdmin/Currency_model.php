@@ -55,8 +55,16 @@ class Currency_model extends CI_Model {
         $this->db->join('currency c', 'c.idcurrency=i.idcurrency');
         $this->db->where('idinstitution',$idinstitution);
         $query = $this->db->get();
-        
+
         return $query->row();
+    }
+    
+    function get_all_currency_master()
+    {
+      $this->db->select('c.*');
+      $this->db->from('currency_master c');
+      $this->db->order_by('c.code', 'asc');
+      return $this->db->get()->result();
     }
 
 }

@@ -91,4 +91,13 @@ class User_model extends CI_Model {
         $this->db->where('username',$username);
         return $this->db->update($this->table);
     }
+
+    //ajax autocomplete
+    public function list_all_user_by_institution_autocomplete($keyword, $id)
+    {
+        $this->db->where('idinstitution',$id);
+        $this->db->like('username', $keyword);
+        return $this->db->get($this->table)->result();
+    }
+
 }

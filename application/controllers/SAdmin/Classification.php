@@ -28,7 +28,7 @@ class Classification extends MY_Controller {
     public function index()
     {
         $this->data['list'] = $this->Classification_model->list_all_classification();
-        $this->data['title'] = 'Classification Table';
+        $this->data['title'] = 'Data Jenis Masalah';
         $this->load->view('templates/header', $this->data);
         $this->load->view('SAdmin/Classification_view', $this->data);
         $this->load->view('templates/footer');
@@ -40,7 +40,7 @@ class Classification extends MY_Controller {
 
         if ($this->form_validation->run() === FALSE)
         {
-            $this->data['title'] = 'Tambah Klasifikasi';
+            $this->data['title'] = 'Tambah Jenis Masalah';
             $this->load->view('templates/header', $this->data);
             $this->load->view('SAdmin/AddClassification_view', $this->data);
             $this->load->view('templates/footer');
@@ -49,7 +49,7 @@ class Classification extends MY_Controller {
         {
             $this->Classification_model->post_new_classification();
             $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
-            $this->data['title'] = 'Tambah Klasifikasi';
+            $this->data['title'] = 'Tambah Jenis Masalah';
             $this->load->view('templates/header', $this->data);
             $this->load->view('SAdmin/AddClassification_view', $this->data);
             $this->load->view('templates/footer');
@@ -62,7 +62,7 @@ class Classification extends MY_Controller {
 
           if ($this->form_validation->run() === FALSE)
           {
-              $this->data['title'] = 'Edit Klasifikasi';
+              $this->data['title'] = 'Edit Jenis Masalah';
               $this->data['values'] =  $this->Classification_model->get_classification($id);
               $this->load->view('templates/header', $this->data);
               $this->load->view('SAdmin/EditClassification_view', $this->data);
@@ -89,7 +89,7 @@ class Classification extends MY_Controller {
             $this->data['listinstitution'] = $this->Institution_model->get_institution($this->session->userdata('institution'));
           }
           $this->data['listklasifikasi'] = $this->Classification_model->list_all_classification();
-          $this->data['title'] = 'Assign Klasifikasi';
+          $this->data['title'] = 'Assign Jenis Masalah';
           $this->load->view('templates/header', $this->data);
           $this->load->view('SAdmin/AssignKlasifikasi_view', $this->data);
           $this->load->view('templates/footer');

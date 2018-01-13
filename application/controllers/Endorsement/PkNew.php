@@ -169,8 +169,8 @@ public function __construct()
         ini_set('memory_limit', '64M');          
         $nama_dokumen = "PK_Report";		
         $html = $this->load->view('Endorsement/DownloadPK_view', $data, true); //render the view into HTML
-        $this->load->library('pdfm');
-        $pdf=$this->pdfm->load();
+        $this->load->library('Pdfm');
+        $pdf=$this->Pdfm->load();
         $pdf->WriteHTML($html); //write the HTML into PDF	
         $pdf->Output($nama_dokumen.".pdf" ,'I');               
     //}

@@ -723,7 +723,7 @@ public function printDokumen($md5ej)
 
 public function printJOSK($md5ej)
 {
-  $this->load->library('pdf');
+  $this->load->library('Pdf');
   $pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false);
   $pdf->AddPage();
   $pdf->Image('./assets/template/perawatpanti_01.jpg', 0, 0, $pdf->w, $pdf->h);
@@ -732,7 +732,7 @@ public function printJOSK($md5ej)
 
 public function printPKTKI($md5tki)
 {
-  $this->load->library('pdf');
+  $this->load->library('Pdf');
   $pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false);
   $pdf->AddPage();
   $pdf->Image('./assets/template/perawatpanti_01.jpg', 0, 0, $pdf->w, $pdf->h);

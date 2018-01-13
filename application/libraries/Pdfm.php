@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('Tidak ada akses langsung script diperbolehkan');
  
-class pdfm{
+class Pdfm {
     function pdf(){
         $CI =& get_instance();
         log_message('Debug', 'mPDF class is loaded.');

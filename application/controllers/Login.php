@@ -58,7 +58,7 @@ class Login extends CI_Controller {
 			{
 				redirect('sadmin/local');
 			}
-			else if($this->session->userdata('role') == 3)
+			else if($this->session->userdata('role') == 3 || $this->session->userdata('role') == 10)
 			{
 				redirect('perlindungan');
 			}

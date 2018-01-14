@@ -34,7 +34,7 @@ class Perlindungan extends MY_Controller {
     }
 
     public function index() {
-        if ($this->session->userdata('role') != 3)
+        if ($this->session->userdata('role') != 3 && $this->session->userdata('role') != 10)
         {
             show_error("Access is forbidden.",403,"403 Forbidden");
         }
@@ -53,7 +53,7 @@ class Perlindungan extends MY_Controller {
 
 	public function indextaiwan()
 	{
-        if ($this->session->userdata('role') != 3)
+        if ($this->session->userdata('role') != 3 && $this->session->userdata('role') != 10)
         {
             show_error("Access is forbidden.",403,"403 Forbidden");
         }

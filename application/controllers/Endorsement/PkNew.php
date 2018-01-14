@@ -163,20 +163,36 @@ public function __construct()
   }
   public function downloadDokFin($param)
   {
-    //if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
-    //{                    
-        $data['pk'] = $this->PK_model->get_pk_for_report($param, 0);
+    if ($this->session->userdata('role') == 4 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 5){       
+
+        $data['pk'] = $this->PK_model->get_pk_for_report($param);
+        
         ini_set('memory_limit', '64M');          
-        $nama_dokumen = "PK_Report";		
-        $html = $this->load->view('Endorsement/DownloadPK_view', $data, true); //render the view into HTML
-        $this->load->library('Pdfm');
-        $pdf=$this->Pdfm->load();
+        $nama_dokumen = "PK_Report";		        
+
+        $html = $this->load->view('Endorsement/PK/'.$data['pk']['idinstitution'].'/'.$data['pk']['idjenispekerjaan'].'.php', $data, true); //render the view into HTML
+        
+        $this->load->library('pdfm');          
+        $pdf=$this->pdfm->load();
+
+        $pdf->SetImportUse();                
+        
+        $pagecount = $pdf->SetDocTemplate('assets/pdf/'.$data['pk']['idinstitution'].'/'.$data['pk']['idjenispekerjaan'].'.pdf', true);                        
+
+        $pdf->AddPage();        
+        // for ($i=1; $i<=$pagecount; $i++) {          
+        //   $import_page = $pdf->ImportPage($i);
+        //   $pdf->UseTemplate($import_page);            
+        //   if ($i < $pagecount){
+        //     $pdf->AddPage();        
+        //   }              
+        // }        
         $pdf->WriteHTML($html); //write the HTML into PDF	
         $pdf->Output($nama_dokumen.".pdf" ,'I');               
-    //}
-    //else {
-      //show_error("Access is forbidden.",403,"403 Forbidden");
-    //}
+    }
+    else {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
   } 
 
   public function getDataPK()

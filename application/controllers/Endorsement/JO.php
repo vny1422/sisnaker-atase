@@ -383,8 +383,8 @@ class JO extends MY_Controller {
         ini_set('memory_limit', '64M');          
         $nama_dokumen = "JO_Report";		
         $html = $this->load->view('Endorsement/DownloadJO_view', $data, true); //render the view into HTML
-        $this->load->library('Pdfm');
-        $pdf=$this->Pdfm->load();
+        $this->load->library('pdfm');
+        $pdf=$this->pdfm->load();
         $pdf->WriteHTML($html); //write the HTML into PDF	
         $pdf->Output($nama_dokumen.".pdf" ,'I');               
     //}

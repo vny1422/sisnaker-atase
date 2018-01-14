@@ -119,8 +119,8 @@ class Agensi extends MY_Controller {
 				'smtp_port' => 465,
 				'smtp_user' => 'sisnaker.noreply@gmail.com',
 				'smtp_pass' => 'kmzwa8awaa',
-				'mailtype'  => 'html',
-				'charset'   => 'iso-8859-1'
+				'mailtype'  => 'text',
+				'charset'   => 'utf-8'
 		);
 		$this->load->library('email', $config);
 		$this->email->set_newline("\r\n");

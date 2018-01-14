@@ -128,8 +128,22 @@ class Agensi extends MY_Controller {
 		$this->email->from('sisnaker.noreply@gmail.com', 'No Reply - Atnaker Online');
 		$this->email->to($email);
 
-		$this->email->subject('Sisnaker Username Validated');
-		$this->email->message("Your Registration hass been validated. Username and Password are given below: \nUsername :$user \nPassword :$user\n");
+		$this->email->subject('ONLINE ATNAKER - Username Validated');
+		$this->email->message("Dear Agency $agnama, \r\n \r\n
+
+
+		This is your username and password : \r\n
+		Username : $user \r\n
+		Password : $user \r\n \r\n
+
+		After login, please update your password. \r\n \r\n
+
+		Thank you, \r\n \r\n \r\n
+
+
+		ONLINE ATNAKER \r\n
+		Ministry of Manpower of The Republic of Indonesia \r\n
+		");
 
 		$this->email->send();
 

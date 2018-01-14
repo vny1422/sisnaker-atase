@@ -178,7 +178,7 @@ class PKP_model extends CI_Model {
     $this->db->where('pkpkode', $bc);
     $this->db->where('p.idinstitution', $this->session->userdata('institution'));
     return $this->db->get()->result_array();
-  }  
+  }
 
   function toggle_pkp($id, $reject=FALSE)
   {
@@ -247,8 +247,10 @@ class PKP_model extends CI_Model {
     $this->db->where('p.agid', $agid);
     $this->db->where('p.ppkode', $ppkode);
     $this->db->where('p.idinstitution', $this->session->userdata('institution'));
-    $this->db->where('p.idkantor', $this->session->userdata('kantor'));
-
+    if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9){
+        $idkantorloggedin = $this->session->userdata('kantor');
+        $this->db->where("(j.idkantor = $idkantorloggedin OR j.idkantor = 0)");
+    }
     return $this->db->get()->result();
   }
 

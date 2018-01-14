@@ -121,12 +121,14 @@ class JO_model extends CI_Model {
     $this->db->order_by("j.jobtimestamp", "desc");
     $this->db->join('magensi ag', 'ag.agid = j.agid');
     $this->db->join('mpptkis pp', 'pp.ppkode = j.ppkode');
-    $this->db->join('pkp', 'pkp.pkpid = j.pkpid');
+    $this->db->join('pkp', 'pkp.pkpid = j.pkpid', 'left');
     $this->db->where('j.agid', $agid);
     $this->db->where('j.ppkode', $ppkode);
     $this->db->where('j.idinstitution', $this->session->userdata('institution'));
-    $this->db->where('j.idkantor', $this->session->userdata('kantor'));
-
+    if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9){
+        $idkantorloggedin = $this->session->userdata('kantor');
+        $this->db->where("(j.idkantor = $idkantorloggedin OR j.idkantor = 0)");
+    }
     return $this->db->get()->result();
   }
 
@@ -219,7 +221,7 @@ class JO_model extends CI_Model {
     $this->db->where('jokode', $jokode);
     $this->db->where('j.idinstitution', $this->session->userdata('institution'));
     return $this->db->get()->result_array();
-  }  
+  }
 
   function toggle_jo($jokode, $reject=FALSE)
   {

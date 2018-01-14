@@ -34,7 +34,7 @@ class Agensi extends MY_Controller {
 
   public function cek()
   {
-    $this->data['list'] = $this->Agency_model->get_agency_registration();
+    $this->data['list'] = $this->Agency_model->get_agency_registration(NULL, $this->session->userdata['institution']);
     $this->data['listnama'] = array();
     foreach ($this->data['list'] as $row):
       array_push($this->data['listnama'],$this->Institution_model->get_institution_name($row->idinstitution));
@@ -129,19 +129,18 @@ class Agensi extends MY_Controller {
 		$this->email->to($email);
 
 		$this->email->subject('ONLINE ATNAKER - Username Validated');
-		$this->email->message("Dear Agency $agnama, \r\n \r\n
+		$this->email->message("
+		Dear Agency $agnama,
 
+		This is your username and password :
 
-		This is your username and password : \r\n
-		Username : $user \r\n
-		Password : $user \r\n \r\n
+		Username : $user
+		Password : $user
 
-		After login, please update your password. \r\n \r\n
+		After login, please update your password.
+		Thank you,
 
-		Thank you, \r\n \r\n \r\n
-
-
-		ONLINE ATNAKER \r\n
+		ONLINE ATNAKER
 		Ministry of Manpower of The Republic of Indonesia \r\n
 		");
 

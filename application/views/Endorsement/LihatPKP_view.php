@@ -222,6 +222,7 @@
         </div>
       </div>
     </div>
+  </div>
 
     <script type="text/javascript">
     $(document).ready(function() {
@@ -371,7 +372,7 @@
             for (var key in obj) {
               //$(".pptkis").add(new Option(obj[key].ppnama, obj[key].ppkode));
               $(".pptkis").append($("<option></option>")
-                 .attr("value", obj[key].ppkode).text(obj[key].ppnama));
+              .attr("value", obj[key].ppkode).text(obj[key].ppnama));
             }
           } else {
             $(".pptkis").empty();
@@ -425,8 +426,6 @@
 
         });
       }
-
-
 
     });
     </script>

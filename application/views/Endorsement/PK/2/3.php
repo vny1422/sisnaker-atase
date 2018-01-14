@@ -33,9 +33,9 @@ p{
 
 <p style="padding-left:93 mm; margin-top:35mm; font-family:sun-extA;"><?php if($pk['mjpngjwbcn'] == "" ) echo $pk['mjnamacn']; else echo $pk['mjnamacn']."(".$pk['mjpngjwbcn'].")";?></p>
 <p style="padding-left:75 mm; margin-top:43mm;"><?php if($pk['mjpngjwb'] == "" ) echo $pk['mjnama']; else echo $pk['mjnama']."(".$pk['mjpngjwb'].")";?></p>
-<p style="padding-left:20 mm; margin-top:54mm; font-family:sun-extA;"><?= $pk['mjalmtcn'];?></p>
-<p style="padding-left:25 mm; margin-top:62mm;"><?= $pk['mjalmt'];?></p>
-<p style="padding-left:20 mm; margin-top:68mm;"><?= $pk['mjtelp'];?></p>
+<p style="padding-left:17 mm; margin-top:49mm; font-family:sun-extA;"><?= $pk['mjalmtcn'];?></p>
+<p style="padding-left:22 mm; margin-top:56mm;"><?= $pk['mjalmt'];?></p>
+<p style="padding-left:17 mm; margin-top:63mm;"><?= $pk['mjtelp'];?></p>
 
 <p style="padding-left:37 mm; margin-top:95mm;"><?= $pk['tknama'];?></p>
 <p style="padding-left:50 mm; margin-top:107mm;"><?= $pk['tkalmtid'];?></p>

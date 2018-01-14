@@ -93,11 +93,6 @@ class Input extends MY_Controller {
 
    $this->Input_model->post_new_input_option('penempatan',$this->data2);
  }
- $this->load_sidebar();
- $this->data['listdp'] = $this->listdp;
- $this->data['usedpg'] = $this->usedpg;
- $this->data['usedmpg'] = $this->usedmpg;
- $this->data['sidebar'] = 'SAdmin/Sidebar';
  $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
  $this->data['listcategory'] = $this->Category_model->list_all_category('penempatan');
  $this->data['listinputtype'] = $this->Inputtype_model->list_all_inputtype();

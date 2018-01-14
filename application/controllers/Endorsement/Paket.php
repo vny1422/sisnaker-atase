@@ -28,7 +28,7 @@ class Paket extends MY_Controller {
 
   public function index()
   {
-    if (!($this->session->userdata('role') <= 2 || $this->session->userdata('role') == 4 || $this->session->userdata('role') == 5 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9))
+    if (!($this->session->userdata('role') <= 2 || $this->session->userdata('role') == 4 || $this->session->userdata('role') == 5 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9 || $this->session->userdata('role') == 8))
     {
       show_error("Access is forbidden.",403,"403 Forbidden");
     }

@@ -247,10 +247,8 @@ class PKP_model extends CI_Model {
     $this->db->where('p.agid', $agid);
     $this->db->where('p.ppkode', $ppkode);
     $this->db->where('p.idinstitution', $this->session->userdata('institution'));
-    if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9){
-        $idkantorloggedin = $this->session->userdata('kantor');
-        $this->db->where("(j.idkantor = $idkantorloggedin OR j.idkantor = 0)");
-    }
+    $this->db->where('p.idkantor', $this->session->userdata('kantor'));
+
     return $this->db->get()->result();
   }
 

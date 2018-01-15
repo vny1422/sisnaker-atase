@@ -10,7 +10,7 @@
             </div>
             <div class="col-md-1">
               <select class="form-control" name="" data-size="3" data-live-search="true" id="tahun">
-                <?php 
+                <?php
                 foreach ($tahunpenempatan as $row) {
                   if (!empty($row->tahun)) {
                     echo '<option value="'.$row->tahun.'">'.$row->tahun.'</option>';

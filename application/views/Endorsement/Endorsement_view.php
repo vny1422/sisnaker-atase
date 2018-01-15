@@ -61,7 +61,7 @@
 
               <div class="row">
 
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-6 col-md-6">
                   <div class="panel panel-success">
                     <div class="panel-heading">
                       <div class="row">
@@ -70,7 +70,7 @@
                         </div>
                         <div class="col-xs-10 text-right">
                           <div><h2 class="dtahun"></h2></div>
-                          <div><h5>(Jenis Kelamin)</h5></div>
+                          <div><h5>(Group by Gender)</h5></div>
                         </div>
                       </div>
                     </div>
@@ -83,7 +83,7 @@
                   </div>
                 </div>
 
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-6 col-md-6">
                   <div class="panel panel-success">
                     <div class="panel-heading">
                       <div class="row">
@@ -92,7 +92,7 @@
                         </div>
                         <div class="col-xs-10 text-right">
                           <div><h2 class="dbulan"></h2></div>
-                          <div><h5>(Jenis Kelamin)</h5></div>
+                          <div><h5>(Group by Gender)</h5></div>
                         </div>
                       </div>
                     </div>
@@ -152,7 +152,6 @@
                         </div>
                       </div>
                     </div>
-                  </div>
 
               </div>
               <br />

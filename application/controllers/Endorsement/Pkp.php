@@ -205,20 +205,20 @@
     public function downloadDokFin($param)
     {
       //if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
-      //{                    
+      //{
           $data['pkp'] = $this->PKP_model->get_pkp_for_report($param);
-          ini_set('memory_limit', '64M');          
-          $nama_dokumen = "PKP_Report";		
+          ini_set('memory_limit', '64M');
+          $nama_dokumen = "PKP_Report";
           $html = $this->load->view('Endorsement/DownloadPKP_view', $data, true); //render the view into HTML
           $this->load->library('Pdfm');
           $pdf=$this->Pdfm->load();
-          $pdf->WriteHTML($html); //write the HTML into PDF	
-          $pdf->Output($nama_dokumen.".pdf" ,'I');               
+          $pdf->WriteHTML($html); //write the HTML into PDF
+          $pdf->Output($nama_dokumen.".pdf" ,'I');
       //}
       //else {
         //show_error("Access is forbidden.",403,"403 Forbidden");
       //}
-    }    
+    }
 
     public function getDataPKP()
     {
@@ -396,12 +396,11 @@
           {
             redirect('Pkp');
           }
-          $barcodeku = $this->generateBarcode();
           $username = $this->session->userdata('user');
           $institusi = $this->session->userdata('institution');
           $this->Kuitansi_model->catat_kuitansi($username, $institusi, $barcodeku, 1);
           $this->session->set_flashdata('print', 'Segera Upload Dokumen Final PKP');
-          $this->data['bc'] = $barcodeku;
+          $this->data['bc'] = $this->input->post('barcodeprint', true);
           $this->data['kuitansiag'] = $this->input->post('kuitansiag', true);
           $this->data['kuitansipp'] = $this->input->post('kuitansipp', true);
           $this->session->set_flashdata('data', $this->data);
@@ -413,9 +412,8 @@
         {
           redirect('Pkp');
         }
-        $barcodeku = $this->generateBarcode();
         $this->session->set_flashdata('print', 'Segera Upload Dokumen Final PKP ');
-        $this->data['bc'] = $barcodeku;
+        $this->data['bc'] = $this->input->post('barcodeprint', true);
         $this->data['kuitansiag'] = $this->input->post('kuitansiag', true);
         $this->data['kuitansipp'] = $this->input->post('kuitansipp', true);
         $this->session->set_flashdata('data', $this->data);

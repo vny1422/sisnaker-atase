@@ -4,7 +4,7 @@
     <img src="<?php echo ($_SESSION['picture'] != "" ? base_url('assets/images/'.$_SESSION['picture']) : base_url('assets/images/user.png')); ?>" alt="..." class="img-circle profile_img">
   </div>
   <div class="profile_info" style="padding-top:17px">
-    <span>Selamat datang,</span>
+    <span>Welcome,</span>
     <h2><strong><?php
       if ($_SESSION['name'] != NULL)
       {

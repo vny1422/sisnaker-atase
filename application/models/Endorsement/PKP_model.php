@@ -178,7 +178,7 @@ class PKP_model extends CI_Model {
     $this->db->where('pkpkode', $bc);
     $this->db->where('p.idinstitution', $this->session->userdata('institution'));
     return $this->db->get()->result_array();
-  }  
+  }
 
   function toggle_pkp($id, $reject=FALSE)
   {

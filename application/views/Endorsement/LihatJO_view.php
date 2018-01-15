@@ -300,6 +300,7 @@
         </div>
       </div>
     </div>
+  </div>
 
     <script type="text/javascript">
     $(document).ready(function() {
@@ -352,8 +353,8 @@
                     td = 'Segera Lakukan Verifikasi'
                   }
                   table.row.add([
-                    '<td id="kodejo" class="text-center" value = "' + obj[key]["jokode"] +'"><a onclick=showJO("'+obj[key]["jokode"]+'") data-toggle="modal" data-target="#modalDetailJO">' + obj[key]["jokode"] + '</a></td>',
-                    '<td id="kodepkp" class="text-center" value = "' + obj[key]["pkpkode"] +'"><a onclick=showPKP("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalDetailPKP">' + obj[key]["pkpkode"] + '</a></td>',
+                    '<td id="kodejo" class="text-center" value = "' + obj[key]["jokode"] +'"><a onclick=showJO("'+obj[key]["jokode"]+'") data-toggle="modal" data-target="#modalDetailJO">' + (obj[key]["jokode"] ? obj[key]["jokode"] : "-") + '</a></td>',
+                    '<td id="kodepkp" class="text-center" value = "' + obj[key]["pkpkode"] +'"><a onclick=showPKP("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalDetailPKP">' + (obj[key]["pkpkode"] ? obj[key]["pkpkode"] : "-") + '</a></td>',
                     obj[key]["jobtglawal"],
                     obj[key]["jobtglakhir"],
                     '<td>'+ (obj[key]["isverified"] > 1 ? "Sudah" : "Belum") + '</td>',
@@ -408,7 +409,7 @@
                     td = '<a onclick=showTolak("'+obj[key]["jokode"]+'") data-toggle="modal" data-target="#modalTolak">JO Ditolak</a>'
                   }
                   else if (obj[key]["isverified"] == 2) {
-                    td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>JO/downloadDokFin/' + obj[key]["jokode"] + ' ">DOWNLOAD Dokumen Pengajuan JO</a>'   
+                    td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>JO/downloadDokFin/' + obj[key]["jokode"] + ' ">DOWNLOAD Dokumen Pengajuan JO</a>'
                     //td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinaljo/Dokumen_Final_JO_' + obj[key]["jokode"] +'.pdf ">DOWNLOAD Dokumen Pengajuan JO</a>'
                   }
                   else if (obj[key]["isverified"] == 3) {
@@ -423,8 +424,8 @@
                     td = 'Segera Lakukan Verifikasi'
                   }
                   table.row.add([
-                    '<td id="kodejo" class="text-center" value = "' + obj[key]["jokode"] +'"><a onclick=showJO("'+obj[key]["jokode"]+'") data-toggle="modal" data-target="#modalDetailJO">' + obj[key]["jokode"] + '</a></td>',
-                    '<td id="kodepkp" class="text-center" value = "' + obj[key]["pkpkode"] +'"><a onclick=showPKP("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalDetailPKP">' + obj[key]["pkpkode"] + '</a></td>',
+                    '<td id="kodejo" class="text-center" value = "' + obj[key]["jokode"] +'"><a onclick=showJO("'+obj[key]["jokode"]+'") data-toggle="modal" data-target="#modalDetailJO">' + (obj[key]["jokode"] ? obj[key]["jokode"] : "-") + '</a></td>',
+                    '<td id="kodepkp" class="text-center" value = "' + obj[key]["pkpkode"] +'"><a onclick=showPKP("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalDetailPKP">' + (obj[key]["pkpkode"] ? obj[key]["pkpkode"] : "-") + '</a></td>',
                     obj[key]["jobtglawal"],
                     obj[key]["jobtglakhir"],
                     '<td>'+ (obj[key]["isverified"] > 1 ? "Sudah" : "Belum") + '</td>',
@@ -436,7 +437,7 @@
               }
             }
             else {
-              alert('Choose Agensi and PPTKIS');
+              alert('Data not found.');
             }
           });
         }

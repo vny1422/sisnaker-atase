@@ -14,6 +14,8 @@ class Endorsement extends MY_Controller {
     $this->load->model('Perlindungan/Agency_model');
     $this->load->model('SAdmin/Input_model');
 
+    $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'penempatan_'));
+
     $this->data['listdp'] = $this->listdp;
     $this->data['usedpg'] = $this->usedpg;
     $this->data['usedmpg'] = $this->usedmpg;
@@ -31,6 +33,8 @@ class Endorsement extends MY_Controller {
   {
     $this->data['month'] = date('m');
 
+    $this->data['kantors'] = $this->Kantor_model->list_all_kantor_institution($this->session->userdata('institution'));
+
     /// list tahun
     $this->data['tahunpenempatan'] = $this->Endorsement_model->get_all_year();
 
@@ -38,6 +42,20 @@ class Endorsement extends MY_Controller {
     $this->data['subtitle'] = 'ENDORSEMENT';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/Endorsement_view', $this->data);
+    $this->load->view('templates/footerendorsement');
+  }
+
+  public function indexold()
+  {
+    $this->data['month'] = date('m');
+
+    /// list tahun
+    $this->data['tahunpenempatan'] = $this->Endorsement_model->get_all_year();
+
+    $this->data['title'] = 'DASHBOARD';
+    $this->data['subtitle'] = 'ENDORSEMENT';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/EndorsementOld_view', $this->data);
     $this->load->view('templates/footerendorsement');
   }
 
@@ -57,65 +75,90 @@ class Endorsement extends MY_Controller {
   public function get_info_year_dashboard(){
     $year = $this->input->post('y');
     $month = $this->input->post('m');
-    $all = array();
+    $kantor = $this->input->post('kantor');
+    $institution = $this->session->userdata('institution');
 
-    $year_jk = $this->Endorsement_model->get_jk_this_year($year);
-    $total_year_jk = 0;
-    foreach ($year_jk as $jk) {
-      $total_year_jk += $jk->total;
-    }
-    //
-    $month_jk = $this->Endorsement_model->get_jk_this_month($year,$month);
-    $total_month_jk = 0;
-    foreach ($month_jk as $jk) {
-      $total_month_jk += $jk->total;
-    }
+    if (!$all = $this->cache->get($kantor.'_'.$year.'_'.$month)) {
+      $all = array();
 
-    $year_sektor = $this->Endorsement_model->get_sektor_this_year($year);
-    $total_year_sektor = 0;
-    foreach ($year_sektor as $sektor) {
-      $total_year_sektor += $sektor->total;
-    }
-
-    $month_sektor = $this->Endorsement_model->get_sektor_this_month($year,$month);
-    $total_month_sektor = 0;
-    foreach ($month_sektor as $sektor) {
-      $total_month_sektor += $sektor->total;
-    }
-
-    $iterm = range(1,12);
-    $nm_month = array(1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr',
-      5 => 'Mei', 6 => 'Jun', 7 => 'Jul', 8 => 'Agu',
-      9 => 'Sep', 10 => 'Okt', 11 => 'Nop', 12=> 'Des'
-      );
-    $listjp = [];
-    $listjpdb = $this->Endorsement_model->get_list_jp_this_year($year);
-    foreach ($listjpdb as $jp) {
-      array_push($listjp, $jp->namajenispekerjaan);
-    }
-
-    $jppermonth = [];
-    for($i=0;$i<count($iterm);$i++){
-      $temp_1 = array('bulan' => $nm_month[$iterm[$i]]);
-      $tot = 0;
-      foreach($listjp as $jp){
-        $temp_1[$jp] = $this->Endorsement_model->count_jp_this_month($year,$iterm[$i],$jp);
-        $tot += $temp_1[$jp];
+      $year_jk = $this->Endorsement_model->get_jk_this_year($year,$institution,$kantor);
+      $total_year_jk = 0;
+      foreach ($year_jk as $jk) {
+        $total_year_jk += $jk->total;
       }
-      $temp_1['total'] = $tot;
-      array_push($jppermonth, $temp_1);
-    }
 
-    array_push($all,$total_year_jk);
-    array_push($all,$year_jk);
-    array_push($all,$total_month_jk);
-    array_push($all,$month_jk);
-    array_push($all,$total_year_sektor);
-    array_push($all,$year_sektor);
-    array_push($all,$total_month_sektor);
-    array_push($all,$month_sektor);
-    array_push($all,$listjp);
-    array_push($all,$jppermonth);
+      $month_jk = $this->Endorsement_model->get_jk_this_month($year,$month,$institution,$kantor);
+      $total_month_jk = 0;
+      foreach ($month_jk as $jk) {
+        $total_month_jk += $jk->total;
+      }
+
+      $year_sektor = $this->Endorsement_model->get_sektor_this_year($year,$institution,$kantor);
+      $total_year_sektor = 0;
+      foreach ($year_sektor as $sektor) {
+        $total_year_sektor += $sektor->total;
+      }
+
+      $month_sektor = $this->Endorsement_model->get_sektor_this_month($year,$month,$institution,$kantor);
+      $total_month_sektor = 0;
+      foreach ($month_sektor as $sektor) {
+        $total_month_sektor += $sektor->total;
+      }
+
+      $iterm = range(1,12);
+      $nm_month = array(1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr',
+        5 => 'Mei', 6 => 'Jun', 7 => 'Jul', 8 => 'Agu',
+        9 => 'Sep', 10 => 'Okt', 11 => 'Nop', 12=> 'Des'
+        );
+      $nm_month_complete = array(1 => 'January', 2 => 'February', 3 => 'March', 4 => 'April',
+        5 => 'May', 6 => 'June', 7 => 'July', 8 => 'August',
+        9 => 'September', 10 => 'October', 11 => 'November', 12=> 'December'
+        );
+
+      $list_jp_temp_names = array();
+      $list_jp_months = array();
+
+      $list_jp = $this->Endorsement_model->get_list_jp_this_year($year,$institution,$kantor);
+      foreach ($list_jp as $jp) {
+        array_push($list_jp_temp_names, $jp->namajenispekerjaan);
+        $list_jp_months[$jp->namajenispekerjaan][$jp->month] = $jp->count;
+      }
+
+      $list_jp_names = array();
+      $list_jp_temp_names = array_unique($list_jp_temp_names);
+      foreach ($list_jp_temp_names as $jp_name) {
+        array_push($list_jp_names, $jp_name);
+      }
+
+      $list_jp = array();
+      for($i = 0; $i < count($iterm); $i++){
+        $temp_1 = array('bulan' => $nm_month[$iterm[$i]]);
+        $tot = 0;
+        foreach ($list_jp_names as $jp_name) {
+          if (array_key_exists($nm_month_complete[$iterm[$i]], $list_jp_months[$jp_name])) {
+            $temp_1[$jp_name] = (int)$list_jp_months[$jp_name][$nm_month_complete[$iterm[$i]]];
+          } else {
+            $temp_1[$jp_name] = 0;
+          }
+          $tot += $temp_1[$jp_name];
+        }
+        $temp_1['total'] = $tot;
+        array_push($list_jp, $temp_1);
+      }
+
+      array_push($all,$total_year_jk);
+      array_push($all,$year_jk);
+      array_push($all,$total_month_jk);
+      array_push($all,$month_jk);
+      array_push($all,$total_year_sektor);
+      array_push($all,$year_sektor);
+      array_push($all,$total_month_sektor);
+      array_push($all,$month_sektor);
+      array_push($all,$list_jp_names);
+      array_push($all,$list_jp);
+
+      $this->cache->save($kantor.'_'.$year.'_'.$month, $all, 300);
+    }
 
     echo json_encode($all);
   }

@@ -51,7 +51,7 @@ class Perlindungan extends MY_Controller {
         $this->load->view('templates/footerperlindungan');
     }
 
-	public function indextaiwan()
+	public function indexold()
 	{
         if ($this->session->userdata('role') != 3 && $this->session->userdata('role') != 10)
         {
@@ -104,7 +104,7 @@ class Perlindungan extends MY_Controller {
 		$this->data['title'] = 'DASHBOARD';
         $this->data['subtitle'] = 'STAFF PERLINDUNGAN';
 		$this->load->view('templates/headerperlindungan', $this->data);
-		$this->load->view('Perlindungan/DashboardTaiwan_view', $this->data);
+		$this->load->view('Perlindungan/DashboardOld_view', $this->data);
 		$this->load->view('templates/footerperlindungan');
 	}
 

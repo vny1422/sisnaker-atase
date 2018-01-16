@@ -106,7 +106,6 @@ class PPTKIS_model extends CI_Model {
     $this->db->from('mpptkis m');
     $this->db->join('pkp p', 'p.ppkode = m.ppkode');
     $this->db->where('p.agid', $agid);
-    $this->db->where('p.isuploaded', 1);
     $this->db->order_by('m.ppnama', 'asc');
     return $this->db->get()->result();
   }

@@ -22,7 +22,7 @@
             </div>
             </div>' ?>
           <?php endif; ?>
-          <table id="tbjo" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
+          <table id="tbjo" class="table table-condensed table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
             <thead>
               <tr>
                 <th>Nomor JO</th>
@@ -52,8 +52,8 @@
                 </td>
                 <td>
                   <div class="text-center">
-                    <a onclick=show("<?php echo $row->jokode ?>") data-toggle="modal" data-target="#modaltolak"><button class="btn btn-danger" type="button" name="button">Tolak</button></a>
-                    <a id="confirmVerify" href=" <?php echo base_url() ?>JO/verifyJO/<?php echo $row->jokode ?>"><button class="btn btn-success" type="button" name="button">Setujui</button></a>
+                    <a onclick=show("<?php echo $row->jokode ?>") data-toggle="modal" data-target="#modaltolak"><button class="btn btn-sm btn-danger" type="button" name="button">Tolak</button></a>
+                    <a id="confirmVerify" href=" <?php echo base_url() ?>JO/verifyJO/<?php echo $row->jokode ?>"><button class="btn btn-sm btn-success" type="button" name="button">Setujui</button></a>
                   </div>
                 </td>
               </tr>
@@ -236,7 +236,7 @@ $(document).ready(function () {
     var tds = [$td1, $td2];
     $.each(tds, function(i, el) {
       var txt = $(this).text();
-      $(this).html("").append("<input type='text' value=\""+txt+"\">");
+      $(this).html("").append("<input data-provide='datepicker' type='text' value=\""+txt+"\">");
     });
 
   });

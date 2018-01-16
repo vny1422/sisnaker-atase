@@ -22,7 +22,7 @@
             </div>
             </div>' ?>
           <?php endif; ?>
-          <table id="tbpkp" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
+          <table id="tbpkp" class="table table-striped table-bordered dt-responsive table-condensed" cellspacing="0" width="100%">
             <thead>
               <tr>
                 <th>Barcode PKP</th>
@@ -50,8 +50,8 @@
                 </td>
                 <td>
                   <div class="text-center">
-                    <a onclick=show("<?php echo $row->pkpid ?>") data-toggle="modal" data-target="#modaltolak"><button class="btn btn-danger" type="button" name="button">Tolak</button></a>
-                    <a id="confirmVerify" href=" <?php echo base_url() ?>Pkp/verifyPKP/<?php echo $row->pkpid ?>"><button class="btn btn-success" type="button" name="button">Setujui</button></a>
+                    <a onclick=show("<?php echo $row->pkpid ?>") data-toggle="modal" data-target="#modaltolak"><button class="btn btn-sm btn-danger" type="button" name="button">Tolak</button></a>
+                    <a id="confirmVerify" href=" <?php echo base_url() ?>Pkp/verifyPKP/<?php echo $row->pkpid ?>"><button class="btn btn-sm btn-success" type="button" name="button">Setujui</button></a>
                   </div>
                 </td>
                 </tr>
@@ -66,7 +66,6 @@
       <br />
     </div>
   </div>
-</div>
 
 <!-- <body>
 <table id="example" class="display" width="100%" cellspacing="0">
@@ -316,7 +315,7 @@ $(document).ready(function () {
     var tds = [$td1, $td2];
     $.each(tds, function(i, el) {
       var txt = $(this).text();
-      $(this).html("").append("<input type='text' value=\""+txt+"\">");
+      $(this).html("").append("<input data-provide='datepicker' type='text' value=\""+txt+"\">");
     });
 
   });

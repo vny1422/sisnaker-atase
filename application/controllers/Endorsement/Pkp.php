@@ -396,12 +396,11 @@
           {
             redirect('Pkp');
           }
-          $barcodeku = $this->generateBarcode();
           $username = $this->session->userdata('user');
           $institusi = $this->session->userdata('institution');
           $this->Kuitansi_model->catat_kuitansi($username, $institusi, $barcodeku, 1);
           $this->session->set_flashdata('print', 'Segera Upload Dokumen Final PKP');
-          $this->data['bc'] = $barcodeku;
+          $this->data['bc'] = $this->input->post('barcodeprint', true);
           $this->data['kuitansiag'] = $this->input->post('kuitansiag', true);
           $this->data['kuitansipp'] = $this->input->post('kuitansipp', true);
           $this->session->set_flashdata('data', $this->data);
@@ -413,9 +412,8 @@
         {
           redirect('Pkp');
         }
-        $barcodeku = $this->generateBarcode();
         $this->session->set_flashdata('print', 'Segera Upload Dokumen Final PKP ');
-        $this->data['bc'] = $barcodeku;
+        $this->data['bc'] = $this->input->post('barcodeprint', true);
         $this->data['kuitansiag'] = $this->input->post('kuitansiag', true);
         $this->data['kuitansipp'] = $this->input->post('kuitansipp', true);
         $this->session->set_flashdata('data', $this->data);

@@ -100,6 +100,7 @@
           <?php echo form_open(base_url('pkp/catatKuitansi')) ?>
           <input type="hidden" id="kuitansiag" name="kuitansiag"/>
           <input type="hidden" id="kuitansipp" name="kuitansipp"/>
+          <input type="hidden" id="barcodeprint" name="barcodeprint"/>
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="active">Use Receipt? </label>
             <div class="col-md-1 col-sm-1 col-xs-2">
@@ -260,6 +261,7 @@
         l.ladda('stop');
         var obj = $.parseJSON(data);
         if(obj.length > 0) {
+          $("#barcodeprint").val(code);
           $("#pkpag").text(obj[0].agnama);
           $("#pkptkis").text(obj[0].ppnama);
           $("#pkpawal").text(obj[0].pkptglawal);

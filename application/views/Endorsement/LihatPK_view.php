@@ -166,11 +166,11 @@
               //td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpk/Dokumen_Final_PK_' + listinput[key]["ejbcsp"] +'.pdf ">DOWNLOAD</a>'
             }
             else{
-              td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PkNew/uploadDokFin/' + listinput[key]["ejbcsp"] +' ">Upload Labour Contract (PK) Document</a>'
+              td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>pknew/uploaddokfin/' + listinput[key]["ejbcsp"] +' ">Upload Labour Contract (PK) Document</a>'
             }
           }
           else {
-            td = 'Segera Lakukan Legalisasi'
+            td = 'Need Legalization'
           }
 
           var string = '\

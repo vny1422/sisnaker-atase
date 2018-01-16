@@ -40,7 +40,7 @@
           </div>' ?>
         <?php endif; ?>
           <div class="form-group">
-            <label class="control-label col-md-2">Agensi</label>
+            <label class="control-label col-md-2">Agency</label>
             <div class="col-md-5">
               <?php if (isset($dataagensi)) { ?>
                 <select name="agensi" required="required" class="agensi select2_single form-control" tabindex="-1" disabled>
@@ -91,17 +91,17 @@
             <table id="datatable-pk" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
               <thead>
                 <tr>
-                  <th>Kode PK</th>
+                  <th>Labour Contract (PK) Code</th>
                   <!-- <th>Agensi</th>
                   <th>PPTKIS</th> -->
-                  <th>Nama Majikan</th>
-                  <th>Nama TKI</th>
-                  <th>Pekerjaan</th>
-                  <th>Durasi Kerja</th>
-                  <th>Bantuan PPTKIS?</th>
-                  <th>Pulang Indonesia?</th>
-                  <th>S. Legalisasi</th>
-                  <th>S. Upload</th>
+                  <th>Employer Name</th>
+                  <th>TKI Name</th>
+                  <th>Job Type</th>
+                  <th>Job Duration</th>
+                  <th>PPTKIS Need Help?</th>
+                  <th>Back to Indonesia?</th>
+                  <th>Legalization Status</th>
+                  <th>Upload Status</th>
                   <th>Date Modified</th>
                   <th>Action</th>
                 </tr>
@@ -117,8 +117,8 @@
         <div class="ln_solid"></div>
         <div class="form-group">
           <div class="col-md-6 col-sm-6 col-xs-12">
-            <?php $href = isset($dataagensi) ? 'PKNew/addPkPenempatan' : 'PKNew/addPk' ?>
-            <a class="btn btn-warning" href=" <?php echo base_url($href) ?> ">Tambah PK</a>
+            <?php $href = isset($dataagensi) ? 'pknew/addpkpenempatan' : 'pknew/addpk' ?>
+            <a class="btn btn-warning" href=" <?php echo base_url($href) ?> ">Add New Labour Contract (PK)</a>
           </div>
         </div>
 
@@ -160,14 +160,14 @@
 
           if (listinput[key]["isverified"] == 1) {
             if (listinput[key]["isuploaded"] == 1) {
-              td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpk/Dokumen_Final_PK_' + listinput[key]["ejbcsp"] +'.pdf ">DOWNLOAD</a>'
+              td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpk/Dokumen_Final_PK_' + listinput[key]["ejbcsp"] +'.pdf ">Download Archived Document</a>'
             }
             else{
-              td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PkNew/uploadDokFin/' + listinput[key]["ejbcsp"] +' ">UPLOAD</a>'
+              td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PkNew/uploadDokFin/' + listinput[key]["ejbcsp"] +' ">Upload Labour Contract (PK) Document</a>'
             }
           }
           else {
-            td = 'Segera Lakukan Verifikasi'
+            td = 'Need Legalization'
           }
 
           var string = '\
@@ -177,10 +177,10 @@
             <td>'+listinput[key]["tknama"]+ '</td> \
             <td>'+listinput[key]["namajenispekerjaan"]+ '</td> \
             <td>'+listinput[key]["jomkthn"]+' yr ' + listinput[key]["jomkbln"] + ' mth ' + listinput[key]["jomkhr"] + ' days </td> \
-            <td>'+ (listinput[key]["bantuanpp"] == 1 ? "Ya" : "Tidak") + '</td> \
-            <td>'+ (listinput[key]["backtoid"] == 1 ? "Ya" : "Tidak") + '</td> \
-            <td>'+ (listinput[key]["isverified"] == 1 ? "Sudah" : "Belum") + '</td> \
-            <td>'+ (listinput[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td> \
+            <td>'+ (listinput[key]["bantuanpp"] == 1 ? "Yes" : "No") + '</td> \
+            <td>'+ (listinput[key]["backtoid"] == 1 ? "Yes" : "No") + '</td> \
+            <td>'+ (listinput[key]["isverified"] == 1 ? "Verified" : "Waiting") + '</td> \
+            <td>'+ (listinput[key]["isuploaded"]  == 1 ? "Uploaded" : "Waiting")+ '</td> \
             <td>'+listinput[key]["pktimestamp"]+ '</td> \
             <td class="text-center">'+ td + '</td> \
           </tr>'
@@ -217,14 +217,14 @@
 
             if (listinput[key]["isverified"] == 1) {
               if (listinput[key]["isuploaded"] == 1) {
-                td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpk/Dokumen_Final_PK_' + listinput[key]["ejbcsp"] +'.pdf ">DOWNLOAD</a>'
+                td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpk/Dokumen_Final_PK_' + listinput[key]["ejbcsp"] +'.pdf ">Download Archived Document</a>'
               }
               else{
-                td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PkNew/uploadDokFin/' + listinput[key]["ejbcsp"] +' ">UPLOAD</a>'
+                td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PkNew/uploadDokFin/' + listinput[key]["ejbcsp"] +' ">Upload Labour Contract (PK) Document</a>'
               }
             }
             else {
-              td = 'Segera Lakukan Legalisasi'
+              td = 'Need Legalization'
             }
 
             var string = '\
@@ -234,10 +234,10 @@
               <td>'+listinput[key]["tknama"]+ '</td> \
               <td>'+listinput[key]["namajenispekerjaan"]+ '</td> \
               <td>'+listinput[key]["jomkthn"]+' yr ' + listinput[key]["jomkbln"] + ' mth ' + listinput[key]["jomkhr"] + ' days </td> \
-              <td>'+ (listinput[key]["bantuanpp"] == 1 ? "Ya" : "Tidak") + '</td> \
-              <td>'+ (listinput[key]["backtoid"] == 1 ? "Ya" : "Tidak") + '</td> \
-              <td>'+ (listinput[key]["isverified"] == 1 ? "Sudah" : "Belum") + '</td> \
-              <td>'+ (listinput[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td> \
+              <td>'+ (listinput[key]["bantuanpp"] == 1 ? "Yes" : "No") + '</td> \
+              <td>'+ (listinput[key]["backtoid"] == 1 ? "Yes" : "No") + '</td> \
+              <td>'+ (listinput[key]["isverified"] == 1 ? "Verified" : "Waiting") + '</td> \
+              <td>'+ (listinput[key]["isuploaded"]  == 1 ? "Uploaded" : "Waiting")+ '</td> \
               <td>'+listinput[key]["pktimestamp"]+ '</td> \
               <td class="text-center">'+ td + '</td> \
             </tr>'

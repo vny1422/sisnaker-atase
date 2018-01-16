@@ -166,7 +166,7 @@ public function __construct()
     if ($this->session->userdata('role') == 4 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 5){
 
         $data['pk'] = $this->PK_model->get_pk_for_report($param);
-        $data['bc'] = $param;
+        $data['bc'] = $data['pk']['ejbcsp'];
 
         ini_set('memory_limit', '64M');
         $nama_dokumen = "PK_Report";

@@ -87,7 +87,7 @@ class PK_model extends CI_Model {
     return $this->db->get()->result();
   }
 
-  function get_pk_for_report($bc) {
+  function get_pk_for_report($md5ej) {
     $this->db->select('*');
     $this->db->from('entryjo p');
     $this->db->order_by("p.pktimestamp", "desc");
@@ -97,12 +97,10 @@ class PK_model extends CI_Model {
     $this->db->join('jenispekerjaan jp', 'jp.idjenispekerjaan = p.idjenispekerjaan');
     $this->db->where('p.idinstitution', $this->session->userdata('institution'));
     $this->db->where('p.idkantor', $this->session->userdata('kantor'));
-    $this->db->where('p.ejbcsp', $bc);
-    $this->db->or_where('p.ejbcform', $bc);
-    $this->db->or_where('p.ejbcsk', $bc);
+    $this->db->where("p.md5ej = '$md5ej'");
 
     return $this->db->get()->row_array();
-  }  
+  }
 
   function last_pk($agid, $ppkode)
   {

@@ -178,19 +178,23 @@
     </div>
 
     <div class="col-md-6 kanan text-black">
+      <?php if(validation_errors()) {?>
+        <div class="row">
+          <div class="col-md-2">
+
+          </div>
+          <div class="col-lg-8" style="margin-top:-100px;">
+            <div class="alert alert-danger alert-dismissable">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <h4><i class="fa fa-warning"></i> Warning!</h4>
+              <?php echo validation_errors()?>
+            </div>
+          </div>
+        </div>
+      <?php }?>
       <section class="login_content">
         <div style="padding-top:30px" class="panel-body">
-          <?php if(validation_errors()) {?>
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="alert alert-danger alert-dismissable">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <h4><i class="fa fa-warning"></i> Warning!</h4>
-                  <?php echo validation_errors()?>
-                </div>
-              </div>
-            </div>
-          <?php }?>
+
           <?php echo form_open(base_url('login')) ?>
           <form id="loginform" method="post">
             <div class="col-md-12">

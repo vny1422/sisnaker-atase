@@ -75,7 +75,7 @@
           $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
           $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
           $this->data['listjenispekerjaan'] = $this->Jobtype_model->list_all_jobtype_by_institution($this->session->userdata('institution'));
-          $this->data['title'] = 'Create PKP (Rec. Agreement)';
+          $this->data['title'] = 'Create Recruitment Agreement (PKP)';
          // $this->load->view('templates/header', $this->data);
           $this->load->view('templates/headerendorsement', $this->data);
           $this->load->view('Endorsement/CreatePKP_view', $this->data);

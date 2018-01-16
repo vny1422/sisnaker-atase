@@ -19,6 +19,7 @@ class Agensi extends MY_Controller {
 		$this->load->model('SAdmin/User_model');
     $this->load->model('Perlindungan/Pptkis_model');
     $this->load->model('SAdmin/Institution_model');
+    $this->load->model('SAdmin/Kantor_model');
 
     if ($this->session->userdata('role') != 1 && $this->session->userdata('role') != 2)
     {
@@ -34,10 +35,12 @@ class Agensi extends MY_Controller {
 
   public function cek()
   {
-    $this->data['list'] = $this->Agency_model->get_agency_registration(NULL, $this->session->userdata['institution']);
-    $this->data['listnama'] = array();
+    $this->data['list'] = $this->Agency_model->get_agency_registration(NULL, $this->session->userdata['institution'], $this->session->userdata['kantor']);
+    $this->data['listnamainstitusi'] = array();
+    $this->data['listnamakantor'] = array();
     foreach ($this->data['list'] as $row):
-      array_push($this->data['listnama'],$this->Institution_model->get_institution_name($row->idinstitution));
+      array_push($this->data['listnamainstitusi'], $this->Institution_model->get_institution_name($row->idinstitution));
+      array_push($this->data['listnamakantor'], $this->Kantor_model->get_kantor_name($row->idkantor));
     endforeach;
 
     $this->data['title'] = 'Konfirmasi Pendaftaran Agensi';

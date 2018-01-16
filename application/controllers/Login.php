@@ -8,6 +8,7 @@ class Login extends CI_Controller {
 		parent::__construct();
 		$this->load->model('SAdmin/User_model');
 		$this->load->model('Perlindungan/Agency_model');
+		$this->load->model('SAdmin/Kantor_model');
 		$this->load->library('form_validation');
 	}
 
@@ -127,6 +128,7 @@ class Login extends CI_Controller {
 		$this->form_validation->set_rules('nocla', 'C.L.A Agency License No', 'required|trim');
 		$this->form_validation->set_rules('officealamat', 'Agency Address', 'required|trim');
 		$this->form_validation->set_rules('institution', 'Institution', 'required|trim');
+		$this->form_validation->set_rules('kantor', 'Kantor', 'required|trim');
 
 		if ($this->form_validation->run() === FALSE)
 		{
@@ -140,13 +142,14 @@ class Login extends CI_Controller {
 			if($cek['cekregis'] > 0 )
 			{
 				$this->session->set_flashdata('information', 'Registration could not be made, Agency Data already registered.');
-				// $this->load->view('Endorsement/DaftarAgensi_view');
-				var_dump($cek);
+				$data['institution'] = $this->Institution_model->list_active_institution();
+				$this->load->view('Endorsement/DaftarAgensi_view', $data);
 			}
 			else if($cek['cekcekal'] > 0)
 			{
 				$this->session->set_flashdata('information', 'Registration could not be made, Agency is BANNED.');
-				$this->load->view('Endorsement/DaftarAgensi_view');
+				$data['institution'] = $this->Institution_model->list_active_institution();
+				$this->load->view('Endorsement/DaftarAgensi_view', $data);
 			}
 			else {
 				$namafile = $_FILES['filecla']['name'];
@@ -178,6 +181,7 @@ class Login extends CI_Controller {
 					'agrtelp' => $this->input->post('phone',TRUE),
 					'agrfax' => $this->input->post('fax',TRUE),
 					'idinstitution' => $this->input->post('institution',TRUE),
+					'idkantor' => $this->input->post('kantor',TRUE),
 					'filename' => $this->input->post('nocla',TRUE).".".$ext
 				);
 				$this->Agency_model->add_new_registration($data);
@@ -187,6 +191,13 @@ class Login extends CI_Controller {
 			}
 
 		}
+	}
+
+	function getListKantor() {
+		$institution = $this->input->post('institution', TRUE);
+		$kantor = $this->Kantor_model->list_all_kantor_institution($institution);
+
+		echo json_encode($kantor);
 	}
 
 }

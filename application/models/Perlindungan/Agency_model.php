@@ -105,14 +105,14 @@ class Agency_model extends CI_Model {
       return $this->db->insert('agensiregistrasi',$data);
     }
 
-    public function get_agency_registration($id=NULL, $idinstitution='')
+    public function get_agency_registration($id=NULL, $idinstitution='', $idkantor='')
     {
       if(isset($id)) {
         $this->db->where('agrid', $id);
         $query = $this->db->get('agensiregistrasi');
         return $query->row();
       } else {
-        $query = $this->db->query("SELECT * FROM agensiregistrasi where idinstitution = '$idinstitution' ORDER BY agrstatus IS NULL DESC, agrstatus DESC");
+        $query = $this->db->query("SELECT * FROM agensiregistrasi where idinstitution = '$idinstitution' AND idkantor = '$idkantor' ORDER BY agrstatus IS NULL DESC, agrstatus DESC");
         return $query->result();
       }
     }

@@ -271,6 +271,7 @@ class PKP_model extends CI_Model {
     $this->db->like('pkpkode', $keyword);
     $this->db->from('pkp');
     $this->db->where('agid', $idagency);
+    $this->db->where('isuploaded', 1);
     $this->db->where('ppkode', $kodepptkis);
     //$this->db->where('p.idkantor', $this->session->userdata('kantor'));
     $query = $this->db->get();

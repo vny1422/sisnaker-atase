@@ -5,10 +5,10 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
       <div class="x_panel">
         <div class="x_title">
-          <div class="col-md-3">
-            <h3>DASHBOARD <small><b><?php echo $subtitle; ?></b></small></h3>
+          <div class="col-md-8">
+            <h3> <b>DASHBOARD <?php echo $subtitle; ?></b></h3>
           </div>
-          <div class="col-md-1">
+          <div class="col-md-2">
             <select class="form-control" name="" data-size="3" data-live-search="true" id="tahun">
               <?php foreach ($tahunpenempatan as $row ) {?>
               <option value="<?php echo $row->tahun?>"><?php echo $row->tahun?></option>
@@ -31,23 +31,26 @@
               <option value="12" <?php echo '',($month == '12' ? 'selected' : '') ?>>December</option>
             </select>
           </div>
-          <ul class="nav navbar-right panel_toolbox">
+          <!-- <ul class="nav navbar-right panel_toolbox">
             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-          </ul>
+          </ul> -->
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
           <div class="row">
-            <div class="col-lg-4 col-md-6">
+            <div class="col-md-6">
               <div class="panel panel-success">
                 <div class="panel-heading">
                   <div class="row">
-                    <div class="col-xs-2">
-                      <i class="fa fa-venus-mars fa-5x"></i>
+                    <div class="col-md-2">
+                      <i class="fa fa-venus-mars fa-3x"></i>
                     </div>
-                    <div class="col-xs-10 text-right">
-                      <div><h2 class="dtahun"></h2></div>
-                      <div><h5>(Jenis Kelamin)</h5></div>
+                    <div class="col-md-10">
+                      <div class="text-right">
+                        <h4> <b class="dtahun"></b> - (Based on Gender)</h4>
+                        <b></b>
+                      </div>
+
                     </div>
                   </div>
                 </div>
@@ -60,16 +63,15 @@
               </div>
             </div>
 
-            <div class="col-lg-4 col-md-6">
+            <div class="col-md-6">
               <div class="panel panel-success">
                 <div class="panel-heading">
                   <div class="row">
-                    <div class="col-xs-2">
-                      <i class="fa fa-venus-mars fa-5x"></i>
+                    <div class="col-md-2">
+                      <i class="fa fa-venus-mars fa-3x"></i>
                     </div>
-                    <div class="col-xs-10 text-right">
-                      <div><h2 class="dbulan"></h2></div>
-                      <div><h5>(Jenis Kelamin)</h5></div>
+                    <div class="col-md-10 text-right">
+                      <div><h4><b class="dbulan"></b> - (Based on Gender)</h4></div>
                     </div>
                   </div>
                 </div>
@@ -86,16 +88,15 @@
         <br />
 
         <div class="row">
-            <div class="col-lg-4 col-md-6">
-              <div class="panel panel-info">
+            <div class="col-md-6">
+              <div class="panel panel-success">
                 <div class="panel-heading">
                   <div class="row">
-                    <div class="col-xs-2">
-                      <i class="fa fa-group fa-5x"></i>
+                    <div class="col-md-2">
+                      <i class="fa fa-group fa-3x"></i>
                     </div>
-                    <div class="col-xs-10 text-right">
-                      <div><h2 class="dtahun"></h2></div>
-                      <div><h5>(Sektor)</h5></div>
+                    <div class="col-md-10 text-right">
+                      <div><h4><b class="dtahun"></b> - (Based on Sector)</h4></div>
                     </div>
                   </div>
                 </div>
@@ -108,16 +109,15 @@
               </div>
             </div>
 
-            <div class="col-lg-4 col-md-6">
-              <div class="panel panel-info">
+            <div class="col-md-6">
+              <div class="panel panel-success">
                 <div class="panel-heading">
                   <div class="row">
-                    <div class="col-xs-2">
-                      <i class="fa fa-group fa-5x"></i>
+                    <div class="col-md-2">
+                      <i class="fa fa-group fa-3x"></i>
                     </div>
-                    <div class="col-xs-10 text-right">
-                      <div><h2 class="dbulan"></h2></div>
-                      <div><h5>(Sektor)</h5></div>
+                    <div class="col-md-10 text-right">
+                      <div><h5><b class="dbulan"></b> - (Based on Sector)</h5></div>
                     </div>
                   </div>
                 </div>
@@ -136,14 +136,14 @@
         <div class="row">
 
           <div class="col-lg-12">
-            <div class="panel panel-default">
+            <div class="panel panel-success">
               <div class="panel-heading">
                 <div class="row">
-                  <div class="col-xs-1">
-                    <i class="fa fa-bar-chart-o fa-5x"></i>
+                  <div class="col-md-2">
+                    <i class="fa fa-bar-chart-o fa-3x"></i>
                   </div>
-                  <div class="col-xs-11">
-                    <h3 id="gtahun"></h3><h5> (Jenis Pekerjaan)</h5>
+                  <div class="col-md-10 text-right">
+                    <h5> <b id="gtahun"></b> - (Based on Job Type)</h5>
                   </div>
                 </div>
               </div>
@@ -159,14 +159,14 @@
         <div class="row">
 
           <div class="col-lg-12">
-            <div class="panel panel-default">
+            <div class="panel panel-success">
               <div class="panel-heading">
                 <div class="row">
-                  <div class="col-xs-1">
-                    <i class="fa fa-bar-chart-o fa-5x"></i>
+                  <div class="col-md-2">
+                    <i class="fa fa-bar-chart-o fa-3x"></i>
                   </div>
-                  <div class="col-xs-11">
-                    <h3 id="gpptkistahun"></h3><h5> (PPTKIS)</h5>
+                  <div class="col-md-10 text-right">
+                    <h5> <b id="gpptkistahun"></b> - (Based on PPTKIS)</h5>
                   </div>
                 </div>
               </div>
@@ -188,10 +188,10 @@
   $(document).ready(function () {
     $('select').selectpicker();
 
-    $('.dtahun').html("Penempatan Tahun " + $("#tahun").val());
-    $('.dbulan').html("Penempatan Bulan " + $("#bulan option:selected").text());
-    $('#gtahun').html("Statistik Penempatan Tahun " + $("#tahun").val());
-    $('#gpptkistahun').html("Statistik Penempatan Tahun " + $("#tahun").val());
+    $('.dtahun').html("Placement on (Year) " + $("#tahun").val());
+    $('.dbulan').html("Placement on (Month) " + $("#bulan option:selected").text());
+    $('#gtahun').html("Placement Statistic (Year) " + $("#tahun").val());
+    $('#gpptkistahun').html("Placement Statistic (Year) " + $("#tahun").val());
 
     $.ajax({
       url     : "<?php echo site_url('endorsement/get_info_year_dashboard_agensi')?>",

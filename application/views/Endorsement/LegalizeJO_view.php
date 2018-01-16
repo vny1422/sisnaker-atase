@@ -108,6 +108,7 @@
           <?php echo form_open(base_url('jo/catatKuitansi')) ?>
           <input type="hidden" id="kuitansiag" name="kuitansiag"/>
           <input type="hidden" id="kuitansipp" name="kuitansipp"/>
+          <input type="hidden" id="barcodeprint" name="barcodeprint"/>
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="active">Use Receipt? </label>
             <div class="col-md-1 col-sm-1 col-xs-2">
@@ -115,7 +116,7 @@
             </div>
             <br /><br />
           </div>
-
+          <div id="formkuitansi">
           <div class="form-group" >
             <label class="col-sm-2 control-label">Tanggal Masuk</label>
             <div class="col-sm-2">
@@ -125,7 +126,6 @@
               </div>
             </div>
           </div><br /><br /><br /><br />
-
           <div class="form-group" >
             <label class="col-sm-2 control-label">Tanggal Kuitansi</label>
             <div class="col-sm-2">
@@ -160,6 +160,7 @@
               <input id="pemohon" type="text" name="pemohon" class="form-control">
             </div>
           </div><br /><br /><br />
+        </div>
       </div>
 
     </div>
@@ -268,6 +269,7 @@
         l.ladda('stop');
         var obj = $.parseJSON(data);
         if(obj.length > 0) {
+          $("#barcodeprint").val(code);
           $("#joag").text(obj[0].agnama);
           $("#jotkis").text(obj[0].ppnama);
           $("#jopkpkode").text(obj[0].pkpkode);
@@ -318,6 +320,7 @@
     var errorku = $("#errorku");
     var wrapperk = $("#listkuitansi");
     var pilihButton = $(".pilihButton");
+    var showkuitansi = 1;
     var submit = false;
     var tablek = $("#datatable").DataTable( {
     "columnDefs": [
@@ -374,6 +377,18 @@
         $(errorku).show();
       }
     });
+
+    $("#cekenable").change(function(){
+      if (showkuitansi == 1)
+      {
+        $("#formkuitansi").hide();
+        showkuitansi = 0;
+      }
+      else {
+        $("#formkuitansi").show();
+        showkuitansi = 1;
+      }
+    })
 
     $("#noku").change(function(){
       submit = false;

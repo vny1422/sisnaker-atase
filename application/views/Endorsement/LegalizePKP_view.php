@@ -108,7 +108,7 @@
             </div>
             <br /><br />
           </div>
-
+          <div id="formkuitansi">
           <div class="form-group" >
             <label class="col-sm-2 control-label">Tanggal Masuk</label>
             <div class="col-sm-2">
@@ -153,6 +153,7 @@
               <input id="pemohon" type="text" name="pemohon" class="form-control">
             </div>
           </div><br /><br /><br />
+        </div>
       </div>
 
     </div>
@@ -312,6 +313,7 @@
     var wrapperk = $("#listkuitansi");
     var pilihButton = $(".pilihButton");
     var submit = false;
+    var showkuitansi = 1;
     var tablek = $("#datatable").DataTable( {
     "columnDefs": [
         {
@@ -367,6 +369,18 @@
         $(errorku).show();
       }
     });
+
+    $("#cekenable").change(function(){
+      if (showkuitansi == 1)
+      {
+        $("#formkuitansi").hide();
+        showkuitansi = 0;
+      }
+      else {
+        $("#formkuitansi").show();
+        showkuitansi = 1;
+      }
+    })
 
     $("#noku").change(function(){
       submit = false;

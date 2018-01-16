@@ -45,9 +45,9 @@ class JO extends MY_Controller {
 
       $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
       $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
-      $this->data['title'] = 'View JO (Labour Contract)';
-      $this->data['subtitle'] = 'View JO (Labour Contract)';
-      $this->data['subtitle2'] = 'View JO (Labour Contract)';
+      $this->data['title'] = 'View Labour Contract (JO)';
+      $this->data['subtitle'] = 'View Labour Contract (JO)';
+      $this->data['subtitle2'] = 'View Labour Contract (JO)';
       $this->load->view('templates/headerendorsement', $this->data);
       $this->load->view('Endorsement/LihatJO_view', $this->data);
       $this->load->view('templates/footerendorsement');
@@ -92,12 +92,12 @@ class JO extends MY_Controller {
       {
         $returnPKP = $this->JO_model->post_new_jo();
         if ($returnPKP[0]) {
-          $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
+          $this->session->set_flashdata('information', 'Data successfully inserted');
         }
         else {
-          $this->session->set_flashdata('information', 'Data gagal dimasukkan');
+          $this->session->set_flashdata('information', 'Data failed to insert');
         }
-        redirect('jo/addJO');
+        redirect('jo/addjo');
       }
     }
     else {
@@ -123,7 +123,7 @@ class JO extends MY_Controller {
         $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
         $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
         $this->data['listjenispekerjaan'] = $this->Jobtype_model->list_all_jobtype_by_institution($this->session->userdata('institution'));
-        $this->data['title'] = 'Apply JO (Job Order)';
+        $this->data['title'] = 'Apply Job Order (JO)';
         // $this->load->view('templates/header', $this->data);
         $this->load->view('templates/headerendorsement', $this->data);
         $this->load->view('Endorsement/CreateJOInterAlt_view', $this->data);
@@ -152,10 +152,10 @@ class JO extends MY_Controller {
     $currencyname = $this->Currency_model->get_currency_name($currencyid);
     $this->data['listjo'] = $this->JO_model->get_jo_verify_list();
     //var_dump($this->data['listjo']);
-    $this->data['title'] = 'Verify JO (Job Order)';
+    $this->data['title'] = 'Verify Job Order (JO)';
     $this->data['currency'] = $currencyname->currencyname;
-    $this->data['subtitle'] = 'Verify JO (Job Order)';
-    $this->data['subtitle2'] = 'Verify JO (Job Order)';
+    $this->data['subtitle'] = 'Verify Job Order (JO)';
+    $this->data['subtitle2'] = 'Verify Job Order (JO)';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/VerifyJO_view', $this->data);
     $this->load->view('templates/footerendorsement');
@@ -165,11 +165,11 @@ class JO extends MY_Controller {
   {
     if ($this->JO_model->toggle_jo($jokode))
     {
-        $this->session->set_flashdata('information', 'JO berhasil diverifikasi!');
+        $this->session->set_flashdata('information', 'Job Order (JO) has been verified');
         redirect('jo/verify');
     }
     else {
-        $this->session->set_flashdata('information', 'JO gagal diverifikasi!');
+        $this->session->set_flashdata('information', 'Job Order (JO) is failed to verify');
         redirect('jo/verify');
     }
   }
@@ -179,11 +179,11 @@ class JO extends MY_Controller {
     $jokode = $this->input->post('hiddenjokode', true);
     if ($this->JO_model->toggle_jo($jokode, TRUE))
     {
-        $this->session->set_flashdata('information', 'JO berhasil ditolak!');
+        $this->session->set_flashdata('information', 'Job Order (JO) successfully rejected');
         redirect('jo/verify');
     }
     else {
-        $this->session->set_flashdata('information', 'JO gagal ditolak!');
+        $this->session->set_flashdata('information', 'Failed to reject Job Order (JO)');
         redirect('jo/verify');
     }
   }
@@ -192,10 +192,10 @@ class JO extends MY_Controller {
   {
     $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;
     $currencyname = $this->Currency_model->get_currency_name($currencyid);
-    $this->data['title'] = 'Endorse JO (Job Order)';
+    $this->data['title'] = 'Endorse Job Order (JO)';
     $this->data['currency'] = $currencyname->currencyname;
-    $this->data['subtitle'] = 'Endorse JO (Job Order)';
-    $this->data['subtitle2'] = 'Endorse JO (Job Order)';
+    $this->data['subtitle'] = 'Endorse Job Order (JO)';
+    $this->data['subtitle2'] = 'Endorse Job Order (JO)';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/LegalizeJO_view', $this->data);
     $this->load->view('templates/footerendorsement');
@@ -232,7 +232,7 @@ class JO extends MY_Controller {
         $username = $this->session->userdata('user');
         $institusi = $this->session->userdata('institution');
         $this->Kuitansi_model->catat_kuitansi($username, $institusi, $barcodeku, 1);
-        $this->session->set_flashdata('print', 'Segera Upload Dokumen Final PKP');
+        $this->session->set_flashdata('print', 'Upload Job Order (JO) Document immediately');
         $this->data['bc'] = $this->input->post('barcodeprint', true);
         $this->data['kuitansiag'] = $this->input->post('kuitansiag', true);
         $this->data['kuitansipp'] = $this->input->post('kuitansipp', true);
@@ -245,7 +245,7 @@ class JO extends MY_Controller {
       {
         redirect('jo');
       }
-      $this->session->set_flashdata('print', 'Segera Upload Dokumen Final PKP ');
+      $this->session->set_flashdata('print', 'Upload Job Order (JO) Document immediately');
       $this->data['bc'] = $this->input->post('barcodeprint', true);
       $this->data['kuitansiag'] = $this->input->post('kuitansiag', true);
       $this->data['kuitansipp'] = $this->input->post('kuitansipp', true);
@@ -332,9 +332,9 @@ class JO extends MY_Controller {
         //echo "masukkk awal";
         $this->data['values'] = $jokode;
 
-        $this->data['title'] = 'Upload Dokumen Final JO';
-        $this->data['subtitle'] = 'Upload Dokumen Final JO';
-        $this->data['subtitle2'] = 'Upload Dokumen Final JO';
+        $this->data['title'] = 'Upload Job Order (JO) Document';
+        $this->data['subtitle'] = 'Upload Job Order (JO) Document';
+        $this->data['subtitle2'] = 'Upload Job Order (JO) Document';
         $this->load->view('templates/headerendorsement', $this->data);
         $this->load->view('Endorsement/UploadDokumenJO_view', $this->data);
         $this->load->view('templates/footerendorsement');
@@ -359,12 +359,18 @@ class JO extends MY_Controller {
             $this->data['error'] = "";
             //$this->session->set_flashdata('information', 'Upload berhasil dilakukan');
           }
-          $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
+          $this->session->set_flashdata('information', 'Data successfully inserted');
         }
         else {
-          $this->session->set_flashdata('information', 'Data gagal dimasukkan');
+          $this->session->set_flashdata('information', 'Data failed to insert');
         }
-        redirect('JO/');
+
+        $this->session->set_flashdata('print', 'Document successfully uploaded');
+        $datajo = $this->JO_model->get_jo_from_barcode($jokode);
+        $this->data['kuitansiag'] = $datajo[0]->agid;
+        $this->data['kuitansipp'] = $this[0]->ppkode;
+        $this->session->set_flashdata('data', $this->data);
+        redirect('jo/');
       }
 
     }

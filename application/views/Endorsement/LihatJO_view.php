@@ -324,8 +324,12 @@
       };
 
       <?php if($this->session->flashdata('print') != ""): ?>
-      var code = '<?php echo $bc; ?>';
-      openlabel('POST',"<?php echo base_url()?>kuitansi/printLabel",{barcode: code},'Label');
+
+      <?php if(isset($bc)){ ?>
+        var code = '<?php echo $bc; ?>';
+        openlabel('POST',"<?php echo base_url()?>kuitansi/printLabel",{barcode: code},'Label');
+      <?php } ?>
+
       $("#agensi").val(<?php echo $kuitansiag ?>);
       $("#pptkis").val('<?php echo $kuitansipp ?>');
       $.post(" <?php echo base_url(); ?>JO/getDataJO", {agid:$("#agensi").val(), ppkode:$("#pptkis").val()}, function(data, status){
@@ -339,7 +343,8 @@
                     td = '<a onclick=showTolak("'+obj[key]["jokode"]+'") data-toggle="modal" data-target="#modalTolak">JO Ditolak</a>'
                   }
                   else if (obj[key]["isverified"] == 2) {
-                    td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinaljo/Dokumen_Final_JO_' + obj[key]["jokode"] +'.pdf ">DOWNLOAD Dokumen Pengajuan JO</a>'
+                    td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>JO/downloadDokFin/' + obj[key]["jokode"] + ' ">DOWNLOAD Dokumen Pengajuan JO</a>'
+                    //td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinaljo/Dokumen_Final_JO_' + obj[key]["jokode"] +'.pdf ">DOWNLOAD Dokumen Pengajuan JO</a>'
                   }
                   else if (obj[key]["isverified"] == 3) {
                     if (obj[key]["isuploaded"] == 1) {

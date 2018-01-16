@@ -43,9 +43,9 @@ public function __construct()
 
       $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
       $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
-      $this->data['title'] = 'View PK (Labour Contract)';
-      $this->data['subtitle'] = 'View PK (Labour Contract)';
-      $this->data['subtitle2'] = 'View PK (Labour Contract)';
+      $this->data['title'] = 'View Labour Contract (PK)';
+      $this->data['subtitle'] = 'View Labour Contract (PK)';
+      $this->data['subtitle2'] = 'View Labour Contract (PK)';
       $this->load->view('templates/headerendorsement', $this->data);
       $this->load->view('Endorsement/LihatPK_view', $this->data);
       $this->load->view('templates/footerendorsement');
@@ -99,9 +99,9 @@ public function __construct()
 
       $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
       $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
-      $this->data['title'] = 'View Transfer';
-      $this->data['subtitle'] = 'View Transfer';
-      $this->data['subtitle2'] = 'View Transfer';
+      $this->data['title'] = 'View Employer Transfer (PK)';
+      $this->data['subtitle'] = 'View Employer Transfer (PK)';
+      $this->data['subtitle2'] = 'View Employer Transfer (PK)';
       $this->load->view('templates/headerendorsement', $this->data);
       $this->load->view('Endorsement/LihatPKTransfer_view', $this->data);
       $this->load->view('templates/footerendorsement');
@@ -122,9 +122,9 @@ public function __construct()
 
         $this->data['values'] = $pkkode;
 
-        $this->data['title'] = 'Upload Dokumen Final PK (Labour Contract)';
-        $this->data['subtitle'] = 'Upload Dokumen Final PK (Labour Contract)';
-        $this->data['subtitle2'] = 'Upload Dokumen Final PK (Labour Contract)';
+        $this->data['title'] = 'Upload Labour Contract (PK) Document';
+        $this->data['subtitle'] = 'Upload Labour Contract (PK) Document';
+        $this->data['subtitle2'] = 'Upload Labour Contract (PK) Document';
         $this->load->view('templates/headerendorsement', $this->data);
         $this->load->view('Endorsement/UploadDokumenPK_view', $this->data);
         $this->load->view('templates/footerendorsement');
@@ -148,12 +148,19 @@ public function __construct()
             $this->data['error'] = "";
             //$this->session->set_flashdata('information', 'Upload berhasil dilakukan');
           }
-          $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
+          $this->session->set_flashdata('information', 'Data successfully inserted');
         }
         else {
-          $this->session->set_flashdata('information', 'Data gagal dimasukkan');
+          $this->session->set_flashdata('information', 'Data failed to insert');
         }
-        redirect('PkNew/');
+
+        $this->session->set_flashdata('print', 'Document successfully uploaded');
+        $datapk = get_pk_from_barcode($pkkode);
+        $this->data['kuitansiag'] = $datapk[0]->agid;
+        $this->data['kuitansipp'] = $datapk[0]->ppkode;
+        $this->session->set_flashdata('data', $this->data);
+
+        redirect('pknew/');
       }
 
     }
@@ -234,8 +241,8 @@ public function __construct()
     }
     $this->data['employer'] = $this->Input_model->get_input_dataworker($this->session->userdata('institution'));
     $this->data['joborder'] = $this->Input_model->get_input_joborder($this->session->userdata('institution'));
-    $this->data['title'] = 'Apply PK (LC)';
-    $this->data['subtitle'] = 'Apply PK (Labour Contract)';
+    $this->data['title'] = 'Apply Labour Contract (PK)';
+    $this->data['subtitle'] = 'Apply Labour Contract (PK)';
     $this->data['subtitle2'] = 'Worker Data';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/AddPK_view', $this->data);
@@ -247,8 +254,8 @@ public function __construct()
     $this->data['listconnag'] =  $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'),false,true);
     $this->data['employer'] = $this->Input_model->get_input_dataworker($this->session->userdata('institution'));
     $this->data['joborder'] = $this->Input_model->get_input_joborder($this->session->userdata('institution'));
-    $this->data['title'] = 'Apply PK (LC)';
-    $this->data['subtitle'] = 'Apply PK (Labour Contract)';
+    $this->data['title'] = 'Apply Labour Contract (PK)';
+    $this->data['subtitle'] = 'Apply Labour Contract (PK)';
     $this->data['subtitle2'] = 'Worker Data';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/addPkPenempatan_view', $this->data);
@@ -259,7 +266,7 @@ public function __construct()
   {
     $this->data['employer'] = $this->Input_model->get_input_dataworker($this->session->userdata('institution'));
     $this->data['joborder'] = $this->Input_model->get_input_joborder($this->session->userdata('institution'));
-    $this->data['title'] = 'Reentry Hiring (LC)';
+    $this->data['title'] = 'Reentry Hiring (Labour Contract)';
     $this->data['subtitle'] = 'Create Reentry Hiring (Labour Contract)';
     $this->data['subtitle2'] = 'Worker Data';
     $this->load->view('templates/headerendorsement', $this->data);
@@ -271,8 +278,8 @@ public function __construct()
   {
     $this->data['employer'] = $this->Input_model->get_input_dataworker($this->session->userdata('institution'));
     $this->data['joborder'] = $this->Input_model->get_input_joborder($this->session->userdata('institution'));
-    $this->data['title'] = 'Transfer (LC)';
-    $this->data['subtitle'] = 'Create Transfer (Labour Contract)';
+    $this->data['title'] = 'Employer Transfer (PK)';
+    $this->data['subtitle'] = 'Employer Transfer (PK)';
     $this->data['subtitle2'] = 'Worker Data';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/addPkTransfer_view', $this->data);
@@ -302,10 +309,10 @@ public function __construct()
   {
     $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;
     $currencyname = $this->Currency_model->get_currency_name($currencyid);
-    $this->data['title'] = 'Endorse PK (Labour Contract)';
+    $this->data['title'] = 'Endorse Labour Contract (PK)';
     $this->data['currency'] = $currencyname->currencyname;
-    $this->data['subtitle'] = 'Endorse PK (Labour Contract)';
-    $this->data['subtitle2'] = 'Endorse PK (Labour Contract)';
+    $this->data['subtitle'] = 'Endorse Labour Contract (PK)';
+    $this->data['subtitle2'] = 'Endorse Labour Contract (PK)';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/LegalizePK_view', $this->data);
     $this->load->view('templates/footerendorsement');
@@ -315,10 +322,10 @@ public function __construct()
   {
     $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;
     $currencyname = $this->Currency_model->get_currency_name($currencyid);
-    $this->data['title'] = 'Endorse PK (Labour Contract)';
+    $this->data['title'] = 'Endorse Reentry Hiring Labour Contract (PK)';
     $this->data['currency'] = $currencyname->currencyname;
-    $this->data['subtitle'] = 'Endorse PK Reentry(Labour Contract)';
-    $this->data['subtitle2'] = 'Endorse PK Reentry(Labour Contract)';
+    $this->data['subtitle'] = 'Endorse Reentry Hiring Labour Contract (PK)';
+    $this->data['subtitle2'] = 'Endorse Reentry Hiring Labour Contract (PK)';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/LegalizePKReentry_view', $this->data);
     $this->load->view('templates/footerendorsement');
@@ -328,10 +335,10 @@ public function __construct()
   {
     $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;
     $currencyname = $this->Currency_model->get_currency_name($currencyid);
-    $this->data['title'] = 'Endorse PK (Labour Contract)';
+    $this->data['title'] = 'Endorse Employer Transfer Labour Contract (PK)';
     $this->data['currency'] = $currencyname->currencyname;
-    $this->data['subtitle'] = 'Endorse PK Transfer (Labour Contract)';
-    $this->data['subtitle2'] = 'Endorse PK Transfer (Labour Contract)';
+    $this->data['subtitle'] = 'Endorse Employer Transfer Labour Contract (PK)';
+    $this->data['subtitle2'] = 'Endorse Employer Transfer Labour Contract (PK)';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/LegalizePKTransfer_view', $this->data);
     $this->load->view('templates/footerendorsement');
@@ -478,12 +485,12 @@ public function __construct()
       if ($this->form_validation->run() === FALSE)
       {
         $this->session->set_flashdata('information', 'Complete receipt form!');
-        redirect('PkNew/legalize');
+        redirect('pknew/legalize');
       }
       else {
         if (!($this->input->post('kuitansiag', true)))
         {
-          redirect('PkNew');
+          redirect('pknew');
         }
         $username = $this->session->userdata('user');
         $institusi = $this->session->userdata('institution');
@@ -493,20 +500,20 @@ public function __construct()
         $this->data['kuitansiag'] = $this->input->post('kuitansiag', true);
         $this->data['kuitansipp'] = $this->input->post('kuitansipp', true);
         $this->session->set_flashdata('data', $this->data);
-        redirect('PkNew');
+        redirect('pknew');
       }
     }
     else {
       if (!($this->input->post('kuitansiag', true)))
       {
-        redirect('PkNew');
+        redirect('pknew');
       }
       $this->session->set_flashdata('print', 'Segera Upload Dokumen Final PK ');
       $this->data['bc'] = $this->input->post('barcodeprint', true);
       $this->data['kuitansiag'] = $this->input->post('kuitansiag', true);
       $this->data['kuitansipp'] = $this->input->post('kuitansipp', true);
       $this->session->set_flashdata('data', $this->data);
-      redirect('PkNew');
+      redirect('pknew');
     }
   }
 }

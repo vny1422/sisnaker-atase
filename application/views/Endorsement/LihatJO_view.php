@@ -40,7 +40,7 @@
             </div>' ?>
           <?php endif; ?>
           <div class="form-group">
-            <label class="control-label col-md-2">Agensi</label>
+            <label class="control-label col-md-2">Agency</label>
             <div class="col-md-5">
               <?php if (isset($dataagensi)) { ?>
                 <select name="agensi" required="required" class="agensi select2_single form-control" tabindex="-1" disabled>
@@ -91,12 +91,12 @@
             <table id="datatable-jo" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
               <thead>
                 <tr>
-                  <th>Kode JO</th>
-                  <th>Kode PKP</th>
-                  <th>Tanggal Mulai</th>
-                  <th>Tangggal Selesai</th>
-                  <th>S. Verifikasi</th>
-                  <th>S. Upload</th>
+                  <th>Job Order (JO) Code</th>
+                  <th>Rec.Agreement (PKP) Code</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Verification Status</th>
+                  <th>Upload Status</th>
                   <th>Date Modified</th>
                   <th>Action</th>
                 </tr>
@@ -112,7 +112,7 @@
           <div class="ln_solid"></div>
           <div class="form-group">
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <a class="btn btn-warning" href=" <?php echo base_url('PKP/addJO') ?> ">Tambah JO</a>
+              <a class="btn btn-warning" href=" <?php echo base_url('jo/addjo') ?> ">Add New Job Order (JO)</a>
             </div>
           </div>
 
@@ -129,14 +129,14 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="myModalLabel">DETAIL PKP</h4>
+          <h4 class="modal-title" id="myModalLabel">Recruitment Agreement (PKP) Detail</h4>
         </div>
         <div class="modal-body">
           <div class="x_content checked" style="display: " >
             <div class="row" style="padding-top: 20px">
               <div class="col-md-12">
                 <div class="col-md-2">
-                  <label id="coba" class="control-label" >Agensi:</label>
+                  <label id="coba" class="control-label" >Agency:</label>
                 </div>
                 <div class="col-md-10">
                   <p id="pkpag"></p>
@@ -152,7 +152,7 @@
               </div>
               <div class="col-md-12">
                 <div class="col-md-2">
-                  <label class="control-label" >Tanggal Mulai:</label>
+                  <label class="control-label" >Start Date:</label>
                 </div>
                 <div class="col-md-10">
                   <p id="pkpawal"></p>
@@ -160,7 +160,7 @@
               </div>
               <div class="col-md-12">
                 <div class="col-md-2">
-                  <label class="control-label" >Tanggal Akhir:</label>
+                  <label class="control-label" >End Date:</label>
                 </div>
                 <div class="col-md-10">
                   <p id="pkpakhir"></p>
@@ -171,10 +171,10 @@
             <table id="tbpkpd" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
               <thead>
                 <tr>
-                  <th>Jenis Pekerjaan</th>
-                  <th>Laki-Laki</th>
-                  <th>Perempuan</th>
-                  <th>Campuran</th>
+                  <th>Job Type</th>
+                  <th>Male</th>
+                  <th>Female</th>
+                  <th>M/F</th>
                 </tr>
               </thead>
               <tbody id="pkpdlist">
@@ -200,14 +200,14 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="myModalLabel">DETAIL JO</h4>
+          <h4 class="modal-title" id="myModalLabel">Job Order (JO) Detail</h4>
         </div>
         <div class="modal-body">
           <div class="x_content checked" style="display: " >
             <div class="row" style="padding-top: 20px">
               <div class="col-md-12">
                 <div class="col-md-2">
-                  <label id="coba" class="control-label" >Agensi:</label>
+                  <label id="coba" class="control-label" >Agency:</label>
                 </div>
                 <div class="col-md-10">
                   <p id="joag"></p>
@@ -223,7 +223,7 @@
               </div>
               <div class="col-md-12">
                 <div class="col-md-2">
-                  <label class="control-label" >Kode PKP:</label>
+                  <label class="control-label" >Rec.Agreement Code:</label>
                 </div>
                 <div class="col-md-10">
                   <p id="kodepkp"></p>
@@ -231,7 +231,7 @@
               </div>
               <div class="col-md-12">
                 <div class="col-md-2">
-                  <label class="control-label" >Tanggal Mulai:</label>
+                  <label class="control-label" >Start Date:</label>
                 </div>
                 <div class="col-md-10">
                   <p id="jobtglawal"></p>
@@ -239,7 +239,7 @@
               </div>
               <div class="col-md-12">
                 <div class="col-md-2">
-                  <label class="control-label" >Tanggal Akhir:</label>
+                  <label class="control-label" >End Date:</label>
                 </div>
                 <div class="col-md-10">
                   <p id="jobtglakhir"></p>
@@ -250,10 +250,10 @@
             <table id="tbjod" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
               <thead>
                 <tr>
-                  <th>Jenis Pekerjaan</th>
-                  <th>Laki-Laki</th>
-                  <th>Perempuan</th>
-                  <th>Campuran</th>
+                  <th>Job Type</th>
+                  <th>Male</th>
+                  <th>Female</th>
+                  <th>M/F</th>
                 </tr>
               </thead>
               <tbody id="jodlist">
@@ -278,14 +278,14 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="myModalLabel">JO Ditolak</h4>
+          <h4 class="modal-title" id="myModalLabel">Job Order (JO) Rejected</h4>
         </div>
         <div class="modal-body">
           <div class="x_content checked" style="display: " >
             <div class="row" style="padding-top: 20px">
               <div class="col-md-12">
                 <div class="col-md-2">
-                  <label id="coba" class="control-label" >Alasan Penolakan:</label>
+                  <label id="coba" class="control-label" >Rejection Reason:</label>
                 </div>
                 <div class="col-md-10">
                   <p id="alasanPenolakan"></p>
@@ -340,30 +340,30 @@
               for(var key in obj){
                 if(obj.hasOwnProperty(key)){
                   if (obj[key]["isverified"] == 1){
-                    td = '<a onclick=showTolak("'+obj[key]["jokode"]+'") data-toggle="modal" data-target="#modalTolak">JO Ditolak</a>'
+                    td = '<a onclick=showTolak("'+obj[key]["jokode"]+'") data-toggle="modal" data-target="#modalTolak">Job Order (JO) Rejected</a>'
                   }
                   else if (obj[key]["isverified"] == 2) {
-                    td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>JO/downloadDokFin/' + obj[key]["jokode"] + ' ">DOWNLOAD Dokumen Pengajuan JO</a>'
+                    td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>JO/downloadDokFin/' + obj[key]["jokode"] + ' ">Download Job Order (JO) Document</a>'
                     //td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinaljo/Dokumen_Final_JO_' + obj[key]["jokode"] +'.pdf ">DOWNLOAD Dokumen Pengajuan JO</a>'
                   }
                   else if (obj[key]["isverified"] == 3) {
                     if (obj[key]["isuploaded"] == 1) {
-                      td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinaljo/Dokumen_Final_JO_' + obj[key]["jokode"] +'.pdf ">DOWNLOAD</a>'
+                      td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinaljo/Dokumen_Final_JO_' + obj[key]["jokode"] +'.pdf ">Download Archived Document</a>'
                     }
                     else{
-                      td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>JO/uploadDokFin/' + obj[key]["jokode"] +' ">UPLOAD</a>'
+                      td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>JO/uploadDokFin/' + obj[key]["jokode"] +' ">Upload Job Order (JO) Document</a>'
                     }
                   }
                   else {
-                    td = 'Segera Lakukan Verifikasi'
+                    td = 'Need Verification'
                   }
                   table.row.add([
                     '<td id="kodejo" class="text-center" value = "' + obj[key]["jokode"] +'"><a onclick=showJO("'+obj[key]["jokode"]+'") data-toggle="modal" data-target="#modalDetailJO">' + (obj[key]["jokode"] ? obj[key]["jokode"] : "-") + '</a></td>',
                     '<td id="kodepkp" class="text-center" value = "' + obj[key]["pkpkode"] +'"><a onclick=showPKP("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalDetailPKP">' + (obj[key]["pkpkode"] ? obj[key]["pkpkode"] : "-") + '</a></td>',
                     obj[key]["jobtglawal"],
                     obj[key]["jobtglakhir"],
-                    '<td>'+ (obj[key]["isverified"] > 1 ? "Sudah" : "Belum") + '</td>',
-                    '<td>'+ (obj[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td>',
+                    '<td>'+ (obj[key]["isverified"] > 1 ? "Verified" : "Waiting") + '</td>',
+                    '<td>'+ (obj[key]["isuploaded"]  == 1 ? "Uploaded" : "Waiting")+ '</td>',
                     obj[key]["jobtimestamp"],
                     '<td class="text-center">'+ td + '</td>'
                   ]).draw();
@@ -400,7 +400,7 @@
 
       $('#btncari').click(function () {
         if ($("#agensi").val() == null || $("#pptkis").val() == null) {
-          alert("Pilih Agensi dan PPTKIS")
+          alert("Please Choose your Agency and PPTKIS")
         }
         else {
           $.post(" <?php echo base_url(); ?>JO/getDataJO", {agid:$("#agensi").val(), ppkode:$("#pptkis").val()}, function(data, status){
@@ -411,30 +411,30 @@
               for(var key in obj){
                 if(obj.hasOwnProperty(key)){
                   if (obj[key]["isverified"] == 1){
-                    td = '<a onclick=showTolak("'+obj[key]["jokode"]+'") data-toggle="modal" data-target="#modalTolak">JO Ditolak</a>'
+                    td = '<a onclick=showTolak("'+obj[key]["jokode"]+'") data-toggle="modal" data-target="#modalTolak">Job Order (JO) Rejected</a>'
                   }
                   else if (obj[key]["isverified"] == 2) {
-                    td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>JO/downloadDokFin/' + obj[key]["jokode"] + ' ">DOWNLOAD Dokumen Pengajuan JO</a>'
+                    td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>JO/downloadDokFin/' + obj[key]["jokode"] + ' ">Download Job Order (JO) Document</a>'
                     //td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinaljo/Dokumen_Final_JO_' + obj[key]["jokode"] +'.pdf ">DOWNLOAD Dokumen Pengajuan JO</a>'
                   }
                   else if (obj[key]["isverified"] == 3) {
                     if (obj[key]["isuploaded"] == 1) {
-                      td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinaljo/Dokumen_Final_JO_' + obj[key]["jokode"] +'.pdf ">DOWNLOAD</a>'
+                      td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinaljo/Dokumen_Final_JO_' + obj[key]["jokode"] +'.pdf ">Download Archived Document</a>'
                     }
                     else{
-                      td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>JO/uploadDokFin/' + obj[key]["jokode"] +' ">UPLOAD</a>'
+                      td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>JO/uploadDokFin/' + obj[key]["jokode"] +' ">Upload Job Order (JO) Document</a>'
                     }
                   }
                   else {
-                    td = 'Segera Lakukan Verifikasi'
+                    td = 'Need Verification'
                   }
                   table.row.add([
                     '<td id="kodejo" class="text-center" value = "' + obj[key]["jokode"] +'"><a onclick=showJO("'+obj[key]["jokode"]+'") data-toggle="modal" data-target="#modalDetailJO">' + (obj[key]["jokode"] ? obj[key]["jokode"] : "-") + '</a></td>',
                     '<td id="kodepkp" class="text-center" value = "' + obj[key]["pkpkode"] +'"><a onclick=showPKP("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalDetailPKP">' + (obj[key]["pkpkode"] ? obj[key]["pkpkode"] : "-") + '</a></td>',
                     obj[key]["jobtglawal"],
                     obj[key]["jobtglakhir"],
-                    '<td>'+ (obj[key]["isverified"] > 1 ? "Sudah" : "Belum") + '</td>',
-                    '<td>'+ (obj[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td>',
+                    '<td>'+ (obj[key]["isverified"] > 1 ? "Verified" : "Waiting") + '</td>',
+                    '<td>'+ (obj[key]["isuploaded"]  == 1 ? "Uploaded" : "Waiting")+ '</td>',
                     obj[key]["jobtimestamp"],
                     '<td class="text-center">'+ td + '</td>'
                   ]).draw();
@@ -442,7 +442,7 @@
               }
             }
             else {
-              alert('Data not found.');
+              alert('Data not found');
             }
           });
         }
@@ -490,7 +490,7 @@
             }
             $(".checked").show();
           } else {
-            alert('Barcode tidak valid!');
+            alert('Invalid Barcode');
           }
 
         });
@@ -521,7 +521,7 @@
             }
             $(".checked").show();
           } else {
-            alert('Barcode tidak valid!');
+            alert('Invalid Barcode');
           }
 
         });
@@ -536,13 +536,11 @@
             $("#alasanPenolakan").text(obj[0].alasanpenolakan);
             $(".checked").show();
           } else {
-            alert('Barcode tidak valid!');
+            alert('Invalid Barcode');
           }
 
         });
       }
-
-
 
     });
   </script>

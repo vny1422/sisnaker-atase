@@ -71,6 +71,7 @@
           <?php echo form_open(base_url('PkNew/catatKuitansi')) ?>
           <input type="hidden" id="kuitansiag" name="kuitansiag"/>
           <input type="hidden" id="kuitansipp" name="kuitansipp"/>
+          <input type="hidden" id="barcodeprint" name="barcodeprint"/>
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="active">Use Receipt? </label>
             <div class="col-md-1 col-sm-1 col-xs-2">
@@ -78,7 +79,7 @@
             </div>
             <br /><br />
           </div>
-
+          <div id="formkuitansi">
           <div class="form-group" >
             <label class="col-sm-2 control-label">Tanggal Masuk</label>
             <div class="col-sm-2">
@@ -88,7 +89,6 @@
               </div>
             </div>
           </div><br /><br /><br /><br />
-
           <div class="form-group" >
             <label class="col-sm-2 control-label">Tanggal Kuitansi</label>
             <div class="col-sm-2">
@@ -123,6 +123,7 @@
               <input id="pemohon" type="text" name="pemohon" class="form-control">
             </div>
           </div><br /><br /><br />
+        </div>
       </div>
 
     </div>
@@ -136,6 +137,46 @@
     </form>
   </div>
     <br />
+  </div>
+</div>
+
+<div class="modal fade bs-example-modal-lg" id="modalcheck" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel"><?php echo $subtitle2; ?></h4>
+      </div>
+      <div class="modal-body">
+        <div class="x_content">
+          <table id="datatable" class="display table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+              <th>Jenis</th>
+                <th>Nama Pemohon</th>
+                <th>Nama Agensi</th>
+                <th>Tgl. Masuk</th>
+                <th>Tgl. Kuitansi</th>
+                <th>Pilih</th>
+                <th> ID tipe</th>
+                <th> Jumlah Terbayar</th>
+                <th> No Kuitansi</th>
+              </tr>
+            </thead>
+          <tbody id="listkuitansi">
+          </tbody>
+          </table>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+      </div>
+
+    </div>
   </div>
 </div>
 
@@ -192,6 +233,7 @@
           $(wrapper_pk).html('');
           $("#kuitansiag").val(listinput[0].agid);
           $("#kuitansipp").val(listinput[0].ppkode);
+          $("#barcodeprint").val(code);
           for (var key in listinput) {
             var string = '\
             <tr>\
@@ -236,6 +278,7 @@
     var errorku = $("#errorku");
     var wrapperk = $("#listkuitansi");
     var pilihButton = $(".pilihButton");
+    var showkuitansi = 1;
     var submit = false;
     var tablek = $("#datatable").DataTable( {
     "columnDefs": [
@@ -296,6 +339,18 @@
     $("#noku").change(function(){
       submit = false;
     });
+
+    $("#cekenable").change(function(){
+      if (showkuitansi == 1)
+      {
+        $("#formkuitansi").hide();
+        showkuitansi = 0;
+      }
+      else {
+        $("#formkuitansi").show();
+        showkuitansi = 1;
+      }
+    })
 
     $("#ceksubmit").click(function(e){
       if(submit == false && $('#cekenable').is(':checked')) {

@@ -140,6 +140,46 @@
   </div>
 </div>
 
+<div class="modal fade bs-example-modal-lg" id="modalcheck" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel"><?php echo $subtitle2; ?></h4>
+      </div>
+      <div class="modal-body">
+        <div class="x_content">
+          <table id="datatable" class="display table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+              <th>Jenis</th>
+                <th>Nama Pemohon</th>
+                <th>Nama Agensi</th>
+                <th>Tgl. Masuk</th>
+                <th>Tgl. Kuitansi</th>
+                <th>Pilih</th>
+                <th> ID tipe</th>
+                <th> Jumlah Terbayar</th>
+                <th> No Kuitansi</th>
+              </tr>
+            </thead>
+          <tbody id="listkuitansi">
+          </tbody>
+          </table>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <script>
 
   $(document).ready(function () {

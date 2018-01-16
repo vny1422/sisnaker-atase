@@ -193,6 +193,12 @@
           else {
             $this->session->set_flashdata('information', 'Data gagal dimasukkan');
           }
+
+          $this->session->set_flashdata('print', 'Dokumen berhasil di upload');
+          $datapkp = $this->PKP_model->get_pkp_from_barcode($pkpkode);
+          $this->data['kuitansiag'] = $datapkp[0]->agid;
+          $this->data['kuitansipp'] = $datapkp[0]->ppkode;
+          $this->session->set_flashdata('data', $this->data);
           redirect('PKP/');
         }
 

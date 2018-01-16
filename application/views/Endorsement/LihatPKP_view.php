@@ -245,9 +245,13 @@
         form.submit();
       };
 
-      <?php if($this->session->flashdata('print') != ""): ?>
-      var code = '<?php echo $bc; ?>';
-      openlabel('POST',"<?php echo base_url()?>kuitansi/printLabel",{barcode: code},'Label');
+      <?php if($this->session->flashdata('print') != ""):?>
+
+      <?php if(isset($bc)){ ?>
+        var code = '<?php echo $bc; ?>';
+        openlabel('POST',"<?php echo base_url()?>kuitansi/printLabel",{barcode: code},'Label');
+      <?php } ?>
+
       $("#agensi").val(<?php echo $kuitansiag ?>);
       $("#pptkis").val('<?php echo $kuitansipp ?>');
       $.post(" <?php echo base_url(); ?>PKP/getDataPKP", {agid:$("#agensi").val(), ppkode:$("#pptkis").val()}, function(data, status){

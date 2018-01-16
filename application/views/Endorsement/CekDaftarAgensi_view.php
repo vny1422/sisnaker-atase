@@ -369,6 +369,7 @@
                         "<label class=\"control-label col-md-6 col-sm-6 col-xs-12\">Institution</label>" +
                           "<div class=\"col-md-6 col-sm-6 col-xs-12\">" + $("#institution").text() + "</div>" +
                         "</div><br /><br />" +
+                        "<div class=\"form-group\">" +
                         "<label class=\"control-label col-md-6 col-sm-6 col-xs-12\">Kantor</label>" +
                           "<div class=\"col-md-6 col-sm-6 col-xs-12\">" + $("#kantor").text() + "</div>" +
                         "</div><br /><br />" +

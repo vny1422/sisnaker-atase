@@ -85,8 +85,8 @@ p{
 
 <pagebreak>
 
-<p style="padding-left:137 mm; margin-top:35mm;">asd<?= $pk['joakomodasi'];?></p>
-<p style="padding-left:55 mm; margin-top:60mm;">asd<?= $pk['joakomodasi'];?></p>
+<p style="padding-left:137 mm; margin-top:35mm;"><?= $pk['joakomodasi'];?></p>
+<p style="padding-left:55 mm; margin-top:60mm;"><?= $pk['joakomodasi'];?></p>
 
 <p style="padding-left:81 mm; margin-top:115mm;"><?= $pk['jpgaji']/30;?></p>
 <p style="padding-left:121 mm; margin-top:137mm;"><?= $pk['jpgaji']/30;?></p>

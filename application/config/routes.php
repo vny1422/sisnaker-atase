@@ -91,6 +91,7 @@ $route['(?i)pkp'] = 'Endorsement/Pkp';
 $route['(?i)pknew'] = 'Endorsement/PkNew';
 $route['(?i)jo'] = 'Endorsement/JO';
 $route['(?i)dex'] = 'Endorsement/Dex';
+$route['(?i)logintw'] = 'Login/tw';
 
 
 $route['(?i)institution/(:any)'] = 'SAdmin/Institution/$1';

@@ -96,18 +96,26 @@
                   <?php endif; ?>
                     <form enctype="multipart/form-data" action="<?php echo base_url(); ?>Login/daftar" method="post" class="form-horizontal form-label-left">
                       <div class="form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Institution <span class="required">*</span></label>
-                          <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select name="institution" required="required" class="select2_single form-control" tabindex="-1">
-                              <option></option>
-                              <?php foreach($institution as $row): ?>
-                                  <?php if($row->nameinstitution != 'Super'): ?>
-                                  <option value="<?php echo $row->idinstitution ?>"><?php echo $row->nameinstitution ?></option>
-                                <?php endif; ?>
-                              <?php endforeach; ?>
-                            </select>
-                          </div>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Institution <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select name="institution" required="required" class="select2_single form-control" tabindex="-1" id="institution">
+                            <option></option>
+                            <?php foreach($institution as $row): ?>
+                              <?php if($row->nameinstitution != 'Super' && $row->nameinstitution != 'Pusat'): ?>
+                                <option value="<?php echo $row->idinstitution ?>"><?php echo $row->nameinstitution ?></option>
+                              <?php endif; ?>
+                            <?php endforeach; ?>
+                          </select>
                         </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Kantor <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select name="kantor" required="required" class="select2_single form-control" tabindex="-1" id="kantor">
+                            <option></option>
+                          </select>
+                        </div>
+                      </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Official Company Email <span class="required">*</span>
                         </label>
@@ -217,40 +225,40 @@
     </div>
 
     <!-- jQuery -->
-    <script src="../vendors/jquery/dist/jquery.min.js"></script>
+    <script src="<?php echo base_url('assets/vendors/jquery/dist/jquery.min.js'); ?>"></script>
     <!-- Bootstrap -->
-    <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="<?php echo base_url('assets/vendors/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
     <!-- FastClick -->
-    <script src="../vendors/fastclick/lib/fastclick.js"></script>
+    <script src="<?php echo base_url('assets/vendors/fastclick/lib/fastclick.js'); ?>"></script>
     <!-- NProgress -->
-    <script src="../vendors/nprogress/nprogress.js"></script>
-    <!-- bootstrap-progressbar -->
-    <script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
-    <!-- iCheck -->
-    <script src="../vendors/iCheck/icheck.min.js"></script>
-    <!-- bootstrap-daterangepicker -->
-    <script src="../vendors/moment/min/moment.min.js"></script>
-    <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-    <!-- bootstrap-wysiwyg -->
-    <script src="../vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
-    <script src="../vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
-    <script src="../vendors/google-code-prettify/src/prettify.js"></script>
-    <!-- jQuery Tags Input -->
-    <script src="../vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+    <script src="<?php echo base_url('assets/vendors/nprogress/nprogress.js'); ?>"></script>
+    <!-- Prettify -->
+    <script src="<?php echo base_url('assets/vendors/google-code-prettify/src/prettify.js'); ?>"></script>
     <!-- Switchery -->
-    <script src="../vendors/switchery/dist/switchery.min.js"></script>
+    <script src="<?php echo base_url('assets/vendors/switchery/dist/switchery.min.js'); ?>"></script>
     <!-- Select2 -->
-    <script src="../vendors/select2/dist/js/select2.full.min.js"></script>
-    <!-- Parsley -->
-    <script src="../vendors/parsleyjs/dist/parsley.min.js"></script>
-    <!-- Autosize -->
-    <script src="../vendors/autosize/dist/autosize.min.js"></script>
-    <!-- jQuery autocomplete -->
-    <script src="../vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+    <script src="<?php echo base_url('assets/vendors/select2/dist/js/select2.full.min.js'); ?>"></script>
     <!-- starrr -->
-    <script src="../vendors/starrr/dist/starrr.js"></script>
+    <script src="<?php echo base_url('assets/vendors/starrr/dist/starrr.js'); ?>"></script>
     <!-- Custom Theme Scripts -->
-    <script src="../build/js/customku.js"></script>
+    <script src="<?php echo base_url('assets/build/js/customku.js'); ?>"></script>
+
+    <script type="text/javascript">
+      $("#institution").change(function(){
+        $("#kantor").children('option:not(:first)').remove();
+
+        $.post("<?php echo base_url()?>Login/getListKantor", {institution: $("#institution").val()}, function(data, status){
+          var json = $.parseJSON(data);
+          
+          $.each(json, function(i, val) {
+            $("#kantor")
+              .append($("<option></option>")
+              .attr("value", val.idkantor)
+              .text(val.namakantor));
+          });
+        });
+      });
+    </script>
 
   </body>
 </html>

@@ -40,7 +40,7 @@
                 <td class="pngjwb"><?php echo $row->agrpngjwb ?></td>
                 <td class="status"><?php echo ($row->agrstatus === NULL ? "Waiting" : $row->agrstatus ) ?></td>
                 <td>
-                  <div class="center-button"><button onclick='toggleBtn(<?php echo json_encode($row); ?>, "<?php echo $listnama[$i]->nameinstitution; ?>")' class="btn btn-info tglButton" type="button" data-toggle="modal" data-target="#modalreg">Lihat Data</button></div>
+                  <div class="center-button"><button onclick='toggleBtn(<?php echo json_encode($row); ?>, "<?php echo $listnamainstitusi[$i]->nameinstitution; ?>", "<?php echo $listnamakantor[$i]->namakantor; ?>")' class="btn btn-info tglButton" type="button" data-toggle="modal" data-target="#modalreg">Lihat Data</button></div>
                 </td>
               </tr>
             <?php
@@ -83,6 +83,11 @@
             <div class="form-group">
               <label class="control-label col-md-6 col-sm-6 col-xs-12">Institution</label>
               <div id="institution" class="col-md-6 col-sm-6 col-xs-12"></div>
+            </div><br /><br />
+
+            <div class="form-group">
+              <label class="control-label col-md-6 col-sm-6 col-xs-12">Kantor</label>
+              <div id="kantor" class="col-md-6 col-sm-6 col-xs-12"></div>
             </div><br /><br />
 
             <div class="form-group">
@@ -217,10 +222,11 @@
 
   var filename = null;
 
-  function toggleBtn(row, namainst) {
+  function toggleBtn(row, namainst, namakantor) {
     $("#agensiRID").text(row.agrid);
     $("#instID").text(row.idinstitution);
     $("#institution").text(namainst);
+    $("#kantor").text(namakantor);
     $("#companyEmail").text((row.agremail == null ? "" : row.agremail ));
     $("#agensiName").text((row.agrnama == null ? "" : row.agrnama ));
     $("#otherAgensiName").text((row.agrnamacn == null ? "" : row.agrnamacn ));
@@ -362,6 +368,10 @@
                         "<div class=\"form-group\">" +
                         "<label class=\"control-label col-md-6 col-sm-6 col-xs-12\">Institution</label>" +
                           "<div class=\"col-md-6 col-sm-6 col-xs-12\">" + $("#institution").text() + "</div>" +
+                        "</div><br /><br />" +
+                        "<div class=\"form-group\">" +
+                        "<label class=\"control-label col-md-6 col-sm-6 col-xs-12\">Kantor</label>" +
+                          "<div class=\"col-md-6 col-sm-6 col-xs-12\">" + $("#kantor").text() + "</div>" +
                         "</div><br /><br />" +
                         "<div class=\"form-group\">" +
                         "<label class=\"control-label col-md-6 col-sm-6 col-xs-12\">Official Company Email</label>" +

@@ -36,7 +36,7 @@
             echo "<ul class=\"nav child_menu\">";
             foreach ($usedpg as $rowpg) {
               if($rowpg->masterprivilegegroupid == $rowmpg->masterprivilegegroupid) {
-                if ($rowpg->idprivilegegroup != 10 && $rowpg->idprivilegegroup != 11 && $rowpg->idprivilegegroup != 21 && $rowpg->idprivilegegroup != 22 && $rowpg->idprivilegegroup != 23) {
+                if ($rowpg->idprivilegegroup != 10 && $rowpg->idprivilegegroup != 11 && $rowpg->idprivilegegroup != 21 && $rowpg->idprivilegegroup != 22 && $rowpg->idprivilegegroup != 23 && $rowpg->idprivilegegroup != 24 && $rowpg->idprivilegegroup != 25 && $rowpg->idprivilegegroup != 26) {
                   echo
                   "<li><a> ".$rowpg->privilegegroupname." <span class=\"fa fa-chevron-down\"></span></a>";
                   echo "<ul class=\"nav child_menu\" style=\"display: none\">";
@@ -60,7 +60,7 @@
         }
         else {
           foreach ($usedpg as $rowpg) {
-            if ($rowpg->idprivilegegroup != 10 && $rowpg->idprivilegegroup != 11 && $rowpg->idprivilegegroup != 21 && $rowpg->idprivilegegroup != 22  && $rowpg->idprivilegegroup != 23) {
+            if ($rowpg->idprivilegegroup != 10 && $rowpg->idprivilegegroup != 11 && $rowpg->idprivilegegroup != 21 && $rowpg->idprivilegegroup != 22  && $rowpg->idprivilegegroup != 23 && $rowpg->idprivilegegroup != 24 && $rowpg->idprivilegegroup != 25 && $rowpg->idprivilegegroup != 26) {
               echo
               "<li><a> ".$rowpg->privilegegroupname." <span class=\"fa fa-chevron-down\"></span></a>";
               echo "<ul class=\"nav child_menu\" style=\"display: none\">";

@@ -1,16 +1,16 @@
 <style media="screen">
-    .minilabel{
-        padding-top: 5%;
-        margin-right: -20%;
-    }
+.minilabel{
+  padding-top: 5%;
+  margin-right: -20%;
+}
 
-    .kuota{
-      margin-left: -5%;
-    }
+.kuota{
+  margin-left: -5%;
+}
 
-    .caributton{
-      margin-left: -30%;
-    }
+.caributton{
+  margin-left: -30%;
+}
 </style>
 <!-- page content -->
 <div class="right_col" role="main">
@@ -25,26 +25,26 @@
         </div>
         <div class="x_content">
           <?php
-            if (validation_errors() != "") {
-              echo "<div class=\"well well-sm\">";
-                echo validation_errors();
-              echo "</div>";
-            }
+          if (validation_errors() != "") {
+            echo "<div class=\"well well-sm\">";
+            echo validation_errors();
+            echo "</div>";
+          }
           ?>
           <?php if($this->session->flashdata('print') != ""): ?>
-          <?php echo '<div class="container">
+            <?php echo '<div class="container">
             <div class="alert alert-warning fade in">
-              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-              <strong>Notification: </strong> '.$this->session->flashdata('print').'
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Notification: </strong> '.$this->session->flashdata('print').'
             </div>
-          </div>' ?>
-        <?php endif; ?>
+            </div>' ?>
+          <?php endif; ?>
           <div class="form-group">
-            <label class="control-label col-md-2">Agensi</label>
+            <label class="control-label col-md-2">Agency</label>
             <div class="col-md-5">
               <?php if (isset($dataagensi)) { ?>
                 <select name="agensi" required="required" class="agensi select2_single form-control" tabindex="-1" disabled>
-                    <option value="<?php echo $dataagensi->agid ?>"><?php echo $dataagensi->agnama ?></option>
+                  <option value="<?php echo $dataagensi->agid ?>"><?php echo $dataagensi->agnama ?></option>
                 </select>
                 <input id="agensi" type="hidden" name="agensi" value="<?php echo $dataagensi->agid ?>"/>
               <?php } else{ ?>
@@ -91,15 +91,15 @@
             <table id="datatable-pk" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
               <thead>
                 <tr>
-                  <th>Kode PK</th>
+                  <th>Labour Contract (PK) Code</th>
                   <!-- <th>Agensi</th>
                   <th>PPTKIS</th> -->
-                  <th>Nama Majikan</th>
-                  <th>Nama TKI</th>
-                  <th>Pekerjaan</th>
-                  <th>Durasi Kerja</th>
-                  <th>S. Legalisasi</th>
-                  <th>S. Upload</th>
+                  <th>Employer Name</th>
+                  <th>TKI Name</th>
+                  <th>Job Type</th>
+                  <th>Job Duration</th>
+                  <th>Legalization Status</th>
+                  <th>Upload Status</th>
                   <th>Date Modified</th>
                   <th>Action</th>
                 </tr>
@@ -112,20 +112,20 @@
 
           </div>
 
-        <div class="ln_solid"></div>
-        <div class="form-group">
-          <div class="col-md-6 col-sm-6 col-xs-12">
-            <?php $href = isset($dataagensi) ? 'PKNew/addPkPenempatan' : 'PKNew/addPk' ?>
-            <a class="btn btn-warning" href=" <?php echo base_url($href) ?> ">Tambah PK</a>
+          <div class="ln_solid"></div>
+          <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <?php $href = isset($dataagensi) ? 'PKNew/addPkPenempatan' : 'PKNew/addPk' ?>
+              <a class="btn btn-warning" href=" <?php echo base_url($href) ?> ">Add New Labour Contract (PK)</a>
+            </div>
           </div>
-        </div>
 
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<script type="text/javascript">
+  <script type="text/javascript">
   $(document).ready(function() {
     openlabel = function(verb, url, data, target) {
       var form = document.createElement("form");
@@ -147,8 +147,12 @@
     };
 
     <?php if($this->session->flashdata('print') != ""): ?>
-      var code = '<?php echo $bc; ?>';
-      openlabel('POST',"<?php echo base_url()?>kuitansi/printLabel",{barcode: code},'Label');
+      <?php if(isset($bc)){ ?>
+          var code = '<?php echo $bc; ?>';
+          openlabel('POST',"<?php echo base_url()?>kuitansi/printLabel",{barcode: code},'Label');
+      <?php } ?>
+
+
       $("#agensi").val(<?php echo $kuitansiag ?>);
       $("#pptkis").val('<?php echo $kuitansipp ?>');
       $.post(" <?php echo base_url(); ?>PKNew/getDataPK", {agid:$("#agensi").val(), ppkode:$("#pptkis").val()}, function(data, status){
@@ -157,108 +161,109 @@
         for (var key in listinput) {
 
           if (listinput[key]["isverified"] == 1) {
-            if (listinput[key]["isuploaded"] == 1) {           
-              td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpk/Dokumen_Final_PK_' + listinput[key]["ejbcsp"] +'.pdf ">DOWNLOAD</a>'
+            if (listinput[key]["isuploaded"] == 1) {
+              td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>PkNew/downloadDokFin/' + listinput[key]["ejbcsp"] + ' ">Download Archived Document</a>'
+              //td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpk/Dokumen_Final_PK_' + listinput[key]["ejbcsp"] +'.pdf ">DOWNLOAD</a>'
             }
             else{
-              td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PkNew/uploadDokFin/' + listinput[key]["ejbcsp"] +' ">UPLOAD</a>'
+              td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>pknew/uploaddokfin/' + listinput[key]["ejbcsp"] +' ">Upload Labour Contract (PK) Document</a>'
             }
           }
           else {
-            td = 'Segera Lakukan Verifikasi'
+            td = 'Need Legalization'
           }
 
           var string = '\
           <tr>\
-            <td>'+listinput[key]["ejbcsp"]+ '</td> \
-            <td>'+listinput[key]["mjnama"]+ '</td> \
-            <td>'+listinput[key]["tknama"]+ '</td> \
-            <td>'+listinput[key]["namajenispekerjaan"]+ '</td> \
-            <td>'+listinput[key]["jomkthn"]+' yr ' + listinput[key]["jomkbln"] + ' mth ' + listinput[key]["jomkhr"] + ' days </td> \
-            <td>'+ (listinput[key]["isverified"] == 1 ? "Sudah" : "Belum") + '</td> \
-            <td>'+ (listinput[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td> \
-            <td>'+listinput[key]["pktimestamp"]+ '</td> \
-            <td class="text-center">'+ td + '</td> \
+          <td>'+listinput[key]["ejbcsp"]+ '</td> \
+          <td>'+listinput[key]["mjnama"]+ '</td> \
+          <td>'+listinput[key]["tknama"]+ '</td> \
+          <td>'+listinput[key]["namajenispekerjaan"]+ '</td> \
+          <td>'+listinput[key]["jomkthn"]+' yr ' + listinput[key]["jomkbln"] + ' mth ' + listinput[key]["jomkhr"] + ' days </td> \
+          <td>'+ (listinput[key]["isverified"] == 1 ? "Legalize" : "Waiting") + '</td> \
+          <td>'+ (listinput[key]["isuploaded"]  == 1 ? "Uploaded" : "Waiting")+ '</td> \
+          <td>'+listinput[key]["pktimestamp"]+ '</td> \
+          <td class="text-center">'+ td + '</td> \
           </tr>'
           $(wrapper_pk).append(string);
         }
       });
-    <?php endif; ?>
+      <?php endif; ?>
 
-    //var table = ('#datatable-pkp');
+      //var table = ('#datatable-pkp');
 
-    var table = $('#datatable-pk').DataTable({
-            "columnDefs": [
-        {
+      var table = $('#datatable-pk').DataTable({
+        "columnDefs": [
+          {
             //"targets": [ 0 ],
             //"visible": false
+          }
+        ]
+      });
+
+      var wrapper_pk = ('#list-pk')
+      var wrapper_detail =('#pkpdlist')
+
+      $('#datatable-pk').dataTable();
+
+      $('#btncari').click(function () {
+        if ($("#agensi").val() == null || $("#pptkis").val() == null) {
+          alert("Please choose your Agency and PPTKIS")
         }
-    ]
-        });
+        else {
+          $.post(" <?php echo base_url(); ?>PKNew/getDataPK", {agid:$("#agensi").val(), ppkode:$("#pptkis").val()}, function(data, status){
+            var listinput = $.parseJSON(data);
+            $(wrapper_pk).html('');
+            for (var key in listinput) {
 
-    var wrapper_pk = ('#list-pk')
-    var wrapper_detail =('#pkpdlist')
-
-    $('#datatable-pk').dataTable();
-
-    $('#btncari').click(function () {
-      if ($("#agensi").val() == null || $("#pptkis").val() == null) {
-        alert("Pilih Agensi dan PPTKIS")
-      }
-      else {
-        $.post(" <?php echo base_url(); ?>PKNew/getDataPK", {agid:$("#agensi").val(), ppkode:$("#pptkis").val()}, function(data, status){
-          var listinput = $.parseJSON(data);
-          $(wrapper_pk).html('');
-          for (var key in listinput) {
-
-            if (listinput[key]["isverified"] == 1) {
-              if (listinput[key]["isuploaded"] == 1) {
-                td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>PkNew/downloadDokFin/' + listinput[key]["ejbcsp"] + ' ">DOWNLOAD</a>'      
-                //td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpk/Dokumen_Final_PK_' + listinput[key]["ejbcsp"] +'.pdf ">DOWNLOAD</a>'
+              if (listinput[key]["isverified"] == 1) {
+                if (listinput[key]["isuploaded"] == 1) {
+                  td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>PkNew/downloadDokFin/' + listinput[key]["ejbcsp"] + ' ">Download Archived Document</a>'
+                  //td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpk/Dokumen_Final_PK_' + listinput[key]["ejbcsp"] +'.pdf ">DOWNLOAD</a>'
+                }
+                else{
+                  td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PkNew/uploadDokFin/' + listinput[key]["ejbcsp"] +' ">Upload Labour Contract (PK) Document</a>'
+                }
               }
-              else{
-                td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PkNew/uploadDokFin/' + listinput[key]["ejbcsp"] +' ">UPLOAD</a>'
+              else {
+                td = 'Need Legalization'
               }
-            }
-            else {
-              td = 'Segera Lakukan Legalisasi'
-            }
 
-            var string = '\
-            <tr>\
+              var string = '\
+              <tr>\
               <td>'+listinput[key]["ejbcsp"]+ '</td> \
               <td>'+listinput[key]["mjnama"]+ '</td> \
               <td>'+listinput[key]["tknama"]+ '</td> \
               <td>'+listinput[key]["namajenispekerjaan"]+ '</td> \
               <td>'+listinput[key]["jomkthn"]+' yr ' + listinput[key]["jomkbln"] + ' mth ' + listinput[key]["jomkhr"] + ' days </td> \
-              <td>'+ (listinput[key]["isverified"] == 1 ? "Sudah" : "Belum") + '</td> \
-              <td>'+ (listinput[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td> \
+              <td>'+ (listinput[key]["isverified"] == 1 ? "Legalize" : "Waiting") + '</td> \
+              <td>'+ (listinput[key]["isuploaded"]  == 1 ? "Uploaded" : "Waiting")+ '</td> \
               <td>'+listinput[key]["pktimestamp"]+ '</td> \
               <td class="text-center">'+ td + '</td> \
-            </tr>'
-            $(wrapper_pk).append(string);
-          }
-        });
-      }
-    });
-
-    $('.agensi').on('change', function() {
-      //alert( this.value );
-      $.post(" <?php echo base_url() ?>PKNew/getPPTKISByAgensi", {agid:this.value}, function(data, status){
-        var obj = $.parseJSON(data);
-        if(obj.length > 0) {
-          $(".pptkis").empty();
-          for (var key in obj) {
-            //$(".pptkis").add(new Option(obj[key].ppnama, obj[key].ppkode));
-            $(".pptkis").append($("<option></option>")
-               .attr("value", obj[key].ppkode).text(obj[key].ppnama));
-          }
-        } else {
-          $(".pptkis").empty();
-          //alert('Data tidak ada');
+              </tr>'
+              $(wrapper_pk).append(string);
+            }
+          });
         }
       });
-    });
 
-  });
-</script>
+      $('.agensi').on('change', function() {
+        //alert( this.value );
+        $.post(" <?php echo base_url() ?>PKNew/getPPTKISByAgensi", {agid:this.value}, function(data, status){
+          var obj = $.parseJSON(data);
+          if(obj.length > 0) {
+            $(".pptkis").empty();
+            for (var key in obj) {
+              //$(".pptkis").add(new Option(obj[key].ppnama, obj[key].ppkode));
+              $(".pptkis").append($("<option></option>")
+              .attr("value", obj[key].ppkode).text(obj[key].ppnama));
+            }
+          } else {
+            $(".pptkis").empty();
+            //alert('Data tidak ada');
+          }
+        });
+      });
+
+    });
+  </script>

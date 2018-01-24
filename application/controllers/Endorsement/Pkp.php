@@ -41,9 +41,9 @@
 
         $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
         $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
-        $this->data['title'] = 'View PKP (Rec. Agreement) ';
-        $this->data['subtitle'] = 'View Data PKP (Rec. Agreement)';
-        $this->data['subtitle2'] = 'View Data PKP (Rec. Agreement)';
+        $this->data['title'] = 'View Recruitment Agreement (PKP)';
+        $this->data['subtitle'] = 'View Recruitment Agreement (PKP)';
+        $this->data['subtitle2'] = 'View Recruitment Agreement (PKP)';
         $this->load->view('templates/headerendorsement', $this->data);
         $this->load->view('Endorsement/LihatPKP_view', $this->data);
         $this->load->view('templates/footerendorsement');
@@ -91,7 +91,7 @@
           else {
             $this->session->set_flashdata('information', 'Data gagal dimasukkan');
           }
-          redirect('PKP/addPkp');
+          redirect('pkp/addPkp');
         }
       }
       else {
@@ -118,7 +118,7 @@
           $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
           $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
           $this->data['listjenispekerjaan'] = $this->Jobtype_model->list_all_jobtype_by_institution($this->session->userdata('institution'));
-          $this->data['title'] = 'Create PKP (Rec. Agreement)';
+          $this->data['title'] = 'Create Recruitment Agreement (PKP)';
          // $this->load->view('templates/header', $this->data);
           $this->load->view('templates/headerendorsement', $this->data);
           $this->load->view('Endorsement/CreatePKPalt_view', $this->data);
@@ -129,12 +129,12 @@
         {
           $returnPKP = $this->PKP_model->post_new_pkp_alt();
           if ($returnPKP[0]) {
-            $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
+            $this->session->set_flashdata('information', 'Data successfully inserted');
           }
           else {
-            $this->session->set_flashdata('information', 'Data gagal dimasukkan');
+            $this->session->set_flashdata('information', 'Data failed to insert');
           }
-          redirect('PKP/pkpnew');
+          redirect('pkp/pkpnew');
         }
       }
       else {
@@ -158,7 +158,7 @@
           $this->form_validation->set_rules('dokumenfinalpkp', 'Document', 'required');
           $this->form_validation->run();
 
-          echo "masukkk awal";
+          //echo "masukkk awal";
           $this->data['values'] = $pkpkode;
 
           $this->data['title'] = 'Upload Dokumen Final PKP (Rec. Agreement)';
@@ -193,7 +193,13 @@
           else {
             $this->session->set_flashdata('information', 'Data gagal dimasukkan');
           }
-          redirect('PKP/');
+
+          $this->session->set_flashdata('print', 'Dokumen berhasil diupload');
+          $datapkp = $this->PKP_model->get_pkp_from_barcode($pkpkode);
+          $this->data['kuitansiag'] = $datapkp[0]->agid;
+          $this->data['kuitansipp'] = $datapkp[0]->ppkode;
+          $this->session->set_flashdata('data', $this->data);
+          redirect('pkp/');
         }
 
       }
@@ -236,10 +242,10 @@
       $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;
       $currencyname = $this->Currency_model->get_currency_name($currencyid);
       $this->data['listpkp'] = $this->PKP_model->get_pkp_verify_list();
-      $this->data['title'] = 'Verification PKP (Rec. Agreement)';
+      $this->data['title'] = 'Verification Recruitment Agreement (PKP)';
       $this->data['currency'] = $currencyname->currencyname;
-      $this->data['subtitle'] = 'Verification PKP (Rec. Agreement)';
-      $this->data['subtitle2'] = 'Verification PKP (Rec. Agreement)';
+      $this->data['subtitle'] = 'Verification Recruitment Agreement (PKP)';
+      $this->data['subtitle2'] = 'Verification Recruitment Agreement (PKP)';
       $this->load->view('templates/headerendorsement', $this->data);
       $this->load->view('Endorsement/VerifyPKP_view', $this->data);
       $this->load->view('templates/footerendorsement');
@@ -250,12 +256,12 @@
       $idpkp = $this->input->post('hiddenidpkp', true);
       if ($this->PKP_model->toggle_pkp($idpkp, TRUE))
       {
-          $this->session->set_flashdata('information', 'PKP berhasil ditolak!');
-          redirect('Pkp/verify');
+          $this->session->set_flashdata('information', 'Recruitment Agreement (PKP) successfully rejected');
+          redirect('pkp/verify');
       }
       else {
-          $this->session->set_flashdata('information', 'PKP gagal ditolak!');
-          redirect('Pkp/verify');
+          $this->session->set_flashdata('information', 'Failed to reject Recruitment Agreement (PKP)');
+          redirect('pkp/verify');
       }
     }
 
@@ -263,12 +269,12 @@
     {
       if ($this->PKP_model->toggle_pkp($idpkp))
       {
-          $this->session->set_flashdata('information', 'PKP berhasil diverifikasi!');
-          redirect('Pkp/verify');
+          $this->session->set_flashdata('information', 'Recruitment Agreement (PKP) has been verified');
+          redirect('pkp/verify');
       }
       else {
-          $this->session->set_flashdata('information', 'PKP gagal diverifikasi!');
-          redirect('Pkp/verify');
+          $this->session->set_flashdata('information', 'Recruitment Agreement (PKP) is failed to verify');
+          redirect('pkp/verify');
       }
     }
 
@@ -276,10 +282,10 @@
     {
       $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;
       $currencyname = $this->Currency_model->get_currency_name($currencyid);
-      $this->data['title'] = 'Endorse PKP (Rec. Agreement)';
+      $this->data['title'] = 'Endorse Recruitment Agreement (PKP)';
       $this->data['currency'] = $currencyname->currencyname;
-      $this->data['subtitle'] = 'Endorse PKP (Rec. Agreement)';
-      $this->data['subtitle2'] = 'Endorse PKP (Rec. Agreement)';
+      $this->data['subtitle'] = 'Endorse Recruitment Agreement (PKP)';
+      $this->data['subtitle2'] = 'Endorse Recruitment Agreement (PKP)';
       $this->load->view('templates/headerendorsement', $this->data);
       $this->load->view('Endorsement/LegalizePKP_view', $this->data);
       $this->load->view('templates/footerendorsement');
@@ -388,36 +394,36 @@
 
         if ($this->form_validation->run() === FALSE)
         {
-          $this->session->set_flashdata('information', 'Complete receipt form!');
-          redirect('PKP/legalize');
+          $this->session->set_flashdata('information', 'Complete receipt form');
+          redirect('pkp/legalize');
         }
         else {
           if (!($this->input->post('kuitansiag', true)))
           {
-            redirect('Pkp');
+            redirect('pkp');
           }
           $username = $this->session->userdata('user');
           $institusi = $this->session->userdata('institution');
           $this->Kuitansi_model->catat_kuitansi($username, $institusi, $barcodeku, 1);
-          $this->session->set_flashdata('print', 'Segera Upload Dokumen Final PKP');
+          $this->session->set_flashdata('print', 'Upload Recruitment Agreement (PKP) Document immediately');
           $this->data['bc'] = $this->input->post('barcodeprint', true);
           $this->data['kuitansiag'] = $this->input->post('kuitansiag', true);
           $this->data['kuitansipp'] = $this->input->post('kuitansipp', true);
           $this->session->set_flashdata('data', $this->data);
-          redirect('Pkp');
+          redirect('pkp');
         }
       }
       else {
         if (!($this->input->post('kuitansiag', true)))
         {
-          redirect('Pkp');
+          redirect('pkp');
         }
-        $this->session->set_flashdata('print', 'Segera Upload Dokumen Final PKP ');
+        $this->session->set_flashdata('print', 'Upload Recruitment Agreement (PKP) Document immediately');
         $this->data['bc'] = $this->input->post('barcodeprint', true);
         $this->data['kuitansiag'] = $this->input->post('kuitansiag', true);
         $this->data['kuitansipp'] = $this->input->post('kuitansipp', true);
         $this->session->set_flashdata('data', $this->data);
-        redirect('Pkp');
+        redirect('pkp');
       }
     }
 

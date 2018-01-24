@@ -40,7 +40,7 @@
             </div>' ?>
           <?php endif; ?>
           <div class="form-group">
-            <label class="control-label col-md-2">Agensi</label>
+            <label class="control-label col-md-2">Agency</label>
             <div class="col-md-5">
               <?php if (isset($dataagensi)) { ?>
                 <select name="agensi" required="required" class="agensi select2_single form-control" tabindex="-1" disabled>
@@ -91,13 +91,13 @@
             <table id="datatable-pkp" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
               <thead>
                 <tr>
-                  <th>Kode PKP</th>
+                  <th>Rec. Agreement (PKP) Code</th>
                   <!-- <th>Agensi</th>
                   <th>PPTKIS</th> -->
-                  <th>Tanggal Mulai</th>
-                  <th>Tangggal Selesai</th>
-                  <th>S. Verifikasi</th>
-                  <th>S. Upload</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Verification Status</th>
+                  <th>Upload Status</th>
                   <th>Date Modified</th>
                   <th>Action</th>
                 </tr>
@@ -113,7 +113,7 @@
           <div class="ln_solid"></div>
           <div class="form-group">
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <a class="btn btn-warning" href=" <?php echo base_url('PKP/addPkp') ?> ">Tambah PKP</a>
+              <a class="btn btn-warning" href=" <?php echo base_url('PKP/addPkp') ?> ">Apply New </a>
             </div>
           </div>
 
@@ -130,14 +130,14 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="myModalLabel">DETAIL PKP</h4>
+          <h4 class="modal-title" id="myModalLabel">Recruitment Agreement (PKP) Detail</h4>
         </div>
         <div class="modal-body">
           <div class="x_content checked" style="display: " >
             <div class="row" style="padding-top: 20px">
               <div class="col-md-12">
                 <div class="col-md-2">
-                  <label id="coba" class="control-label" >Agensi:</label>
+                  <label id="coba" class="control-label" >Agency:</label>
                 </div>
                 <div class="col-md-10">
                   <p id="pkpag"></p>
@@ -153,7 +153,7 @@
               </div>
               <div class="col-md-12">
                 <div class="col-md-2">
-                  <label class="control-label" >Tanggal Mulai:</label>
+                  <label class="control-label" >Start Date:</label>
                 </div>
                 <div class="col-md-10">
                   <p id="pkpawal"></p>
@@ -161,7 +161,7 @@
               </div>
               <div class="col-md-12">
                 <div class="col-md-2">
-                  <label class="control-label" >Tanggal Akhir:</label>
+                  <label class="control-label" >End Date:</label>
                 </div>
                 <div class="col-md-10">
                   <p id="pkpakhir"></p>
@@ -172,10 +172,10 @@
             <table id="tbpkpd" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
               <thead>
                 <tr>
-                  <th>Jenis Pekerjaan</th>
-                  <th>Laki-Laki</th>
-                  <th>Perempuan</th>
-                  <th>Campuran</th>
+                  <th>Job Type</th>
+                  <th>Male</th>
+                  <th>Female</th>
+                  <th>M/F</th>
                 </tr>
               </thead>
               <tbody id="pkpdlist">
@@ -200,14 +200,14 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="myModalLabel">PKP Ditolak</h4>
+          <h4 class="modal-title" id="myModalLabel">Reject Recruitment Agreement (PKP)</h4>
         </div>
         <div class="modal-body">
           <div class="x_content checked" style="display: " >
             <div class="row" style="padding-top: 20px">
               <div class="col-md-12">
                 <div class="col-md-2">
-                  <label id="coba" class="control-label" >Alasan Penolakan:</label>
+                  <label id="coba" class="control-label" >Rejection Reason:</label>
                 </div>
                 <div class="col-md-10">
                   <p id="alasanPenolakan"></p>
@@ -245,9 +245,13 @@
         form.submit();
       };
 
-      <?php if($this->session->flashdata('print') != ""): ?>
-      var code = '<?php echo $bc; ?>';
-      openlabel('POST',"<?php echo base_url()?>kuitansi/printLabel",{barcode: code},'Label');
+      <?php if($this->session->flashdata('print') != ""):?>
+
+      <?php if(isset($bc)){ ?>
+        var code = '<?php echo $bc; ?>';
+        openlabel('POST',"<?php echo base_url()?>kuitansi/printLabel",{barcode: code},'Label');
+      <?php } ?>
+
       $("#agensi").val(<?php echo $kuitansiag ?>);
       $("#pptkis").val('<?php echo $kuitansipp ?>');
       $.post(" <?php echo base_url(); ?>PKP/getDataPKP", {agid:$("#agensi").val(), ppkode:$("#pptkis").val()}, function(data, status){
@@ -259,29 +263,29 @@
           for(var key in obj){
             if(obj.hasOwnProperty(key)){
               if (obj[key]["isverified"] == 1){
-                td = '<a onclick=showTolak("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalTolak">PKP Ditolak</a>'
+                td = '<a onclick=showTolak("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalTolak">Recruitment Agreement (PKP) Rejected</a>'
               }
               else if (obj[key]["isverified"] == 2) {
-                td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + obj[key]["pkpkode"] +'.pdf ">DOWNLOAD Dokumen Pengajuan PKP</a>'
+                td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>pkp/downloadDokFin/' + obj[key]["pkpkode"] + ' ">Download Rec. Agreement (PKP) Document</a>'
               }
               else if (obj[key]["isverified"] == 3) {
                 if (obj[key]["isuploaded"] == 1) {
-                  td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + obj[key]["pkpkode"] +'.pdf ">DOWNLOAD</a>'
+                  td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + obj[key]["pkpkode"] +'.pdf ">Download Archived Document</a>'
                 }
                 else{
-                  td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + obj[key]["pkpkode"] +' ">UPLOAD</a>'
+                  td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + obj[key]["pkpkode"] +' ">Upload Rec.Agreement (PKP) Document</a>'
                 }
               }
               else {
-                td = 'Segera Lakukan Verifikasi'
+                td = 'Need Verification'
               }
               console.log(obj[key]["isverified"]);
               table.row.add([
                 '<td id="kodepkp" class="text-center" value = "' + obj[key]["pkpkode"] +'"><a onclick=show("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalDetail">' + obj[key]["pkpkode"] + '</a></td>',
                 obj[key]["pkptglawal"],
                 obj[key]["pkptglakhir"],
-                '<td>'+ (obj[key]["isverified"] > 1 ? "Sudah" : "Belum") + '</td>',
-                '<td>'+ (obj[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td>',
+                '<td>'+ (obj[key]["isverified"] > 1 ? "Verified" : "Waiting") + '</td>',
+                '<td>'+ (obj[key]["isuploaded"]  == 1 ? "Uploaded" : "Waiting")+ '</td>',
                 obj[key]["pkptimestamp"],
                 '<td class="text-center">'+ td + '</td>'
               ]).draw();
@@ -316,7 +320,7 @@
 
       $('#btncari').click(function () {
         if ($("#agensi").val() == null || $("#pptkis").val() == null) {
-          alert("Pilih Agensi dan PPTKIS")
+          alert("Please choose you Agency and PPTKIS")
         }
         else {
           $.post(" <?php echo base_url(); ?>PKP/getDataPKP", {agid:$("#agensi").val(), ppkode:$("#pptkis").val()}, function(data, status){
@@ -327,29 +331,29 @@
               for(var key in obj){
                 if(obj.hasOwnProperty(key)){
                   if (obj[key]["isverified"] == 1){
-                    td = '<a onclick=showTolak("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalTolak">PKP Ditolak</a>'
+                    td = '<a onclick=showTolak("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalTolak">Recruitment Agreement (PKP) Rejected</a>'
                   }
                   else if (obj[key]["isverified"] == 2) {
-                    td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>pkp/downloadDokFin/' + obj[key]["pkpkode"] + ' ">DOWNLOAD Dokumen Pengajuan PKP</a>'
+                    td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>pkp/downloadDokFin/' + obj[key]["pkpkode"] + ' ">Download Rec. Agreement (PKP) Document</a>'
                   }
                   else if (obj[key]["isverified"] == 3) {
                     if (obj[key]["isuploaded"] == 1) {
-                      td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + obj[key]["pkpkode"] +'.pdf ">DOWNLOAD</a>'
+                      td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpkp/Dokumen_Final_PKP_' + obj[key]["pkpkode"] +'.pdf ">Download Archived Document</a>'
                     }
                     else{
-                      td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + obj[key]["pkpkode"] +' ">UPLOAD</a>'
+                      td = '<a class="btn btn-xs btn-default" href=" <?php echo base_url(); ?>PKP/uploadDokFin/' + obj[key]["pkpkode"] +' ">Upload Rec.Agreement (PKP) Document</a>'
                     }
                   }
                   else {
-                    td = 'Segera Lakukan Verifikasi'
+                    td = 'Need Verification'
                   }
                   console.log(obj[key]["isverified"]);
                   table.row.add([
                     '<td id="kodepkp" class="text-center" value = "' + obj[key]["pkpkode"] +'"><a onclick=show("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalDetail">' + obj[key]["pkpkode"] + '</a></td>',
                     obj[key]["pkptglawal"],
                     obj[key]["pkptglakhir"],
-                    '<td>'+ (obj[key]["isverified"] > 1 ? "Sudah" : "Belum") + '</td>',
-                    '<td>'+ (obj[key]["isuploaded"]  == 1 ? "Sudah" : "Belum")+ '</td>',
+                    '<td>'+ (obj[key]["isverified"] > 1 ? "Verified" : "Waiting") + '</td>',
+                    '<td>'+ (obj[key]["isuploaded"]  == 1 ? "Uploaded" : "Waiting")+ '</td>',
                     obj[key]["pkptimestamp"],
                     '<td class="text-center">'+ td + '</td>'
                   ]).draw();
@@ -357,7 +361,7 @@
               }
             }
             else {
-              alert('Data tidak ditemukan');
+              alert('No data found');
             }
           });
         }
@@ -421,7 +425,7 @@
             $("#alasanPenolakan").text(obj[0].alasanpenolakan);
             $(".checked").show();
           } else {
-            alert('Barcode tidak valid!');
+            alert('Invalid Barcode');
           }
 
         });

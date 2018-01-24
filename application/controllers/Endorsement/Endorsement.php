@@ -476,7 +476,8 @@ class Endorsement extends MY_Controller {
         $sisa[0],
         $sisa[1],
         $sisa[2],
-        $row->gaji
+        $row->gaji,
+        $row->jobid
       );
       $i++;
     endforeach;

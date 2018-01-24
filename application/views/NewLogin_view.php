@@ -491,23 +491,7 @@ $(document).ready(function() {
   });
 
   $('#kdtai').on('click', function(){
-    $("#daftar").show(1000);
-    $("#sec-bg-1").hide();
-    $("#sec-bg-2").show(1000);
-    $("#dkbriyadh").hide();
-    $("#dkjjeddah").hide();
-    $("#dkjhk").hide();
-    $("#dkbkw").hide();
-    $("#dkbkl").hide();
-    $("#dkjjohor").hide();
-    $("#dkjpenang").hide();
-    $("#dkjkuching").hide();
-    $("#dkjkina").hide();
-    $("#dkjtawau").hide();
-    $("#dkjsg").hide();
-    $("#dkdtai").show();
-    $("#dkbabu").hide();
-    $("#dkjdubai").hide();
+    window.location.href = "http://tw.atnaker.kemnaker.go.id";
   });
 
   $('#kbabu').on('click', function(){

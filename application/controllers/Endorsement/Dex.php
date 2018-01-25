@@ -119,4 +119,14 @@ class Dex extends MY_Controller {
     }
   }
 
+  public function entry_json()
+  {
+    header('Content-Type: application/json');
+    $this->load->library('datatables');
+    $this->datatables->select('nama_pekerja,no_paspor,CONCAT(nama_perusahaan_eng,"/",nama_perusahaan) as nama_perusahaan,pekerjaans.nama as pekerjaan,DATE_FORMAT(tgl_mulai, "%D-%M-%Y") tgl_mulai,DATE_FORMAT(tgl_selesai, "%D-%M-%Y") tgl_selesai,CONCAT(nama_majikan_eng,"/",nama_majikan) as nama_majikan,CONCAT(CASE WHEN is_terima=1 AND (is_tolak is NULL OR is_tolak=0) THEN "Terima" WHEN is_tolak=1 AND (is_terima is NULL OR is_terima=0) THEN "Tolak" ELSE "Belum Diverivikasi" END) as status');
+    $this->datatables->join('pekerjaans', 'pekerjaans.id = entries.pekerjaan_id');
+    $this->datatables->from('entries');
+    echo $this->datatables->generate();
+  }
+
 }

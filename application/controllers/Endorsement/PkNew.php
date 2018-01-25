@@ -170,47 +170,31 @@ public function __construct()
   }
   public function downloadDokFin($param)
   {
-    if ($this->session->userdata('role') == 4 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 5){
-
         $data['pk'] = $this->PK_model->get_pk_for_report($param);
         $data['bc'] = $data['pk']['ejbcsp'];
 
         ini_set('memory_limit', '64M');
         $nama_dokumen = "PK_Report";
-        $html = null;
+
+        $html = $this->load->view('Endorsement/PK/'.$data['pk']['idinstitution'].'/'.$data['pk']['idjenispekerjaan'].'.php', $data, true); //render the view into HTML
 
         $this->load->library('pdfm');
         $pdf=$this->pdfm->load();
 
-        $data['pk']['idinstitution'] = 3;
-        
-        if($data['pk']['idinstitution'] == 2){ // pk taiwan
-          $html = $this->load->view('Endorsement/PK/'.$data['pk']['idinstitution'].'/'.$data['pk']['idjenispekerjaan'].'.php', $data, true); //render the view into HTML        
+        $pdf->SetImportUse();
 
-          $pdf->SetImportUse();
-  
-          $pagecount = $pdf->SetDocTemplate('assets/pdf/'.$data['pk']['idinstitution'].'/'.$data['pk']['idjenispekerjaan'].'.pdf', true);
-  
-          $pdf->AddPage();
-        }
-        if($data['pk']['idinstitution'] == 3){ // pk malaysia
-          // formal
-          $html = $this->load->view('Endorsement/PK/'.$data['pk']['idinstitution'].'/formal.php', $data, true); 
-          // informal
-          //$html = $this->load->view('Endorsement/PK/'.$data['pk']['idinstitution'].'/informal.php', $data, true); 
-          $this->load->library('pdfm');
-          $pdf=$this->pdfm->load();
-          $pdf->SetFooter(''.'|{PAGENO}|'.'<barcode code="'. $data['bc'].'" type="C39" /><br>'.$data['bc']);
-          $pdf->WriteHTML($html); //write the HTML into PDF
-          $pdf->Output($nama_dokumen.".pdf" ,'I');
-        }
-        
+        $pagecount = $pdf->SetDocTemplate('assets/pdf/'.$data['pk']['idinstitution'].'/'.$data['pk']['idjenispekerjaan'].'.pdf', true);
+
+        $pdf->AddPage();
+        // for ($i=1; $i<=$pagecount; $i++) {
+        //   $import_page = $pdf->ImportPage($i);
+        //   $pdf->UseTemplate($import_page);
+        //   if ($i < $pagecount){
+        //     $pdf->AddPage();
+        //   }
+        // }
         $pdf->WriteHTML($html); //write the HTML into PDF
         $pdf->Output($nama_dokumen.".pdf" ,'I');
-    }
-    else {
-      show_error("Access is forbidden.",403,"403 Forbidden");
-    }
   }
 
   public function getDataPK()

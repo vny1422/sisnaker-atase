@@ -42,7 +42,7 @@ class Dex_model extends CI_Model {
   {
     $this->db->set('username', $this->session->userdata('user'));
     $this->db->set('kuno', $no_kuitansi);
-    $this->db->set('idtipe', 15);
+    $this->db->set('idtipe', 3);
     $this->db->set('idinstitution', 2);
     $this->db->set('kujmlbayar', unaccounting($jumlah));
     $this->db->set('kupemohon', $pemohon);

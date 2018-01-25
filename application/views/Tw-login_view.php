@@ -129,9 +129,9 @@
 
               <div class="col-md-12">
                 <h3> <b>ONLINE SERVICES</b></h3>
-                <a href="tw-reentry.atnaker.kemnaker.go.id" title="Reentry Direct Hiring (Dengan Pulang)"><i class="fa fa-plane"> <b>Re-Entry</b> Direct Hiring (Dengan Pulang)</i> </a>
-                <br>
-                <a href="tw-dex.atnaker.kemnaker.go.id" title="Direct Extension Hiring (Tanpa Pulang)"><i class="fa fa-refresh"> <b>Direct Extension</b> Hiring (Tanpa Pulang)</i></a>
+                <!-- <a href=" <?php //echo ('http://tw-reentry.atnaker.kemnaker.go.id') ?>" title="Reentry Direct Hiring (Dengan Pulang)"><i class="fa fa-plane"> <b>Re-Entry</b> Direct Hiring (Dengan Pulang)</i> </a>
+                <br> -->
+                <a href=" <?php echo ('http://tw-dex.atnaker.kemnaker.go.id') ?> " title="Direct Extension Hiring"><i class="fa fa-refresh"> <b>Direct Extension</b> Hiring</i></a>
 
               </div>
 

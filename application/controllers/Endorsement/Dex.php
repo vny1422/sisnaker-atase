@@ -10,6 +10,7 @@ class Dex extends MY_Controller {
     parent::__construct();
     $this->load_sidebar();
     $this->load->model('Endorsement/Endorsement_model');
+    $this->load->model('Endorsement/Dex_model');
 
     $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'penempatan_'));
 
@@ -38,6 +39,59 @@ class Dex extends MY_Controller {
 
   public function verify()
   {
+    if(isset($_GET['kode_entry']))
+    {
+      $entry = $this->Dex_model->getEntry($_GET['kode_entry'])->result();
+      if(!empty($entry))
+      {
+        $entry = $entry[0];
+        $documents = $this->Dex_model->getDocument($entry->id);
+        foreach ($documents->result() as $document) {
+          if($document->type == 1)
+            $entry->{strtolower("FILE_SURAT_MOL")} = $document->id;
+          if($document->type == 2)
+            $entry->{strtolower("FILE_KTP_MAJIKAN")} = $document->id;
+          if($document->type == 3)
+            $entry->{strtolower("FILE_PASPOR_ARC")} = $document->id;
+          if($document->type == 4)
+            $entry->{strtolower("FILE_ASURANSI_TAIWAN")} = $document->id;
+          if($document->type == 5)
+            $entry->{strtolower("FILE_LISENSI_AGENSI")} = $document->id;
+          if($document->type == 6)
+            $entry->{strtolower("FILE_SURAT_IJIN_KELUARGA")} = $document->id;
+          if($document->type == 7)
+            $entry->{strtolower("FILE_SURAT_PERNYATAAN_TKI")} = $document->id;
+          if($document->type == 8)
+            $entry->{strtolower("FILE_LISENSI_PERUSAHAAN")} = $document->id; 
+          $pekerjaan = $this->Dex_model->getPekerjaan();
+          $kuitansi = $this->Dex_model->getKuitansi($entry->id)->result();
+        }
+        $this->data['entry'] = $entry;
+        if(!empty($kuitansi))$this->data['kuitansi'] = $kuitansi[0];
+        $this->data['pekerjaans'] = $pekerjaan->result();
+      }
+      
+    }
+    else if(isset($_POST['_method']))
+    {
+      if($_POST['_method'] == 'PUT')
+      {
+        $this->session->mark_as_flash('update_success');
+      }
+      else if($_POST['_method'] == 'POST')
+      {
+        $status_validasi =$_POST['status_validasi'];
+        $kode_entry = $_POST['kode_entry'];
+        $entry = $this->Dex_model->getEntry($kode_entry)->result()[0];
+        if(!$entry->is_terima && !$entry->is_tolak)
+        {
+          if($status_validasi==1)$status_terima=$this->Dex_model->terimaEntry($entry->id,1,0);
+          if($status_validasi==0)$status_terima=$this->Dex_model->terimaEntry($entry->id,0,1);
+        }
+        $this->session->mark_as_flash('create_success');
+        redirect(base_url().'/dex/verify?kode_entry='.$kode_entry);
+      }
+    }
     $this->data['title'] = 'Verify & Endorse Direct Ext. Hiring';
     $this->data['subtitle'] = 'Verify & Endorse Direct Ext. Hiring';
     $this->load->view('templates/headerendorsement', $this->data);
@@ -52,6 +106,17 @@ class Dex extends MY_Controller {
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/Dex/SalaryDex_view', $this->data);
     $this->load->view('templates/footerendorsement');
+  }
+
+  public function simpan_kuitansi()
+  {
+
+    $kuitansi = $this->Dex_model->simpanKuitansi($_POST['kode_entry'],$_POST['entry_id'],$_POST['no_kuitansi'],$_POST['jumlah'],$_POST['pemohon'],$_POST['tgl_masuk'],$_POST['tgl_kuitansi']);
+    if($kuitansi)
+    {
+      $this->session->mark_as_flash('create_kuitansi_success');
+      redirect(base_url().'/dex/verify?kode_entry='.$_POST['kode_entry']);
+    }
   }
 
 }

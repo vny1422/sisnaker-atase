@@ -982,13 +982,13 @@
                                               {
                                                 var splitter = value.split('/');
                                                 ppkode = splitter[0];
-                                                jo = splitter[1];
+                                                // jo = splitter[1];
                                                 $.post("<?php echo base_url()?>Endorsement/getJodetail", {agid: $("#agency").val(), ppkode: ppkode}, function(data,status){
                                                   var obj = $.parseJSON(data);
                                                   console.log(data);
                                                   $.each(obj, function (i, item) {
                                                     $('#jobtype').append($('<option>', {
-                                                      value: item[1]+'/'+item[3]+'/'+item[4]+'/'+item[5]+'/'+item[6],
+                                                      value: item[1]+'/'+item[3]+'/'+item[4]+'/'+item[5]+'/'+item[6]+'/'+item[7],
                                                       text : item[2] + ' {REMAIN: ' + item[3] + "(L) " + item[4] + "(P) " + item[5] + "(C)}"
                                                     }));
                                                   });
@@ -1002,6 +1002,7 @@
                                               var kuota = $("#jobtype").val();
                                               var kuotastripped = kuota.split('/');
                                               $("#jogaji").val(kuotastripped[4]);
+                                              jo = kuotastripped[5];
                                               jpid = kuotastripped[0];
                                               laki = kuotastripped[1];
                                               perempuan = kuotastripped[2];

@@ -400,8 +400,8 @@ class JO extends MY_Controller {
   //ajax
   public function editJO(){
     //var_dump($this->input->post('jobid', true));
-    var_dump($this->input->post('tglawal', true));
-    var_dump($this->input->post('tglakhir', true));
+    // var_dump($this->input->post('tglawal', true));
+    // var_dump($this->input->post('tglakhir', true));
     echo json_encode($this->JO_model->editDate_from_bc($this->input->post('jokode', true)));
   }
 

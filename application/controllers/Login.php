@@ -78,6 +78,72 @@ class Login extends CI_Controller {
 		}
 	}
 
+	public function tw()
+	{
+		if ($this->session->userdata('user'))
+		{
+			if ($this->session->userdata('role') == 1)
+			{
+				redirect('sadmin');
+			}
+			else if($this->session->userdata('role') == 2)
+			{
+				redirect('sadmin/local');
+			}
+			else if($this->session->userdata('role') == 3 || $this->session->userdata('role') == 10)
+			{
+				redirect('perlindungan');
+			}
+			else if($this->session->userdata('role') == 4 || $this->session->userdata('role') == 8)
+			{
+				redirect('endorsement/dashboard');
+			}
+			else if($this->session->userdata('role') == 5)
+			{
+				redirect('pusat');
+			}
+			else if($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9)
+			{
+				redirect('endorsement');
+			}
+		}
+
+		$this->form_validation->set_rules('username', 'Username', 'required|trim');
+		$this->form_validation->set_rules('password', 'Password', 'required|trim|callback_check_login');
+
+		if ($this->form_validation->run() === FALSE)
+		{
+			$this->load->view('Tw-login_view');
+		}
+		else
+		{
+			if ($this->session->userdata('role') == 1)
+			{
+				redirect('sadmin');
+			}
+			else if($this->session->userdata('role') == 2)
+			{
+				redirect('sadmin/local');
+			}
+			else if($this->session->userdata('role') == 3 || $this->session->userdata('role') == 10)
+			{
+				redirect('perlindungan');
+			}
+			else if($this->session->userdata('role') == 4 || $this->session->userdata('role') == 8)
+			{
+				redirect('endorsement/dashboard');
+			}
+			else if($this->session->userdata('role') == 5)
+			{
+				redirect('pusat');
+			}
+			else if($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9 )
+			{
+				redirect('endorsement');
+			}
+		}
+	}
+
 	public function logout()
 	{
 		$this->session->sess_destroy();

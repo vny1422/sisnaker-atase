@@ -62,8 +62,6 @@
 
 
 
-</div>
-
 <div class="modal fade bs-example-modal-lg" id="modalreg" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -354,10 +352,10 @@
 
       $.post("<?php echo base_url()?>Agensi/cekAgensi", {cla: $('#agensiNo').text(), agnama: $("#agensiName").text()}, function(xml,status){
         result = $.parseJSON(xml);
-        
+
         if(result != 0) {
           $("#tabs-list").empty();
-          $("#konten").empty();          
+          $("#konten").empty();
           for(i = 0; i <= result.length; i++) {
             if(i == 0) {
               $("#tabs-list").append("<li class=\"active\"><a href=#tab" + i + " data-toggle=\"tab\"><strong>Data Registrasi</strong></a></li>");

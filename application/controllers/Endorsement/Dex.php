@@ -101,8 +101,19 @@ class Dex extends MY_Controller {
 
   public function salary()
   {
+    if (isset($_POST['_method']) && $_POST['_method'] == 'PUT') {
+      $id = $_POST["id"];
+      $batas_atas = $_POST["batas_atas"];
+      $batas_bawah = $_POST["batas_bawah"];
+      $salary = $this->Dex_model->updateSalary($id,$batas_bawah,$batas_atas);
+      $this->session->mark_as_flash('update_success');
+      redirect(base_url().'/dex/salary');
+
+    }
     $this->data['title'] = 'Manage Salary Direct Ext. Hiring';
     $this->data['subtitle'] = 'Manage Salary Direct Ext. Hiring';
+    $pekerjaan = $this->Dex_model->getPekerjaan();
+    $this->data['pekerjaans'] = $pekerjaan->result(); 
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/Dex/SalaryDex_view', $this->data);
     $this->load->view('templates/footerendorsement');

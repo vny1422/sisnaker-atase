@@ -29,6 +29,7 @@ class Dex_model extends CI_Model {
   	$query = $this->db->get('pekerjaans');
   	return $query;
   }
+
   public function terimaEntry($id,$is_terima=false,$is_tolak=false)
   {
   	$this->db->set('is_terima',$is_terima);
@@ -38,6 +39,14 @@ class Dex_model extends CI_Model {
   	return $query;
   }
 
+  public function updateSalary($id,$batas_bawah,$batas_atas)
+  {
+  	$this->db->set('batas_bawah',unaccounting($batas_bawah));
+  	$this->db->set('batas_atas',unaccounting($batas_atas));
+  	$this->db->where('id',$id);
+  	$query = $this->db->update('pekerjaans');
+  	return $query;
+  }
   public function simpanKuitansi($kode_entry,$entry_id,$no_kuitansi,$jumlah,$pemohon,$tgl_masuk,$tgl_kuitansi)
   {
     $this->db->set('username', $this->session->userdata('user'));

@@ -209,18 +209,21 @@ class JO_model extends CI_Model {
     return $this->db->get()->result();
   }
 
-  function get_jo_for_report($jokode)
+  function get_jo_for_report($bc)
   {
-    $this->db->select('*');
-    $this->db->from('jo j');
-    $this->db->join('jodetail jd', 'j.jobid = jd.jobid');
-    $this->db->join('jenispekerjaan jp', 'jd.idjenispekerjaan = jp.idjenispekerjaan');
-    $this->db->join('magensi ag', 'j.agid = ag.agid');
-    $this->db->join('mpptkis pp', 'j.ppkode = pp.ppkode');
-    $this->db->join('pkp', 'pkp.pkpid = j.pkpid');
-    $this->db->where('jokode', $jokode);
-    $this->db->where('j.idinstitution', $this->session->userdata('institution'));
-    return $this->db->get()->result_array();
+    $this->db->select('p.bantuanpp, p.backtoid, p.ejbcsp, p.mjnama, p.jomkthn, p.jomkbln, p.jomkhr, tk.tknama, jp.namajenispekerjaan, ag.agnama, ag.agid, pp.ppkode, pp.ppnama, p.isverified, p.isuploaded, p.pktimestamp');
+    $this->db->from('entryjo p');
+    $this->db->order_by("p.pktimestamp", "desc");
+    $this->db->join('magensi ag', 'ag.agid = p.agid');
+    $this->db->join('mpptkis pp', 'pp.ppkode = p.ppkode');
+    $this->db->join('tki tk', 'tk.ejid = p.ejid');
+    $this->db->join('jenispekerjaan jp', 'jp.idjenispekerjaan = p.idjenispekerjaan');
+    $this->db->where('p.idinstitution', $this->session->userdata('institution'));
+    $this->db->where('p.idkantor', $this->session->userdata('kantor'));
+    $this->db->where('p.ejbcsp', $bc);
+    $this->db->or_where('p.ejbcform', $bc);
+    $this->db->or_where('p.ejbcsk', $bc);
+    return $this->db->get()->row_array();
   }
 
   function toggle_jo($jokode, $reject=FALSE)

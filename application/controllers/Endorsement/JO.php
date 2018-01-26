@@ -383,12 +383,14 @@ class JO extends MY_Controller {
   {
     //if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
     //{
-        $data['jo'] = $this->JO_model->get_jo_for_report($param);
+        $data['pk'] = $this->JO_model->get_jo_for_report($param);
+        $data['bc'] = $data['pk']['tkbc'];
         ini_set('memory_limit', '64M');
         $nama_dokumen = "JO_Report";
-        $html = $this->load->view('Endorsement/DownloadJO_view', $data, true); //render the view into HTML
+        $html = $this->load->view('Endorsement/DownloadJOPacket_view', $data, true); //render the view into HTML
         $this->load->library('pdfm');
         $pdf=$this->pdfm->load();
+        $pdf->SetFooter(''.'|{PAGENO}|'.'<barcode code="'. $data['bc'].'" type="C39" /><br>'.$data['bc']);
         $pdf->WriteHTML($html); //write the HTML into PDF
         $pdf->Output($nama_dokumen.".pdf" ,'I');
     //}

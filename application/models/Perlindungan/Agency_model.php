@@ -346,6 +346,7 @@ function get_agency_from_pptkis($id){
 
     $this->db->like('agnama', $keyword);
     $this->db->where('agenable', "1");
+    $this->db->where('idinstitution', $this->session->userdata('institution'));
     $this->db->where("`agid` NOT IN ($where_clause)", NULL, FALSE);
 
     $query = $this->db->get('magensi');

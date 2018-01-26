@@ -124,7 +124,7 @@ $route['(?i)kuitansi/(:any)'] = 'Endorsement/Kuitansi/$1';
 $route['(?i)pk/(:any)'] = 'Endorsement/Pk/$1';
 $route['(?i)pknew/(:any)'] = 'Endorsement/PkNew/$1';
 $route['(?i)endorsement/(:any)'] = 'Endorsement/Endorsement/$1';
-$route['(?i)pkp/(:any)'] = 'Endorsement/PKP/$1';
+$route['(?i)pkp/(:any)'] = 'Endorsement/Pkp/$1';
 $route['(?i)jo/(:any)'] = 'Endorsement/JO/$1';
 $route['(?i)dex/(:any)'] = 'Endorsement/Dex/$1';
 
@@ -153,7 +153,7 @@ $route['(?i)rekapendorsement/(:any)/(:any)'] = 'Endorsement/RekapEndorsement/$1/
 $route['(?i)endorsement/(:any)/(:any)'] = 'Endorsement/Endorsement/$1/$2';
 $route['(?i)pk/(:any)/(:any)'] = 'Endorsement/Pk/$1/$2';
 $route['(?i)kuitansi/(:any)/(:any)'] = 'Endorsement/Kuitansi/$1/$2';
-$route['(?i)pkp/(:any)/(:any)'] = 'Endorsement/PKP/$1/$2';
+$route['(?i)pkp/(:any)/(:any)'] = 'Endorsement/Pkp/$1/$2';
 $route['(?i)jo/(:any)/(:any)'] = 'Endorsement/JO/$1/$2';
 $route['(?i)pknew/(:any)/(:any)'] = 'Endorsement/PkNew/$1/$2';
 $route['(?i)dex/(:any)/(:any)'] = 'Endorsement/Dex/$1/$2';

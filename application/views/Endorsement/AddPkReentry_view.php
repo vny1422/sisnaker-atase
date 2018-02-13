@@ -302,7 +302,7 @@
 
 
                               <script type="text/javascript">
-                              
+
                               $(document).ready(function() {
                                 window.smoothScrollTo = (function () {
                                   var timer, start, factor;
@@ -543,7 +543,7 @@
                                   var posttki = JSON.stringify(tkidata);
                                   $.post("<?php echo base_url()?>PkNew/insertEJ", {postdata: jsondata, posttki: posttki }, function(data, status){
                                     var obj = $.parseJSON(data);
-                                    window.location.replace("<?php echo base_url()?>Endorsement/printDokumen/"+obj);
+                                    window.location.replace("<?php echo base_url()?>Endorsement/printDokumenV2/"+obj);
                                   })
 
                                 });

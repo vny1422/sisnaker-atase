@@ -88,6 +88,9 @@
                   <?php foreach($listpptkis as $row): ?>
                     <option value="<?php echo $row->ppkode ?>"><?php echo $row->ppnama ?></option>
                   <?php endforeach; ?>
+                  <?php foreach($cekalpptkis as $row): ?>
+                    <option value="<?php echo $row->ppkode ?>" disabled><?php echo $row->ppnama ?> (BANNED)</option>
+                  <?php endforeach; ?>
                 </select>
               <?php } ?>
 

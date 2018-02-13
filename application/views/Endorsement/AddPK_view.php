@@ -937,7 +937,7 @@
                                               var posttki = JSON.stringify(tkidata);
                                               $.post("<?php echo base_url()?>Endorsement/insertEJ", {postdata: jsondata, posttki: posttki, jo: jo, job: jobid,laki: selisihl, perempuan: selisihp, campuran: selisihc}, function(data, status){
                                                 var obj = $.parseJSON(data);
-                                                window.location.replace("<?php echo base_url()?>Endorsement/printDokumen/"+obj);
+                                                window.location.replace("<?php echo base_url()?>Endorsement/printDokumenV2/"+obj);
                                               })
 
                                             });

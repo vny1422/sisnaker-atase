@@ -766,6 +766,19 @@ public function printDokumen($md5ej)
   $this->load->view('templates/footerendorsement');
 }
 
+public function printDokumenV2($md5ej)
+{
+  $this->data["md5ej"] = $md5ej;
+  $this->data["jourl"] = $this->Endorsement_model->get_url_byej($md5ej);
+  $this->data["listtki"] = $this->Endorsement_model->get_tki_byej($md5ej);
+  $this->data['title'] = 'Endorsement';
+  $this->data['subtitle'] = 'Print Dokumen';
+  $this->data['subtitle2'] = 'Entry JO';
+  $this->load->view('templates/headerendorsement', $this->data);
+  $this->load->view('Endorsement/PrintDokumenV2_view', $this->data);
+  $this->load->view('templates/footerendorsement');
+}
+
 public function printJOSK($md5ej)
 {
   $this->load->library('Pdf');

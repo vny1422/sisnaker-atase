@@ -94,12 +94,6 @@
                 </select>
               <?php } ?>
 
-
-
-
-
-
-
             </div>
           </div><br /><br /><br />
 
@@ -112,7 +106,7 @@
               <input type="hidden" id="pkpid" name="pkpid" class="form-control">
             </div>
             <div class="col-md-2">
-              <input id="btncari" class="btn btn-success caributton" type="button" name="btncari" value="CEK KODE PKP">
+              <input id="btncari" class="btn btn-success caributton" type="button" name="btncari" value="Check PKP Code">
             </div>
           </div>
 
@@ -167,9 +161,9 @@
               <thead>
                 <tr>
                   <th>Job Type</th>
-                  <th>Laki-Laki</th>
-                  <th>Perempuan</th>
-                  <th>Campuran</th>
+                  <th>Male</th>
+                  <th>Female</th>
+                  <th>Male/Female</th>
                 </tr>
               </thead>
               <tbody id="pkpdlist">

@@ -441,6 +441,14 @@ class JO extends MY_Controller {
     echo json_encode($result);
   }
 
+  public function getPPTKISByAgensiinPKP()
+  {
+    $agid = $this->input->post('agid', TRUE);
+    $result = $this->Pptkis_model->get_pptkis_by_agensi_in_pkp($agid);
+
+    echo json_encode($result);
+  }
+
   public function get_jobtype_by_pkp(){
 		$idpkp = $this->input->post('idpkp',TRUE);
 		$query = $this->Jobtype_model->get_jobtype_by_pkp($idpkp);

@@ -83,7 +83,7 @@ class PPTKIS_model extends CI_Model {
 
   function get_pptkis_non_cekal()
   {
-    $query = 'select * from mpptkis where ppkode NOT IN (select ppkode from cekalpptkis where enable=1 AND (cpend IS NULL OR cpend >= NOW()))';
+    $query = 'select * from mpptkis where ppkode NOT LIKE \'%x\' AND ppkode NOT IN (select ppkode from cekalpptkis where enable=1 AND (cpend IS NULL OR cpend >= NOW()))';
     return $this->db->query($query)->result();
   }
 

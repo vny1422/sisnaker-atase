@@ -371,7 +371,7 @@ class JO extends MY_Controller {
         $this->session->set_flashdata('print', 'Document successfully uploaded');
         $datajo = $this->JO_model->get_jo_from_barcode($jokode);
         $this->data['kuitansiag'] = $datajo[0]->agid;
-        $this->data['kuitansipp'] = $this[0]->ppkode;
+        $this->data['kuitansipp'] = $datajo[0]->ppkode;
         $this->session->set_flashdata('data', $this->data);
         redirect('jo/');
       }

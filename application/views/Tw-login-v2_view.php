@@ -32,11 +32,21 @@
           <img style="width: 25%; margin-top: 70px" src=" <?php echo base_url('assets/images/online_atnaker.png'); ?> " alt="IMG">
         </div>
 
-        <form class="login100-form validate-form">
+        <div class="login100-form validate-form">
           <span class="login100-form-title">
             <!-- Indonesian Economic and Trade Office to Taipei -->
             <b>INDONESIAN ECONOMIC AND TRADE OFFICE TO TAIPEI</b>
           </span>
+
+          <?php if(validation_errors()) {?>
+            <div class="row">
+                <div class="alert alert-danger alert-dismissable">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="fa fa-warning"></i> Warning!</h4>
+                  <?php echo validation_errors()?>
+                </div>
+            </div>
+          <?php }?>
 
           <div id="menu_login">
             <div class="container-login100-form-btn">
@@ -58,9 +68,11 @@
         </div>
       </div>
 
-      <?php echo form_open(base_url('login')) ?>
+      <?php echo form_open(base_url('login/tw'))?>
       <form method="post">
         <div id="form_login" style="display:none">
+
+
 
           <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
             <input class="input100 form-control" type="text" name="username" placeholder="Username">
@@ -96,7 +108,7 @@
       </form>
 
 
-    </form>
+    </div>
   </div>
 </div>
 </div>

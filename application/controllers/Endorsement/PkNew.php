@@ -264,7 +264,7 @@ public function __construct()
     $this->data['subtitle'] = 'Apply Labour Contract (PK)';
     $this->data['subtitle2'] = 'Worker Data';
     $this->load->view('templates/headerendorsement', $this->data);
-    $this->load->view('Endorsement/addPkPenempatan_view', $this->data);
+    $this->load->view('Endorsement/AddPkPenempatan_view', $this->data);
     $this->load->view('templates/footerendorsement');
   }
 

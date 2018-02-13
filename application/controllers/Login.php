@@ -113,7 +113,7 @@ class Login extends CI_Controller {
 
 		if ($this->form_validation->run() === FALSE)
 		{
-			$this->load->view('Tw-login_view');
+			$this->load->view('Tw-login-v2_view');
 		}
 		else
 		{

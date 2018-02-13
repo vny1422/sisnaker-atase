@@ -618,27 +618,32 @@
                                                     var agid = json.my_agid;
                                                     var tki_agid = json.tki_agid;
                                                     data = json.data;
+                                                    bypass = false;
                                                     // var agid_mirip = json.tki_agid_mirip;
                                                     var jpid3 = json.jpid;
-                                                    if (data.TKI_PJTKIID !== ppkode) {
-                                                      $("#loading2nd").unmask();
-                                                      alert("Passport " + data.TKI_PASPORNO + " (" + data.TKI_TKINAME + ") is found, but registered for " + data.TKI_PJTKADESC + " - PT. " + data.TKI_PJTKIDESC + ". Please contact your partner PPTKIS to revise it via SISKO System in Indonesia.");
-                                                      return;
-                                                    }
-                                                    else if (agid !== tki_agid) {
-                                                      // if (agid == agid_mirip) {
-                                                      //   failed = false;
-                                                      // }
-                                                      // else {failed = true;}
-                                                      $("#loading2nd").unmask();
-                                                      alert("Passport " + data.TKI_PASPORNO + " (" + data.TKI_TKINAME + ") is found, but registered for " + data.TKI_PJTKADESC + " - PT. " + data.TKI_PJTKIDESC + ". Please contact your partner PPTKIS to revise it via SISKO System in Indonesia.");
-                                                      return;
-                                                    }
-                                                    else if (typeof data.TKI_PASPORNO === "undefined")
+                                                    // if (data.TKI_PJTKIID !== ppkode) {
+                                                    //   $("#loading2nd").unmask();
+                                                    //   alert("Passport " + data.TKI_PASPORNO + " (" + data.TKI_TKINAME + ") is found, but registered for " + data.TKI_PJTKADESC + " - PT. " + data.TKI_PJTKIDESC + ". Please contact your partner PPTKIS to revise it via SISKO System in Indonesia.");
+                                                    //   return;
+                                                    // }
+                                                    // else if (agid !== tki_agid) {
+                                                    //   // if (agid == agid_mirip) {
+                                                    //   //   failed = false;
+                                                    //   // }
+                                                    //   // else {failed = true;}
+                                                    //   $("#loading2nd").unmask();
+                                                    //   alert("Passport " + data.TKI_PASPORNO + " (" + data.TKI_TKINAME + ") is found, but registered for " + data.TKI_PJTKADESC + " - PT. " + data.TKI_PJTKIDESC + ". Please contact your partner PPTKIS to revise it via SISKO System in Indonesia.");
+                                                    //   return;
+                                                    // }
+                                                    // else if (typeof data.TKI_PASPORNO === "undefined")
+                                                    // {
+                                                    //   $("#loading2nd").unmask();
+                                                    //   alert("The Indonesian migrant worker data is still not completed. Please contact your partner PPTKIS to complete it via SISKO System in Indonesia.");
+					                                          //   return;
+                                                    // }
+                                                    if(bypass)
                                                     {
-                                                      $("#loading2nd").unmask();
-                                                      alert("The Indonesian migrant worker data is still not completed. Please contact your partner PPTKIS to complete it via SISKO System in Indonesia.");
-					                                            return;
+
                                                     }
                                                     else {
                                                       var valid = 0;

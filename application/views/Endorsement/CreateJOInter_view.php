@@ -78,6 +78,9 @@
                   <?php foreach($datapptkis as $row): ?>
                     <option value="<?php echo $row->ppkode ?>"><?php echo $row->ppnama ?></option>
                   <?php endforeach; ?>
+                  <?php foreach($datacekalpp as $row): ?>
+                    <option value="<?php echo $row->ppkode ?>" disabled><?php echo $row->ppnama ?> (BANNED)</option>
+                  <?php endforeach; ?>
                 </select>
               <?php } else{ ?>
                 <select id="kodepptkis" name="pptkis" required="required" class="select2_single form-control" tabindex="-1">

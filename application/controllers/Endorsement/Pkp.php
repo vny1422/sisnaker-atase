@@ -73,7 +73,8 @@
           }
 
           $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
-          $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
+          $this->data['listpptkis'] = $this->Pptkis_model->get_pptkis_non_cekal();
+          $this->data['cekalpptkis'] = $this->Pptkis_model->get_pptkis(true);
           $this->data['listjenispekerjaan'] = $this->Jobtype_model->list_all_jobtype_by_institution($this->session->userdata('institution'));
           $this->data['title'] = 'Create Recruitment Agreement (PKP)';
          // $this->load->view('templates/header', $this->data);
@@ -116,7 +117,7 @@
         if ($this->form_validation->run() === FALSE)
         {
           $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
-          $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
+          $this->data['listpptkis'] = $this->Pptkis_model->get_pptkis_non_cekal();
           $this->data['listjenispekerjaan'] = $this->Jobtype_model->list_all_jobtype_by_institution($this->session->userdata('institution'));
           $this->data['title'] = 'Create Recruitment Agreement (PKP)';
          // $this->load->view('templates/header', $this->data);

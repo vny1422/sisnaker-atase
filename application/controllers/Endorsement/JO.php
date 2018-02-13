@@ -76,6 +76,7 @@ class JO extends MY_Controller {
         if($this->session->userdata('role') == 4){
           $this->data['dataagensi'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
           $this->data['datapptkis'] = $this->Pptkis_model->get_pptkis_by_agensi_in_pkp($this->data['dataagensi']->agid);
+          $this->data['datacekalpp'] = $this->Pptkis_model->get_pptkis_by_agensi_in_pkp($this->data['dataagensi']->agid, true);
         }
 
         $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);

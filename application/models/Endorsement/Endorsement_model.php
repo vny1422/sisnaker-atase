@@ -242,10 +242,17 @@ class Endorsement_model extends CI_Model {
 
 	//for jo Packet
 
-    function get_connected_pptkis($agid)
+    function get_connected_pptkis($agid, $cekal=false)
     {
     	$this->db->where('agid',$agid);
     	$this->db->where('jobtglawal <= curdate() AND jobtglakhir >= curdate()');
+			if($cekal)
+			{
+				$this->db->where('m.ppkode IN (select ppkode from cekalpptkis where enable=1 AND (cpend IS NULL OR cpend >= NOW()))');
+			}
+			else {
+				$this->db->where('m.ppkode NOT IN (select ppkode from cekalpptkis where enable=1 AND (cpend IS NULL OR cpend >= NOW()))');
+			}
     	$this->db->from('jo');
     	$this->db->join('mpptkis m', 'jo.ppkode = m.ppkode');
     	$this->db->select('m.ppkode,m.ppnama,jo.jobid');

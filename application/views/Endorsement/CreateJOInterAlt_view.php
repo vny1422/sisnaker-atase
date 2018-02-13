@@ -380,5 +380,19 @@ $(document).ready(function() {
     }
   });
 
+  $("#idagency").change(function(){-
+    $("#kodepptkis").children('option:not(:first)').remove();
+    $.post("<?php echo base_url()?>jo/getPPTKISByAgensiinPKP", {agid: $("#idagency").val()}, function(data, status){
+      var json = $.parseJSON(data);
+
+      $.each(json, function(i, val) {
+        $("#kodepptkis")
+          .append($("<option></option>")
+          .attr("value", val.ppkode)
+          .text(val.ppnama));
+      });
+    });
+  });
+
 });
 </script>

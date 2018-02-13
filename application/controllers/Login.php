@@ -165,7 +165,6 @@ class Login extends CI_Controller {
 			if($isagensi != NULL) {
 				$enabled = $this->Agency_model->check_agency_isactive($isagensi->agid);
 				$noncekal = $this->Agency_model->get_cekalagid($isagensi->agid);
-				var_dump($noncekal);
 				if($enabled == NULL) {
 					$verified = FALSE;
 				}

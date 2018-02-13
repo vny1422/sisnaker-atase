@@ -155,7 +155,7 @@ public function __construct()
         }
 
         $this->session->set_flashdata('print', 'Document successfully uploaded');
-        $datapk = get_pk_from_barcode($pkkode);
+        $datapk = $this->PK_model->get_pk_from_barcode($pkkode);
         $this->data['kuitansiag'] = $datapk[0]->agid;
         $this->data['kuitansipp'] = $datapk[0]->ppkode;
         $this->session->set_flashdata('data', $this->data);

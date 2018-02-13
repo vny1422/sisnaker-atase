@@ -154,6 +154,7 @@ class Login extends CI_Controller {
 		$username = $this->input->post('username',TRUE);
 		$password = $this->input->post('password',TRUE);
 		$verified = FALSE;
+		$cekal = FALSE;
 
 		$user = $this->User_model->get_user($username,$password);
 
@@ -163,8 +164,15 @@ class Login extends CI_Controller {
 
 			if($isagensi != NULL) {
 				$enabled = $this->Agency_model->check_agency_isactive($isagensi->agid);
+				$noncekal = $this->Agency_model->get_cekalagid($isagensi->agid);
+				var_dump($noncekal);
 				if($enabled == NULL) {
 					$verified = FALSE;
+				}
+				else if($noncekal != NULL)
+				{
+					$verified = FALSE;
+					$cekal = TRUE;
 				}
 			}
 		}
@@ -179,7 +187,12 @@ class Login extends CI_Controller {
 				'picture' =>$user[0]['picture']
 			);
 			$this->session->set_userdata($user_data);
-		} else {
+		}
+		else if($cekal)
+		{
+			$this->form_validation->set_message('check_login', 'Agency is Banned!');
+		}
+		 else {
 			$this->form_validation->set_message('check_login', 'Username & Password are invalid!');
 		}
 		return $verified;

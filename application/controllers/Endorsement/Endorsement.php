@@ -320,6 +320,7 @@ class Endorsement extends MY_Controller {
     $agensi = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
     if(!empty($agensi)) {
       $this->data['listconnpp'] = $this->Endorsement_model->get_connected_pptkis($agensi->agid);
+      $this->data['listcekalpp'] = $this->Endorsement_model->get_connected_pptkis($agensi->agid, true);
     }
     $this->data['employer'] = $this->Input_model->get_input_dataworker($this->session->userdata('institution'));
     $this->data['joborder'] = $this->Input_model->get_input_joborder($this->session->userdata('institution'));

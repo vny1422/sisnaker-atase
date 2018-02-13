@@ -53,12 +53,12 @@
             <label class="control-label col-md-2 col-sm-2 col-xs-12">Agensi <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
               <?php if (isset($dataagensi)) { ?>
-                <select name="agensi" required="required" class="select2_single form-control" tabindex="-1" disabled>
+                <select id="idagency" name="agensi" required="required" class="select2_single form-control" tabindex="-1" disabled>
                   <option value="<?php echo $dataagensi->agid ?>"><?php echo $dataagensi->agnama ?></option>
                 </select>
                 <input type="hidden" name="agensi" value="<?php echo $dataagensi->agid ?>"/>
               <?php } else{ ?>
-                <select name="agensi" required="required" class="select2_single form-control" tabindex="-1">
+                <select id="idagency" name="agensi" required="required" class="select2_single form-control" tabindex="-1">
                   <option></option>
                   <?php foreach($listagensi as $row): ?>
                     <option value="<?php echo $row->agid ?>"><?php echo $row->agnama ?></option>
@@ -72,10 +72,13 @@
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12">PPTKIS <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-              <select name="pptkis" required="required" class="select2_single form-control" tabindex="-1">
+              <select id="kodepptkis" name="pptkis" required="required" class="select2_single form-control" tabindex="-1">
                 <option></option>
                 <?php foreach($listpptkis as $row): ?>
                   <option value="<?php echo $row->ppkode ?>"><?php echo $row->ppnama ?></option>
+                <?php endforeach; ?>
+                <?php foreach($cekalpptkis as $row): ?>
+                  <option value="<?php echo $row->ppkode ?>" disabled><?php echo $row->ppnama ?> (BANNED)</option>
                 <?php endforeach; ?>
               </select>
             </div>
@@ -326,7 +329,7 @@ $(document).ready(function() {
   $(function() {
     $( "#pkp" ).autocomplete({
       source: function(request, response) {
-        $.post('<?php echo base_url();?>pkp/ambilpkp/', { term:request.term}, function(json) {
+        $.post('<?php echo base_url();?>pkp/ambilpkp/', { term:request.term, agency:$("#idagency").val(), pptkis:$("#kodepptkis").val()}, function(json) {
           response( $.map( json.rows, function( item ) {
             return {
               label: item.pkpkode,

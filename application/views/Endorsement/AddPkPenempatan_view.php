@@ -920,7 +920,7 @@
                                               var selisihc = upperboundc-campuran;
                                               $('jobtype').val()
                                               var postdata = {
-                                                agid:$('agency').val(),
+                                                agid:$('#agency').val(),
                                                 mjktp:$('#idno').val(),
                                                 mjnama:$('#employer').val(),
                                                 mjnamacn:$('#employer2').val(),

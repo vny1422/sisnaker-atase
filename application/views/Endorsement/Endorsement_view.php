@@ -5,7 +5,7 @@
       <div class="dashboard_graph">
         <div class="x_panel">
           <div class="x_title">
-            <div class="col-md-4">
+            <div class="col-md-7">
               <h3>DASHBOARD <small><b><?php echo $subtitle; ?></b></small></h3>
             </div>
             <div class="col-md-1">
@@ -47,9 +47,9 @@
                 }?>
               </select>
             </div>
-            <ul class="nav navbar-right panel_toolbox">
+            <!-- <ul class="nav navbar-right panel_toolbox">
               <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-            </ul>
+            </ul> -->
             <div class="clearfix"></div>
           </div>
           <div class="x_content">
@@ -110,7 +110,7 @@
 
               <div class="row">
 
-                  <div class="col-lg-4 col-md-6">
+                  <div class="col-md-6">
                     <div class="panel panel-info">
                       <div class="panel-heading">
                         <div class="row">
@@ -132,7 +132,7 @@
                     </div>
                   </div>
 
-                  <div class="col-lg-4 col-md-6">
+                  <div class="col-md-6">
                     <div class="panel panel-info">
                       <div class="panel-heading">
                         <div class="row">

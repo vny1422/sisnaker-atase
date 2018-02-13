@@ -237,6 +237,9 @@
                                 <?php foreach($listconnpp as $row): ?>
                                     <option value="<?php echo $row->ppkode."/".$row->jobid ?>"><?php echo $row->ppnama ?></option>
                                 <?php endforeach; ?>
+                                <?php foreach($listcekalpp as $row): ?>
+                                    <option value="<?php echo $row->ppkode."/".$row->jobid ?>" disabled><?php echo $row->ppnama ?> (BANNED)</option>
+                                <?php endforeach; ?>
                             </select>
                           </div>
                         </div>

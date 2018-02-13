@@ -183,27 +183,27 @@ public function __construct()
 
         //$data['pk']['idinstitution'] = 3;
         //$data['pk']['idjenispekerjaan'] = 2;
-        
+
         if($data['pk']['idinstitution'] == 2){ // pk taiwan
-          $html = $this->load->view('Endorsement/PK/'.$data['pk']['idinstitution'].'/'.$data['pk']['idjenispekerjaan'].'.php', $data, true); //render the view into HTML        
+          $html = $this->load->view('Endorsement/PK/'.$data['pk']['idinstitution'].'/'.$data['pk']['idjenispekerjaan'].'.php', $data, true); //render the view into HTML
 
           $pdf->SetImportUse();
-  
+
           $pagecount = $pdf->SetDocTemplate('assets/pdf/'.$data['pk']['idinstitution'].'/'.$data['pk']['idjenispekerjaan'].'.pdf', true);
-  
+
           $pdf->AddPage();
         }
         if($data['pk']['idinstitution'] == 3){ // pk malaysia
           // formal
-          $html = $this->load->view('Endorsement/PK/'.$data['pk']['idinstitution'].'/formal.php', $data, true); 
+          $html = $this->load->view('Endorsement/PK/'.$data['pk']['idinstitution'].'/formal.php', $data, true);
           // informal
-          //$html = $this->load->view('Endorsement/PK/'.$data['pk']['idinstitution'].'/informal.php', $data, true); 
+          //$html = $this->load->view('Endorsement/PK/'.$data['pk']['idinstitution'].'/informal.php', $data, true);
 
           $this->load->library('pdfm');
           $pdf=$this->pdfm->load();
           $pdf->SetFooter(''.'|{PAGENO}|'.'<barcode code="'. $data['bc'].'" type="C39" /><br>'.$data['bc']);
         }
-        
+
         $pdf->WriteHTML($html); //write the HTML into PDF
         $pdf->Output($nama_dokumen.".pdf" ,'I');
   }
@@ -243,6 +243,7 @@ public function __construct()
     $agensi = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
     if(!empty($agensi)) {
       $this->data['listconnpp'] = $this->Endorsement_model->get_connected_pptkis($agensi->agid);
+      $this->data['listcekalpp'] = $this->Endorsement_model->get_connected_pptkis($agensi->agid, true);
     }
     $this->data['employer'] = $this->Input_model->get_input_dataworker($this->session->userdata('institution'));
     $this->data['joborder'] = $this->Input_model->get_input_joborder($this->session->userdata('institution'));

@@ -106,12 +106,19 @@ class PPTKIS_model extends CI_Model {
     return $this->db->get($this->table)->result();
   }
 
-  function get_pptkis_by_agensi_in_pkp($agid){
+  function get_pptkis_by_agensi_in_pkp($agid, $cekal=false){
     $this->db->distinct();
     $this->db->select('m.*, p.agid');
     $this->db->from('mpptkis m');
     $this->db->join('pkp p', 'p.ppkode = m.ppkode');
     $this->db->where('p.agid', $agid);
+    if($cekal)
+    {
+      $this->db->where('m.ppkode IN (select ppkode from cekalpptkis where enable=1 AND (cpend IS NULL OR cpend >= NOW()))');
+    }
+    else {
+      $this->db->where('m.ppkode NOT IN (select ppkode from cekalpptkis where enable=1 AND (cpend IS NULL OR cpend >= NOW()))');
+    }
     $this->db->order_by('m.ppnama', 'asc');
     return $this->db->get()->result();
   }

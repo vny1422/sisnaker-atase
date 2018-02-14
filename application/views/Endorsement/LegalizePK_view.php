@@ -16,7 +16,7 @@
         <div class="x_content">
           <?php if($this->session->flashdata('information') != ""): ?>
           <?php echo '<div class="container">
-            <div class="alert alert-warning fade in">
+            <div class="alert alert-success fade in">
               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
               <strong>Notification: </strong> '.$this->session->flashdata('information').'
             </div>
@@ -343,11 +343,11 @@
     $("#cekenable").change(function(){
       if (showkuitansi == 1)
       {
-        $("#formkuitansi").hide();
+        $("#formkuitansi").hide(1000);
         showkuitansi = 0;
       }
       else {
-        $("#formkuitansi").show();
+        $("#formkuitansi").show(1000);
         showkuitansi = 1;
       }
     })

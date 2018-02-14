@@ -33,7 +33,7 @@
           ?>
           <?php if($this->session->flashdata('print') != ""): ?>
             <?php echo '<div class="container">
-            <div class="alert alert-warning fade in">
+            <div class="alert alert-success fade in">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <strong>Notification: </strong> '.$this->session->flashdata('print').'
             </div>

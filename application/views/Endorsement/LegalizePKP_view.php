@@ -16,7 +16,7 @@
         <div class="x_content">
           <?php if($this->session->flashdata('information') != ""): ?>
           <?php echo '<div class="container">
-            <div class="alert alert-warning fade in">
+            <div class="alert alert-success fade in">
               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
               <strong>Notification: </strong> '.$this->session->flashdata('information').'
             </div>
@@ -37,7 +37,7 @@
         <div class="row" style="padding-top: 20px">
           <div class="col-md-12">
             <div class="col-md-2">
-              <label class="control-label" >Agensi:</label>
+              <label class="control-label" >Agency:</label>
             </div>
             <div class="col-md-10">
               <p id="pkpag"></p>
@@ -53,7 +53,7 @@
           </div>
           <div class="col-md-12">
             <div class="col-md-2">
-              <label class="control-label" >Tanggal Mulai:</label>
+              <label class="control-label" >Start Date:</label>
             </div>
             <div class="col-md-10">
               <p id="pkpawal"></p>
@@ -61,7 +61,7 @@
           </div>
           <div class="col-md-12">
             <div class="col-md-2">
-              <label class="control-label" >Tanggal Akhir:</label>
+              <label class="control-label" >End Date:</label>
             </div>
             <div class="col-md-10">
               <p id="pkpakhir"></p>
@@ -72,10 +72,10 @@
           <table id="tbpkpd" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
             <thead>
               <tr>
-                <th>Jenis Pekerjaan</th>
-                <th>Laki-Laki</th>
-                <th>Perempuan</th>
-                <th>Campuran</th>
+                <th>Job Type</th>
+                <th>Male</th>
+                <th>Female</th>
+                <th>M/F</th>
               </tr>
             </thead>
             <tbody id="pkpdlist">
@@ -373,11 +373,11 @@
     $("#cekenable").change(function(){
       if (showkuitansi == 1)
       {
-        $("#formkuitansi").hide();
+        $("#formkuitansi").hide(1000);
         showkuitansi = 0;
       }
       else {
-        $("#formkuitansi").show();
+        $("#formkuitansi").show(1000);
         showkuitansi = 1;
       }
     })

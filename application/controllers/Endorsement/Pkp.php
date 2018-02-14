@@ -87,10 +87,10 @@
         {
           $returnPKP = $this->PKP_model->post_new_pkp();
           if ($returnPKP[0]) {
-            $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
+            $this->session->set_flashdata('information', 'Recruitment Agreement (PKP) Successfully Created');
           }
           else {
-            $this->session->set_flashdata('information', 'Data gagal dimasukkan');
+            $this->session->set_flashdata('information', 'Recruitment Agreement (PKP) Failed to Created');
           }
           redirect('pkp/addPkp');
         }
@@ -196,7 +196,7 @@
             $this->session->set_flashdata('information', 'Data gagal dimasukkan');
           }
 
-          $this->session->set_flashdata('print', 'Dokumen berhasil diupload');
+          $this->session->set_flashdata('print', 'Documet Successfully Uploaded');
           $datapkp = $this->PKP_model->get_pkp_from_barcode($pkpkode);
           $this->data['kuitansiag'] = $datapkp[0]->agid;
           $this->data['kuitansipp'] = $datapkp[0]->ppkode;

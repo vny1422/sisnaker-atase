@@ -16,7 +16,7 @@
         <div class="x_content">
           <?php if($this->session->flashdata('information') != ""): ?>
             <?php echo '<div class="container">
-            <div class="alert alert-warning fade in">
+            <div class="alert alert-success fade in">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <strong>Notification: </strong> '.$this->session->flashdata('information').'
             </div>
@@ -25,11 +25,11 @@
           <table id="tbpkp" class="table table-striped table-bordered dt-responsive table-condensed" cellspacing="0" width="100%">
             <thead>
               <tr>
-                <th>Barcode PKP</th>
+                <th>PKP Barcode</th>
                 <th>PPTKIS</th>
-                <th>Agensi</th>
-                <th>Tanggal Awal</th>
-                <th>Tanggal Akhir</th>
+                <th>Agency</th>
+                <th>Start Date</th>
+                <th>End Date</th>
                 <th>Edit</th>
                 <th>Action</th>
               </tr>
@@ -50,8 +50,8 @@
                 </td>
                 <td>
                   <div class="text-center">
-                    <a onclick=show("<?php echo $row->pkpid ?>") data-toggle="modal" data-target="#modaltolak"><button class="btn btn-sm btn-danger" type="button" name="button">Tolak</button></a>
-                    <a id="confirmVerify" href=" <?php echo base_url() ?>Pkp/verifyPKP/<?php echo $row->pkpid ?>"><button class="btn btn-sm btn-success" type="button" name="button">Setujui</button></a>
+                    <a onclick=show("<?php echo $row->pkpid ?>") data-toggle="modal" data-target="#modaltolak"><button class="btn btn-sm btn-danger" type="button" name="button">Reject</button></a>
+                    <a id="confirmVerify" href=" <?php echo base_url() ?>Pkp/verifyPKP/<?php echo $row->pkpid ?>"><button class="btn btn-sm btn-success" type="button" name="button">Approve</button></a>
                   </div>
                 </td>
                 </tr>

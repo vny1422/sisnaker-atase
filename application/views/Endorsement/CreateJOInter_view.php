@@ -43,7 +43,7 @@
             <?php echo '<div class="container">
             <div class="alert alert-success fade in">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Selamat!</strong> '.$this->session->flashdata('information').'
+            <strong>'.$this->session->flashdata('information').'</strong> 
             </div>
             </div>' ?>
           <?php endif; ?>

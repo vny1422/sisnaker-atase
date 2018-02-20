@@ -109,6 +109,22 @@ class PK_model extends CI_Model {
     return $this->db->get()->row_array();
   }
 
+  function get_endorsement_doc($md5ej) {
+
+    $this->db->select('*');
+    $this->db->from('entryjo p');
+    $this->db->order_by("p.pktimestamp", "desc");
+    $this->db->join('magensi ag', 'ag.agid = p.agid');
+    $this->db->join('mpptkis pp', 'pp.ppkode = p.ppkode');
+    $this->db->join('tki tk', 'tk.ejid = p.ejid');
+    $this->db->join('jenispekerjaan jp', 'jp.idjenispekerjaan = p.idjenispekerjaan');
+    $this->db->where('p.idinstitution', $this->session->userdata('institution'));
+    $this->db->where('p.idkantor', $this->session->userdata('kantor'));
+    $this->db->where("p.md5ej = '$md5ej'");
+
+    return $this->db->get()->row_array();
+  }  
+
   function last_pk($agid, $ppkode)
   {
     $this->db->select('mjktp, mjnama, mjnamacn, mjalmt, mhalmtcn, mjtelp, mjfax, mjpngjwb, mjpngjwbcn');

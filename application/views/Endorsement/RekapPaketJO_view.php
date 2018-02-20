@@ -47,7 +47,7 @@
   function refreshjqgrid() {
     idinstitution = $("#list-institusi").val();
     $("#grid").jqGrid('clearGridData');
-    $("#grid").jqGrid('setGridParam', { 
+    $("#grid").jqGrid('setGridParam', {
         postData: {idinstitution:idinstitution}
     })
     $("#grid").trigger('reloadGrid');
@@ -65,7 +65,7 @@
       postData: { idinstitution: idinstitution },
       datatype: "json",
       mtype: "POST",
-      colNames: ["ID", "Nama Agensi", "No CLA"],
+      colNames: ["ID", "Agency Name", "No. CLA"],
       colModel: [
         {name:'agid', index:'agid',  key:true, hidden: true},
         {name:'agnama', index:'agnama', width:550, searchoptions:{sopt:['cn']}},
@@ -80,19 +80,19 @@
       subGrid: true,
       subGridRowExpanded: function(subgrid_id, row_id) {
         var agid = row_id;
-        
+
         var subgrid_table_id = subgrid_id+"_t";
         var pager_id = "p_"+subgrid_table_id;
-        
+
         var template = "<table id='"+subgrid_table_id+"' class='scroll'></table><div id='"+pager_id+"' class='scroll'></div>";
         $("#"+subgrid_id).html(template);
-        
+
         var subgrid = $("#" + subgrid_table_id).jqGrid({
           url: '<?php echo base_url()?>paket/listPPTKIS',
           postData: { agid: row_id },
           datatype: "json",
           mtype: "POST",
-          colNames: ["ID", "Nama PPTKIS"],
+          colNames: ["ID", "PPTKIS Name (Indonesian Agency)"],
           colModel: [
             {name:'ppkode', index:'ppkode', key:true, hidden: true},
             {name:'ppnama', index:'ppnama', searchoptions:{sopt:['cn']}},
@@ -106,10 +106,10 @@
           subGrid: true,
           subGridRowExpanded: function(subgrid_id, row_id) {
             var ppkode = row_id;
-            
+
             var subgrid_table_id = subgrid_id+"_t";
             var pager_id = "p_"+subgrid_table_id;
-            
+
             var template = "<table id='"+subgrid_table_id+"' class='scroll'></table><div id='"+pager_id+"' class='scroll'></div>";
             $("#"+subgrid_id).html(template);
 
@@ -125,7 +125,7 @@
                 changeYear: true,
                 yearRange: '1900:+200'
               });
-              
+
               var el = divjo.find('#jobtglakhir');
               el.css("readonly", "");
               el.datepicker({
@@ -144,7 +144,7 @@
               postData: { ppkode: ppkode,agid: agid },
               mtype: "POST",
               datatype: "json",
-              colNames: ["ID", "No.JO(FORM01)", "Tgl.Awal", "Tgl.Akhir", "Aktif", "Pushed?"],
+              colNames: ["ID", "No.JO (FORM01)", "Start Date", "End Date", "Status", "Pushed?"],
               colModel: [
                 {name:'id', index:'jobid', key:true, hidden: true},
                 {name:'jobno', index:'jobno', width:100, editable:true, searchoptions:{sopt:['cn']}, editoptions:{size:30, maxlength:50}, editrules:{required:true}, formoptions:{elmsuffix:'(*)'}, editoptions:{size:2}},
@@ -163,14 +163,14 @@
               subGridRowExpanded: function(subgrid_id, row_id) {
                 var subgrid_table_id = subgrid_id+"_t";
                 var pager_id = "p_"+subgrid_table_id;
-                
+
                 var template = "<table id='"+subgrid_table_id+"' class='scroll'></table><div id='"+pager_id+"' class='scroll'></div>";
                 $("#"+subgrid_id).html(template);
-                
+
                 var subgrid = $("#"+subgrid_table_id).jqGrid({
                   datatype: "json",
                   mtype: "POST",
-                  colNames: ["ID", "IDJP", "Jenis Pekerjaan", "L", "P", "C"],
+                  colNames: ["ID", "IDJP", "Job Type", "M", "F", "M/F"],
                   colModel: [
                     {name:'id', index:'jobdid', key:true, hidden: true},
                     {name:'jpid', index:'jpid', hidden: true},
@@ -188,7 +188,7 @@
                   url: '<?php echo base_url()?>paket/listJODetail',
                   postData: { jobid: row_id }
                 });
-                  
+
                 var initCustom2 = function() {
                   var rowId = $("#"+subgrid_table_id).getGridParam('selrow');
                   var rowData = $("#"+subgrid_table_id).getRowData(rowId);
@@ -203,17 +203,17 @@
                       }
                       el.append($temp);
                     });
-                    
+
                     el.css("width", "200px");
                     el.attr("id", "jpnama");
                     el.attr("name", "jpnama");
                   });
                 }
-                
+
                 var reload = function() {
                   subgrid.trigger('reloadGrid');
                 }
-                
+
                 subgrid.jqGrid(
                   'navGrid',
                   "#"+pager_id,
@@ -247,7 +247,7 @@
         var reload = function() {
           subgrid.trigger('reloadGrid');
         }
-        
+
         subgrid.jqGrid(
           'navGrid',
           "#" + pager_id,
@@ -264,7 +264,7 @@
     var reload = function() {
       grid.trigger('reloadGrid');
     }
-    
+
     grid.jqGrid(
       'navGrid',
       '#pgrid',

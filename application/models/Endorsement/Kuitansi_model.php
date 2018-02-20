@@ -22,6 +22,18 @@ class Kuitansi_model extends CI_Model {
     return $this->db->get($this->table)->result();
   }
 
+  public function getKuitansiByBC($bc)
+  {
+    $this->db->select('k.kukode');
+    $this->db->from('entryjo e');
+    $this->db->where('e.ejbcform', $bc);
+    $this->db->or_where('e.ejbcsk', $bc);
+    $this->db->or_where('e.ejbcsp', $bc);
+    $this->db->join('pencatatanej p', 'e.ejid = p.ejid');
+    $this->db->join('kuitansi k', 'k.kuid = p.kuid');
+    return $this->db->get()->result();
+  }
+
   public function list_dokumen_kuitansi(){
     return $this->db->get('tipe')->result();
   }

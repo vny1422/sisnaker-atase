@@ -15,7 +15,7 @@
           <p><strong>Satu humao, satu barcode. </strong>Jika satu kuitansi digunakan untuk beberapa humao, silahkan diinput berulang kali (sesuai jumlah humao) dengan tetap menggunakan no. kuitansi yang sama.</p>
 
           <p>Jumlah stiker yang anda cetak ternyata kurang?
-            Klik disini untuk cetak kembali stiker <a style="color: #029E8D" href="">Job Order Endorsement</a> ATAU <a style="color: #029E8D" href="">selain Job Order Endorsement</a>.</p>
+            Klik disini untuk cetak kembali stiker <a style="color: #029E8D" href="<?php echo base_url() ?>Endorsement/cetakStikerEJ">Job Order Endorsement</a> ATAU <a style="color: #029E8D" href="<?php echo base_url() ?>Endorsement/cetakStiker">selain Job Order Endorsement</a>.</p>
           </div>
         </div>
       <div class="x_panel">

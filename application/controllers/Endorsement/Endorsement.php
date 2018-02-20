@@ -314,6 +314,43 @@ class Endorsement extends MY_Controller {
     $this->load->view('templates/footerendorsement');
   }
 
+  public function cetakStiker()
+  {
+   if (!($this->session->userdata('role') <= 2 || $this->session->userdata('role') == 5 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9))
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
+
+    $this->data['title'] = 'Endorsement';
+    $this->data['subtitle'] = 'Cetak Stiker';
+    $this->data['subtitle2'] = 'Cetak Stiker';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/PrintStiker_view', $this->data);
+    $this->load->view('templates/footerendorsement');    
+  }
+
+  public function cetakStikerEJ()
+  {
+   if (!($this->session->userdata('role') <= 2 || $this->session->userdata('role') == 5 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9))
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
+
+    $this->data['title'] = 'Endorsement';
+    $this->data['subtitle'] = 'Cetak Stiker';
+    $this->data['subtitle2'] = 'Cetak Stiker Job Order';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/PrintStikerEJ_view', $this->data);
+    $this->load->view('templates/footerendorsement');    
+  }
+
+  public function getKukodeByBC()
+  {
+    $this->load->model('Endorsement/Kuitansi_model');
+    $res = $this->Kuitansi_model->getKuitansiByBC($this->input->post('barcode', true));
+    echo json_encode($res);
+  }
+
 
   public function createJO()
   {

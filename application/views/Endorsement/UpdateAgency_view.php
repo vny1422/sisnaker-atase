@@ -65,7 +65,7 @@
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Local Goverments Recruitment Letter<span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-                <input type="text" name="noijin" value="<?php echo $values->agnoijincla ?>" required="required" class="form-control">
+                <input type="text" name="noijin" value="<?php echo $values->agnoijincla ?>" required="required" class="form-control" readonly>
             </div>
         </div><br /><br /><br />
 

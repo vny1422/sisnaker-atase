@@ -758,13 +758,17 @@ public function insertEJ()
   $datatki = array();
   foreach($posttki as $tki)
   {
+      $keluar = DateTime::createFromFormat('d-m-Y', $tki->TKI_KELUARBLKDATE);
+      $keluarFormatted = $keluar->format('Y-m-d');
+      $lahir = DateTime::createFromFormat('d-m-Y', $tki->TKI_TKIDOB);
+      $lahirFormatted = $lahir->format('Y-m-d');
       $datatki["ejid"] = $ejid;
       $datatki["tknama"] = $tki->TKI_TKINAME;
       $datatki["tkalmtid"] = $tki->TKI_TKIADDRESS;
       $datatki["tkpaspor"] = $tki->TKI_PASPORNO;
-      $datatki["tktglkeluar"] = $tki->TKI_KELUARBLKDATE;
+      $datatki["tktglkeluar"] = $keluarFormatted;
       $datatki["tktmptkeluar"] = $tki->tkitmptkeluar;
-      $datatki["tktgllahir"] = $tki->TKI_TKIDOB;
+      $datatki["tktgllahir"] = $lahirFormatted;
       $datatki["tktmptlahir"] = $tki->TKI_TKIPOBDESC;
       $datatki["tkjk"] = $tki->TKI_TKIGENDER;
       $datatki["tkstatkwn"] = $tki->tkistatkwn;
@@ -787,6 +791,7 @@ public function insertEJ()
         $this->Endorsement_model->insert_tki($datatki);
       }
   }
+
   echo json_encode(md5($ejid));
 }
 

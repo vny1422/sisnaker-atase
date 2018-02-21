@@ -314,6 +314,43 @@ class Endorsement extends MY_Controller {
     $this->load->view('templates/footerendorsement');
   }
 
+  public function cetakStiker()
+  {
+   if (!($this->session->userdata('role') <= 2 || $this->session->userdata('role') == 5 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9))
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
+
+    $this->data['title'] = 'Endorsement';
+    $this->data['subtitle'] = 'Cetak Stiker';
+    $this->data['subtitle2'] = 'Cetak Stiker';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/PrintStiker_view', $this->data);
+    $this->load->view('templates/footerendorsement');    
+  }
+
+  public function cetakStikerEJ()
+  {
+   if (!($this->session->userdata('role') <= 2 || $this->session->userdata('role') == 5 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9))
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
+
+    $this->data['title'] = 'Endorsement';
+    $this->data['subtitle'] = 'Cetak Stiker';
+    $this->data['subtitle2'] = 'Cetak Stiker Job Order';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/PrintStikerEJ_view', $this->data);
+    $this->load->view('templates/footerendorsement');    
+  }
+
+  public function getKukodeByBC()
+  {
+    $this->load->model('Endorsement/Kuitansi_model');
+    $res = $this->Kuitansi_model->getKuitansiByBC($this->input->post('barcode', true));
+    echo json_encode($res);
+  }
+
 
   public function createJO()
   {
@@ -721,13 +758,17 @@ public function insertEJ()
   $datatki = array();
   foreach($posttki as $tki)
   {
+      $keluar = DateTime::createFromFormat('d-m-Y', $tki->TKI_KELUARBLKDATE);
+      $keluarFormatted = $keluar->format('Y-m-d');
+      $lahir = DateTime::createFromFormat('d-m-Y', $tki->TKI_TKIDOB);
+      $lahirFormatted = $lahir->format('Y-m-d');
       $datatki["ejid"] = $ejid;
       $datatki["tknama"] = $tki->TKI_TKINAME;
       $datatki["tkalmtid"] = $tki->TKI_TKIADDRESS;
       $datatki["tkpaspor"] = $tki->TKI_PASPORNO;
-      $datatki["tktglkeluar"] = $tki->TKI_KELUARBLKDATE;
+      $datatki["tktglkeluar"] = $keluarFormatted;
       $datatki["tktmptkeluar"] = $tki->tkitmptkeluar;
-      $datatki["tktgllahir"] = $tki->TKI_TKIDOB;
+      $datatki["tktgllahir"] = $lahirFormatted;
       $datatki["tktmptlahir"] = $tki->TKI_TKIPOBDESC;
       $datatki["tkjk"] = $tki->TKI_TKIGENDER;
       $datatki["tkstatkwn"] = $tki->tkistatkwn;
@@ -750,6 +791,7 @@ public function insertEJ()
         $this->Endorsement_model->insert_tki($datatki);
       }
   }
+
   echo json_encode(md5($ejid));
 }
 

@@ -40,13 +40,14 @@ class User_model extends CI_Model {
     }
 
     public function post_new_userreg($user,$pass,$idinst,$agnama)
-    {
+    {   
+        $level = ($this->session->userdata('institution') == 2 ? 8 : 4);
         $data = array(
             'username' => $user,
             'password' => $pass,
             'name' => $agnama,
             'idinstitution' => $idinst,
-            'idlevel' => 4,
+            'idlevel' => $level
         );
 
         return $this->db->insert($this->table, $data);

@@ -66,7 +66,7 @@
               <div class="text-center title_left">
 
                 <h3>USER REGISTRATION</h3>
-                <p>For Indonesia Agency (PPTKIS), please use SISKOTKLN BNP2TKI in Indonesia. Both Endorsement v2 KDEI and SISKOTKLN BNP2TKI are connected to each other.</p>
+                <p>For Indonesia Agency (PPTKIS), please use SISKOTKLN BNP2TKI in Indonesia. Both Online-Atnakaer and SISKOTKLN BNP2TKI are connected to each other.</p>
               </div>
             </div>
             <div class="clearfix"></div>
@@ -109,7 +109,7 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Office <span class="required">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Kantor <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <select name="kantor" required="required" class="select2_single form-control" tabindex="-1" id="kantor">
                             <option></option>
@@ -131,16 +131,15 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Other Agency Name / 仲介公司名稱</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Other Agency Name</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="agnamaoth" name="agnamaot" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">C.L.A Private Employment Service Agency License No. / 勞工局私立就業服務機構許可證號碼<span class="required">*</span></label> 
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">C.L.A Private Employment Service Agency License No.<span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                        </br>
                           <input id="agijincla" class="form-control col-md-7 col-xs-12" type="text" required="required" name="nocla">
                         </div>
                       </div>
@@ -151,7 +150,7 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Other Office Address / 公司地址</label>
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Other Office Address</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="ot_officealamat">
                         </div>
@@ -163,19 +162,19 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">負責人 / 代表人</label>
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Other Authorized Person Name</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="ot_authperson">
                         </div>
                       </div>
                       <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Phone / 電話</label>
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Phone</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="phone">
                         </div>
                       </div>
                       <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Faximile	/ 傳真</label>
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Faximile	</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="fax">
                         </div>
@@ -250,7 +249,7 @@
 
         $.post("<?php echo base_url()?>Login/getListKantor", {institution: $("#institution").val()}, function(data, status){
           var json = $.parseJSON(data);
-          
+
           $.each(json, function(i, val) {
             $("#kantor")
               .append($("<option></option>")

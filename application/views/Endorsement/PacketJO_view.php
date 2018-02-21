@@ -61,7 +61,7 @@
           <div class="row" style="padding-top: 20px">
             <div class="col-lg-12">
               <!-- panel -->
-              <div class="panel with-nav-tabs panel-info">
+              <div class="panel with-nav-tabs panel-default">
                 <!-- panel heading -->
                 <div class="panel-heading" id="tabs-head">
                   <ul class="nav nav-tabs" id="tabs-list">

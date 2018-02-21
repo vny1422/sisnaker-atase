@@ -204,6 +204,8 @@ public function __construct()
           $pdf->SetFooter(''.'|{PAGENO}|'.'<barcode code="'. $data['bc'].'" type="C39" /><br>'.$data['bc']);
         }
 
+        $pdf->SetWatermarkText('SAMPLE');
+        $pdf->showWatermarkText = true;
         $pdf->WriteHTML($html); //write the HTML into PDF
         $pdf->Output($nama_dokumen.".pdf" ,'I');
   }
@@ -225,6 +227,8 @@ public function __construct()
 
         $html = $this->load->view('Endorsement/DownloadJOPacket_view', $data, true);
         
+        $pdf->SetWatermarkText('SAMPLE');
+        $pdf->showWatermarkText = true;        
         $pdf->WriteHTML($html); //write the HTML into PDF
         $pdf->Output($nama_dokumen.".pdf" ,'I');
   } 
@@ -251,6 +255,8 @@ public function __construct()
           $pdf->AddPage();          
         }
 
+        $pdf->SetWatermarkText('SAMPLE');
+        $pdf->showWatermarkText = true;        
         $pdf->WriteHTML($html); //write the HTML into PDF
         $pdf->Output($nama_dokumen.".pdf" ,'I');
   } 
@@ -269,6 +275,8 @@ public function __construct()
 
         $html = $this->load->view('Endorsement/SuratKuasa_view.php', $data, true);
         
+        $pdf->SetWatermarkText('SAMPLE');
+        $pdf->showWatermarkText = true;        
         $pdf->WriteHTML($html); //write the HTML into PDF
         $pdf->Output($nama_dokumen.".pdf" ,'I');
   }
@@ -287,6 +295,8 @@ public function __construct()
 
         $html = $this->load->view('Endorsement/SuratPermintaan_view.php', $data, true);
         
+        $pdf->SetWatermarkText('SAMPLE');
+        $pdf->showWatermarkText = true;        
         $pdf->WriteHTML($html); //write the HTML into PDF
         $pdf->Output($nama_dokumen.".pdf" ,'I');
   }  

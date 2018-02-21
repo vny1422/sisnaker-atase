@@ -480,6 +480,8 @@
                                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Salary / 薪資 <span class="required">*</span></label>
                                                           <div class="col-md-5 col-sm-5 col-xs-12">
                                                             <input type="number" readonly required="required" id="jogaji" class="form-control input4th">
+                                                            Salary in accordance with the provisions of wage regulations in Taiwan
+                                                            <br>
                                                           </div>
                                                         </div><br /><br /><br />
                                                         <div class="form-group">
@@ -945,7 +947,7 @@
                                               $.each(obj, function (i, item) {
                                                 $('#jobtype').append($('<option>', {
                                                   value: item[1]+'/'+item[3]+'/'+item[4]+'/'+item[5]+'/'+item[6]+'/'+item[7],
-                                                  text : item[2] + ' {REMAIN: ' + item[3] + "(L) " + item[4] + "(P) " + item[5] + "(C)}"
+                                                  text : item[2] + ' {REMAIN: ' + item[3] + "(M) " + item[4] + "(F) " + item[5] + "(M/F)}"
                                                 }));
                                               });
                                             });

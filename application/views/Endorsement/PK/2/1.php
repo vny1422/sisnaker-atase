@@ -1,12 +1,10 @@
 <style>
 p{
-    font-size:8pt;
+    font-size:10pt;
     position: absolute;
 }
 
 </style>
-
-<p style="padding-left:-5 mm; margin-top:-3mm;"><?= $pk['agnama'];?></p>
 
 <?php 
     $alamat= explode(" ",$pk['agalmtkantor']);
@@ -26,10 +24,12 @@ p{
     }    
 ?>
 
-<p style="padding-left:18 mm; margin-top:2mm;"><?= $row1;?></p>
-<p style="padding-left:-5 mm; margin-top:9mm;"><?= $row2;?></p>
-<p style="padding-left:-5 mm; margin-top:16mm;"><?= $pk['agtelp'];?>&emsp;<?= $pk['agfax'];?></p>
-<p style="padding-left:-5 mm; margin-top:23mm;">Agency's MOL License Number : <?= $pk['agnoijincla'];?></p>
+<p style="font-size:8pt; padding-left:-5 mm; margin-top:-3mm;"><?= $pk['agnama'];?></p>
+<p style="font-size:8pt; padding-left:18 mm; margin-top:2mm;"><?= $row1;?></p>
+<p style="font-size:8pt; padding-left:-5 mm; margin-top:9mm;"><?= $row2;?></p>
+<p style="font-size:8pt; padding-left:-5 mm; margin-top:16mm;"><?= $pk['agtelp'];?>&emsp;<?= $pk['agfax'];?></p>
+<p style="font-size:8pt; padding-left:-5 mm; margin-top:23mm;">Agency's MOL License Number : <?= $pk['agnoijincla'];?></p>
+
 <p style="padding-left:90 mm; margin-top:38mm; font-family:sun-extA;"><?php if($pk['mjpngjwbcn'] == "" ) echo $pk['mjnamacn']; else echo $pk['mjnamacn']."(".$pk['mjpngjwbcn'].")";?></p>
 <p style="padding-left:78 mm; margin-top:46mm;"><?php if($pk['mjpngjwb'] == "" ) echo $pk['mjnama']; else echo $pk['mjnama']."(".$pk['mjpngjwb'].")";?></p>
 <p style="padding-left:15 mm; margin-top:52mm; font-family:sun-extA;"><?= $pk['mjalmtcn'];?></p>
@@ -59,20 +59,20 @@ p{
 <p style="padding-left:102 mm; margin-top:222mm;"><?= $pk['tkhub'];?></p>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>
 
 <pagebreak>
 
 <p style="padding-left:104 mm; margin-top:46mm;"><?= $pk['jomkthn'];?></p>
 <p style="padding-left:116 mm; margin-top:46mm;"><?= $pk['jomkbln'];?></p>
-<p style="padding-left:127 mm; margin-top:46mm;"><?= $pk['jomkhr'];?></p>
+<p style="padding-left:126 mm; margin-top:46mm;">_<?= $pk['jomkhr'];?>_</p>
 
 <p style="padding-left:82 mm; margin-top:66mm;"><?= $pk['jomkthn'];?></p>
 <p style="padding-left:103 mm; margin-top:66mm;"><?= $pk['jomkbln'];?></p>
-<p style="padding-left:120 mm; margin-top:66mm;"><?= $pk['jomkhr'];?></p>
+<p style="padding-left:118 mm; margin-top:66mm;">_<?= $pk['jomkhr'];?>_</p>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>
 
 <pagebreak>
 
@@ -83,7 +83,7 @@ p{
 <p style="padding-left:113 mm; margin-top:221mm;"><?= $pk['jpgaji']/30;?></p>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>
 
 <pagebreak>
 
@@ -91,22 +91,22 @@ p{
 <p style="padding-left:73 mm; margin-top:52mm;"><?= $pk['jpgaji']/30;?></p>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>
 
 <pagebreak>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>
 
 <pagebreak>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>
 
 <pagebreak>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>
 
 <pagebreak>
 
@@ -125,7 +125,7 @@ p{
     $row2 = "";
     $i = 0;
     foreach($alamat as $a){
-        if($count<55){
+        if($count<45){
             $row1 = $row1." ".$alamat[$i];
             $count = strlen($row1);
         }else{
@@ -145,7 +145,7 @@ p{
     $row2 = "";
     $i = 0;
     foreach($alamat as $a){
-        if($count<55){
+        if($count<40){
             $row1 = $row1." ".$alamat[$i];
             $count = strlen($row1);
         }else{
@@ -158,4 +158,4 @@ p{
 <p style="padding-left:93 mm; margin-top:184mm;"><?= $row1; ?><br><?= $row2;?><br><?= $pk['pptelp'];?>&emsp;<?=  $pk['ppfax'];?></p>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>

@@ -129,6 +129,7 @@ class Kasus_model extends CI_Model {
 	}
 
 	function get_work_type() {
+	$this->db->where('idinstitution', $this->session->userdata('institution'));
 	$query = $this->db->get('jenispekerjaan');
 	return $query->result_array();
 }
@@ -136,7 +137,8 @@ class Kasus_model extends CI_Model {
 function get_officer_all() {
 	$this->db->select('u.username, u.name as namapetugas, k.idkantor, k.namakantor as namakantor');
 	$this->db->from('user u, kantor k');
-	$this->db->where('u.idlevel',3);
+	$this->db->where('(u.idlevel = 3 OR u.idlevel = 10)');
+	$this->db->where('u.idinstitution', $this->session->userdata('institution'));
 	$this->db->where('u.idinstitution = k.idinstitution');
 	$this->db->order_by('u.name','ASC');
 	$query = $this->db->get();

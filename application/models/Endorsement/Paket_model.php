@@ -224,6 +224,7 @@ class Paket_model extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from('jenispekerjaan');
+        $this->db->where('idinstitution', $this->session->userdata('institution'));
         $this->db->order_by('namajenispekerjaan ASC');
         $result = $this->db->get()->result();
 

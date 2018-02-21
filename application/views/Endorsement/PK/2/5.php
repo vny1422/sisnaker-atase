@@ -1,12 +1,12 @@
 <style>
 p{
-    font-size:8pt;
+    font-size:10pt;
     position: absolute;
 }
 
 </style>
 
-<p style="padding-left:-5 mm; margin-top:-3mm;"><?= $pk['agnama'];?></p>
+
 
 <?php 
     $alamat= explode(" ",$pk['agalmtkantor']);
@@ -26,10 +26,11 @@ p{
     }    
 ?>
 
-<p style="padding-left:18 mm; margin-top:3mm;"><?= $row1;?></p>
-<p style="padding-left:-5 mm; margin-top:10mm;"><?= $row2;?></p>
-<p style="padding-left:-5 mm; margin-top:16mm;"><?= $pk['agtelp'];?>&emsp;<?= $pk['agfax'];?></p>
-<p style="padding-left:-5 mm; margin-top:22mm;">Agency's MOL License Number : <?= $pk['agnoijincla'];?></p>
+<p style="font-size:8pt; padding-left:-5 mm; margin-top:-3mm;"><?= $pk['agnama'];?></p>
+<p style="font-size:8pt; padding-left:18 mm; margin-top:3mm;"><?= $row1;?></p>
+<p style="font-size:8pt; padding-left:-5 mm; margin-top:10mm;"><?= $row2;?></p>
+<p style="font-size:8pt; padding-left:-5 mm; margin-top:16mm;"><?= $pk['agtelp'];?>&emsp;<?= $pk['agfax'];?></p>
+<p style="font-size:8pt; padding-left:-5 mm; margin-top:22mm;">Agency's MOL License Number : <?= $pk['agnoijincla'];?></p>
 
 <p style="padding-left:71 mm; margin-top:41mm; font-family:sun-extA;"><?php if($pk['mjpngjwbcn'] == "" ) echo $pk['mjnamacn']; else echo $pk['mjnamacn']."(".$pk['mjpngjwbcn'].")";?></p>
 <p style="padding-left:40 mm; margin-top:48mm;"><?php if($pk['mjpngjwb'] == "" ) echo $pk['mjnama']; else echo $pk['mjnama']."(".$pk['mjpngjwb'].")";?></p>
@@ -47,62 +48,62 @@ p{
 <p style="padding-left:93 mm; margin-top:148mm;"><?= $pk['tktmptlahir'];?></p>
 <p style="padding-left:153 mm; margin-top:148mm;"><?= $pk['tkjk'];?></p>
 <p style="padding-left:46 mm; margin-top:155mm;"><?php if($pk['tkstatkwn'] == 0) echo"V";?></p>
-<p style="padding-left:86 mm; margin-top:155mm;"><?php if($pk['tkstatkwn'] == 1) echo"V";?></p>
-<p style="padding-left:131 mm; margin-top:155mm;"><?php if($pk['tkstatkwn'] == 2) echo"V";?></p>
+<p style="padding-left:91 mm; margin-top:155mm;"><?php if($pk['tkstatkwn'] == 1) echo"V";?></p>
+<p style="padding-left:136 mm; margin-top:155mm;"><?php if($pk['tkstatkwn'] == 2) echo"V";?></p>
 <p style="padding-left:60 mm; margin-top:172mm;"><?= $pk['tkjmlanaktanggungan'];?></p>
 <p style="padding-left:33 mm; margin-top:185mm;"><?= $pk['tkahliwaris'];?></p>
 <p style="padding-left:43 mm; margin-top:192mm;"><?= $pk['tkahliwaris'];?></p>
-<p style="padding-left:18 mm; margin-top:206mm; font-family:sun-extA;"><?= $pk['tknamacn2'];?></p>
-<p style="padding-left:18 mm; margin-top:213mm;"><?= $pk['tknama2'];?></p>
+<p style="padding-left:18 mm; margin-top:205mm; font-family:sun-extA;"><?= $pk['tknamacn2'];?></p>
+<p style="padding-left:18 mm; margin-top:212mm;"><?= $pk['tknama2'];?></p>
 <p style="padding-left:20 mm; margin-top:219mm; font-family:sun-extA;"><?= $pk['tkalmtcn2'];?></p>
 <p style="padding-left:20 mm; margin-top:225mm;"><?= $pk['tkalmt2'];?></p>
 <p style="padding-left:17 mm; margin-top:233mm;"><?= $pk['tktelp'];?></p>
 <p style="padding-left:100 mm; margin-top:233mm;"><?= $pk['tkhub'];?></p>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>
 
 <pagebreak>
 
-<p style="padding-left:106 mm; margin-top:46mm;"><?= $pk['jomkthn'];?></p>
-<p style="padding-left:118 mm; margin-top:46mm;"><?= $pk['jomkbln'];?></p>
-<p style="padding-left:129 mm; margin-top:46mm;"><?= $pk['jomkhr'];?></p>
+<p style="padding-left:106 mm; margin-top:45mm;"><?= $pk['jomkthn'];?></p>
+<p style="padding-left:118 mm; margin-top:45mm;"><?= $pk['jomkbln'];?></p>
+<p style="padding-left:126 mm; margin-top:45mm;">_<?= $pk['jomkhr'];?>_</p>
 
-<p style="padding-left:84 mm; margin-top:66mm;"><?= $pk['jomkthn'];?></p>
-<p style="padding-left:104 mm; margin-top:66mm;"><?= $pk['jomkbln'];?></p>
-<p style="padding-left:120 mm; margin-top:66mm;"><?= $pk['jomkhr'];?></p>
+<p style="padding-left:84 mm; margin-top:65mm;"><?= $pk['jomkthn'];?></p>
+<p style="padding-left:104 mm; margin-top:65mm;"><?= $pk['jomkbln'];?></p>
+<p style="padding-left:118 mm; margin-top:65mm;">_<?= $pk['jomkhr'];?>_</p>
 
 <p style="padding-left:90 mm; margin-top:183mm;"><?= $pk['jpgaji'];?></p>
 <p style="padding-left:165 mm; margin-top:196mm;"><?= $pk['jpgaji'];?></p>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>
 
 <pagebreak>
 
-<p style="padding-left:77 mm; margin-top:81mm;"><?= $pk['jpgaji']/30;?></p>
-<p style="padding-left:112 mm; margin-top:102mm;"><?= $pk['jpgaji']/30;?></p>
+<p style="padding-left:77 mm; margin-top:80mm;"><?= $pk['jpgaji']/30;?></p>
+<p style="padding-left:112 mm; margin-top:101mm;"><?= $pk['jpgaji']/30;?></p>
 
-<p style="padding-left:58 mm; margin-top:139mm;"><?= $pk['jpgaji']/30;?></p>
-<p style="padding-left:54 mm; margin-top:161mm;"><?= $pk['jpgaji']/30;?></p>
-
-<p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
-
-<pagebreak>
+<p style="padding-left:58 mm; margin-top:138mm;"><?= $pk['jpgaji']/30;?></p>
+<p style="padding-left:54 mm; margin-top:160mm;"><?= $pk['jpgaji']/30;?></p>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>
 
 <pagebreak>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>
 
 <pagebreak>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>
+
+<pagebreak>
+
+<p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>
 
 <pagebreak>
 
@@ -121,7 +122,7 @@ p{
     $row2 = "";
     $i = 0;
     foreach($alamat as $a){
-        if($count<55){
+        if($count<45){
             $row1 = $row1." ".$alamat[$i];
             $count = strlen($row1);
         }else{
@@ -141,7 +142,7 @@ p{
     $row2 = "";
     $i = 0;
     foreach($alamat as $a){
-        if($count<55){
+        if($count<40){
             $row1 = $row1." ".$alamat[$i];
             $count = strlen($row1);
         }else{
@@ -154,4 +155,4 @@ p{
 <p style="padding-left:93 mm; margin-top:98mm;"><?= $row1; ?><br><?= $row2;?><br><?= $pk['pptelp'];?>&emsp;<?=  $pk['ppfax'];?></p>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>

@@ -1,12 +1,12 @@
 <style>
 p{
-    font-size:8pt;
+    font-size:10pt;
     position: absolute;
 }
 
 </style>
 
-<p style="padding-left:-5 mm; margin-top:-3mm;"><?= $pk['agnama'];?></p>
+<p style="font-size:8pt; padding-left:-5 mm; margin-top:-3mm;"><?= $pk['agnama'];?></p>
 
 <?php 
     $alamat= explode(" ",$pk['agalmtkantor']);
@@ -26,10 +26,10 @@ p{
     }    
 ?>
 
-<p style="padding-left:18 mm; margin-top:3mm;"><?= $row1;?></p>
-<p style="padding-left:-5 mm; margin-top:10mm;"><?= $row2;?></p>
-<p style="padding-left:-5 mm; margin-top:16mm;"><?= $pk['agtelp'];?>&emsp;<?= $pk['agfax'];?></p>
-<p style="padding-left:-5 mm; margin-top:23mm;">Agency's MOL License Number : <?= $pk['agnoijincla'];?></p>
+<p style="font-size:8pt; padding-left:18 mm; margin-top:3mm;"><?= $row1;?></p>
+<p style="font-size:8pt; padding-left:-5 mm; margin-top:10mm;"><?= $row2;?></p>
+<p style="font-size:8pt; padding-left:-5 mm; margin-top:16mm;"><?= $pk['agtelp'];?>&emsp;<?= $pk['agfax'];?></p>
+<p style="font-size:8pt; padding-left:-5 mm; margin-top:23mm;">Agency's MOL License Number : <?= $pk['agnoijincla'];?></p>
 
 <p style="padding-left:73 mm; margin-top:30mm; font-family:sun-extA;"><?php if($pk['mjpngjwbcn'] == "" ) echo $pk['mjnamacn']; else echo $pk['mjnamacn']."(".$pk['mjpngjwbcn'].")";?></p>
 <p style="padding-left:50 mm; margin-top:38mm;"><?php if($pk['mjpngjwb'] == "" ) echo $pk['mjnama']; else echo $pk['mjnama']."(".$pk['mjpngjwb'].")";?></p>
@@ -52,7 +52,7 @@ p{
 <p style="padding-left:62 mm; margin-top:155mm;"><?= $pk['tkjmlanaktanggungan'];?></p>
 <p style="padding-left:35 mm; margin-top:168mm;"><?= $pk['tkahliwaris'];?></p>
 <p style="padding-left:45 mm; margin-top:175mm;"><?= $pk['tkahliwaris'];?></p>
-<p style="padding-left:20 mm; margin-top:195mm; font-family:sun-extA;"><?= $pk['tknamacn2'];?></p>
+<p style="padding-left:20 mm; margin-top:187mm; font-family:sun-extA;"><?= $pk['tknamacn2'];?></p>
 <p style="padding-left:20 mm; margin-top:194mm;"><?= $pk['tknama2'];?></p>
 <p style="padding-left:22 mm; margin-top:201mm; font-family:sun-extA;"><?= $pk['tkalmtcn2'];?></p>
 <p style="padding-left:22 mm; margin-top:207mm;"><?= $pk['tkalmt2'];?></p>
@@ -60,7 +60,7 @@ p{
 <p style="padding-left:102 mm; margin-top:214mm;"><?= $pk['tkhub'];?></p>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>
 
 <pagebreak>
 
@@ -69,17 +69,17 @@ p{
 
 <p style="padding-left:109 mm; margin-top:46mm;"><?= $pk['jomkthn'];?></p>
 <p style="padding-left:122 mm; margin-top:46mm;"><?= $pk['jomkbln'];?></p>
-<p style="padding-left:133 mm; margin-top:46mm;"><?= $pk['jomkhr'];?></p>
+<p style="padding-left:131 mm; margin-top:46mm;">_<?= $pk['jomkhr'];?>_</p>
 
-<p style="padding-left:87 mm; margin-top:67mm;"><?= $pk['jomkthn'];?></p>
-<p style="padding-left:107 mm; margin-top:67mm;"><?= $pk['jomkbln'];?></p>
-<p style="padding-left:123 mm; margin-top:67mm;"><?= $pk['jomkhr'];?></p>
+<p style="padding-left:87 mm; margin-top:66mm;"><?= $pk['jomkthn'];?></p>
+<p style="padding-left:107 mm; margin-top:66mm;"><?= $pk['jomkbln'];?></p>
+<p style="padding-left:121 mm; margin-top:66mm;">_<?= $pk['jomkhr'];?>_</p>
 
 <p style="padding-left:81 mm; margin-top:123mm;font-family:sun-extA;"><?= $pk['joposisicn'];?></p>
 <p style="padding-left:138 mm; margin-top:131mm;"><?= $pk['joposisi'];?></p>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>
 
 <pagebreak>
 
@@ -87,7 +87,7 @@ p{
 <p style="padding-left:171 mm; margin-top:36mm;"><?= $pk['jpgaji'];?></p>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>
 
 <pagebreak>
 
@@ -101,27 +101,27 @@ p{
 <p style="padding-left:120 mm; margin-top:246mm;"><?= $pk['jpgaji']/30;?></p>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>
 
 <pagebreak>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>
 
 <pagebreak>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>
 
 <pagebreak>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>
 
 <pagebreak>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>
 
 <pagebreak>
 
@@ -140,7 +140,7 @@ p{
     $row2 = "";
     $i = 0;
     foreach($alamat as $a){
-        if($count<55){
+        if($count<45){
             $row1 = $row1." ".$alamat[$i];
             $count = strlen($row1);
         }else{
@@ -160,7 +160,7 @@ p{
     $row2 = "";
     $i = 0;
     foreach($alamat as $a){
-        if($count<55){
+        if($count<40){
             $row1 = $row1." ".$alamat[$i];
             $count = strlen($row1);
         }else{
@@ -173,4 +173,4 @@ p{
 <p style="padding-left:96 mm; margin-top:90mm;"><?= $row1; ?><br><?= $row2;?><br><?= $pk['pptelp'];?>&emsp;<?=  $pk['ppfax'];?></p>
 
 <p style="padding-left:112 mm; margin-top:253mm;"><barcode code="<?= $bc;?>" type="C39" /></p>
-<p style="padding-left:142 mm; margin-top:265mm;"><?= $bc;?></p>
+<p style="padding-left:138 mm; margin-top:265mm;"><?= $bc;?></p>

@@ -168,6 +168,8 @@ public function __construct()
       show_error("Access is forbidden.",403,"403 Forbidden");
     }
   }
+
+  // halaman LihatPK_view.php
   public function downloadDokFin($param)
   {
         $data['pk'] = $this->PK_model->get_pk_for_report($param);
@@ -176,13 +178,11 @@ public function __construct()
         ini_set('memory_limit', '64M');
         $nama_dokumen = "PK_Report";
 
-        $html = $this->load->view('Endorsement/PK/'.$data['pk']['idinstitution'].'/'.$data['pk']['idjenispekerjaan'].'.php', $data, true); //render the view into HTML
-
         $this->load->library('pdfm');
-        $pdf=$this->pdfm->load();
+        $pdf=$this->pdfm->load();        
 
-        //$data['pk']['idinstitution'] = 3;
-        //$data['pk']['idjenispekerjaan'] = 2;
+        // $data['pk']['idinstitution'] = 2;
+        //$data['pk']['idjenispekerjaan'] = 5;
 
         if($data['pk']['idinstitution'] == 2){ // pk taiwan
           $html = $this->load->view('Endorsement/PK/'.$data['pk']['idinstitution'].'/'.$data['pk']['idjenispekerjaan'].'.php', $data, true); //render the view into HTML
@@ -191,7 +191,7 @@ public function __construct()
 
           $pagecount = $pdf->SetDocTemplate('assets/pdf/'.$data['pk']['idinstitution'].'/'.$data['pk']['idjenispekerjaan'].'.pdf', true);
 
-          $pdf->AddPage();
+          $pdf->AddPage();          
         }
         if($data['pk']['idinstitution'] == 3){ // pk malaysia
           // formal
@@ -199,14 +199,97 @@ public function __construct()
           // informal
           //$html = $this->load->view('Endorsement/PK/'.$data['pk']['idinstitution'].'/informal.php', $data, true);
 
-          $this->load->library('pdfm');
-          $pdf=$this->pdfm->load();
+          // $this->load->library('pdfm');
+          // $pdf=$this->pdfm->load();
           $pdf->SetFooter(''.'|{PAGENO}|'.'<barcode code="'. $data['bc'].'" type="C39" /><br>'.$data['bc']);
         }
 
         $pdf->WriteHTML($html); //write the HTML into PDF
         $pdf->Output($nama_dokumen.".pdf" ,'I');
   }
+
+  // halaman LihatPK_view.php
+  public function downloadSuratKuasa($param)
+  {
+        $data['pk'] = $this->PK_model->get_pk_for_report($param);
+        $data['sk'] = $data['pk']['ejbcsk'];
+        $data['sp'] = $data['pk']['ejbcsp'];
+
+        //$data['pk']['idjenispekerjaan'] = 6;
+
+        ini_set('memory_limit', '64M');
+        $nama_dokumen = "Surat Kuasa";
+
+        $this->load->library('pdfm');
+        $pdf=$this->pdfm->load();        
+
+        $html = $this->load->view('Endorsement/DownloadJOPacket_view', $data, true);
+        
+        $pdf->WriteHTML($html); //write the HTML into PDF
+        $pdf->Output($nama_dokumen.".pdf" ,'I');
+  } 
+  
+  // halaman PrintDokumen_view.php
+  public function downloadPK($param)
+  {
+        $data['pk'] = $this->PK_model->get_endorsement_doc($param);
+        $data['bc'] = $data['pk']['tkbc'];
+
+        ini_set('memory_limit', '64M');
+        $nama_dokumen = "Surat PK";
+
+        $this->load->library('pdfm');
+        $pdf=$this->pdfm->load();        
+
+        if($data['pk']['idinstitution'] == 2){ // pk taiwan
+          $html = $this->load->view('Endorsement/PK/'.$data['pk']['idinstitution'].'/'.$data['pk']['idjenispekerjaan'].'.php', $data, true); //render the view into HTML
+
+          $pdf->SetImportUse();
+
+          $pagecount = $pdf->SetDocTemplate('assets/pdf/'.$data['pk']['idinstitution'].'/'.$data['pk']['idjenispekerjaan'].'.pdf', true);
+
+          $pdf->AddPage();          
+        }
+
+        $pdf->WriteHTML($html); //write the HTML into PDF
+        $pdf->Output($nama_dokumen.".pdf" ,'I');
+  } 
+  
+  // halaman PrintDokumen_view.php
+  public function downloadSK($param)
+  {
+        $data['pk'] = $this->PK_model->get_endorsement_doc($param);
+        $data['sk'] = $data['pk']['ejbcsk'];
+
+        ini_set('memory_limit', '64M');
+        $nama_dokumen = "Surat Kuasa";
+
+        $this->load->library('pdfm');
+        $pdf=$this->pdfm->load();        
+
+        $html = $this->load->view('Endorsement/SuratKuasa_view.php', $data, true);
+        
+        $pdf->WriteHTML($html); //write the HTML into PDF
+        $pdf->Output($nama_dokumen.".pdf" ,'I');
+  }
+  
+  // halaman PrintDokumen_view.php
+  public function downloadSP($param)
+  {
+        $data['pk'] = $this->PK_model->get_endorsement_doc($param);
+        $data['sp'] = $data['pk']['ejbcsp'];
+
+        ini_set('memory_limit', '64M');
+        $nama_dokumen = "Surat Permintaan";
+
+        $this->load->library('pdfm');
+        $pdf=$this->pdfm->load();        
+
+        $html = $this->load->view('Endorsement/SuratPermintaan_view.php', $data, true);
+        
+        $pdf->WriteHTML($html); //write the HTML into PDF
+        $pdf->Output($nama_dokumen.".pdf" ,'I');
+  }  
 
   public function getDataPK()
   {

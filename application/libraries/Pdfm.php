@@ -9,7 +9,8 @@ class Pdfm {
     function load($param=NULL){
         include_once APPPATH.'libraries/mpdf60/mpdf.php';
         if($params == NULL){
-            $param = '"en-GB-x","A4","","",10,10,10,10,6,3,"P"';
+            //$param = '"en-GB-x","A4","","",10,10,10,10,6,3,"P"';
+            $param = '"en-GB-x","A4","","",10,10,10,10,6,3';
         }
         return new mPDF($param);
     }

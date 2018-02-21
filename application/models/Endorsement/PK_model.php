@@ -87,7 +87,30 @@ class PK_model extends CI_Model {
     return $this->db->get()->result();
   }
 
-  function get_pk_for_report($md5ej) {
+  function get_pk_for_report($ejbcsp) {
+    //$md5ej
+    //select * from entryjo p inner join magensi ag on ag.agid = p.agid inner join mpptkis pp on pp.ppkode = p.ppkode inner join tki tk on tk.ejid = p.ejid inner join jenispekerjaan jp on jp.idjenispekerjaan = p.idjenispekerjaan where p.md5ej like 'a679cbd1e2d176edd470726a04068a98'
+
+    //$ejbcsp
+    //select * from entryjo p inner join magensi ag on ag.agid = p.agid inner join mpptkis pp on pp.ppkode = p.ppkode inner join tki tk on tk.ejid = p.ejid inner join jenispekerjaan jp on jp.idjenispekerjaan = p.idjenispekerjaan where p.ejbcsp like 'J1801UYAF'    
+
+    $this->db->select('*');
+    $this->db->from('entryjo p');
+    $this->db->order_by("p.pktimestamp", "desc");
+    $this->db->join('magensi ag', 'ag.agid = p.agid');
+    $this->db->join('mpptkis pp', 'pp.ppkode = p.ppkode');
+    $this->db->join('tki tk', 'tk.ejid = p.ejid');
+    $this->db->join('jenispekerjaan jp', 'jp.idjenispekerjaan = p.idjenispekerjaan');
+    $this->db->where('p.idinstitution', $this->session->userdata('institution'));
+    $this->db->where('p.idkantor', $this->session->userdata('kantor'));
+    //$this->db->where("p.md5ej = '$md5ej'");
+    $this->db->where("p.ejbcsp = '$ejbcsp'");
+
+    return $this->db->get()->row_array();
+  }
+
+  function get_endorsement_doc($md5ej) {
+
     $this->db->select('*');
     $this->db->from('entryjo p');
     $this->db->order_by("p.pktimestamp", "desc");
@@ -100,7 +123,7 @@ class PK_model extends CI_Model {
     $this->db->where("p.md5ej = '$md5ej'");
 
     return $this->db->get()->row_array();
-  }
+  }  
 
   function last_pk($agid, $ppkode)
   {

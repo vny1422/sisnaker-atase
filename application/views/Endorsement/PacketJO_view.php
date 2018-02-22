@@ -75,7 +75,7 @@
                     </li>
                     <li><a href=#tabworker data-toggle="tab"><strong>Worker Data</strong></a>
                     </li>
-                    <li><a href=#tabdokumen data-toggle="tab"><strong>Surat&Dokumen</strong></a>
+                    <li><a href=#tabdokumen data-toggle="tab"><strong>Surat & Document</strong></a>
                     </li>
                   </ul>
                 </div>

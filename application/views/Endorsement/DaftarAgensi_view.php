@@ -62,7 +62,7 @@
         <div class="right_col" role="main">
           <div class="">
             <div class="page-title">
-           		<div class="col-md-3"></div>
+              <div class="col-md-3"></div>
               <div class="text-center title_left">
 
                 <h3>USER REGISTRATION</h3>
@@ -94,26 +94,38 @@
                       </div>
                     </div>' ?>
                   <?php endif; ?>
+                    <?php if($this->session->flashdata('warning') != ""): ?>
+                    <?php echo '<div class="container">
+                      <div class="alert alert-warning fade in">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        '.$this->session->flashdata('warning').'
+                      </div>
+                    </div>' ?>
+                  <?php endif; ?>
                     <form enctype="multipart/form-data" action="<?php echo base_url(); ?>Login/daftar" method="post" class="form-horizontal form-label-left">
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Institution <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <select name="institution" required="required" class="select2_single form-control" tabindex="-1" id="institution">
+                          <select name="institutiondis" required="required" class="select2_single form-control" tabindex="-1" id="institution" disabled>
                             <option></option>
                             <?php foreach($institution as $row): ?>
                               <?php if($row->nameinstitution != 'Super' && $row->nameinstitution != 'Pusat'): ?>
-                                <option value="<?php echo $row->idinstitution ?>"><?php echo $row->nameinstitution ?></option>
+                                <option value="<?php echo $row->idinstitution ?>" <?php echo $row->idinstitution == 2 ? 'selected' : '' ?>><?php echo $row->nameinstitution ?></option>
                               <?php endif; ?>
                             <?php endforeach; ?>
                           </select>
+                          <input type="hidden" name="institution" value="2"/>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Office <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <select name="kantor" required="required" class="select2_single form-control" tabindex="-1" id="kantor">
-                            <option></option>
+                          <select name="kantordis" required="required" class="select2_single form-control" tabindex="-1" id="kantor" disabled>
+                            <?php foreach($kantor as $row): ?>
+                                <option value="<?php echo $row->idkantor ?>"><?php echo $row->namakantor ?></option>
+                            <?php endforeach; ?>
                           </select>
+                          <input type="hidden" name="kantor" value="2"/>
                         </div>
                       </div>
                       <div class="form-group">
@@ -124,17 +136,17 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Agency Name <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Agency Name (Eng)<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" name="agnama" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Other Agency Name / 仲介公司名稱</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Agency Name / 仲介公司名稱 (中文)</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="agnamaoth" name="agnamaot" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="agnamaoth" name="agnamaoth" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
@@ -145,13 +157,13 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Office Address<span class="required">*</span></label>
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Office Address (Eng)<span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input id="" class="form-control col-md-7 col-xs-12" type="text" name="officealamat" required="required">
                         </div>
                       </div>
                       <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Other Office Address / 公司地址</label>
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Office Address / 公司地址 (中文)</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="ot_officealamat">
                         </div>
@@ -175,14 +187,14 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Faximile	/ 傳真</label>
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Faximile / 傳真</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="fax">
-                        </div>
+                       </div>
                       </div>
                       <div class="form-group">
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Please Upload your C.L.A Private Employment Service Agency License Letter (jpg/png/pdf) :
-						</label>
+            </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input id="filecla" required="required" class="form-control col-md-7 col-xs-12" type="file" name="filecla" accept=".jpg,.png,.pdf">
                         </div>
@@ -198,7 +210,7 @@
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                           <a href=" <?php echo base_url() ?>login " class="btn btn-primary pull-left">Login</a>
                           <button type="submit" class="pull-right btn btn-success">Submit</button>
-						  <button class="pull-right btn btn-primary" type="reset">Reset</button>
+              <button class="pull-right btn btn-primary" type="reset">Reset</button>
 
                         </div>
                       </div>
@@ -250,7 +262,6 @@
 
         $.post("<?php echo base_url()?>Login/getListKantor", {institution: $("#institution").val()}, function(data, status){
           var json = $.parseJSON(data);
-          
           $.each(json, function(i, val) {
             $("#kantor")
               .append($("<option></option>")

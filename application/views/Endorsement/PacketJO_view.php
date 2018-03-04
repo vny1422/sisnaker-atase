@@ -1,7 +1,7 @@
 
 <!-- page content -->
 <div class="right_col" role="main">
-
+  
   <br />
   <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -41,12 +41,12 @@
             </tbody>
           </table>
         </div>
-
+        
       </div>
       <br />
     </div>
   </div>
-
+  
   <div class="row checked">
     <div class="col-md-12 col-sm-12 col-xs-12">
       <div class="x_panel">
@@ -209,7 +209,7 @@
                       </div>
                     </div>
                     <div class="tab-pane fade in table-responsive" id="tabworker">
-
+                      
                       <table class="table table-striped table-bordered table-hover" id="tabletki">
                         <thead>
                           <tr>
@@ -235,10 +235,10 @@
                           </tr>
                         </thead>
                         <tbody class="table-hover">
-
+                          
                         </tbody>
                       </table>
-
+                      
                     </div>
                   </div>
                 </div>
@@ -249,11 +249,11 @@
       </div>
     </div>
   </div>
-
+  
   <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
-
+        
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
           </button>
@@ -266,30 +266,30 @@
         		<button class="btn btn-sm btn-success">Check</button>
         	</div>
         </div>
-
+        
       </div>
     </div>
   </div>
-
+  
   <script>
   $(document).ready(function () {
     var table = $('#datatable-responsive').DataTable({"columnDefs": [{"targets": [ 0 ],"visible": false,"searchable": false}]});
     var tbtki = $('#tabletki').DataTable({"bSort" : false,"bLengthChange": false,"scrollX": true});
-
+    
     $('#tabletki_filter').html("\
     <form class='form-inline' style='margin-bottom:10px'>\
     <div class='col-sm-offset-1 form-group'><label>Search: </label><input type='text' class='form-control' id='searchtki'></div>\
     </form>"
   );
-
+  
   $("#searchtki").keyup(function() {
     tbtki.search($("#searchtki").val()).draw();
   });
-
+  
   $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
     tbtki.columns.adjust().draw();
   } );
-
+  
   $('#datatable-responsive tbody').on( 'click', 'tr', function () {
     if ( $(this).hasClass('active') ) {
       $(this).removeClass('active');
@@ -311,21 +311,21 @@
           $("#lJOMKTanggal").text(": " + tgl);
           $("#lJOCatatan").text(": " + obj.jocatatan);
           $("#lJOGaji").text(": " + obj.jpgaji);
-
+          
           $("#lMJNoKTP").text(": " + obj.mjktp);
           $("#lMJNamaMajikan").text(": " + obj.mjnama);
           $("#lMJAlamat").text(": " + obj.mjalmt);
           $("#lMJTelp").text(": " + obj.mjtelp);
           $("#lMJFax").text(": " + obj.mjfax);
           $("#lMJPenanggungJawab").text(": " + obj.mjpngjwb);
-
+          
           $("#lAGNamaPerusahaan").text(": " + obj.agnama);
           $("#lAGNoIjinCLA").text(": " + obj.agnoijincla);
           $("#lAGAlamatKantor").text(": " + obj.agalmtkantor);
           $("#lAGPenanggungJawab").text(": " + obj.agpngjwb);
           $("#lAGTelp").text(": " + obj.agtelp);
           $("#lAGFax").text(": " + obj.agfax);
-
+          
           $("#lPPNamaAgen").text(": " + obj.ppnama);
           $("#lPPAlamatKantor").text(": " + obj.ppalmtkantor);
           $("#lPPTelp").text(": " + obj.pptelp);
@@ -339,7 +339,7 @@
           <a href=\"<?php echo base_url()?>document/"+obj.jodownloadurl+"?x="+obj.md5ej+"\"><button class=\"ladda-button\" data-style=\"expand-right\" data-color=\"blue\" data-size=\"xs\"><span class=\"ladda-label\" style=\"color:white\">Job Order & Surat Kuasa</span></button></a>\
           </div>\
           </div><br /><br />")
-
+          
           tbtki.clear();
           for (i = 0; i < obj.tkiall.length; i++) {
             switch(obj.tkiall[i].tkjk) {
@@ -357,7 +357,7 @@
               case '0': $revisi = 'Tidak'; break;
               case '1': $revisi = 'Ya'; break;
             }
-
+            
             //var $btn_revise = ' <a id="btn_revise" href="#" class="btn btn-sm btn-warning">REVISE</a> '
             var $btn_revise = '<button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target=".bs-example-modal-sm">Revise</button>'
             tbtki.row.add( [
@@ -381,7 +381,7 @@
               obj.tkiall[i].tkhub,
               $btn_revise
             ] ).draw();
-
+            
             $("#uridokumen").append("          <div class=\"col-md-12 col-sm-12 col-xs-12\">\
             <a href=\"<?php echo base_url()?>document/"+obj.tkiall[i].tkidownloadurl+"?x="+obj.tkiall[i].md5tki+"\"><button class=\"ladda-button\" data-style=\"expand-right\" data-color=\"green\" data-size=\"xs\"><span class=\"ladda-label\" style=\"color:white\">Surat PK "+obj.tkiall[i].tknama+"</span></button></a>\
             </div><br /><br />")
@@ -390,11 +390,11 @@
       });
     }
   } );
-
-
-
-
-
-
+  
+  
+  
+  
+  
+  
 });
 </script>

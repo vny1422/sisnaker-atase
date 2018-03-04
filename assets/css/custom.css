@@ -269,7 +269,8 @@
 
 .nav_menu {
   float: left;
-  background: #029E8D;
+  /*background: #029E8D;*/
+  background: #e6e6e6;
   border-bottom: 1px solid #D9DEE4;
   margin-bottom: 10px;
   width: 100%;

@@ -260,11 +260,11 @@
           <h4 class="modal-title" id="myModalLabel2">Insert New Passport</h4>
         </div>
         <div class="modal-body">
-          <div class="col-md-12 text-center">
-            <input style="margin-left: 20px" class="form-control input-sm" type="text" name="new_tki_passport">
-            <br>
-            <button class="btn btn-sm btn-success">Check</button>
-          </div>
+        	<div class="col-md-12 text-center">
+        		<input style="margin-left: 20px" class="form-control input-sm" type="text" name="new_tki_passport">
+        		<br>
+        		<button class="btn btn-sm btn-success">Check</button>
+        	</div>
         </div>
 
       </div>
@@ -390,6 +390,11 @@
       });
     }
   } );
+
+
+
+
+
 
 });
 </script>

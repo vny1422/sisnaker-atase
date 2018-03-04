@@ -544,11 +544,12 @@ class Perlindungan extends MY_Controller {
     public function collect_dashboard_info() {
         $year_now = date('Y');
         $month_now = date('m');
-
-        $institution = $this->session->userdata('institution');
+        $user = $this->session->userdata('user');
         $kantor = $this->input->post('idkantor');
+        $institution = $this->session->userdata('institution');
+        $cache_key = $user.'_'.$kantor;
 
-        if (!$results = $this->cache->get($kantor)) {
+        if (!$results = $this->cache->get($cache_key)) {
             $results = array();
 
             $petugas = array();
@@ -586,7 +587,7 @@ class Perlindungan extends MY_Controller {
             // Year List (that had cases)
             $results['list_of_years'] = $this->Perlindungan_model->get_all_yeardb($institution, $kantor);
 
-            $this->cache->save($kantor, $results, 300);
+            $this->cache->save($cache_key, $results, 300);
         }
 
         echo json_encode($results);

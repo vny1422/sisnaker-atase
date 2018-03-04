@@ -15,6 +15,19 @@ class Endorsement_model extends CI_Model {
 		return $this->db->insert('pencatatanej', $data);
 	}
 
+	function mass_catatKuitansi_ej($ejid,$kuid)
+	{
+		foreach($kuid as $kid)
+		{
+			$data = array(
+				'kuid' => $kid,
+				'ejid' => $ejid
+			);
+			$this->db->insert('pencatatanej', $data);
+		}
+		return;
+	}
+
 	function catat_logagensi($agid)
 	{
 		$date = date("Y-m-d");

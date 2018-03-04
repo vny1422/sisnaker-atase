@@ -326,7 +326,7 @@ class Endorsement extends MY_Controller {
     $this->data['subtitle2'] = 'Cetak Stiker';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/PrintStiker_view', $this->data);
-    $this->load->view('templates/footerendorsement');
+    $this->load->view('templates/footerendorsement');    
   }
 
   public function cetakStikerEJ()
@@ -341,7 +341,7 @@ class Endorsement extends MY_Controller {
     $this->data['subtitle2'] = 'Cetak Stiker Job Order';
     $this->load->view('templates/headerendorsement', $this->data);
     $this->load->view('Endorsement/PrintStikerEJ_view', $this->data);
-    $this->load->view('templates/footerendorsement');
+    $this->load->view('templates/footerendorsement');    
   }
 
   public function getKukodeByBC()

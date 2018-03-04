@@ -147,7 +147,7 @@ class Login extends CI_Controller {
 	public function logout()
 	{
 		$this->session->sess_destroy();
-		redirect('login');
+		redirect('logintw');
 	}
 
 	function check_login() {
@@ -211,7 +211,6 @@ class Login extends CI_Controller {
 		if ($this->form_validation->run() === FALSE)
 		{
 			$data['institution'] = $this->Institution_model->list_active_institution();
-			$data['kantor'] = $this->Kantor_model->list_all_kantor_institution(2);
 			$this->load->view('Endorsement/DaftarAgensi_view',$data);
 
 		}
@@ -220,16 +219,14 @@ class Login extends CI_Controller {
 			$cek = $this->Agency_model->cek_cla_agensi($this->input->post('nocla',TRUE));
 			if($cek['cekregis'] > 0 )
 			{
-				$this->session->set_flashdata('warning', 'Registration could not be made, Agency Data already registered.');
+				$this->session->set_flashdata('information', 'Registration could not be made, Agency Data already registered.');
 				$data['institution'] = $this->Institution_model->list_active_institution();
-				$data['kantor'] = $this->Kantor_model->list_all_kantor_institution(2);
 				$this->load->view('Endorsement/DaftarAgensi_view', $data);
 			}
 			else if($cek['cekcekal'] > 0)
 			{
-				$this->session->set_flashdata('warning', 'Registration could not be made, Agency is BANNED.');
+				$this->session->set_flashdata('information', 'Registration could not be made, Agency is BANNED.');
 				$data['institution'] = $this->Institution_model->list_active_institution();
-				$data['kantor'] = $this->Kantor_model->list_all_kantor_institution(2);
 				$this->load->view('Endorsement/DaftarAgensi_view', $data);
 			}
 			else {
@@ -268,7 +265,6 @@ class Login extends CI_Controller {
 				$this->Agency_model->add_new_registration($data);
 				$this->session->set_flashdata('information', 'Registration done, Username and Password will be sent by EMAIL after Verification.');
 				$data['institution'] = $this->Institution_model->list_active_institution();
-				$data['kantor'] = $this->Kantor_model->list_all_kantor_institution(2);
 				$this->load->view('Endorsement/DaftarAgensi_view',$data);
 			}
 

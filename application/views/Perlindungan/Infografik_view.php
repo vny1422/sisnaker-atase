@@ -150,9 +150,9 @@ li{
   var app = angular.module('InfografikApp', ['chart.js','ngRoute','smart-table','ngDialog','ngSanitize','hc.marked']);
 
   app.config(["$routeProvider", function($routeProvider) {
-    $routeProvider.when("/simpati", {templateUrl: window.location.protocol+"//localhost/sisnaker-atase/assets/template/infografik/simpati.html", controller: "SimpatiController"});
-    $routeProvider.when("/tki", {templateUrl: window.location.protocol+"//localhost/sisnaker-atase/assets/template/infografik/tki.html", controller: "TkiController"});
-    $routeProvider.when("/profil",  {templateUrl: window.location.protocol+"//localhost/sisnaker-atase/assets/template/infografik/indonesia.html", controller: "ProfilController"});
+    $routeProvider.when("/simpati", {templateUrl: window.location.protocol+"//atnaker.kemnaker.go.id/assets/template/infografik/simpati.html", controller: "SimpatiController"});
+    $routeProvider.when("/tki", {templateUrl: window.location.protocol+"//atnaker.kemnaker.go.id/assets/template/infografik/tki.html", controller: "TkiController"});
+    $routeProvider.when("/profil",  {templateUrl: window.location.protocol+"//atnaker.kemnaker.go.id/assets/template/infografik/indonesia.html", controller: "ProfilController"});
   }]);
 
   app.controller('MainController',['$scope', '$document','$http','$timeout','$location','$rootScope',function($scope,$document,$http,$timeout,$location,$rootScope){

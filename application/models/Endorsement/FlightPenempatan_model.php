@@ -12,14 +12,14 @@ class FlightPenempatan_model extends CI_Model {
         $this->db->where('k.tkpaspor = t.tkpaspor');
         $this->db->group_by('k.tkpaspor, k.bandaracode, k.transitport');
         $this->db->order_by('k.timestamp');
-        if ($institution != 'all')
-		{
-			$this->db->where('idinstitution',$institution);
-		}
-		if ($kantor != 'all')
-		{
-			$this->db->where('idkantor',$kantor);
-		}
+  //       if ($institution != 'all')
+		// {
+		// 	$this->db->where('k.idinstitution',$institution);
+		// }
+		// if ($kantor != 'all')
+		// {
+		// 	$this->db->where('k.idkantor',$kantor);
+		// }
 		$query = $this->db->get();
 
 		return $query->result();
@@ -55,14 +55,14 @@ class FlightPenempatan_model extends CI_Model {
         $this->db->where('k.tkpaspor = t.tkpaspor');
         $this->db->group_by('k.tkpaspor, k.bandaracode, k.transitport');
         $this->db->order_by('k.timestamp');
-        if ($institution != 'all')
-		{
-			$this->db->where('idinstitution',$institution);
-		}
-		if ($kantor != 'all')
-		{
-			$this->db->where('idkantor',$kantor);
-		}
+  //       if ($institution != 'all')
+		// {
+		// 	$this->db->where('k.idinstitution',$institution);
+		// }
+		// if ($kantor != 'all')
+		// {
+		// 	$this->db->where('k.idkantor',$kantor);
+		// }
 		$query = $this->db->get();
 
 		return $query->result();

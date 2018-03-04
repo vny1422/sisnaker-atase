@@ -9,17 +9,17 @@ class FlightPerlindungan_model extends CI_Model {
     {
     	$this->db->select('k.keberangkatanid, k.tkpaspor, t.namatki, k.bandaracode, k.transitport, k.timestamp');
         $this->db->from('keberangkatan k, tkimasalah t');
-        $this->db->where('k.tkpaspor = t.paspor');
+        $this->db->where('k.tkpaspor = (t.paspor COLLATE utf8_unicode_ci)');
         $this->db->group_by('k.tkpaspor, k.bandaracode, k.transitport');
         $this->db->order_by('k.timestamp');
-        if ($institution != 'all')
-		{
-			$this->db->where('idinstitution',$institution);
-		}
-		if ($kantor != 'all')
-		{
-			$this->db->where('idkantor',$kantor);
-		}
+  //       if ($institution != 'all')
+		// {
+		// 	$this->db->where('idinstitution',$institution);
+		// }
+		// if ($kantor != 'all')
+		// {
+		// 	$this->db->where('idkantor',$kantor);
+		// }
 		$query = $this->db->get();
 
 		return $query->result();
@@ -52,17 +52,17 @@ class FlightPerlindungan_model extends CI_Model {
     {
     	$this->db->select('k.kepulanganid, k.tkpaspor, t.namatki, k.bandaracode, k.transitport, k.timestamp');
         $this->db->from('kepulangan k, tkimasalah t');
-        $this->db->where('k.tkpaspor = t.paspor');
+        $this->db->where('k.tkpaspor = (t.paspor COLLATE utf8_unicode_ci)');
         $this->db->group_by('k.tkpaspor, k.bandaracode, k.transitport');
         $this->db->order_by('k.timestamp');
-        if ($institution != 'all')
-		{
-			$this->db->where('idinstitution',$institution);
-		}
-		if ($kantor != 'all')
-		{
-			$this->db->where('idkantor',$kantor);
-		}
+  //       if ($institution != 'all')
+		// {
+		// 	$this->db->where('idinstitution',$institution);
+		// }
+		// if ($kantor != 'all')
+		// {
+		// 	$this->db->where('idkantor',$kantor);
+		// }
 		$query = $this->db->get();
 
 		return $query->result();

@@ -50,7 +50,7 @@
 
               <ul class="nav navbar-nav navbar-right">
 
-              <a href="<?php echo base_url()?>"><img style="margin-top: 10px; padding-bottom: 10px; margin-left: 120px;" src=" <?php echo base_url() ?>assets/images/sisnaker_tag_logo2.png"></a>
+              <a href="<?php echo base_url()?>logintw"><img style="margin-top: 10px; padding-bottom: 10px; margin-left: 120px;" src=" <?php echo base_url() ?>assets/images/sisnaker_tag_logo2.png"></a>
 
               </ul>
             </nav>
@@ -66,7 +66,7 @@
               <div class="text-center title_left">
 
                 <h3>USER REGISTRATION</h3>
-                <p>For Indonesia Agency (PPTKIS), please use SISKOTKLN BNP2TKI in Indonesia. Both Endorsement v2 KDEI and SISKOTKLN BNP2TKI are connected to each other.</p>
+                <p>For Indonesia Agency (PPTKIS), please use SISKOTKLN BNP2TKI in Indonesia. Both Online-Atnaker and SISKOTKLN BNP2TKI are connected to each other.</p>
               </div>
             </div>
             <div class="clearfix"></div>
@@ -121,6 +121,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Office <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <select name="kantordis" required="required" class="select2_single form-control" tabindex="-1" id="kantor" disabled>
+                            <option value="2">KDEI Taipei</option>
                             <?php foreach($kantor as $row): ?>
                                 <option value="<?php echo $row->idkantor ?>"><?php echo $row->namakantor ?></option>
                             <?php endforeach; ?>
@@ -208,9 +209,9 @@
 
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <a href=" <?php echo base_url() ?>login " class="btn btn-primary pull-left">Login</a>
-                          <button type="submit" class="pull-right btn btn-success">Submit</button>
-              <button class="pull-right btn btn-primary" type="reset">Reset</button>
+                          <a href=" <?php echo base_url() ?>logintw " class="btn btn-sm btn-primary pull-left">Login</a>
+                          <button type="submit" class="pull-right btn btn-sm btn-success">Submit</button>
+              <button class="pull-right btn btn-sm btn-primary" type="reset">Reset</button>
 
                         </div>
                       </div>

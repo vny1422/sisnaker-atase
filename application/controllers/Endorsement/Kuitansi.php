@@ -180,6 +180,8 @@ class Kuitansi extends MY_Controller {
 
       if($this->input->post('bc',TRUE) == "" && $this->input->post('dokumen', TRUE) != 1)
       {
+
+
         //proses insert
         $username = $this->session->userdata('user');
         $institusi = $this->session->userdata('institution');

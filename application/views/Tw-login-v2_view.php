@@ -108,11 +108,11 @@
           </a>
         </div>
 
-        <div class="container-login100-form-btn">
+        <!-- <div class="container-login100-form-btn">
           <a href="#" id="simpati" class="login100-form-btn toform">
             SIMPATI (Perlindungan)
           </a>
-        </div>
+        </div> -->
       </div>
 
       <?php echo form_open(base_url('login/tw'))?>

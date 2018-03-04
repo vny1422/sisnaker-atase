@@ -218,7 +218,7 @@ class User extends MY_Controller {
 				$this->User_model->update_pass_profile($this->session->userdata('user'),$passbaru,$namapic);
 			}
 			if($this->data['error'] == "") {
-				$this->session->set_flashdata('information', 'Update profil berhasil dilakukan');
+				$this->session->set_flashdata('information', 'Congratulation, Your profile successfully updated!');
 			}
 		}
 

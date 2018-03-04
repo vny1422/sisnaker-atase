@@ -9,7 +9,7 @@
         <div class="x_title">
           <h2><strong><?php echo $subtitle; ?></strong></h2>
           <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
           </ul>
           <div class="clearfix"></div>
         </div>
@@ -27,35 +27,35 @@
             </thead>
             <tbody>
               <?php
-                if(isset($rows)){
+              if(isset($rows)){
                 foreach($rows as $row): ?>
-                  <tr>
-                    <td style="display:none;"><?php echo $row[0] ?></td>
-                    <td><?php echo $row[1] ?></td>
-                    <td><?php echo $row[2] ?></td>
-                    <td><?php echo $row[3] ?></td>
-                    <td><?php echo $row[4] ?></td>
-                    <td><?php echo $row[5] ?></td>
-                  </tr>
+                <tr>
+                  <td style="display:none;"><?php echo $row[0] ?></td>
+                  <td><?php echo $row[1] ?></td>
+                  <td><?php echo $row[2] ?></td>
+                  <td><?php echo $row[3] ?></td>
+                  <td><?php echo $row[4] ?></td>
+                  <td><?php echo $row[5] ?></td>
+                </tr>
               <?php endforeach; }?>
             </tbody>
           </table>
         </div>
 
+      </div>
+      <br />
     </div>
-    <br />
   </div>
-</div>
 
-<div class="row checked">
-  <div class="col-md-12 col-sm-12 col-xs-12">
-    <div class="x_panel">
-      <div class="x_title">
-        <h2><strong><?php echo $subtitle2; ?></strong></h2>
-        <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-        </ul>
-        <div class="clearfix"></div>
+  <div class="row checked">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2><strong><?php echo $subtitle2; ?></strong></h2>
+          <ul class="nav navbar-right panel_toolbox">
+            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+          </ul>
+          <div class="clearfix"></div>
         </div>
         <div class="x_content checked">
           <div class="row" style="padding-top: 20px">
@@ -174,8 +174,8 @@
                           <label class="control-label col-md-4 col-sm-6 col-xs-12">Fax</label>
                           <div id="lAGFax" class="col-md-6 col-sm-6 col-xs-12"></div>
                         </div><br />
+                      </div>
                     </div>
-                  </div>
                     <div class="tab-pane fade in table-responsive" id="tabpptkis">
                       <div class="col-lg-12">
                         <div class="form-group">
@@ -202,42 +202,44 @@
                           <label class="control-label col-md-4 col-sm-6 col-xs-12">Fax</label>
                           <div id="lPPFax" class="col-md-6 col-sm-6 col-xs-12"></div>
                         </div><br /><br />
+                      </div>
                     </div>
-                  </div>
-                  <div class="tab-pane fade in table-responsive" id="tabdokumen">
-                    <div class="col-lg-12" id="uridokumen">
+                    <div class="tab-pane fade in table-responsive" id="tabdokumen">
+                      <div class="col-lg-12" id="uridokumen">
+                      </div>
                     </div>
-                  </div>
-                  <div class="tab-pane fade in table-responsive" id="tabworker">
+                    <div class="tab-pane fade in table-responsive" id="tabworker">
 
-                    <table class="table table-striped table-bordered table-hover" id="tabletki">
-                    <thead>
-                      <tr>
-                        <th>Nama TKI</th>
-                        <th>Tgl.Lahir</th>
-                        <th>Jenis Kelamin</th>
-                        <th>Revisi?</th>
-                        <th>Diganti Oleh</th>
-                        <th>Tgl.Endorsement</th>
-                        <th>Alamat</th>
-                        <th>No.Paspor</th>
-                        <th>Tgl.Pengeluaran</th>
-                        <th>Tempat Pengeluaran</th>
-                        <th>Tempat Lahir</th>
-                        <th>Status Perkawinan</th>
-                        <th>Jumlah Anak Tanggungan</th>
-                        <th>Nama Ahli Waris</th>
-                        <th>Nama Kontak Darurat</th>
-                        <th>Alamat Kontak Darurat</th>
-                        <th>Telepon Kontak Darurat</th>
-                        <th>Hubungan Kontak Darurat</th>
-                      </tr>
-                    </thead>
-                    <tbody class="table-hover">
+                      <table class="table table-striped table-bordered table-hover" id="tabletki">
+                        <thead>
+                          <tr>
+                            <th>Nama TKI</th>
+                            <th>Tgl.Lahir</th>
+                            <th>Jenis Kelamin</th>
+                            <th>Revisi?</th>
+                            <th>Diganti Oleh</th>
+                            <th>Tgl.Endorsement</th>
+                            <th>Alamat</th>
+                            <th>No.Paspor</th>
+                            <th>Tgl.Pengeluaran</th>
+                            <th>Tempat Pengeluaran</th>
+                            <th>Tempat Lahir</th>
+                            <th>Status Perkawinan</th>
+                            <th>Jumlah Anak Tanggungan</th>
+                            <th>Nama Ahli Waris</th>
+                            <th>Nama Kontak Darurat</th>
+                            <th>Alamat Kontak Darurat</th>
+                            <th>Telepon Kontak Darurat</th>
+                            <th>Hubungan Kontak Darurat</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody class="table-hover">
 
-                    </tbody>
-                  </table>
+                        </tbody>
+                      </table>
 
+                    </div>
                   </div>
                 </div>
               </div>
@@ -248,121 +250,146 @@
     </div>
   </div>
 
-<script>
+  <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel2">Insert New Passport</h4>
+        </div>
+        <div class="modal-body">
+          <div class="col-md-12 text-center">
+            <input style="margin-left: 20px" class="form-control input-sm" type="text" name="new_tki_passport">
+            <br>
+            <button class="btn btn-sm btn-success">Check</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
   $(document).ready(function () {
     var table = $('#datatable-responsive').DataTable({"columnDefs": [{"targets": [ 0 ],"visible": false,"searchable": false}]});
     var tbtki = $('#tabletki').DataTable({"bSort" : false,"bLengthChange": false,"scrollX": true});
 
     $('#tabletki_filter').html("\
-      <form class='form-inline' style='margin-bottom:10px'>\
-        <div class='col-sm-offset-1 form-group'><label>Search: </label><input type='text' class='form-control' id='searchtki'></div>\
-      </form>"
-      );
+    <form class='form-inline' style='margin-bottom:10px'>\
+    <div class='col-sm-offset-1 form-group'><label>Search: </label><input type='text' class='form-control' id='searchtki'></div>\
+    </form>"
+  );
 
-    $("#searchtki").keyup(function() {
-      tbtki.search($("#searchtki").val()).draw();
-    });
-
-    $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
-      tbtki.columns.adjust().draw();
-    } );
-
-     $('#datatable-responsive tbody').on( 'click', 'tr', function () {
-        if ( $(this).hasClass('active') ) {
-            $(this).removeClass('active');
-        }
-        else {
-            table.$('tr.active').removeClass('active');
-            $(this).addClass('active');
-            var data = table.row(this).data();
-            $.post("<?php echo base_url()?>endorsement/getDataFromEJID", {ejid: data[0]}, function(data,status){
-              var obj = $.parseJSON(data);
-              if(obj.success) {
-                $("#lJOJenisPekerjaan").text(": " + obj.namajenispekerjaan);
-                $("#lJOCLANO").text(": " + obj.joclano);
-                $("#lJOCLATgl").text(": " + obj.joclatgl);
-                $("#lJOCLADueDate").text(": " + obj.joestduedate);
-                $("#lJOPosisi").text(": " + obj.joposisi);
-                $("#lJOJumlahTKI").text(": " + obj.jojmltki);
-                var tgl = obj.jomkthn + " Tahun " + obj.jomkbln + " Bulan " + obj.jomkhr + " Hari";
-                $("#lJOMKTanggal").text(": " + tgl);
-                $("#lJOCatatan").text(": " + obj.jocatatan);
-                $("#lJOGaji").text(": " + obj.jpgaji);
-
-                $("#lMJNoKTP").text(": " + obj.mjktp);
-                $("#lMJNamaMajikan").text(": " + obj.mjnama);
-                $("#lMJAlamat").text(": " + obj.mjalmt);
-                $("#lMJTelp").text(": " + obj.mjtelp);
-                $("#lMJFax").text(": " + obj.mjfax);
-                $("#lMJPenanggungJawab").text(": " + obj.mjpngjwb);
-
-                $("#lAGNamaPerusahaan").text(": " + obj.agnama);
-                $("#lAGNoIjinCLA").text(": " + obj.agnoijincla);
-                $("#lAGAlamatKantor").text(": " + obj.agalmtkantor);
-                $("#lAGPenanggungJawab").text(": " + obj.agpngjwb);
-                $("#lAGTelp").text(": " + obj.agtelp);
-                $("#lAGFax").text(": " + obj.agfax);
-
-                $("#lPPNamaAgen").text(": " + obj.ppnama);
-                $("#lPPAlamatKantor").text(": " + obj.ppalmtkantor);
-                $("#lPPTelp").text(": " + obj.pptelp);
-                $("#lPPFax").text(": " + obj.ppfax);
-                $("#lPPNoIjin").text(": " + obj.ppijin);
-                $("#lPPPenanggungJawab").text(": " + obj.pppngjwb);
-                $("#uridokumen").html("          <div class=\"form-group\">\
-                            <label class=\"control-label col-md-4 col-sm-4 col-xs-12\" for=\"barcode\">Silahkan download halaman berikut, dan cetaklah.</label>\
-                            <br /><br />\
-                            <div class=\"col-md-3 col-sm-3 col-xs-12\">\
-                              <a href=\"<?php echo base_url()?>document/"+obj.jodownloadurl+"?x="+obj.md5ej+"\"><button class=\"ladda-button\" data-style=\"expand-right\" data-color=\"blue\" data-size=\"xs\"><span class=\"ladda-label\" style=\"color:white\">Job Order & Surat Kuasa</span></button></a>\
-                            </div>\
-                          </div><br /><br />")
-
-                tbtki.clear();
-                for (i = 0; i < obj.tkiall.length; i++) {
-                  switch(obj.tkiall[i].tkjk) {
-                    case 'L': $jk = 'Laki-laki'; break;
-                    case 'P': $jk = 'Perempuan'; break;
-                    default: $jk = '';
-                  }
-                  switch(obj.tkiall[i].tkstatkwn) {
-                    case '0': $statkwn = 'Belum Menikah'; break;
-                    case '1': $statkwn = 'Menikah'; break;
-                    case '2': $statkwn = 'Cerai'; break;
-                    default: $statkwn = '';
-                  }
-                  switch(obj.tkiall[i].tkstat) {
-                    case '0': $revisi = 'Tidak'; break;
-                    case '1': $revisi = 'Ya'; break;
-                  }
-
-                  tbtki.row.add( [
-                    obj.tkiall[i].tknama,
-                    obj.tkiall[i].tktgllahir,
-                    $jk,
-                    $revisi,
-                    obj.tkiall[i].tkrevnama,
-                    obj.tkiall[i].tktglendorsement,
-                    obj.tkiall[i].tkalmtid,
-                    obj.tkiall[i].tkpaspor,
-                    obj.tkiall[i].tktglkeluar,
-                    obj.tkiall[i].tktmptkeluar,
-                    obj.tkiall[i].tktmptlahir,
-                    $statkwn,
-                    obj.tkiall[i].tkjmlanaktanggungan,
-                    obj.tkiall[i].tkahliwaris,
-                    obj.tkiall[i].tknama2,
-                    obj.tkiall[i].tkalmt2,
-                    obj.tkiall[i].tktelp,
-                    obj.tkiall[i].tkhub
-                    ] ).draw();
-
-                $("#uridokumen").append("          <div class=\"col-md-12 col-sm-12 col-xs-12\">\
-                            <a href=\"<?php echo base_url()?>document/"+obj.tkiall[i].tkidownloadurl+"?x="+obj.tkiall[i].md5tki+"\"><button class=\"ladda-button\" data-style=\"expand-right\" data-color=\"green\" data-size=\"xs\"><span class=\"ladda-label\" style=\"color:white\">Surat PK "+obj.tkiall[i].tknama+"</span></button></a>\
-                          </div><br /><br />")
-                }
-              }
-            });
-        }
-    } );
+  $("#searchtki").keyup(function() {
+    tbtki.search($("#searchtki").val()).draw();
   });
+
+  $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
+    tbtki.columns.adjust().draw();
+  } );
+
+  $('#datatable-responsive tbody').on( 'click', 'tr', function () {
+    if ( $(this).hasClass('active') ) {
+      $(this).removeClass('active');
+    }
+    else {
+      table.$('tr.active').removeClass('active');
+      $(this).addClass('active');
+      var data = table.row(this).data();
+      $.post("<?php echo base_url()?>endorsement/getDataFromEJID", {ejid: data[0]}, function(data,status){
+        var obj = $.parseJSON(data);
+        if(obj.success) {
+          $("#lJOJenisPekerjaan").text(": " + obj.namajenispekerjaan);
+          $("#lJOCLANO").text(": " + obj.joclano);
+          $("#lJOCLATgl").text(": " + obj.joclatgl);
+          $("#lJOCLADueDate").text(": " + obj.joestduedate);
+          $("#lJOPosisi").text(": " + obj.joposisi);
+          $("#lJOJumlahTKI").text(": " + obj.jojmltki);
+          var tgl = obj.jomkthn + " Tahun " + obj.jomkbln + " Bulan " + obj.jomkhr + " Hari";
+          $("#lJOMKTanggal").text(": " + tgl);
+          $("#lJOCatatan").text(": " + obj.jocatatan);
+          $("#lJOGaji").text(": " + obj.jpgaji);
+
+          $("#lMJNoKTP").text(": " + obj.mjktp);
+          $("#lMJNamaMajikan").text(": " + obj.mjnama);
+          $("#lMJAlamat").text(": " + obj.mjalmt);
+          $("#lMJTelp").text(": " + obj.mjtelp);
+          $("#lMJFax").text(": " + obj.mjfax);
+          $("#lMJPenanggungJawab").text(": " + obj.mjpngjwb);
+
+          $("#lAGNamaPerusahaan").text(": " + obj.agnama);
+          $("#lAGNoIjinCLA").text(": " + obj.agnoijincla);
+          $("#lAGAlamatKantor").text(": " + obj.agalmtkantor);
+          $("#lAGPenanggungJawab").text(": " + obj.agpngjwb);
+          $("#lAGTelp").text(": " + obj.agtelp);
+          $("#lAGFax").text(": " + obj.agfax);
+
+          $("#lPPNamaAgen").text(": " + obj.ppnama);
+          $("#lPPAlamatKantor").text(": " + obj.ppalmtkantor);
+          $("#lPPTelp").text(": " + obj.pptelp);
+          $("#lPPFax").text(": " + obj.ppfax);
+          $("#lPPNoIjin").text(": " + obj.ppijin);
+          $("#lPPPenanggungJawab").text(": " + obj.pppngjwb);
+          $("#uridokumen").html("          <div class=\"form-group\">\
+          <label class=\"control-label col-md-4 col-sm-4 col-xs-12\" for=\"barcode\">Silahkan download halaman berikut, dan cetaklah.</label>\
+          <br /><br />\
+          <div class=\"col-md-3 col-sm-3 col-xs-12\">\
+          <a href=\"<?php echo base_url()?>document/"+obj.jodownloadurl+"?x="+obj.md5ej+"\"><button class=\"ladda-button\" data-style=\"expand-right\" data-color=\"blue\" data-size=\"xs\"><span class=\"ladda-label\" style=\"color:white\">Job Order & Surat Kuasa</span></button></a>\
+          </div>\
+          </div><br /><br />")
+
+          tbtki.clear();
+          for (i = 0; i < obj.tkiall.length; i++) {
+            switch(obj.tkiall[i].tkjk) {
+              case 'L': $jk = 'Laki-laki'; break;
+              case 'P': $jk = 'Perempuan'; break;
+              default: $jk = '';
+            }
+            switch(obj.tkiall[i].tkstatkwn) {
+              case '0': $statkwn = 'Belum Menikah'; break;
+              case '1': $statkwn = 'Menikah'; break;
+              case '2': $statkwn = 'Cerai'; break;
+              default: $statkwn = '';
+            }
+            switch(obj.tkiall[i].tkstat) {
+              case '0': $revisi = 'Tidak'; break;
+              case '1': $revisi = 'Ya'; break;
+            }
+
+            //var $btn_revise = ' <a id="btn_revise" href="#" class="btn btn-sm btn-warning">REVISE</a> '
+            var $btn_revise = '<button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target=".bs-example-modal-sm">Revise</button>'
+            tbtki.row.add( [
+              obj.tkiall[i].tknama,
+              obj.tkiall[i].tktgllahir,
+              $jk,
+              $revisi,
+              obj.tkiall[i].tkrevnama,
+              obj.tkiall[i].tktglendorsement,
+              obj.tkiall[i].tkalmtid,
+              obj.tkiall[i].tkpaspor,
+              obj.tkiall[i].tktglkeluar,
+              obj.tkiall[i].tktmptkeluar,
+              obj.tkiall[i].tktmptlahir,
+              $statkwn,
+              obj.tkiall[i].tkjmlanaktanggungan,
+              obj.tkiall[i].tkahliwaris,
+              obj.tkiall[i].tknama2,
+              obj.tkiall[i].tkalmt2,
+              obj.tkiall[i].tktelp,
+              obj.tkiall[i].tkhub,
+              $btn_revise
+            ] ).draw();
+
+            $("#uridokumen").append("          <div class=\"col-md-12 col-sm-12 col-xs-12\">\
+            <a href=\"<?php echo base_url()?>document/"+obj.tkiall[i].tkidownloadurl+"?x="+obj.tkiall[i].md5tki+"\"><button class=\"ladda-button\" data-style=\"expand-right\" data-color=\"green\" data-size=\"xs\"><span class=\"ladda-label\" style=\"color:white\">Surat PK "+obj.tkiall[i].tknama+"</span></button></a>\
+            </div><br /><br />")
+          }
+        }
+      });
+    }
+  } );
+
+});
 </script>

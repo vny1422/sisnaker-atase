@@ -180,12 +180,10 @@ class Kuitansi extends MY_Controller {
 
       if($this->input->post('bc',TRUE) == "" && $this->input->post('dokumen', TRUE) != 1)
       {
-
-
         //proses insert
         $username = $this->session->userdata('user');
         $institusi = $this->session->userdata('institution');
-        $this->Kuitansi_model->catat_kuitansi($username,$institusi,$barcodeku);
+        $this->Kuitansi_model->mass_catat_kuitansi($username,$institusi);
         $this->session->set_flashdata('print', 'Data berhasil dimasukkan');
         $currencyid = $this->Institution_model->get_institution($this->session->userdata('institution'))->idcurrency;
         $currencyname = $this->Currency_model->get_currency_name($currencyid);
@@ -250,8 +248,8 @@ class Kuitansi extends MY_Controller {
             else{
               $username = $this->session->userdata('user');
               $institusi = $this->session->userdata('institution');
-              $kuid = $this->Kuitansi_model->catat_kuitansi($username,$institusi,$barcodeku);
-              $this->Endorsement_model->catatKuitansi_ej($hasil->ejid,$kuid);
+              $kuid = $this->Kuitansi_model->mass_catat_kuitansi($username,$institusi);
+              $this->Endorsement_model->mass_catatKuitansi_ej($hasil->ejid,$kuid);
               $endorse = $this->input->post('endorse',TRUE);
               if($endorse)
               {

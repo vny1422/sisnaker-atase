@@ -40,7 +40,7 @@
             </div>
           </div>' ?>
         <?php endif; ?>
-          <?php echo form_open(base_url('kuitansi/catat')) ?>
+          <?php echo form_open(base_url('kuitansi/catatnon')) ?>
 
           <div class="form-group" >
             <label class="col-sm-2 control-label">Tanggal Masuk</label>
@@ -85,35 +85,28 @@
           </div>
         </div>
 
-        <div class="input_fields_wrap" id="wrapopsi">
-          <div class = "removable">
-            <div class="form-group">
-              <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">No. Kuitansi <span class="required">*</span></label>
-              <div class="col-md-3 col-sm-3 col-xs-12">
-                <input id="noku" type="text" name="kuno[]" required="required" class="form-control input-sm">
-              </div>
-              <div style="margin-left: -55px;" class="col-md-2 col-sm-3 col-xs-12">
-              <button type="button" class="btn btn-primary btn-sm" id="btnCheck">Check</button><a id="errorku">Silahkan masukkan No. Kuitansi</a>
+          <div class="form-group">
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">No. Kuitansi <span class="required">*</span></label>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+              <input id="noku" type="text" name="kuno" required="required" class="form-control input-sm">
             </div>
-            <div style="margin-left: -55px;" class="col-md-1">
-              <button type="button" class="btn btn-default addButton btn-sm"><i class="fa fa-plus"></i></button>
-            </div>
-
-            </div><br /><br /><br /><br />
-
-            <div class="form-group">
-              <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Jumlah Terbayar <span class="required">*</span></label>
-              <div class="col-md-5 col-sm-5 col-xs-12">
-                <input id="jmlterbayar" type="text" name="jmlterbayar[]" required="required" class="form-control input-sm">  Jumlah Terbayar dalam satuan <?php echo $currency?>
-              </div>
-            </div><br /><br /><br /><br />
+            <div style="margin-left: -55px;" class="col-md-3 col-sm-3 col-xs-12">
+            <button type="button" class="btn btn-primary btn-sm" id="btnCheck">Check</button><a id="errorku">Silahkan masukkan No. Kuitansi</a>
           </div>
-         </div>
+
+          </div><br /><br /><br /><br />
+
+          <div class="form-group">
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Jumlah Terbayar <span class="required">*</span></label>
+            <div class="col-md-5 col-sm-5 col-xs-12">
+              <input id="jmlterbayar" type="text" name="jmlterbayar" required="required" class="input-sm form-control">Jumlah Terbayar dalam satuan <?php echo $currency?>
+            </div>
+          </div><br /><br /><br /><br />
 
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Nama Pemohon <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
-              <input id="pemohon" type="text" name="pemohon" required="required" class="form-control input-sm">
+              <input id="pemohon" type="text" name="pemohon" required="required" class="input-sm form-control">
             </div>
           </div><br /><br /><br />
 
@@ -121,7 +114,7 @@
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="active">Endorse Sekarang (Tidak Perlu Catat Kuitansi Ganda) ? </label>
             <div class="col-md-1 col-sm-1 col-xs-2">
-              <input type="checkbox" id="cekenable" name="endorse" checked>
+              <input type="checkbox" id="cekenable" name="endorse">
             </div>
             <br /><br /><br /><br />
           </div>
@@ -223,8 +216,6 @@ $(document).ready(function() {
     var submit = false;
     var hidebc = $("#hidebarcode");
     var hideendorse = $("#hideendorse");
-    var wrapopsi        = $("#wrapopsi"); //Fields wrapper
-    var add_button = $(".addButton"); //Add button ID
     var table = $("#datatable").DataTable( {
     "columnDefs": [
         {
@@ -244,37 +235,6 @@ $(document).ready(function() {
     $(hidebc).hide();
     $(hideendorse).hide();
     $(errorku).hide();
-
-    $(add_button).click(function(e){ //on add input button click
-      e.preventDefault();
-      $(wrapopsi).append('          <div class = "removable"> \
-                  <div class="form-group"> \
-                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">No. Kuitansi <span class="required">*</span></label> \
-                    <div class="col-md-3 col-sm-3 col-xs-12"> \
-                      <input id="noku" type="text" name="kuno[]" required="required" class="form-control"> \
-                    </div> \
-                    <div style="margin-left: -55px;" class="col-md-2 col-sm-3 col-xs-12"> \
-                  </div> \
-                  <div style="margin-left: -55px;" class="col-md-1"> \
-                    <button type="button" class="btn btn-default remove_field"><i class="fa fa-trash"></i></button> \
-                  </div> \
-      \
-                  </div><br /><br /><br /><br /> \
-      \
-                  <div class="form-group"> \
-                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Jumlah Terbayar <span class="required">*</span></label> \
-                    <div class="col-md-5 col-sm-5 col-xs-12"> \
-                      <input id="jmlterbayar" type="text" name="jmlterbayar[]" required="required" class="form-control">Jumlah Terbayar dalam satuan <?php echo $currency?> \
-                    </div> \
-                  </div><br /><br /><br /><br /> \
-                </div>'); //add input box
-    });
-
-    $(wrapopsi).on("click",".remove_field", function(e){ //user click on remove text
-      e.preventDefault();
-      $(this).closest('.removable').remove();
-    })
-
     $("#btnCheck").click(function(){
       var noku = $("#noku").val();
       if (noku != ""){

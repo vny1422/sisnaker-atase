@@ -36,7 +36,17 @@ class Kuitansi_model extends CI_Model {
   }
 
   public function list_dokumen_kuitansi(){
-    return $this->db->get('tipe')->result();
+    $this->db->select('t.*');
+    $this->db->from('tipe t');
+    $this->db->where('t.idtipe < 5');
+    return $this->db->get()->result();
+  }
+
+  public function list_dokumen_kuitansi_non_ketenagakerjaan(){
+    $this->db->select('t.*');
+    $this->db->from('tipe t');
+    $this->db->where('t.idtipe > 4');
+    return $this->db->get()->result();
   }
 
   public function catat_kuitansi($username, $idinstitution, $barcode=null, $v2=0)

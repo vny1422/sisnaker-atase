@@ -44,6 +44,25 @@ class Paket extends MY_Controller {
     $this->load->view('templates/footerendorsement');
   }
 
+
+  public function viewkuota()
+  {
+    if (!($this->session->userdata('role') <= 2 || $this->session->userdata('role') == 5 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9 ))
+    {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
+
+    if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 5) {
+      $this->data['listinstitusi'] = $this->Institution_model->list_active_institution();
+    }
+
+    $this->data['title'] = 'Paket PK';
+    $this->data['subtitle'] = 'View Kuota';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/RekapPaketJOStaff_view');
+    $this->load->view('templates/footerendorsement');
+  }
+
   public function add()
   {
     if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9)

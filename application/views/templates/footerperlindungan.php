@@ -5,7 +5,7 @@
 <!-- footer content -->
         <footer>
           <div class="pull-right">
-            SISNAKER-ATASE | Kementerian Ketenagakerjaan Republik Indonesia
+            ATNAKER-ONLINE | Kementerian Ketenagakerjaan Republik Indonesia
           </div>
           <div class="clearfix"></div>
         </footer>

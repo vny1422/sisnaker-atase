@@ -93,7 +93,7 @@
               <input type="hidden" id="pkpid" name="pkpid" class="form-control">
             </div>
             <div class="col-md-2">
-              <input id="btncari" class="btn btn-success caributton" type="button" name="btncari" value="Check PKP Code">
+              <input id="btncari" class="btn btn-success caributton" type="button" name="btncari" value="CEK KODE PKP">
             </div>
           </div>
 

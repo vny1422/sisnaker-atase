@@ -15,6 +15,19 @@ class Endorsement_model extends CI_Model {
 		return $this->db->insert('pencatatanej', $data);
 	}
 
+	function mass_catatKuitansi_ej($ejid,$kuid)
+	{
+		foreach($kuid as $kid)
+		{
+			$data = array(
+				'kuid' => $kid,
+				'ejid' => $ejid
+			);
+			$this->db->insert('pencatatanej', $data);
+		}
+		return;
+	}
+
 	function catat_logagensi($agid)
 	{
 		$date = date("Y-m-d");
@@ -340,7 +353,7 @@ class Endorsement_model extends CI_Model {
 		$this->db->join('tki','entryjo.ejid = tki.ejid');
 		$this->db->where('tki.tkstat',0);
 		$this->db->where('tki.tkrevid',NULL);
-		$where = "tki.tktglendorsement LIKE '%".$tahun."-%'";
+		$where = "entryjo.ejtglendorsement LIKE '%".$tahun."-%'";
 		$this->db->where($where);
 		$this->db->where('entryjo.agid', $agid);
 		$this->db->group_by('tki.tkjk');
@@ -354,7 +367,7 @@ class Endorsement_model extends CI_Model {
 		$this->db->join('tki','entryjo.ejid = tki.ejid');
 		$this->db->where('tki.tkstat',0);
 		$this->db->where('tki.tkrevid',NULL);
-		$where = "tki.tktglendorsement LIKE '%".$tahun."-".$bulan."-%'";
+		$where = "entryjo.ejtglendorsement LIKE '%".$tahun."-".$bulan."-%'";
 		$this->db->where($where);
 		if($institution != 'all')
 		{
@@ -375,7 +388,7 @@ class Endorsement_model extends CI_Model {
 		$this->db->join('tki','entryjo.ejid = tki.ejid');
 		$this->db->where('tki.tkstat',0);
 		$this->db->where('tki.tkrevid',NULL);
-		$where = "tki.tktglendorsement LIKE '%".$tahun."-".$bulan."-%'";
+		$where = "entryjo.ejtglendorsement LIKE '%".$tahun."-".$bulan."-%'";
 		$this->db->where($where);
 		$this->db->where('entryjo.agid',$agid);
 		$this->db->group_by('tki.tkjk');

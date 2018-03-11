@@ -88,10 +88,10 @@ class Datatki extends MY_Controller {
 
   public function search()
   {
-    if (!($this->session->userdata('role') <= 3 || $this->session->userdata('role') == 5 || $this->session->userdata('role') == 10))
-    {
-      show_error("Access is forbidden.",403,"403 Forbidden");
-    }
+    // if (!($this->session->userdata('role') <= 3 || $this->session->userdata('role') == 5 || $this->session->userdata('role') == 10))
+    // {
+    //   show_error("Access is forbidden.",403,"403 Forbidden");
+    // }
 
     $param = $this->input->post();
     if($param==NULL){

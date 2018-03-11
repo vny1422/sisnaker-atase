@@ -18,7 +18,7 @@
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="barcode">Barcode <span class="required">*</span></label>
             <div class="col-md-3 col-sm-3 col-xs-12">
-              <input id="barcode" type="text" name="barcode" required="required" class="form-control">
+              <input id="barcode" type="text" name="barcode" required="required" class="form-control input-sm">
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12">
               <button id="check" class="ladda-button" data-style="expand-right" data-color="green" data-size="xs"><span class="ladda-label" style="color:white">Check</span></button>
@@ -169,7 +169,7 @@
                       </tr>
                     </thead>
                     <tbody class="table-hover">
-                      
+
                     </tbody>
                   </table>
 
@@ -200,7 +200,7 @@
           <div class="row" style="padding-top: 20px">
             <div id="rKuitansi" class="col-lg-12" style="display:none">
               <div id="dataKuitansi" class="panel with-nav-tabs panel-info">
-                
+
               </div>
             </div>
             <div id="rNoKuitansi" class="col-lg-12" style="display:none">
@@ -260,21 +260,21 @@
             $("#lJOMKTanggal").text(": " + tgl);
             $("#lJOCatatan").text(": " + obj.jocatatan);
             $("#lJOGaji").text(": " + obj.jpgaji);
-              
+
             $("#lMJNoKTP").text(": " + obj.mjktp);
             $("#lMJNamaMajikan").text(": " + obj.mjnama);
             $("#lMJAlamat").text(": " + obj.mjalmt);
             $("#lMJTelp").text(": " + obj.mjtelp);
             $("#lMJFax").text(": " + obj.mjfax);
             $("#lMJPenanggungJawab").text(": " + obj.mjpngjwb);
-              
+
             $("#lAGNamaPerusahaan").text(": " + obj.agnama);
             $("#lAGNoIjinCLA").text(": " + obj.agnoijincla);
             $("#lAGAlamatKantor").text(": " + obj.agalmtkantor);
             $("#lAGPenanggungJawab").text(": " + obj.agpngjwb);
             $("#lAGTelp").text(": " + obj.agtelp);
             $("#lAGFax").text(": " + obj.agfax);
-              
+
             $("#lPPNamaAgen").text(": " + obj.ppnama);
             $("#lPPAlamatKantor").text(": " + obj.ppalmtkantor);
             $("#lPPTelp").text(": " + obj.pptelp);
@@ -284,23 +284,23 @@
 
             table.clear();
             for (i = 0; i < obj.tkiall.length; i++) {
-              switch(obj.tkiall[i].tkjk) { 
+              switch(obj.tkiall[i].tkjk) {
                 case 'L': $jk = 'Laki-laki'; break;
                 case 'P': $jk = 'Perempuan'; break;
-                default: $jk = '';          
+                default: $jk = '';
               }
-              switch(obj.tkiall[i].tkstatkwn) { 
+              switch(obj.tkiall[i].tkstatkwn) {
                 case '0': $statkwn = 'Belum Menikah'; break;
                 case '1': $statkwn = 'Menikah'; break;
                 case '2': $statkwn = 'Cerai'; break;
-                default: $statkwn = '';         
+                default: $statkwn = '';
               }
-              switch(obj.tkiall[i].tkstat) { 
+              switch(obj.tkiall[i].tkstat) {
                 case '0': $revisi = 'Tidak'; break;
                 case '1': $revisi = 'Ya'; break;
               }
 
-              table.row.add( [  
+              table.row.add( [
                 obj.tkiall[i].tknama,
                 obj.tkiall[i].tktgllahir,
                 $jk,
@@ -354,7 +354,7 @@
 
             $("#dataKuitansi").html(rKuitansiTabs + rKuitansiBody);
 
-            if (obj.kuitansi.length > 0)           
+            if (obj.kuitansi.length > 0)
               $("#rKuitansi").show();
             else
               $("#rNoKuitansi").show();

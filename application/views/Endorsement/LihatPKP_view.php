@@ -113,7 +113,7 @@
           <div class="ln_solid"></div>
           <div class="form-group">
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <a class="btn btn-warning" href=" <?php echo base_url('PKP/addPkp') ?> ">Apply New </a>
+              <a class="btn btn-warning" href=" <?php echo base_url('pkp/addpkp') ?> ">Apply New </a>
             </div>
           </div>
 
@@ -223,7 +223,6 @@
       </div>
     </div>
   </div>
-
     <script type="text/javascript">
     $(document).ready(function() {
       openlabel = function(verb, url, data, target) {

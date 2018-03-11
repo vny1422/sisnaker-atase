@@ -36,7 +36,7 @@ class Flight extends MY_Controller {
             $this->load->view('templates/headerperlindungan', $this->data);
             $this->load->view('Perlindungan/FlightDeparture_view', $this->data);
             $this->load->view('templates/footerperlindungan');
-        } else if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7) {
+        } else if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9) {
             $this->data['list'] = $this->flight_penempatan->list_all_departure($this->session->userdata('institution'), 
                 $this->session->userdata('kantor'));
 
@@ -60,7 +60,7 @@ class Flight extends MY_Controller {
             $this->load->view('templates/headerperlindungan', $this->data);
             $this->load->view('Perlindungan/FlightArrival_view', $this->data);
             $this->load->view('templates/footerperlindungan');
-        } else if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7) {
+        } else if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9) {
             $this->data['list'] = $this->flight_penempatan->list_all_arrival($this->session->userdata('institution'), 
                 $this->session->userdata('kantor'));
 
@@ -96,7 +96,7 @@ class Flight extends MY_Controller {
                 $this->flight_perlindungan->update_departure($idkeberangkatan);
                 redirect('flight/departure');
             }
-        } else if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7) {
+        } else if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9) {
             $this->data['values'] =  $this->flight_penempatan->get_departure($idkeberangkatan);
 
             if ($this->data['values']->idkantor != $this->session->userdata('kantor')) {
@@ -130,7 +130,7 @@ class Flight extends MY_Controller {
 
             $this->flight_perlindungan->delete_departure($idkeberangkatan);
             redirect('flight/departure');
-        } else if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7) {
+        } else if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9) {
             $keberangkatan = $this->flight_penempatan->get_departure($idkeberangkatan);
 
             if ($keberangkatan->idkantor != $this->session->userdata('kantor')) {
@@ -167,7 +167,7 @@ class Flight extends MY_Controller {
                 $this->flight_perlindungan->update_arrival($idkepulangan);
                 redirect('flight/arrival');
             }
-        } else if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7) {
+        } else if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9) {
             $this->data['values'] =  $this->flight_penempatan->get_arrival($idkepulangan);
 
             if ($this->data['values']->idkantor != $this->session->userdata('kantor')) {
@@ -201,7 +201,7 @@ class Flight extends MY_Controller {
 
             $this->flight_perlindungan->delete_arrival($idkepulangan);
             redirect('flight/arrival');
-        } else if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7) {
+        } else if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9) {
             $kepulangan = $this->flight_penempatan->get_arrival($idkepulangan);
 
             if ($kepulangan->idkantor != $this->session->userdata('kantor')) {

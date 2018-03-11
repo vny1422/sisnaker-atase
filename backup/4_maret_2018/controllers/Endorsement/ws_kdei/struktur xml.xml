@@ -1,0 +1,86 @@
+UPDATE MAJIKAN
+
+<ws_param>
+	<pasporno>AS1231231</pasporno>
+	<mjknama>WHING CHUN</mjknama>
+	<mjkaddress>RAO HE ROAD</mjkaddress>	
+	<mjkcity>TAIPEI</mjkcity>		
+	<mjktelp>021831231</mjktelp>		
+	<mjkfax>012312312312</mjkfax>	
+	<tanggal>21012012</tanggal>						//format ddmmyyyy
+	<alasan>Gak betah</alasan>
+<ws_param>
+
+UPDATE STATUS  TKI
+
+<ws_param>
+	<pasporno>AS1231231</pasporno>
+	<status>Kabur</status>
+<ws_param>
+
+PINDAH AGENSI
+
+<ws_param>
+	<pasporno>AS1231231</pasporno>
+	<newagency>11332</newagency>
+	<oldagency>23454</oldagency>
+<ws_param>
+
+INSERT DATA AGENSI
+
+<ws_param>
+	<nama>tambahan nama</nama>
+	<alamat>contoh alamat</alamat>
+	<direktur>nama direktur/penanggung jawab</direktur>
+	<license>nomor izin / CLA</license>
+	<telp>no telp</telp>
+	<fax>no fax</fax>
+	<email>alamat@email.com</email>
+<ws_param>
+
+UPDATE DATA AGENSI
+
+<ws_param>
+	<id>id agensi</id>
+	<nama>tambahan nama</nama>
+	<alamat>contoh alamat</alamat>
+	<direktur>nama direktur/penanggung jawab</direktur>
+	<license>nomor izin / CLA</license>
+	<telp>no telp</telp>
+	<fax>no fax</fax>
+	<email>alamat@email.com</email>
+<ws_param>
+
+INSERT JO
+
+<ws_param>
+	<nomor>nomor legalisasi</nomor>
+	<startdate>12012012</startdate>
+	<expiredate>12012015</expiredate>
+	<agency>3324</agency>
+	<pptkis>DEMO0001</pptkis>
+	<detail>
+		<detaildata>
+			<idpek>012.542</idpek>
+			<jmll>5</jmll>
+			<jmlp>7</jmlp>
+			<jmlc>0</jmlc>
+			<gaji>13000</gaji>
+		</detaildata>
+		<detaildata>
+			<idpek>012.001</idpek>
+			<jmll>5</jmll>
+			<jmlp>6</jmlp>
+			<jmlc>0</jmlc>
+			<gaji>13000</gaji>
+		</detaildata>
+		<detaildata>
+			<idpek>012.433</idpek>
+			<jmll>3</jmll>
+			<jmlp>7</jmlp>
+			<jmlc>5</jmlc>
+			<gaji>13000</gaji>
+		</detaildata>
+
+	</detail>	
+<ws_param>

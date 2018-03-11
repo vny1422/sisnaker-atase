@@ -67,7 +67,7 @@ var $current; #a pointer to the current item - what is this
 var $parent; #a pointer to the current parent - the parent will be an array
 var $parents; #an array of the most recent parent at each level
 var $last_opened_tag;
-function XML($data=null){
+function __construct($data=null){
 $this->parser = xml_parser_create();
 xml_parser_set_option ($this->parser, XML_OPTION_CASE_FOLDING, 0);
 xml_set_object($this->parser, $this);

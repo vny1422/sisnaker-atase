@@ -111,25 +111,25 @@
                               <div class="form-group fieldtitle">
                                 <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Total childs under 18 y.o<span class="required">*</span></label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                  <input type="text" name="tkijmlhanaktanggungan" required="required" class="form-control input-sm">
+                                  <input type="text" name="tkijmlhanaktanggungan" required="required" class="form-control input-sm" disabled>
                                 </div>
                               </div><br /><br /><br />
                               <div class="form-group fieldtitle">
                                 <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Heirs Name<span class="required">*</span></label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                  <input type="text" name="tkiahliwaris" required="required" class="form-control input-sm">
+                                  <input type="text" name="tkiahliwaris" required="required" class="form-control input-sm" disabled>
                                 </div>
                               </div><br /><br /><br />
                               <div class="form-group fieldtitle">
                                 <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Emergency Contact Person Name<span class="required">*</span></label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                  <input type="text" name="tkinama2" required="required" class="form-control input-sm">
+                                  <input type="text" name="tkinama2" required="required" class="form-control input-sm" disabled="">
                                 </div>
                               </div><br /><br /><br />
                               <div class="form-group fieldtitle">
                                 <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Emergency Contact Person Address<span class="required">*</span></label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                  <input type="text" name="tkialmt2" required="required" class="form-control input-sm">
+                                  <input type="text" name="tkialmt2" required="required" class="form-control input-sm" disabled="">
                                 </div>
                               </div><br /><br /><br />
                               <div class="form-group fieldtitle">
@@ -343,19 +343,19 @@
                                               <div class="form-group">
                                                 <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Company / Employer Name <span class="required">*</span></label>
                                                 <div class="col-md-5 col-sm-5 col-xs-12">
-                                                  <input type="text" name="tesad" required="required" id="employer" class="input-sm form-control input3rd 3rdrequired">
+                                                  <input type="text" name="tesad" required="required" id="employer" class="input-sm form-control input3rd 3rdrequired" placeholder="Andy">
                                                 </div>
                                               </div><br /><br /><br />
                                               <div class="form-group">
                                                 <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">公司名稱 / 雇主姓名 <span class="required">*</span></label>
                                                 <div class="col-md-5 col-sm-5 col-xs-12">
-                                                  <input type="text" name="name" required="required" id="employer2" class="input-sm form-control input3rd 3rdrequired">
+                                                  <input type="text" name="name" required="required" id="employer2" class="input-sm form-control input3rd 3rdrequired" placeholder="安迪">
                                                 </div>
                                               </div><br /><br /><br />
                                               <div class="form-group">
                                                 <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Address<span class="required">*</span></label>
                                                 <div class="col-md-5 col-sm-5 col-xs-12">
-                                                  <textarea name="name" required="required" id="address" class="form-control resizable_textarea input3rd 3rdrequired">
+                                                  <textarea name="name" required="required" id="address" class="form-control resizable_textarea input3rd 3rdrequired" placeholder="Write the address as completely as possible">
                                                   </textarea>
                                                 </div>
                                               </div><br /><br /><br />
@@ -369,25 +369,25 @@
                                               <div class="form-group">
                                                 <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Phone / 電話號碼 <span class="required"></span></label>
                                                 <div class="col-md-5 col-sm-5 col-xs-12">
-                                                  <input type="text" name="name" id="phone" class="input-sm form-control input3rd">
+                                                  <input type="text" name="name" id="phone" class="input-sm form-control input3rd" placeholder="(02) 87526170">
                                                 </div>
                                               </div><br /><br /><br />
                                               <div class="form-group">
                                                 <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Fax / 傳真號碼<span class="required"></span></label>
                                                 <div class="col-md-5 col-sm-5 col-xs-12">
-                                                  <input type="text" name="name" id="fax" class="input-sm form-control input3rd">
+                                                  <input type="text" name="name" id="fax" class="input-sm form-control input3rd" placeholder="(02) 87523706">
                                                 </div>
                                               </div><br /><br /><br />
                                               <div class="form-group">
                                                 <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Authorized Person Name<span class="required"></span></label>
                                                 <div class="col-md-5 col-sm-5 col-xs-12">
-                                                  <input type="text" name="name" id="pngjwb" class="input-sm form-control input3rd">
+                                                  <input type="text" name="name" id="pngjwb" class="input-sm form-control input3rd" placeholder="Andy">
                                                 </div>
                                               </div><br /><br /><br />
                                               <div class="form-group">
                                                 <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">代表人姓名 <span class="required">*</span></label>
                                                 <div class="col-md-5 col-sm-5 col-xs-12">
-                                                  <input type="text" name="name" id="pngjwb2" class="input-sm form-control input3rd">
+                                                  <input type="text" name="name" id="pngjwb2" class="input-sm form-control input3rd" placeholder="安迪">
                                                 </div>
                                               </div><br /><br /><br />
                                               <?php foreach($employer as $row): ?>
@@ -437,7 +437,7 @@
                                                         <div class="form-group">
                                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">CLA Recruitment Letter No. / 勞工局許可函號碼 <span class="required">*</span></label>
                                                           <div class="col-md-5 col-sm-5 col-xs-12">
-                                                            <input type="text" name="name" required="required" id="clano" class="form-control input4th input-sm">
+                                                            <input type="text" name="name" required="required" id="clano" class="form-control input4th input-sm" placeholder="3211234">
                                                           </div>
                                                         </div><br /><br /><br />
                                                         <div class="form-group" >
@@ -458,19 +458,19 @@
                                                         <div class="form-group">
                                                           <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Contract Duration / 合約期限 <span class="required">*</span></label>
                                                           <div class="col-md-1 col-sm-1 col-xs-12">
-                                                            <input type="text" id="tahun" required="required" class="form-control input4th">
+                                                            <input type="text" id="tahun" required="required" class="form-control input4th" placeholder="3">
                                                           </div>
                                                           <div style="margin-left: -1.5em; margin-top: 0.5em" class="col-md-1 col-sm-1 col-xs-12">
                                                             <p>年/Year</p>
                                                           </div>
                                                           <div class="col-md-1 col-sm-1 col-xs-12">
-                                                            <input type="number" id="bulan" required="required" class="form-control input4th">
+                                                            <input type="number" id="bulan" required="required" class="form-control input4th" placeholder="0">
                                                           </div>
                                                           <div style="margin-left: -1.5em; margin-top: 0.5em" class="col-md-1 col-sm-1 col-xs-12">
                                                             <p>月/Month</p>
                                                           </div>
                                                           <div class="col-md-1 col-sm-1 col-xs-12">
-                                                            <input type="number" id="hari" required="required" class="form-control input4th">
+                                                            <input type="number" id="hari" required="required" class="form-control input4th" placeholder="0">
                                                           </div>
                                                           <div style="margin-left: -1.5em; margin-top: 0.5em" class="col-md-1 col-sm-1 col-xs-12">
                                                             <p>日/Day</p>

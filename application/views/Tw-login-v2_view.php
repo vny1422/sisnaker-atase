@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>SISNAKER - ATASE</title>
+  <title>ONLINE ATNAKER - ATASE</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!--===============================================================================================-->
@@ -54,7 +54,7 @@
     <div class="container-login100">
       <div class="wrap-login100">
         <div class="login100-pic text-center" >
-          <img class="js-tilt"style="width: 65%; margin-top:30px;" src=" <?php echo base_url('assets/images/garuda.png'); ?> " alt="IMG" data-tilt>
+          <img class="js-tilt"style="width: 65%; margin-top:30px; z-index:400;" src=" <?php echo base_url('assets/images/garuda.png'); ?> " alt="IMG" data-tilt>
 
           <div class="p-t-80">
             <div class="col-md-12">
@@ -108,11 +108,11 @@
           </a>
         </div>
 
-        <div class="container-login100-form-btn">
+        <!-- <div class="container-login100-form-btn">
           <a href="#" id="simpati" class="login100-form-btn toform">
             SIMPATI (Perlindungan)
           </a>
-        </div>
+        </div> -->
       </div>
 
       <?php echo form_open(base_url('login/tw'))?>

@@ -59,6 +59,8 @@
 </head>
 <body>
 
+
+
   <div class="row text-white">
     <div class="col-md-6 kiri text-center">
       <div id="sec-bg-2" class="content">
@@ -77,6 +79,8 @@
             <img style="text-align:center; width:20%" src="<?php echo base_url('assets/images/logo_kemnaker_white.png'); ?>">
             <h4 class=""><b>ONLINE - ATNAKER</b></h4>
           </div>
+
+
 
           <div class="col-md-3">
           </div>
@@ -121,6 +125,8 @@
 
               </div>
 
+
+
               <div class="col-md-12">
                 <h3> <b>ONLINE SERVICES</b></h3>
                 <!-- <a href=" <?php //echo ('http://tw-reentry.atnaker.kemnaker.go.id') ?>" title="Reentry Direct Hiring (Dengan Pulang)"><i class="fa fa-plane"> <b>Re-Entry</b> Direct Hiring (Dengan Pulang)</i> </a>
@@ -128,6 +134,7 @@
                 <a href=" <?php echo ('http://tw-dex.atnaker.kemnaker.go.id') ?> " title="Direct Extension Hiring"><i class="fa fa-refresh"> <b>Direct Extension</b> Hiring</i></a>
 
               </div>
+
 
               <div class="col-md-12">
                 <h3> <b>OTHER SERVICES</b></h3>

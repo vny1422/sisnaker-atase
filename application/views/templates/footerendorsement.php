@@ -4,7 +4,7 @@
 <!-- footer content -->
         <footer>
           <div class="pull-right">
-            SISNAKER-ATASE | Kementerian Ketenagakerjaan Republik Indonesia
+            ATNAKER-ONLINE | Kementerian Ketenagakerjaan Republik Indonesia
           </div>
           <div class="clearfix"></div>
         </footer>
@@ -43,8 +43,8 @@
         <script src="<?php echo base_url('assets/js/datatables/dataTables.scroller.min.js'); ?>"></script>
 
     <!-- Reorder Datatables -->
-    <script src="<?php echo base_url('assets/js/dataTables.rowReorder.js'); ?>"></script>
-
+<!--     <script src="<?php echo base_url('assets/js/dataTables.rowReorder.js'); ?>"></script>
+ -->
     <!-- Custom Theme Scripts -->
     <script src="<?php echo base_url('assets/build/js/custom.min.js'); ?>"></script>
 

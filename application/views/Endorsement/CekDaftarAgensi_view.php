@@ -210,7 +210,7 @@
   $("#loader").hide();
 
   function generateUserPass(agnama, cla) {
-    var userpass = agnama.substr(0, 4) + cla;
+    var userpass = agnama.substr(0, 4).toLowerCase() + cla;
     var passmd5 = md5(userpass);
     return {
       "userpass":userpass,

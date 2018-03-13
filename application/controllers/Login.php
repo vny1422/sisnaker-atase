@@ -285,7 +285,7 @@ class Login extends CI_Controller {
 		if ($this->form_validation->run() === FALSE)
 		{
 			$data['institution'] = $this->Institution_model->list_active_institution();
-			$this->load->view('Endorsement/DaftarAgensi_view',$data);
+			$this->load->view('Endorsement/DaftarAgensiTaiwan_view',$data);
 
 		}
 		else

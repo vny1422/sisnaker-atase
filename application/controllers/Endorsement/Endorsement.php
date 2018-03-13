@@ -81,6 +81,54 @@ class Endorsement extends MY_Controller {
 		$this->load->view('templates/footerperlindungan');
 	}
 
+  public function humao()
+  {
+    if ($this->session->userdata('role') == 8 || $this->session->userdata('role') == 9)
+    {
+      $this->form_validation->set_rules('agensi', 'Agensi', 'required|trim');
+      $this->form_validation->set_rules('pptkis', 'PPTKIS', 'required|trim');
+      $this->form_validation->set_rules('start', 'Tanggal Mulai', 'required|trim');
+      $this->form_validation->set_rules('end', 'Tanggal Selesai', 'required|trim');
+      $this->form_validation->set_rules('jenispekerjaan[]', 'Jenis Pekerjaan', 'required|trim');
+      $this->form_validation->set_rules('laki[]', 'Jumlah Kuota Laki-laki', 'required|trim');
+      $this->form_validation->set_rules('perempuan[]', 'Jumlah Kuota Perempuan', 'required|trim');
+      $this->form_validation->set_rules('campuran[]', 'Jumlah Kuota Campuran', 'required|trim');
+
+      if ($this->form_validation->run() === FALSE)
+      {
+        if($this->session->userdata('role') == 4){
+          $this->data['dataagensi'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
+        }
+
+        $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
+        $this->data['listpptkis'] = $this->Pptkis_model->get_pptkis_non_cekal();
+        $this->data['cekalpptkis'] = $this->Pptkis_model->get_pptkis(true);
+        $this->data['listjenispekerjaan'] = $this->Jobtype_model->list_all_jobtype_by_institution($this->session->userdata('institution'));
+        $this->data['title'] = 'Create Recruitment Agreement (PKP)';
+       // $this->load->view('templates/header', $this->data);
+        $this->load->view('templates/headerendorsement', $this->data);
+        $this->load->view('Endorsement/CreatePKP_view', $this->data);
+        //$this->load->view('templates/footer');
+        $this->load->view('templates/footerendorsement');
+      }
+      else
+      {
+        $returnPKP = $this->PKP_model->post_new_pkp();
+        if ($returnPKP[0]) {
+          $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
+        }
+        else {
+          $this->session->set_flashdata('information', 'Data gagal dimasukkan');
+        }
+        redirect('pkp/addPkp');
+      }
+    }
+    else {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
+
+  }
+
   public function get_info_year_dashboard(){
     $year = $this->input->post('y');
     $month = $this->input->post('m');

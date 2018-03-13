@@ -11,8 +11,12 @@ class Endorsement extends MY_Controller {
     $this->load_sidebar();
     $this->load->model('Endorsement/Endorsement_model');
     $this->load->model('Endorsement/Paket_model');
+    $this->load->model('Endorsement/PKP_model');
     $this->load->model('Perlindungan/Agency_model');
+    $this->load->model('Perlindungan/Pptkis_model');
     $this->load->model('SAdmin/Input_model');
+    $this->load->model('SAdmin/Jobtype_model');
+
 
     $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'penempatan_'));
 
@@ -96,7 +100,7 @@ class Endorsement extends MY_Controller {
 
       if ($this->form_validation->run() === FALSE)
       {
-        if($this->session->userdata('role') == 4){
+        if($this->session->userdata('role') == 8){
           $this->data['dataagensi'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
         }
 
@@ -104,23 +108,23 @@ class Endorsement extends MY_Controller {
         $this->data['listpptkis'] = $this->Pptkis_model->get_pptkis_non_cekal();
         $this->data['cekalpptkis'] = $this->Pptkis_model->get_pptkis(true);
         $this->data['listjenispekerjaan'] = $this->Jobtype_model->list_all_jobtype_by_institution($this->session->userdata('institution'));
-        $this->data['title'] = 'Create Recruitment Agreement (PKP)';
+        $this->data['title'] = 'Create Recruitment Agreement (HUMAO)';
        // $this->load->view('templates/header', $this->data);
         $this->load->view('templates/headerendorsement', $this->data);
-        $this->load->view('Endorsement/CreatePKP_view', $this->data);
+        $this->load->view('Endorsement/CreateHumao_view', $this->data);
         //$this->load->view('templates/footer');
         $this->load->view('templates/footerendorsement');
       }
       else
       {
-        $returnPKP = $this->PKP_model->post_new_pkp();
+        $returnPKP = $this->PKP_model->post_new_humao();
         if ($returnPKP[0]) {
-          $this->session->set_flashdata('information', 'Data berhasil dimasukkan');
+          $this->session->set_flashdata('information', 'Humao successfully created');
         }
         else {
-          $this->session->set_flashdata('information', 'Data gagal dimasukkan');
+          $this->session->set_flashdata('information', 'Humao failed to created');
         }
-        redirect('pkp/addPkp');
+        redirect('endorsement/humao');
       }
     }
     else {
@@ -128,6 +132,47 @@ class Endorsement extends MY_Controller {
     }
 
   }
+
+  public function viewhumao()
+  {
+    if ($this->session->userdata('role') == 8 || $this->session->userdata('role') == 9){
+
+      if($this->session->userdata('role') == 8){
+        $this->data['dataagensi'] = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
+        $this->data['datapptkis'] = $this->Pptkis_model->get_pptkis_by_agensi_in_pkp($this->data['dataagensi']->agid);
+      }
+
+      if ($this->session->flashdata('data') != '')
+      {
+        $this->data = $this->session->flashdata('data');
+      }
+
+      $this->data['listagensi'] = $this->Agency_model->get_agency_from_institution($this->session->userdata('institution'), false, true);
+      $this->data['listpptkis'] = $this->Pptkis_model->get_all_pptkis();
+      $this->data['title'] = 'View Recruitment Agreement (PKP)';
+      $this->data['subtitle'] = 'View Recruitment Agreement (PKP)';
+      $this->data['subtitle2'] = 'View Recruitment Agreement (PKP)';
+      $this->load->view('templates/headerendorsement', $this->data);
+      $this->load->view('Endorsement/ViewHumao_view', $this->data);
+      $this->load->view('templates/footerendorsement');
+    }
+    else {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
+  }
+
+  public function downloadhumao()
+  {
+    if ($this->session->userdata('role') == 8 || $this->session->userdata('role') == 9){
+      //CONTROLLER FOR DOWNLOAD PKP/HUMAO TAIWAN
+
+    }
+    else {
+      show_error("Access is forbidden.",403,"403 Forbidden");
+    }
+  }
+
+
 
   public function get_info_year_dashboard(){
     $year = $this->input->post('y');

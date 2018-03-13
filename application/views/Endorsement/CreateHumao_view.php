@@ -43,7 +43,7 @@
             </div>
             </div>' ?>
           <?php endif; ?>
-          <?php echo form_open(base_url('PKP/addPkp')) ?>
+          <?php echo form_open(base_url('endorsement/humao')) ?>
 
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12">Agency <span class="required">*</span></label>

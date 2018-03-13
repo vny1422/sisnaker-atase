@@ -96,8 +96,6 @@
                   <th>PPTKIS</th> -->
                   <th>Start Date</th>
                   <th>End Date</th>
-                  <th>Verification Status</th>
-                  <th>Upload Status</th>
                   <th>Date Modified</th>
                   <th>Action</th>
                 </tr>
@@ -258,7 +256,7 @@
                 td = '<a onclick=showTolak("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalTolak">Recruitment Agreement (PKP) Rejected</a>'
               }
               else if (obj[key]["isverified"] == 2) {
-                td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>pkp/downloadDokFin/' + obj[key]["pkpkode"] + ' ">Download Rec. Agreement (PKP) Document</a>'
+                td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>endorsment/downloadhumao/' + obj[key]["pkpkode"] + ' ">Download Humao</a>'
               }
               else if (obj[key]["isverified"] == 3) {
                 if (obj[key]["isuploaded"] == 1) {
@@ -276,8 +274,6 @@
                 '<td id="kodepkp" class="text-center" value = "' + obj[key]["pkpkode"] +'"><a onclick=show("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalDetail">' + obj[key]["pkpkode"] + '</a></td>',
                 obj[key]["pkptglawal"],
                 obj[key]["pkptglakhir"],
-                '<td>'+ (obj[key]["isverified"] > 1 ? "Verified" : "Waiting") + '</td>',
-                '<td>'+ (obj[key]["isuploaded"]  == 1 ? "Uploaded" : "Waiting")+ '</td>',
                 obj[key]["pkptimestamp"],
                 '<td class="text-center">'+ td + '</td>'
               ]).draw();
@@ -326,7 +322,7 @@
                     td = '<a onclick=showTolak("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalTolak">Recruitment Agreement (PKP) Rejected</a>'
                   }
                   else if (obj[key]["isverified"] == 2) {
-                    td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>pkp/downloadDokFin/' + obj[key]["pkpkode"] + ' ">Download Rec. Agreement (PKP) Document</a>'
+                    td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>endorsment/downloadhumao/' + obj[key]["pkpkode"] + ' ">Download Humao</a>'
                   }
                   else if (obj[key]["isverified"] == 3) {
                     if (obj[key]["isuploaded"] == 1) {
@@ -344,8 +340,6 @@
                     '<td id="kodepkp" class="text-center" value = "' + obj[key]["pkpkode"] +'"><a onclick=show("'+obj[key]["pkpkode"]+'") data-toggle="modal" data-target="#modalDetail">' + obj[key]["pkpkode"] + '</a></td>',
                     obj[key]["pkptglawal"],
                     obj[key]["pkptglakhir"],
-                    '<td>'+ (obj[key]["isverified"] > 1 ? "Verified" : "Waiting") + '</td>',
-                    '<td>'+ (obj[key]["isuploaded"]  == 1 ? "Uploaded" : "Waiting")+ '</td>',
                     obj[key]["pkptimestamp"],
                     '<td class="text-center">'+ td + '</td>'
                   ]).draw();

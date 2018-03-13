@@ -450,11 +450,13 @@ class Endorsement extends MY_Controller {
       	foreach ($query as $row):
       		$this->data['rows'][$i] = array(
       			$row->ejid,
-  		      	$row->ejdatefilled,
-  		      	$row->ppnama,
-  		      	$row->namajenispekerjaan,
-  		      	$row->ejbcsp,
-  		      	$row->ejtglendorsement
+  		      $row->ejdatefilled,
+  		      $row->ppnama,
+  		      $row->namajenispekerjaan,
+  		      $row->ejbcsp,
+  		      $row->ejtglendorsement,
+            $row->idjenispekerjaan,
+            $row->ppkode
       		);
       		$i++;
       	endforeach;
@@ -547,6 +549,64 @@ class Endorsement extends MY_Controller {
    	$tmp['success'] = true;
 
    	echo json_encode($tmp);
+  }
+
+  function reviseTKI()
+  {
+    $tki = json_decode($this->input->post('datatki', TRUE), TRUE);
+    $ejid = $this->input->post('ejid', TRUE);
+    $jpid = $this->input->post('jpid', TRUE);
+    $idTkiLama = $this->input->post('idTkiLama', TRUE);
+    $idTkiPengganti = '';
+
+    $tmp['success'] = true;
+    $tmp['message'] = "Updated!";
+
+    $keluar = DateTime::createFromFormat('d-m-Y', $tki['TKI_KELUARBLKDATE']);
+    $keluarFormatted = $keluar->format('Y-m-d');
+    $lahir = DateTime::createFromFormat('d-m-Y', $tki['TKI_TKIDOB']);
+    $lahirFormatted = $lahir->format('Y-m-d');
+    $datatki["ejid"] = $ejid;
+    $datatki["tknama"] = $tki['TKI_TKINAME'];
+    $datatki["tkalmtid"] = $tki['TKI_TKIADDRESS'];
+    $datatki["tkpaspor"] = $tki['TKI_PASPORNO'];
+    $datatki["tktglkeluar"] = $keluarFormatted;
+    $datatki["tktmptkeluar"] = $tki['tkitmptkeluar'];
+    $datatki["tktgllahir"] = $lahirFormatted;
+    $datatki["tktmptlahir"] = $tki['TKI_TKIPOBDESC'];
+    $datatki["tkjk"] = $tki['TKI_TKIGENDER'];
+    $datatki["tkstatkwn"] = $tki['tkistatkwn'];
+    $datatki["tkjmlanaktanggungan"] = $tki['tkijmlanaktanggungan'];
+    $datatki["tkahliwaris"] = $tki['tkiahliwaris'];
+    $datatki["tknama2"] = $tki['tkinama2'];
+    $datatki["tkalmt2"] = $tki['tkialmt2'];
+    $datatki["tktelp"] = $tki['tkitelp'];
+    $datatki["tkhub"] = $tki['tkihub'];
+    $datatki["tkstat"] = 0;
+    $datatki["tkiid"] = $tki['TKI_TKIID'];
+    $url = $this->Endorsement_model->geturlpekerjaan($jpid);
+    $datatki["tkidownloadurl"] = $url->curtkidownloadurl;
+    $datatki["md5ej"] = md5($ejid);
+
+    $query = $this->Endorsement_model->getTKI_FromPassport($tki['TKI_PASPORNO']);
+
+    if (!empty($query)) {
+      if ($query[0]['tkstat'] == '1' || $query[0]['tktglendorsement']) {
+        $tmp['success'] = false;
+        $tmp['message'] = "Worker already endorsed";
+      } else {
+        $idTkiPengganti = $query[0]['tkid'];
+        $this->Endorsement_model->update_tki_byid($datatki, $idTkiPengganti);
+      }
+    } else {
+      $idTkiPengganti = $this->Endorsement_model->insert_tki($datatki);
+    }
+
+    if (!empty($idTkiPengganti)) {
+      $this->Endorsement_model->reviseTKI($idTkiLama, $idTkiPengganti);
+    }
+
+    echo json_encode($tmp);
   }
 
   function getJodetail()
@@ -696,7 +756,12 @@ class Endorsement extends MY_Controller {
 			{
 				$result = XMLRPC_parse($result[1]);
 				if (isset($result['ws_response']['reqString']['record'])) {
-          $records = $result['ws_response']['reqString']['record'];
+          if (array_key_exists(0, $result['ws_response']['reqString']['record'])) {
+            $records = $result['ws_response']['reqString']['record'][0];
+          } else {
+            $records = $result['ws_response']['reqString']['record'];
+          }
+
 					$r->status = 1;
 					if ($records["TKI_TKIID"] != NULL) {$r->data = $records;}
 

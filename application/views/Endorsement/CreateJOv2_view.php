@@ -603,7 +603,7 @@
                                                   if(json == 0)
                                                   {
                                                     $("#loading2nd").unmask();
-                                                    alert("Passport is not found. Please contact your Indonesian agency (PPTKIS) partner.")
+                                                    alert("Passport is not found. Please contact your Indonesian agency (PPTKIS) partner.");
                                                     return;
                                                   }
                                                   else {

@@ -143,7 +143,7 @@ class Endorsement_model extends CI_Model {
 
     function getEntryJO_Agensi($agid)
     {
-    	$this->db->select('ej.ejid,ej.ejdatefilled,ej.ejtglendorsement,ej.ejbcsp,mpp.ppnama,jp.namajenispekerjaan');
+    	$this->db->select('ej.ejid,ej.ejdatefilled,ej.ejtglendorsement,ej.ejbcsp,mpp.ppkode,mpp.ppnama,jp.idjenispekerjaan,jp.namajenispekerjaan');
 		$this->db->from('entryjo ej');
     	$this->db->join('mpptkis mpp','mpp.ppkode = ej.ppkode');
     	$this->db->join('jenispekerjaan jp','jp.idjenispekerjaan = ej.idjenispekerjaan');
@@ -218,6 +218,22 @@ class Endorsement_model extends CI_Model {
         return $result;
     }
 
+    function getTKI_FromPassport($passport)
+    {
+    	$sql = "SELECT
+    				tk.tkid, tk.tknama, tk.tkalmtid, tk.tkpaspor, tk.tktglkeluar, tk.tktmptkeluar, tk.tktgllahir, tk.tktmptlahir, tk.tkjk, tk.tkstatkwn, tk.tkjmlanaktanggungan, tk.tkahliwaris, tk.tknama2, tk.tkalmt2, tk.tktelp, tk.tkhub, tk.tkstat, tk2.tknama as 'tkrevnama', tk.tktglendorsement, tk.md5tki, tk.tkidownloadurl
+    			FROM
+    				tki tk
+    				LEFT JOIN tki tk2 ON tk2.tkid = tk.tkrevid
+    			WHERE tk.tkpaspor = '$passport'";
+
+		$query = $this->db->query($sql);
+
+        $result = $query->result_array();
+
+        return $result;
+    }
+
     function countRevisiTKI($ejid)
     {
     	$sql = "SELECT
@@ -244,6 +260,14 @@ class Endorsement_model extends CI_Model {
         $result = $query->result_array();
 
         return $result;
+    }
+
+    function reviseTKI($tkidlama, $tkidbaru)
+    {
+    	$this->db->set('tkstat', 1);
+    	$this->db->set('tkrevid', $tkidbaru);
+    	$this->db->where('tkid', $tkidlama);
+    	return $this->db->update('tki');
     }
 
     function updateEndorseTKI($code)
@@ -655,6 +679,12 @@ class Endorsement_model extends CI_Model {
 	function update_tki($data,$paspor)
 	{
 		$this->db->where('tkpaspor',$paspor);
+		return $this->db->update('tki',$data);
+	}
+
+	function update_tki_byid($data,$id)
+	{
+		$this->db->where('tkid',$id);
 		return $this->db->update('tki',$data);
 	}
 

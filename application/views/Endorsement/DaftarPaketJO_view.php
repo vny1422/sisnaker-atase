@@ -28,27 +28,27 @@
             </div>
           </div><br /><br /><br />
 
-        <div class="ln_solid"></div>
-        <div class="form-group">
-          <div class="col-md-8 col-sm-8 col-xs-12">
-            <button id="reset" type="reset" class="btn btn-primary">Cancel</button>
-            <button id="pilih" type="submit" class="btn btn-success">Submit</button>
-          </div>
-        </div><br /><br /><br />
+          <div class="ln_solid"></div>
+          <div class="form-group">
+            <div class="col-md-8 col-sm-8 col-xs-12">
+              <button id="reset" type="reset" class="btn btn-primary">Cancel</button>
+              <button id="pilih" type="submit" class="btn btn-success">Submit</button>
+            </div>
+          </div><br /><br /><br />
 
-        <div class="col-md-12 col-sm-12 col-xs-12">
-          <div id="jo" class="row">
-            <table id="grid"></table>
-            <div id="pgrid"></div>
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div id="jo" class="row">
+              <table id="grid"></table>
+              <div id="pgrid"></div>
+            </div>
           </div>
+
         </div>
-
       </div>
     </div>
   </div>
-</div>
 
-<script>
+  <script>
   $(document).ready(function () {
     var add_button      = $("#pilih");
     var remove_button   = $("#reset");
@@ -104,9 +104,9 @@
           }, 'json');
         },
         minLength: 1,
-      select: function( event, ui ) {
-        idagensi = ui.item.id;
-      }
+        select: function( event, ui ) {
+          idagensi = ui.item.id;
+        }
       });
     } );
 
@@ -123,9 +123,9 @@
           }, 'json');
         },
         minLength: 1,
-      select: function( event, ui ) {
-        idpptkis = ui.item.id;
-      }
+        select: function( event, ui ) {
+          idpptkis = ui.item.id;
+        }
       });
     } );
 
@@ -141,7 +141,7 @@
         changeYear: true,
         yearRange: '1900:+200'
       });
-      
+
       var el = divjo.find('#jobtglakhir');
       el.css("readonly", "");
       el.datepicker({
@@ -177,10 +177,10 @@
       subGridRowExpanded: function(subgrid_id, row_id) {
         var subgrid_table_id = subgrid_id+"_t";
         var pager_id = "p_"+subgrid_table_id;
-        
+
         var template = "<table id='"+subgrid_table_id+"' class='scroll'></table><div id='"+pager_id+"' class='scroll'></div>";
         $("#"+subgrid_id).html(template);
-        
+
         var subgrid = $("#"+subgrid_table_id).jqGrid({
           datatype: "json",
           mtype: "POST",
@@ -202,7 +202,7 @@
           url: '<?php echo base_url()?>paket/listJODetail',
           postData: { jobid: row_id }
         });
-          
+
         var initCustom2 = function() {
           var rowId = $("#"+subgrid_table_id).getGridParam('selrow');
           var rowData = $("#"+subgrid_table_id).getRowData(rowId);
@@ -217,17 +217,17 @@
               }
               el.append($temp);
             });
-            
+
             el.css("width", "200px");
             el.attr("id", "jpnama");
             el.attr("name", "jpnama");
           });
         }
-        
+
         var reload = function() {
           subgrid.trigger('reloadGrid');
         }
-        
+
         subgrid.jqGrid(
           'navGrid',
           "#"+pager_id,
@@ -246,15 +246,38 @@
     }
 
     grid.jqGrid(
-        'navGrid',
-        '#pgrid',
-        {edit:true, add:true, del:true, search:true, view:false, refresh:true, beforeRefresh: function() {$(this).clearGridData(true);}},
-        {url: '<?php echo base_url()?>paket/editJO',editData: { ppkode: function () { return idpptkis; }, agid: function () { return idagensi; }},jqModal:true, width: 450, closeOnEscape:true, checkOnSubmit:true, closeAfterEdit:true, afterComplete:reload, recreateForm:true, beforeShowForm:initCustom, bottominfo:"Fields marked with (*) are required"}, // edit
-        {url: '<?php echo base_url()?>paket/editJO',editData: { ppkode: function () { return idpptkis; }, agid: function () { return idagensi; }},jqModal:true, width: 450, closeOnEscape:true, checkOnUpdate:true, clearAfterAdd:true, closeAfterAdd:true, afterComplete:reload, beforeShowForm:initCustom, recreateForm:true, bottominfo:"Fields marked with (*) are required"}, // add
-        {url: '<?php echo base_url()?>paket/editJO',delData: { ppkode: function () { return idpptkis; }, agid: function () { return idagensi; }}, closeOnEscape:true,afterComplete:reload}, // del
-        {multipleSearch:true},
-        {}
+      'navGrid',
+      '#pgrid',
+      {edit:true, add:true, del:true, search:true, view:false, refresh:true, beforeRefresh: function() {$(this).clearGridData(true);}},
+      {url: '<?php echo base_url()?>paket/editJO',editData: { ppkode: function () { return idpptkis; }, agid: function () { return idagensi; }},jqModal:true, width: 450, closeOnEscape:true, checkOnSubmit:true, closeAfterEdit:true, afterComplete:reload, recreateForm:true, beforeShowForm:initCustom, bottominfo:"Fields marked with (*) are required"}, // edit
+      {url: '<?php echo base_url()?>paket/editJO',editData: { ppkode: function () { return idpptkis; }, agid: function () { return idagensi; }},jqModal:true, width: 450, closeOnEscape:true, checkOnUpdate:true, clearAfterAdd:true, closeAfterAdd:true, afterComplete:reload, beforeShowForm:initCustom, recreateForm:true, bottominfo:"Fields marked with (*) are required"}, // add
+      {url: '<?php echo base_url()?>paket/editJO',delData: { ppkode: function () { return idpptkis; }, agid: function () { return idagensi; }}, closeOnEscape:true,afterComplete:reload}, // del
+      {multipleSearch:true},
+      {}
     );
+
+    grid.navSeparatorAdd("pgrid",{}).navButtonAdd('pgrid',{
+      caption:'',
+      title: 'Push ke BNP2TKI',
+      buttonicon:"ui-icon-signal-diag",
+      onClickButton: function(){
+        var gsr = $(this).jqGrid("getGridParam", "selrow");
+        if (gsr) {
+          //$.post('<?//=$serverPath.$currentPage?>?q2=<?//=base64UrlEncode("push_data")?>', {jobid:gsr}, function(json) {
+          $.post("<?php echo base_url()?>services/insert_jo", {jobid:gsr}, function(json) {
+            if (json.status == "0") {
+              alert("Data gagal dipush!");
+            } else {
+              reload();
+              alert("Data berhasil dipush ke BNP2TKI");
+              alert("Response: " + json.response);
+            }
+          }, 'json');
+        } else {
+          alert("Please, select row");
+        }
+      }
+    })
 
     divjo.hide();
   });

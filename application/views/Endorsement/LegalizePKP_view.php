@@ -25,7 +25,7 @@
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="barcode">Barcode <span class="required">*</span></label>
             <div class="col-md-3 col-sm-3 col-xs-12">
-              <input autofocus="" id="barcode" type="text" name="barcode" required="required" class="form-control">
+              <input autofocus="" id="barcode" type="text" name="barcode" required="required" class="form-control input-sm">
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12">
               <button id="check" class="ladda-button" data-style="expand-right" data-color="green" data-size="xs"><span class="ladda-label" style="color:white">Check</span></button>

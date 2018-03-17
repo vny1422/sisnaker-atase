@@ -56,6 +56,31 @@ function requestTKI()
 
 }
 
+function coba()
+{
+
+    /*****************************************************************************
+    *** CARA PENGGUNAAN
+    ******************************************************************************/
+
+    // Pastikan kelas SoapClient dapat diakses atau lihat http://php.net/manual/en/class.soapclient.php
+
+    $soapClient = new SoapClient("http://endorsement.kdei-taipei.org/services/?wsdl");
+
+    /*
+        11. getPKByDate    Input : date(yyyy-mm-dd)    Output : data PK
+    */
+    try {
+        $result = $soapClient->__soapCall("getJO", array('ppkode' => "ALM282", 'agid' => "2557"));
+        print_r($result);
+    } catch (SoapFault $fault) {
+        echo "error";
+    }
+
+
+}
+
+
 
 function insert_jo()
 {

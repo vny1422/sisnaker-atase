@@ -67,7 +67,7 @@ function insert_jo()
 
 
 			// cek cekal pptkis di BNP2TKI
-			require_once("../ws_kdei/xmlrpc-func.php");
+			require_once 'xmlrpc-func.php';
 
 			$xmlrpc_server_host     = 'siskotkln.bnp2tki.go.id';
 			$xml_rpc_server_path    = '/xmlrpc/siskotkln_ws/index.php';

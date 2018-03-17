@@ -201,7 +201,7 @@
   <br />
   <div class="row" >
     <div class="col-md-12 col-sm-12 col-xs-12">
-      <h3 style="text-align: center;"><strong>CREATE JO PACKET</strong></h3>
+      <h3 style="text-align: center;"><strong>Apply PK (Labour Contract)</strong></h3>
       <div class="clearfix"></br></div>
       <div class="x_panel">
 
@@ -444,13 +444,13 @@
                                               <div class="col-md-10 center-margin">
                                                 <form class="form-horizontal form-label-left">
                                                   <div class="form-group">
-                                                    <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">CLA Recruitment Letter No.<span class="required">*</span></label>
+                                                    <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Local Manpower Authority Recruitment Letter No.<span class="required">*</span></label>
                                                     <div class="col-md-5 col-sm-5 col-xs-12">
                                                       <input type="text" name="name" required="required" id="clano" class="form-control input4th">
                                                     </div>
                                                   </div><br /><br /><br />
                                                   <div class="form-group" >
-                                                      <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">CLA Recruitment Letter Date<span class="required">*</span></label>
+                                                      <label class="control-label col-md-5 col-sm-5 col-xs-12" for="name">Local Manpower Authority Recruitment Letter Date<span class="required">*</span></label>
                                                       <div class="col-md-5 col-sm-5 col-xs-12">
                                                       <div class="input-group date datepicker col-md-12 col-xs-12" data-provide="datepicker" ng-class="{'has-error':(pst && shForm.inDate.$invalid)}">
                                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
@@ -618,27 +618,32 @@
                                                     var agid = json.my_agid;
                                                     var tki_agid = json.tki_agid;
                                                     data = json.data;
+                                                    bypass = false;
                                                     // var agid_mirip = json.tki_agid_mirip;
                                                     var jpid3 = json.jpid;
-                                                    if (data.TKI_PJTKIID !== ppkode) {
-                                                      $("#loading2nd").unmask();
-                                                      alert("Passport " + data.TKI_PASPORNO + " (" + data.TKI_TKINAME + ") is found, but registered for " + data.TKI_PJTKADESC + " - PT. " + data.TKI_PJTKIDESC + ". Please contact your partner PPTKIS to revise it via SISKO System in Indonesia.");
-                                                      return;
-                                                    }
-                                                    else if (agid !== tki_agid) {
-                                                      // if (agid == agid_mirip) {
-                                                      //   failed = false;
-                                                      // }
-                                                      // else {failed = true;}
-                                                      $("#loading2nd").unmask();
-                                                      alert("Passport " + data.TKI_PASPORNO + " (" + data.TKI_TKINAME + ") is found, but registered for " + data.TKI_PJTKADESC + " - PT. " + data.TKI_PJTKIDESC + ". Please contact your partner PPTKIS to revise it via SISKO System in Indonesia.");
-                                                      return;
-                                                    }
-                                                    else if (typeof data.TKI_PASPORNO === "undefined")
+                                                    // if (data.TKI_PJTKIID !== ppkode) {
+                                                    //   $("#loading2nd").unmask();
+                                                    //   alert("Passport " + data.TKI_PASPORNO + " (" + data.TKI_TKINAME + ") is found, but registered for " + data.TKI_PJTKADESC + " - PT. " + data.TKI_PJTKIDESC + ". Please contact your partner PPTKIS to revise it via SISKO System in Indonesia.");
+                                                    //   return;
+                                                    // }
+                                                    // else if (agid !== tki_agid) {
+                                                    //   // if (agid == agid_mirip) {
+                                                    //   //   failed = false;
+                                                    //   // }
+                                                    //   // else {failed = true;}
+                                                    //   $("#loading2nd").unmask();
+                                                    //   alert("Passport " + data.TKI_PASPORNO + " (" + data.TKI_TKINAME + ") is found, but registered for " + data.TKI_PJTKADESC + " - PT. " + data.TKI_PJTKIDESC + ". Please contact your partner PPTKIS to revise it via SISKO System in Indonesia.");
+                                                    //   return;
+                                                    // }
+                                                    // else if (typeof data.TKI_PASPORNO === "undefined")
+                                                    // {
+                                                    //   $("#loading2nd").unmask();
+                                                    //   alert("The Indonesian migrant worker data is still not completed. Please contact your partner PPTKIS to complete it via SISKO System in Indonesia.");
+					                                          //   return;
+                                                    // }
+                                                    if(bypass)
                                                     {
-                                                      $("#loading2nd").unmask();
-                                                      alert("The Indonesian migrant worker data is still not completed. Please contact your partner PPTKIS to complete it via SISKO System in Indonesia.");
-					                                            return;
+
                                                     }
                                                     else {
                                                       var valid = 0;
@@ -686,7 +691,7 @@
                                             });
 
                                             $("#quick").click(function(e){
-                                              $.post("<?php echo base_url()?>PkNew/quickInfo", { agency: $("#agency".val(), ppkode: ppkode }, function(data, status){
+                                              $.post("<?php echo base_url()?>PkNew/quickInfo", { agency: $("#agency").val(), ppkode: ppkode }, function(data, status){
                                                 var obj = $.parseJSON(data);
                                                 $("#idno").val(obj.mjktp);
                                                 $("#employer").val(obj.mjnama);
@@ -915,6 +920,7 @@
                                               var selisihc = upperboundc-campuran;
                                               $('jobtype').val()
                                               var postdata = {
+                                                agid:$('#agency').val(),
                                                 mjktp:$('#idno').val(),
                                                 mjnama:$('#employer').val(),
                                                 mjnamacn:$('#employer2').val(),
@@ -939,7 +945,7 @@
                                               var posttki = JSON.stringify(tkidata);
                                               $.post("<?php echo base_url()?>Endorsement/insertEJ", {postdata: jsondata, posttki: posttki, jo: jo, job: jobid,laki: selisihl, perempuan: selisihp, campuran: selisihc}, function(data, status){
                                                 var obj = $.parseJSON(data);
-                                                window.location.replace("<?php echo base_url()?>Endorsement/printDokumen/"+obj);
+                                                window.location.replace("<?php echo base_url()?>Endorsement/printDokumenV2/"+obj);
                                               })
 
                                             });
@@ -981,13 +987,13 @@
                                               {
                                                 var splitter = value.split('/');
                                                 ppkode = splitter[0];
-                                                jo = splitter[1];
+                                                // jo = splitter[1];
                                                 $.post("<?php echo base_url()?>Endorsement/getJodetail", {agid: $("#agency").val(), ppkode: ppkode}, function(data,status){
                                                   var obj = $.parseJSON(data);
                                                   console.log(data);
                                                   $.each(obj, function (i, item) {
                                                     $('#jobtype').append($('<option>', {
-                                                      value: item[1]+'/'+item[3]+'/'+item[4]+'/'+item[5]+'/'+item[6],
+                                                      value: item[1]+'/'+item[3]+'/'+item[4]+'/'+item[5]+'/'+item[6]+'/'+item[7],
                                                       text : item[2] + ' {REMAIN: ' + item[3] + "(L) " + item[4] + "(P) " + item[5] + "(C)}"
                                                     }));
                                                   });
@@ -1001,6 +1007,7 @@
                                               var kuota = $("#jobtype").val();
                                               var kuotastripped = kuota.split('/');
                                               $("#jogaji").val(kuotastripped[4]);
+                                              jo = kuotastripped[5];
                                               jpid = kuotastripped[0];
                                               laki = kuotastripped[1];
                                               perempuan = kuotastripped[2];

@@ -9,81 +9,81 @@ class RestfulAPI extends REST_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->helper('url_helper');
+		$this->load->model('Endorsement/API_model');
 	}
 
-	public function newHistoryDaily_post()
-	{
-		if($this->post())
-		{
-			$this->load->model('Target_model');
-			$this->load->model('User_model');
-			$inp = file_get_contents(base_url().'json/history.json');
-			$tempArray = json_decode($inp);
-			$data = [];
-			$field = '';
-			$save = 0;
-			foreach($this->post() as $key => $value) {
-				$data[$key] = $value;
-				if($key != 'username' && $key != 'id_target' && $key != 'date')
-				{
-					$field = $key;
-				}
-			}
-			$flag = 0;
-			foreach($tempArray as $temp)
-			{
-				if ($temp->username == $this->post('username') && $temp->id_target == $this->post('id_target') && $temp->date == $this->post('date'))
-				{
-					$flag = 1;
-					if($field != '')
-					{
-						$temp->$field = $data[$field];
-						$temp->save = $temp->save - $data[$field];
-						if($temp->save < 0)
-						{
-							$temp->save = 0;
-						}
-						$temp->expense = $temp->expense + $data[$field];
-						$offset = $this->Target_model->detail_target($this->post('id_target'))->offset;
-						$offset = $offset - $data[$field];
-						$this->Target_model->update_offset_target($this->post('id_target'),$offset);
-						$jsonData = json_encode($tempArray);
-						file_put_contents('././json/history.json', $jsonData);
-						$this->response([[
-								'status' => TRUE,
-								'message' => 'Pengeluaran Daily added'
-						]], REST_Controller::HTTP_CREATED); // OK (200) being the HTTP response code
-					}
-				}
-			}
-				if(!$flag)
-				{
-					$normalExpense = $this->Target_model->detail_target($this->post('id_target'))->normal_expense;
-					$offset = $this->Target_model->detail_target($this->post('id_target'))->offset;
-					$targetData = $this->User_model->detail_user($this->post('username'));
-					$save = floor($targetData->penghasilan/30) - $data[$field];
-					if($save < 0)
-					{
-						$save = 0;
-					}
-					$data['save'] = $save;
-					$data['expense'] = $data[$field];
-					$offset = $offset+($normalExpense - $data[$field]);
-					$this->Target_model->update_offset_target($this->post('id_target'),$offset);
-					array_push($tempArray, $data);
-					$jsonData = json_encode($tempArray);
-					file_put_contents('././json/history.json', $jsonData);
-					$this->response([[
-							'status' => TRUE,
-							'message' => 'Pengeluaran Daily added'
-					]], REST_Controller::HTTP_CREATED); // OK (200) being the HTTP response code
-				}
-		}
-		else {
-			$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
-		}
-	}
+	// public function newHistoryDaily_post()
+	// {
+	// 	if($this->post())
+	// 	{
+	// 		$this->load->model('Target_model');
+	// 		$this->load->model('User_model');
+	// 		$inp = file_get_contents(base_url().'json/history.json');
+	// 		$tempArray = json_decode($inp);
+	// 		$data = [];
+	// 		$field = '';
+	// 		$save = 0;
+	// 		foreach($this->post() as $key => $value) {
+	// 			$data[$key] = $value;
+	// 			if($key != 'username' && $key != 'id_target' && $key != 'date')
+	// 			{
+	// 				$field = $key;
+	// 			}
+	// 		}
+	// 		$flag = 0;
+	// 		foreach($tempArray as $temp)
+	// 		{
+	// 			if ($temp->username == $this->post('username') && $temp->id_target == $this->post('id_target') && $temp->date == $this->post('date'))
+	// 			{
+	// 				$flag = 1;
+	// 				if($field != '')
+	// 				{
+	// 					$temp->$field = $data[$field];
+	// 					$temp->save = $temp->save - $data[$field];
+	// 					if($temp->save < 0)
+	// 					{
+	// 						$temp->save = 0;
+	// 					}
+	// 					$temp->expense = $temp->expense + $data[$field];
+	// 					$offset = $this->Target_model->detail_target($this->post('id_target'))->offset;
+	// 					$offset = $offset - $data[$field];
+	// 					$this->Target_model->update_offset_target($this->post('id_target'),$offset);
+	// 					$jsonData = json_encode($tempArray);
+	// 					file_put_contents('././json/history.json', $jsonData);
+	// 					$this->response([[
+	// 							'status' => TRUE,
+	// 							'message' => 'Pengeluaran Daily added'
+	// 					]], REST_Controller::HTTP_CREATED); // OK (200) being the HTTP response code
+	// 				}
+	// 			}
+	// 		}
+	// 			if(!$flag)
+	// 			{
+	// 				$normalExpense = $this->Target_model->detail_target($this->post('id_target'))->normal_expense;
+	// 				$offset = $this->Target_model->detail_target($this->post('id_target'))->offset;
+	// 				$targetData = $this->User_model->detail_user($this->post('username'));
+	// 				$save = floor($targetData->penghasilan/30) - $data[$field];
+	// 				if($save < 0)
+	// 				{
+	// 					$save = 0;
+	// 				}
+	// 				$data['save'] = $save;
+	// 				$data['expense'] = $data[$field];
+	// 				$offset = $offset+($normalExpense - $data[$field]);
+	// 				$this->Target_model->update_offset_target($this->post('id_target'),$offset);
+	// 				array_push($tempArray, $data);
+	// 				$jsonData = json_encode($tempArray);
+	// 				file_put_contents('././json/history.json', $jsonData);
+	// 				$this->response([[
+	// 						'status' => TRUE,
+	// 						'message' => 'Pengeluaran Daily added'
+	// 				]], REST_Controller::HTTP_CREATED); // OK (200) being the HTTP response code
+	// 			}
+	// 	}
+	// 	else {
+	// 		$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
+	// 	}
+	// }
 
 		public function getJO_get()
 		{
@@ -94,6 +94,28 @@ class RestfulAPI extends REST_Controller
 			{
 				$jo = $this->JO_model->api_get_data_jo_by_agensi_and_pptkis($agid, $ppkode);
         if($jo)
+				{
+					$this->response($jo, REST_Controller::HTTP_OK);
+				}
+				else {
+					$this->response([[
+														 'status' => FALSE,
+														 'message' => 'JO not found.'
+												 ]], REST_Controller::HTTP_BAD_REQUEST);
+				}
+			}
+			else {
+				$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
+			}
+		}
+
+		public function getJOByDate_get()
+		{
+			$date = $this->get('date');
+			if($date != NULL)
+			{
+				$jo = $this->API_model->getJOByDate($date);
+				if($jo)
 				{
 					$this->response($jo, REST_Controller::HTTP_OK);
 				}

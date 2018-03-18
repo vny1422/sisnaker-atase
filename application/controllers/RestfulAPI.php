@@ -26,13 +26,8 @@ class RestfulAPI extends REST_Controller
 
 			foreach ($jo as $key) {
 				$jodetail = $this->JO_model->api_get_data_jo_detail_by_jobid($key->jobid);
-				// var_dump($jodetail);
-				$jo[$c]->namajenispekerjaan = $jodetail[$c]->namajenispekerjaan;
-				$jo[$c]->jobdl = $jodetail[$c]->jobdl;
-				$jo[$c]->jobdp = $jodetail[$c]->jobdp;
-				$jo[$c]->jobdc = $jodetail[$c]->jobdc;
-				$c = $c+1;
-			}
+				$key->detail = $jodetail;
+				}
 			if($jo)
 			{
 				$this->response($jo, REST_Controller::HTTP_OK);

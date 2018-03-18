@@ -90,12 +90,9 @@ class RestfulAPI extends REST_Controller
 			$this->load->model('Endorsement/JO_model');
 			$agid = $this->get('agid');
       $ppkode = $this->get('ppkode');
-      var_dump($agid);
-      var_dump($ppkode);
 			if($agid != NULL && $ppkode != NULL)
 			{
 				$jo = $this->JO_model->api_get_data_jo_by_agensi_and_pptkis($agid, $ppkode);
-        var_dump($jo);
         if($jo)
 				{
 					$this->response($jo, REST_Controller::HTTP_OK);

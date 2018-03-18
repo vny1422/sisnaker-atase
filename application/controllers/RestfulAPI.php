@@ -27,7 +27,7 @@ class RestfulAPI extends REST_Controller
 			foreach ($jo as $key) {
 				$jodetail = $this->JO_model->api_get_data_jo_detail_by_jobid($key->jobid);
 				$key->detail = $jodetail;
-				}
+			}
 			if($jo)
 			{
 				$this->response($jo, REST_Controller::HTTP_OK);
@@ -44,20 +44,27 @@ class RestfulAPI extends REST_Controller
 			}
 		}
 
-		public function getJOByDate_get()
+		public function readSuratPermintaanBC_get()
 		{
-			$date = $this->get('date');
-			if($date != NULL)
+			$this->load->model('Endorsement/API_model');
+			$barcode = $this->get('barcode');
+			if($barcode != NULL)
 			{
-				$jo = $this->API_model->getJOByDate($date);
-				if($jo)
+				$entryjo = $this->API_model->getEntryJoByBarcodeSuratPermintaan($barcode);
+
+				foreach ($entryjo as $key) {
+					$data_tki = $this->API_model->getDataTkiByEjid($key->ejid);
+					$key->data_tki = $data_tki;
+				}
+
+				if($entryjo)
 				{
-					$this->response($jo, REST_Controller::HTTP_OK);
+					$this->response($entryjo, REST_Controller::HTTP_OK);
 				}
 				else {
 					$this->response([[
 						'status' => FALSE,
-						'message' => 'JO not found.'
+						'message' => 'Surat Permintaan not found.'
 						]], REST_Controller::HTTP_BAD_REQUEST);
 					}
 				}
@@ -66,15 +73,18 @@ class RestfulAPI extends REST_Controller
 				}
 			}
 
-
-			public function readSuratPermintaanBC_get()
+			public function readSuratKuasaBC_get()
 			{
-				$this->load->model('Endorsement/EntryJO_model');
+				$this->load->model('Endorsement/API_model');
 				$barcode = $this->get('barcode');
 				if($barcode != NULL)
 				{
-					$entryjo = $this->EntryJO_model->api_get_entry_jo_by_barcode($barcode);
-					//var_dump($entryjo);
+					$entryjo = $this->API_model->getEntryJoByBarcodeSuratKuasa($barcode);
+
+					foreach ($entryjo as $key) {
+						$data_tki = $this->API_model->getDataTkiByEjid($key->ejid);
+						$key->data_tki = $data_tki;
+					}
 
 					if($entryjo)
 					{
@@ -83,7 +93,7 @@ class RestfulAPI extends REST_Controller
 					else {
 						$this->response([[
 							'status' => FALSE,
-							'message' => 'Surat Permintaan not found.'
+							'message' => 'Surat Kuasa not found.'
 							]], REST_Controller::HTTP_BAD_REQUEST);
 						}
 					}
@@ -92,29 +102,22 @@ class RestfulAPI extends REST_Controller
 					}
 				}
 
-
-
-				public function readSuratKuasaBC_get()
+				public function readPerjanjianKerjaBC_get()
 				{
-					$this->load->model('Endorsement/EntryJO_model');
-					$this->load->model('Perlindungan/TKI_model');
+					$this->load->model('Endorsement/API_model');
 					$barcode = $this->get('barcode');
 					if($barcode != NULL)
 					{
-						$entryjo = $this->EntryJO_model->api_get_entry_jo_by_barcode($barcode);
-						//var_dump($entryjo);
+						$data_tki = $this->API_model->getDataTkiByBarcode($barcode);
 
-						$data_tki = $this->TKI_model->api_get_data_tki_by_ejid($entryjo[0]->ejid);
-						var_dump($data_tki);
-
-						if($entryjo)
+						if($data_tki)
 						{
-							$this->response($entryjo, REST_Controller::HTTP_OK);
+							$this->response($data_tki, REST_Controller::HTTP_OK);
 						}
 						else {
 							$this->response([[
 								'status' => FALSE,
-								'message' => 'Surat Permintaan not found.'
+								'message' => 'Perjanjian Kerja not found.'
 								]], REST_Controller::HTTP_BAD_REQUEST);
 							}
 						}
@@ -123,5 +126,246 @@ class RestfulAPI extends REST_Controller
 						}
 					}
 
+					public function readPerjanjianKerjaByNoPaspor_get()
+					{
+						$this->load->model('Endorsement/API_model');
+						$paspor = $this->get('paspor');
+						if($paspor != NULL)
+						{
+							// var_dump($paspor);
+							$data_perjanjian_kerja = $this->API_model->getPerjanjianKerjaByPaspor($paspor);
+							// var_dump($data_perjanjian_kerja);
 
-				}
+							foreach ($data_perjanjian_kerja as $key) {
+								//deteksi kotatempatbekerja. Request by Mas Randy 20 Nov 2014. -bagus
+								$kota = '';
+								$arg1 = $key->mjalmtcn;
+								$arg2 = mb_substr($key->mjalmtcn, 0, 30, 'UTF-8');
+
+								if ((substr_count ($arg1, 'Changhua County') > 0) || (substr_count ($arg1, utf8_decode('彰化縣')) > 0) || (substr_count ($arg2, 'Changhua County') > 0) || (substr_count ($arg2, utf8_decode('彰化縣')) > 0))  {$kota = 'Changhua County';}
+								else if ((substr_count ($arg1, 'Chiayi City') > 0) || (substr_count ($arg1, utf8_decode('嘉義市')) > 0) || (substr_count ($arg2, 'Chiayi City') > 0) || (substr_count ($arg2, utf8_decode('嘉義市')) > 0))  {$kota = 'Chiayi City';}
+								else if ((substr_count ($arg1, 'Chiayi County') > 0) || (substr_count ($arg1, utf8_decode('嘉義縣')) > 0) || (substr_count ($arg2, 'Chiayi County') > 0) || (substr_count ($arg2, utf8_decode('嘉義縣')) > 0))  {$kota = 'Chiayi County';}
+								else if ((substr_count ($arg1, 'Hsinchu City') > 0) || (substr_count ($arg1, utf8_decode('新竹市')) > 0) || (substr_count ($arg2, 'Hsinchu City') > 0) || (substr_count ($arg2, utf8_decode('新竹市')) > 0))  {$kota = 'Hsinchu City';}
+								else if ((substr_count ($arg1, 'Hsinchu County') > 0) || (substr_count ($arg1, utf8_decode('新竹縣')) > 0) || (substr_count ($arg2, 'Hsinchu County') > 0) || (substr_count ($arg2, utf8_decode('新竹縣')) > 0))  {$kota = 'Hsinchu County';}
+								else if ((substr_count ($arg1, 'Hualien County') > 0) || (substr_count ($arg1, utf8_decode('花蓮縣')) > 0) || (substr_count ($arg2, 'Hualien County') > 0) || (substr_count ($arg2, utf8_decode('花蓮縣')) > 0))  {$kota = 'Hualien County';}
+								else if ((substr_count ($arg1, 'Kaohsiung City') > 0) || (substr_count ($arg1, utf8_decode('高雄市')) > 0) || (substr_count ($arg2, 'Kaohsiung City') > 0) || (substr_count ($arg2, utf8_decode('高雄市')) > 0))  {$kota = 'Kaohsiung City';}
+								else if ((substr_count ($arg1, 'Keelung City') > 0) || (substr_count ($arg1, utf8_decode('基隆市')) > 0) || (substr_count ($arg2, 'Keelung City') > 0) || (substr_count ($arg2, utf8_decode('基隆市')) > 0))  {$kota = 'Keelung City';}
+								else if ((substr_count ($arg1, 'Kinmen County') > 0) || (substr_count ($arg1, utf8_decode('金門縣')) > 0) || (substr_count ($arg2, 'Kinmen County') > 0) || (substr_count ($arg2, utf8_decode('金門縣')) > 0))  {$kota = 'Kinmen County';}
+								else if ((substr_count ($arg1, 'Lienchiang County') > 0) || (substr_count ($arg1, utf8_decode('連江縣')) > 0) || (substr_count ($arg2, 'Lienchiang County') > 0) || (substr_count ($arg2, utf8_decode('連江縣')) > 0))  {$kota = 'Lienchiang County';}
+								else if ((substr_count ($arg1, 'Miaoli County') > 0) || (substr_count ($arg1, utf8_decode('苗栗縣')) > 0) || (substr_count ($arg2, 'Miaoli County') > 0) || (substr_count ($arg2, utf8_decode('苗栗縣')) > 0))  {$kota = 'Miaoli County';}
+								else if ((substr_count ($arg1, 'Nantou County') > 0) || (substr_count ($arg1, utf8_decode('南投縣')) > 0) || (substr_count ($arg2, 'Nantou County') > 0) || (substr_count ($arg2, utf8_decode('南投縣')) > 0))  {$kota = 'Nantou County';}
+								else if ((substr_count ($arg1, 'New Taipei City') > 0) || (substr_count ($arg1, utf8_decode('新北市')) > 0) || (substr_count ($arg2, 'New Taipei City') > 0) || (substr_count ($arg2, utf8_decode('新北市')) > 0))  {$kota = 'New Taipei City';}
+								else if ((substr_count ($arg1, 'Penghu County') > 0) || (substr_count ($arg1, utf8_decode('澎湖縣')) > 0) || (substr_count ($arg2, 'Penghu County') > 0) || (substr_count ($arg2, utf8_decode('澎湖縣')) > 0))  {$kota = 'Penghu County';}
+								else if ((substr_count ($arg1, 'Pingtung County') > 0) || (substr_count ($arg1, utf8_decode('屏東縣')) > 0) || (substr_count ($arg2, 'Pingtung County') > 0) || (substr_count ($arg2, utf8_decode('屏東縣')) > 0))  {$kota = 'Pingtung County';}
+								else if ((substr_count ($arg1, 'Tainan City') > 0) || (substr_count ($arg1, utf8_decode('臺南市')) > 0) || (substr_count ($arg2, 'Tainan City') > 0) || (substr_count ($arg2, utf8_decode('臺南市')) > 0))  {$kota = 'Tainan City';}
+								else if ((substr_count ($arg1, 'Tainan City') > 0) || (substr_count ($arg1, utf8_decode('台南市')) > 0) || (substr_count ($arg2, 'Tainan City') > 0) || (substr_count ($arg2, utf8_decode('台南市')) > 0))  {$kota = 'Tainan City';}
+								else if ((substr_count ($arg1, 'Taichung City') > 0) || (substr_count ($arg1, utf8_decode('臺中市')) > 0) || (substr_count ($arg2, 'Taichung City') > 0) || (substr_count ($arg2, utf8_decode('臺中市')) > 0))  {$kota = 'Taichung City';}
+								else if ((substr_count ($arg1, 'Taichung City') > 0) || (substr_count ($arg1, utf8_decode('台中市')) > 0) || (substr_count ($arg2, 'Taichung City') > 0) || (substr_count ($arg2, utf8_decode('台中市')) > 0))  {$kota = 'Taichung City';}
+								else if ((substr_count ($arg1, 'Taipei City') > 0) || (substr_count ($arg1, utf8_decode('臺北市')) > 0) || (substr_count ($arg2, 'Taipei City') > 0) || (substr_count ($arg2, utf8_decode('臺北市')) > 0))  {$kota = 'Taipei City';}
+								else if ((substr_count ($arg1, 'Taipei City') > 0) || (substr_count ($arg1, utf8_decode('台北市')) > 0) || (substr_count ($arg2, 'Taipei City') > 0) || (substr_count ($arg2, utf8_decode('台北市')) > 0))  {$kota = 'Taipei City';}
+								else if ((substr_count ($arg1, 'Taitung County') > 0) || (substr_count ($arg1, utf8_decode('臺東縣')) > 0) || (substr_count ($arg2, 'Taitung County') > 0) || (substr_count ($arg2, utf8_decode('臺東縣')) > 0))  {$kota = 'Taitung County';}
+								else if ((substr_count ($arg1, 'Taitung County') > 0) || (substr_count ($arg1, utf8_decode('台東縣')) > 0) || (substr_count ($arg2, 'Taitung County') > 0) || (substr_count ($arg2, utf8_decode('台東縣')) > 0))  {$kota = 'Taitung County';}
+								else if ((substr_count ($arg1, 'Taoyuan County') > 0) || (substr_count ($arg1, utf8_decode('桃園縣')) > 0) || (substr_count ($arg2, 'Taoyuan County') > 0) || (substr_count ($arg2, utf8_decode('桃園縣')) > 0))  {$kota = 'Taoyuan County';}
+								else if ((substr_count ($arg1, 'Yilan County') > 0) || (substr_count ($arg1, utf8_decode('宜蘭縣')) > 0) || (substr_count ($arg2, 'Yilan County') > 0) || (substr_count ($arg2, utf8_decode('宜蘭縣')) > 0))  {$kota = 'Yilan County';}
+								else if ((substr_count ($arg1, 'Yunlin County') > 0) || (substr_count ($arg1, utf8_decode('雲林縣')) > 0) || (substr_count ($arg2, 'Yunlin County') > 0) || (substr_count ($arg2, utf8_decode('雲林縣')) > 0))  {$kota = 'Yunlin County';}
+								else {$kota = 'Kapal Laut atau Tidak Terdeteksi';}
+
+								$key->kotatempatbekerja = $kota;
+
+								// if ($row["jpid"] == 1) {
+								// 	$jp = 'nelayan.php';
+								// } else if ($row["jpid"] == 2) {
+								// 	$jp = 'pekerja.php';
+								// } else if ($row["jpid"] == 3) {
+								// 	$jp = 'perawatpanti.php';
+								// } else if ($row["jpid"] == 4) {
+								// 	$jp = 'perawatsakit.php';
+								// } else if ($row["jpid"] == 5) {
+								// 	$jp = 'penata.php';
+								// } else if ($row["jpid"] == 6) {
+								// 	$jp = 'konstruksi.php';
+								// }
+								//
+								// if ($r["ejtglendorsement"] !== NULL) {
+								// 	$r["url_pdf_tki"] = "http://".$_SERVER["SERVER_NAME"]."/doc/$jp?id=".$row["ejtoken"]."&x=".base64_encode($row["tkbc"]);
+								// } else {
+								// 	$r["url_pdf_tki"] = "NOTFOUND";
+								// }
+
+							}
+
+							if($data_perjanjian_kerja)
+							{
+								$this->response($data_perjanjian_kerja, REST_Controller::HTTP_OK);
+							}
+							else {
+								$this->response([[
+									'status' => FALSE,
+									'message' => 'Perjanjian Kerja not found.'
+									]], REST_Controller::HTTP_BAD_REQUEST);
+								}
+							}
+							else {
+								$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
+							}
+						}
+
+						public function readPerjanjianKerjaByBarcode_get()
+						{
+							$this->load->model('Endorsement/API_model');
+							$barcode = $this->get('barcode');
+							if($barcode != NULL)
+							{
+								// var_dump($paspor);
+								$data_perjanjian_kerja = $this->API_model->getPerjanjianKerjaByBarcode($barcode);
+								// var_dump($data_perjanjian_kerja);
+
+								foreach ($data_perjanjian_kerja as $key) {
+									//deteksi kotatempatbekerja. Request by Mas Randy 20 Nov 2014. -bagus
+									$kota = '';
+									$arg1 = $key->mjalmtcn;
+									$arg2 = mb_substr($key->mjalmtcn, 0, 30, 'UTF-8');
+
+									if ((substr_count ($arg1, 'Changhua County') > 0) || (substr_count ($arg1, utf8_decode('彰化縣')) > 0) || (substr_count ($arg2, 'Changhua County') > 0) || (substr_count ($arg2, utf8_decode('彰化縣')) > 0))  {$kota = 'Changhua County';}
+									else if ((substr_count ($arg1, 'Chiayi City') > 0) || (substr_count ($arg1, utf8_decode('嘉義市')) > 0) || (substr_count ($arg2, 'Chiayi City') > 0) || (substr_count ($arg2, utf8_decode('嘉義市')) > 0))  {$kota = 'Chiayi City';}
+									else if ((substr_count ($arg1, 'Chiayi County') > 0) || (substr_count ($arg1, utf8_decode('嘉義縣')) > 0) || (substr_count ($arg2, 'Chiayi County') > 0) || (substr_count ($arg2, utf8_decode('嘉義縣')) > 0))  {$kota = 'Chiayi County';}
+									else if ((substr_count ($arg1, 'Hsinchu City') > 0) || (substr_count ($arg1, utf8_decode('新竹市')) > 0) || (substr_count ($arg2, 'Hsinchu City') > 0) || (substr_count ($arg2, utf8_decode('新竹市')) > 0))  {$kota = 'Hsinchu City';}
+									else if ((substr_count ($arg1, 'Hsinchu County') > 0) || (substr_count ($arg1, utf8_decode('新竹縣')) > 0) || (substr_count ($arg2, 'Hsinchu County') > 0) || (substr_count ($arg2, utf8_decode('新竹縣')) > 0))  {$kota = 'Hsinchu County';}
+									else if ((substr_count ($arg1, 'Hualien County') > 0) || (substr_count ($arg1, utf8_decode('花蓮縣')) > 0) || (substr_count ($arg2, 'Hualien County') > 0) || (substr_count ($arg2, utf8_decode('花蓮縣')) > 0))  {$kota = 'Hualien County';}
+									else if ((substr_count ($arg1, 'Kaohsiung City') > 0) || (substr_count ($arg1, utf8_decode('高雄市')) > 0) || (substr_count ($arg2, 'Kaohsiung City') > 0) || (substr_count ($arg2, utf8_decode('高雄市')) > 0))  {$kota = 'Kaohsiung City';}
+									else if ((substr_count ($arg1, 'Keelung City') > 0) || (substr_count ($arg1, utf8_decode('基隆市')) > 0) || (substr_count ($arg2, 'Keelung City') > 0) || (substr_count ($arg2, utf8_decode('基隆市')) > 0))  {$kota = 'Keelung City';}
+									else if ((substr_count ($arg1, 'Kinmen County') > 0) || (substr_count ($arg1, utf8_decode('金門縣')) > 0) || (substr_count ($arg2, 'Kinmen County') > 0) || (substr_count ($arg2, utf8_decode('金門縣')) > 0))  {$kota = 'Kinmen County';}
+									else if ((substr_count ($arg1, 'Lienchiang County') > 0) || (substr_count ($arg1, utf8_decode('連江縣')) > 0) || (substr_count ($arg2, 'Lienchiang County') > 0) || (substr_count ($arg2, utf8_decode('連江縣')) > 0))  {$kota = 'Lienchiang County';}
+									else if ((substr_count ($arg1, 'Miaoli County') > 0) || (substr_count ($arg1, utf8_decode('苗栗縣')) > 0) || (substr_count ($arg2, 'Miaoli County') > 0) || (substr_count ($arg2, utf8_decode('苗栗縣')) > 0))  {$kota = 'Miaoli County';}
+									else if ((substr_count ($arg1, 'Nantou County') > 0) || (substr_count ($arg1, utf8_decode('南投縣')) > 0) || (substr_count ($arg2, 'Nantou County') > 0) || (substr_count ($arg2, utf8_decode('南投縣')) > 0))  {$kota = 'Nantou County';}
+									else if ((substr_count ($arg1, 'New Taipei City') > 0) || (substr_count ($arg1, utf8_decode('新北市')) > 0) || (substr_count ($arg2, 'New Taipei City') > 0) || (substr_count ($arg2, utf8_decode('新北市')) > 0))  {$kota = 'New Taipei City';}
+									else if ((substr_count ($arg1, 'Penghu County') > 0) || (substr_count ($arg1, utf8_decode('澎湖縣')) > 0) || (substr_count ($arg2, 'Penghu County') > 0) || (substr_count ($arg2, utf8_decode('澎湖縣')) > 0))  {$kota = 'Penghu County';}
+									else if ((substr_count ($arg1, 'Pingtung County') > 0) || (substr_count ($arg1, utf8_decode('屏東縣')) > 0) || (substr_count ($arg2, 'Pingtung County') > 0) || (substr_count ($arg2, utf8_decode('屏東縣')) > 0))  {$kota = 'Pingtung County';}
+									else if ((substr_count ($arg1, 'Tainan City') > 0) || (substr_count ($arg1, utf8_decode('臺南市')) > 0) || (substr_count ($arg2, 'Tainan City') > 0) || (substr_count ($arg2, utf8_decode('臺南市')) > 0))  {$kota = 'Tainan City';}
+									else if ((substr_count ($arg1, 'Tainan City') > 0) || (substr_count ($arg1, utf8_decode('台南市')) > 0) || (substr_count ($arg2, 'Tainan City') > 0) || (substr_count ($arg2, utf8_decode('台南市')) > 0))  {$kota = 'Tainan City';}
+									else if ((substr_count ($arg1, 'Taichung City') > 0) || (substr_count ($arg1, utf8_decode('臺中市')) > 0) || (substr_count ($arg2, 'Taichung City') > 0) || (substr_count ($arg2, utf8_decode('臺中市')) > 0))  {$kota = 'Taichung City';}
+									else if ((substr_count ($arg1, 'Taichung City') > 0) || (substr_count ($arg1, utf8_decode('台中市')) > 0) || (substr_count ($arg2, 'Taichung City') > 0) || (substr_count ($arg2, utf8_decode('台中市')) > 0))  {$kota = 'Taichung City';}
+									else if ((substr_count ($arg1, 'Taipei City') > 0) || (substr_count ($arg1, utf8_decode('臺北市')) > 0) || (substr_count ($arg2, 'Taipei City') > 0) || (substr_count ($arg2, utf8_decode('臺北市')) > 0))  {$kota = 'Taipei City';}
+									else if ((substr_count ($arg1, 'Taipei City') > 0) || (substr_count ($arg1, utf8_decode('台北市')) > 0) || (substr_count ($arg2, 'Taipei City') > 0) || (substr_count ($arg2, utf8_decode('台北市')) > 0))  {$kota = 'Taipei City';}
+									else if ((substr_count ($arg1, 'Taitung County') > 0) || (substr_count ($arg1, utf8_decode('臺東縣')) > 0) || (substr_count ($arg2, 'Taitung County') > 0) || (substr_count ($arg2, utf8_decode('臺東縣')) > 0))  {$kota = 'Taitung County';}
+									else if ((substr_count ($arg1, 'Taitung County') > 0) || (substr_count ($arg1, utf8_decode('台東縣')) > 0) || (substr_count ($arg2, 'Taitung County') > 0) || (substr_count ($arg2, utf8_decode('台東縣')) > 0))  {$kota = 'Taitung County';}
+									else if ((substr_count ($arg1, 'Taoyuan County') > 0) || (substr_count ($arg1, utf8_decode('桃園縣')) > 0) || (substr_count ($arg2, 'Taoyuan County') > 0) || (substr_count ($arg2, utf8_decode('桃園縣')) > 0))  {$kota = 'Taoyuan County';}
+									else if ((substr_count ($arg1, 'Yilan County') > 0) || (substr_count ($arg1, utf8_decode('宜蘭縣')) > 0) || (substr_count ($arg2, 'Yilan County') > 0) || (substr_count ($arg2, utf8_decode('宜蘭縣')) > 0))  {$kota = 'Yilan County';}
+									else if ((substr_count ($arg1, 'Yunlin County') > 0) || (substr_count ($arg1, utf8_decode('雲林縣')) > 0) || (substr_count ($arg2, 'Yunlin County') > 0) || (substr_count ($arg2, utf8_decode('雲林縣')) > 0))  {$kota = 'Yunlin County';}
+									else {$kota = 'Kapal Laut atau Tidak Terdeteksi';}
+
+									$key->kotatempatbekerja = $kota;
+
+									// GET url_pdf_tki
+									// if ($row["jpid"] == 1) {
+									// 	$jp = 'nelayan.php';
+									// } else if ($row["jpid"] == 2) {
+									// 	$jp = 'pekerja.php';
+									// } else if ($row["jpid"] == 3) {
+									// 	$jp = 'perawatpanti.php';
+									// } else if ($row["jpid"] == 4) {
+									// 	$jp = 'perawatsakit.php';
+									// } else if ($row["jpid"] == 5) {
+									// 	$jp = 'penata.php';
+									// } else if ($row["jpid"] == 6) {
+									// 	$jp = 'konstruksi.php';
+									// }
+									//
+									// if ($r["ejtglendorsement"] !== NULL) {
+									// 	$r["url_pdf_tki"] = "http://".$_SERVER["SERVER_NAME"]."/doc/$jp?id=".$row["ejtoken"]."&x=".base64_encode($row["tkbc"]);
+									// } else {
+									// 	$r["url_pdf_tki"] = "NOTFOUND";
+									// }
+
+								}
+
+								if($data_perjanjian_kerja)
+								{
+									$this->response($data_perjanjian_kerja, REST_Controller::HTTP_OK);
+								}
+								else {
+									$this->response([[
+										'status' => FALSE,
+										'message' => 'Perjanjian Kerja not found.'
+										]], REST_Controller::HTTP_BAD_REQUEST);
+									}
+								}
+								else {
+									$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
+								}
+							}
+
+							public function isAgensiCekal_get()
+							{
+								$this->load->model('Endorsement/API_model');
+								$agid = $this->get('agid');
+								if($agid != NULL)
+								{
+									$data_agensi = $this->API_model->getIsAgensiCekalByAgid($agid);
+
+									foreach ($data_agensi as $key) {
+
+										switch ($key->agcekal) {
+											case "0":
+												$key["status"] = "ACTIVE";
+												$key["comment"] = "Tidak dicekal";
+												break;
+											case "1":
+												$key["status"] = "INACTIVE";
+												$key["comment"] = "Dicekal";
+												break;
+										}
+
+									}
+
+									if($data_agensi)
+									{
+										$this->response($data_agensi, REST_Controller::HTTP_OK);
+									}
+									else {
+										$this->response([[
+											'status' => FALSE,
+											'message' => 'Agensi not found.'
+											]], REST_Controller::HTTP_BAD_REQUEST);
+										}
+									}
+									else {
+										$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
+									}
+								}
+
+
+
+
+
+						public function getJOByDate_get()
+						{
+							$date = $this->get('date');
+							if($date != NULL)
+							{
+								$jo = $this->API_model->getJOByDate($date);
+								if($jo)
+								{
+									$this->response($jo, REST_Controller::HTTP_OK);
+								}
+								else {
+									$this->response([[
+										'status' => FALSE,
+										'message' => 'JO not found.'
+										]], REST_Controller::HTTP_BAD_REQUEST);
+									}
+								}
+								else {
+									$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
+								}
+							}
+
+
+
+
+
+
+
+
+
+						}

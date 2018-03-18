@@ -13,4 +13,334 @@ class API_model extends CI_Model {
     return $this->db->get()->result();
   }
 
+  function getEntryJoByBarcodeSuratPermintaan($barcode) {
+    $this->db->select('ej.ejid,
+    ej.idjenispekerjaan,
+    ag.agnama,
+    ag.agnamaoth,
+    ag.agnoijincla,
+    ag.agalmtkantor,
+    ag.agalmtkantoroth,
+    ag.agpngjwb,
+    ag.agpngjwboth,
+    ag.agtelp,
+    ag.agfax,
+    ej.mjktp,
+    ej.mjnama,
+    ej.mjnamacn,
+    ej.mjalmt,
+    ej.mjalmtcn,
+    ej.mjtelp,
+    ej.mjfax,
+    ej.mjpngjwb,
+    ej.mjpngjwbcn,
+    pp.ppnama,
+    pp.ppalmtkantor,
+    pp.pptelp,
+    pp.ppfax,
+    pp.ppijin,
+    pp.pppngjwb,
+    ej.joclano,
+    ej.joclatgl,
+    ej.joestduedate,
+    ej.jojmltki,
+    ej.jomkthn,
+    ej.jomkbln,
+    ej.jomkhr,
+    ej.jocatatan,
+    ej.joposisi,
+    ej.joposisicn,
+    ej.joakomodasi,
+    ej.ejtglendorsement,
+    ej.ejdatefilled,
+    ej.jpgaji,
+    ej.jpakomodasi');
+    $this->db->from('entryjo ej');
+    $this->db->join('magensi ag', 'ag.agid = ej.agid');
+    $this->db->join('mpptkis pp', 'pp.ppkode = ej.ppkode');
+    $this->db->where('ej.ejbcsp', $barcode);
+    return $this->db->get()->result();
+  }
+
+  function getEntryJoByBarcodeSuratKuasa($barcode) {
+    $this->db->select('ej.ejid,
+    ej.idjenispekerjaan,
+    ag.agnama,
+    ag.agnamaoth,
+    ag.agnoijincla,
+    ag.agalmtkantor,
+    ag.agalmtkantoroth,
+    ag.agpngjwb,
+    ag.agpngjwboth,
+    ag.agtelp,
+    ag.agfax,
+    ej.mjktp,
+    ej.mjnama,
+    ej.mjnamacn,
+    ej.mjalmt,
+    ej.mjalmtcn,
+    ej.mjtelp,
+    ej.mjfax,
+    ej.mjpngjwb,
+    ej.mjpngjwbcn,
+    pp.ppnama,
+    pp.ppalmtkantor,
+    pp.pptelp,
+    pp.ppfax,
+    pp.ppijin,
+    pp.pppngjwb,
+    ej.joclano,
+    ej.joclatgl,
+    ej.joestduedate,
+    ej.jojmltki,
+    ej.jomkthn,
+    ej.jomkbln,
+    ej.jomkhr,
+    ej.jocatatan,
+    ej.joposisi,
+    ej.joposisicn,
+    ej.joakomodasi,
+    ej.ejtglendorsement,
+    ej.ejdatefilled,
+    ej.jpgaji,
+    ej.jpakomodasi');
+    $this->db->from('entryjo ej');
+    $this->db->join('magensi ag', 'ag.agid = ej.agid');
+    $this->db->join('mpptkis pp', 'pp.ppkode = ej.ppkode');
+    $this->db->where('ej.ejbcsk', $barcode);
+    return $this->db->get()->result();
+  }
+
+  function getDataTkiByEjid($ejid) {
+    $this->db->select('t.tkid,
+    t.tknama,
+    t.tknamacn,
+    t.tkalmtid,
+    t.tkpaspor,
+    t.tktglkeluar,
+    t.tktmptkeluar,
+    t.tktgllahir,
+    t.tktmptlahir,
+    t.tkjk,
+    t.tkstatkwn,
+    t.tkjmlanaktanggungan,
+    t.tkahliwaris,
+    t.tknama2,
+    t.tknamacn2,
+    t.tkalmt2,
+    t.tkalmtcn2,
+    t.tktelp,
+    t.tkhub,
+    t.tkstat,
+    t.tkrevid,
+    t.tktglubah,
+    t.tktglendorsement,
+    t.tktglendorsement2,
+    t.tkiid');
+    $this->db->from('tki t');
+    $this->db->where('t.ejid', $ejid);
+    return $this->db->get()->result();
+
+  }
+
+  function getDataTkiByBarcode($barcode) {
+    $this->db->select('t.tkid,
+    t.tknama,
+    t.tknamacn,
+    t.tkalmtid,
+    t.tkpaspor,
+    t.tktglkeluar,
+    t.tktmptkeluar,
+    t.tktgllahir,
+    t.tktmptlahir,
+    t.tkjk,
+    t.tkstatkwn,
+    t.tkjmlanaktanggungan,
+    t.tkahliwaris,
+    t.tknama2,
+    t.tknamacn2,
+    t.tkalmt2,
+    t.tkalmtcn2,
+    t.tktelp,
+    t.tkhub,
+    t.tkstat,
+    t.tkrevid,
+    t.tktglubah,
+    t.tktglendorsement,
+    t.tktglendorsement2,
+    t.tkiid');
+    $this->db->from('tki t');
+    $this->db->where('t.tkbc', $barcode);
+    return $this->db->get()->result();
+
+  }
+
+  function getPerjanjianKerjaByPaspor($paspor) {
+    $this->db->select('t.tkid,
+    t.tknama,
+    t.tknamacn,
+    t.tkalmtid,
+    t.tkpaspor,
+    t.tktglkeluar,
+    t.tktmptkeluar,
+    t.tktgllahir,
+    t.tktmptlahir,
+    t.tkjk,
+    t.tkstatkwn,
+    t.tkjmlanaktanggungan,
+    t.tkahliwaris,
+    t.tknama2,
+    t.tknamacn2,
+    t.tkalmt2,
+    t.tkalmtcn2,
+    t.tktelp,
+    t.tkhub,
+    t.tkstat,
+    t.tkrevid,
+    t.tktglubah,
+    t.tktglendorsement,
+    t.tktglendorsement2,
+    t.tkiid,
+    t.tkbc,
+    ej.ejid as ejid,
+    ej.idjenispekerjaan,
+    ag.agnama,
+    ag.agnamaoth,
+    ag.agnoijincla,
+    ag.agalmtkantor,
+    ag.agalmtkantoroth,
+    ag.agpngjwb,
+    ag.agpngjwboth,
+    ag.agtelp,
+    ag.agfax,
+    ej.mjktp,
+    ej.mjnama,
+    ej.mjnamacn,
+    ej.mjalmt,
+    ej.mjalmtcn,
+    ej.mjtelp,
+    ej.mjfax,
+    ej.mjpngjwb,
+    ej.mjpngjwbcn,
+    pp.ppnama,
+    pp.ppalmtkantor,
+    pp.pptelp,
+    pp.ppfax,
+    pp.ppijin,
+    pp.pppngjwb,
+    ej.joclano,
+    ej.joclatgl,
+    ej.joestduedate,
+    ej.jojmltki,
+    ej.jomkthn,
+    ej.jomkbln,
+    ej.jomkhr,
+    ej.jocatatan,
+    ej.joposisi,
+    ej.joposisicn,
+    ej.joakomodasi,
+    ej.ejtglendorsement,
+    ej.ejdatefilled,
+    ej.jpgaji,
+    ej.jpakomodasi,
+    ej.ejtoken');
+    $this->db->from('tki t');
+    $this->db->join('entryjo ej', 'ej.ejid = t.ejid');
+    $this->db->join('magensi ag', 'ej.agid = ag.agid');
+    $this->db->join('mpptkis pp', 'ej.ppkode = pp.ppkode');
+    $this->db->where('t.tkpaspor', $paspor);
+    $this->db->where('tktglendorsement IS NOT NULL');
+    $this->db->where('tkrevid IS NULL');
+    $this->db->order_by("t.tkiid", "desc");
+    $this->db->limit(0, 1);
+
+    return $this->db->get()->result();
+  }
+
+  function getPerjanjianKerjaByBarcode($barcode) {
+    $this->db->select('t.tkid,
+    t.tknama,
+    t.tknamacn,
+    t.tkalmtid,
+    t.tkpaspor,
+    t.tktglkeluar,
+    t.tktmptkeluar,
+    t.tktgllahir,
+    t.tktmptlahir,
+    t.tkjk,
+    t.tkstatkwn,
+    t.tkjmlanaktanggungan,
+    t.tkahliwaris,
+    t.tknama2,
+    t.tknamacn2,
+    t.tkalmt2,
+    t.tkalmtcn2,
+    t.tktelp,
+    t.tkhub,
+    t.tkstat,
+    t.tkrevid,
+    t.tktglubah,
+    t.tktglendorsement,
+    t.tktglendorsement2,
+    t.tkiid,
+    t.tkbc,
+    ej.ejid as ejid,
+    ej.idjenispekerjaan,
+    ag.agnama,
+    ag.agnamaoth,
+    ag.agnoijincla,
+    ag.agalmtkantor,
+    ag.agalmtkantoroth,
+    ag.agpngjwb,
+    ag.agpngjwboth,
+    ag.agtelp,
+    ag.agfax,
+    ej.mjktp,
+    ej.mjnama,
+    ej.mjnamacn,
+    ej.mjalmt,
+    ej.mjalmtcn,
+    ej.mjtelp,
+    ej.mjfax,
+    ej.mjpngjwb,
+    ej.mjpngjwbcn,
+    pp.ppnama,
+    pp.ppalmtkantor,
+    pp.pptelp,
+    pp.ppfax,
+    pp.ppijin,
+    pp.pppngjwb,
+    ej.joclano,
+    ej.joclatgl,
+    ej.joestduedate,
+    ej.jojmltki,
+    ej.jomkthn,
+    ej.jomkbln,
+    ej.jomkhr,
+    ej.jocatatan,
+    ej.joposisi,
+    ej.joposisicn,
+    ej.joakomodasi,
+    ej.ejtglendorsement,
+    ej.ejdatefilled,
+    ej.jpgaji,
+    ej.jpakomodasi,
+    ej.ejtoken');
+    $this->db->from('tki t');
+    $this->db->join('entryjo ej', 'ej.ejid = t.ejid');
+    $this->db->join('magensi ag', 'ej.agid = ag.agid');
+    $this->db->join('mpptkis pp', 'ej.ppkode = pp.ppkode');
+    $this->db->where('t.tkbc', $barcode);
+    $this->db->order_by("t.tkiid", "desc");
+    $this->db->limit(0, 1);
+    return $this->db->get()->result();
+  }
+
+  function getIsAgensiCekalByAgid($agid) {
+    $this->db->select('ag.agcekal, ag.agnama');
+    $this->db->from('magensi ag');
+    $this->db->where('ag.agid', $agid);
+    return $this->db->get()->result();
+  }
+
 }

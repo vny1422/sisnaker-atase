@@ -25,39 +25,6 @@ function get_detail_endorse($idtki) {
 }
 
 
-function api_get_data_tki_by_ejid($ejid) {
-	$this->db->select('tkid,
-	tknama,
-	tknamacn,
-	tkalmtid,
-	tkpaspor,
-	tktglkeluar,
-	tktmptkeluar,
-	tktgllahir,
-	tktmptlahir,
-	tkjk,
-	tkstatkwn,
-	tkjmlanaktanggungan,
-	tkahliwaris,
-	tknama2,
-	tknamacn2,
-	tkalmt2,
-	tkalmtcn2,
-	tktelp,
-	tkhub,
-	tkstat,
-	tkrevid,
-	tktglubah,
-	tktglendorsement,
-	tktglendorsement2,
-	tkiid');
-  $this->db->from('tki t');
-  $this->db->where('t.ejid', $ejid);
-  return $this->db->get()->result();
-
-}
-
-
 // function get_all_hiring($param){
 //   if($param=="" || $param==" ") return null;
 //   $q = $this->db->query("SELECT f.idhiring, f.namatki AS namatki, f.nomorpaspor AS paspor, CONCAT('','') AS agensi, CONCAT('','') AS pekerjaan, CONCAT('RE-','ENTRY HIRING') AS pptkis, k.kutglendorsement AS info

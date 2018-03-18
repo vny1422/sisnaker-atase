@@ -352,4 +352,20 @@ class Login extends CI_Controller {
 		echo json_encode($kantor);
 	}
 
+	function api() {
+		$soapClient = new SoapClient("http://endorsement.kdei-taipei.org/services/?wsdl");
+
+		 /*
+				 11. getPKByDate    Input : date(yyyy-mm-dd)    Output : data PK
+		 */
+		 try {
+				 $result = $soapClient->__soapCall("readPerjanjianKerjaByNoPaspor", array('paspor' => "AR814879"));
+				 print_r($result);
+		 } catch (SoapFault $fault) {
+				 echo "error";
+		 }
+	}
+
+
+
 }

@@ -132,6 +132,17 @@ class JO_model extends CI_Model {
     return $this->db->get()->result();
   }
 
+  function api_get_data_jo_by_agensi_and_pptkis ($agid, $ppkode) {
+    $this->db->select('j.jokode, ag.agnama, pp.ppnama, j.jobtglawal, j.jobtglakhir, j.isverified, j.isuploaded, j.jobtimestamp');
+    $this->db->from('jo j');
+    $this->db->order_by("j.jobtimestamp", "desc");
+    $this->db->join('magensi ag', 'ag.agid = j.agid');
+    $this->db->join('mpptkis pp', 'pp.ppkode = j.ppkode');
+    $this->db->where('j.agid', $agid);
+    $this->db->where('j.ppkode', $ppkode);
+    return $this->db->get()->result();
+  }
+
   function randomString($length) {
     $data = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     $data .= "0123456789";

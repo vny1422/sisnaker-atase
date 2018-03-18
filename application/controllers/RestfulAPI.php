@@ -21,7 +21,6 @@ class RestfulAPI extends REST_Controller
 		if($agid != NULL && $ppkode != NULL)
 		{
 			$jo = $this->JO_model->api_get_data_jo_by_agensi_and_pptkis($agid, $ppkode);
-			var_dump($jo);
 
 			$c = 0;
 
@@ -33,7 +32,6 @@ class RestfulAPI extends REST_Controller
 				$jo[$c]->jobdp = $jodetail[$c]->jobdp;
 				$jo[$c]->jobdc = $jodetail[$c]->jobdc;
 				$c = $c+1;
-				var_dump($jo);
 			}
 			if($jo)
 			{

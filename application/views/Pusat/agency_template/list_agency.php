@@ -1,5 +1,5 @@
 <div class="pull-right" style="padding-bottom: 20px"><strong>Jumlah Total Agensi :</strong> {{agencies_q.length}}   </div>
-<table st-table="agencies" st-safe-src="agencies_q" class="table table-striped table-hover table-bordered">
+<table st-table="agencies" st-safe-src="agencies_q" class="table table-condensed table-hover">
     <thead>
         <tr class="btn-primary">
             <th class="text-center" style="width:5%">No</th>

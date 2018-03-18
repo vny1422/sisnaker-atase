@@ -130,7 +130,7 @@
       </div>
 
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" id="btnPilih">Pilih</button>
+        <button type="submit" class="btn btn-primary btn-sm" id="btnPilih">Pilih</button>
       </div>
 
     </div>
@@ -159,7 +159,7 @@
               <div class="form-group">
                 <label>No. Paspor *</label> <br />
                 <div class="input-group">
-                  <input type="text" class="form-control required-entry" id="paspor" name="paspor" placeholder="Masukkan No. Paspor" value="<?php if(isset($list)) {echo $list->paspor;} else echo ""; ?>">
+                  <input type="text" class="form-control required-entry input-sm" id="paspor" name="paspor" placeholder="Masukkan No. Paspor" value="<?php if(isset($list)) {echo $list->paspor;} else echo ""; ?>">
                   <span class="input-group-btn">
                     <button id="search-paspor" class="ladda-button" data-style="expand-right" data-color="green" data-size="xs"><span class="ladda-label" style="color:white">Search <i class="fa fa-search"></i></span></button>
                   </span>
@@ -171,7 +171,7 @@
               <div class="form-group">
                 <label>Jenis Pemulangan *</label> <br />
                 <div>
-                  <select name="jenispemulangan" id="jenispemulangan" class="form-control required-entry" tabindex="0">
+                  <select name="jenispemulangan" id="jenispemulangan" class="form-control required-entry input-sm" tabindex="0">
                     <option value=""></option>
                     <option value="1" <?php if(isset($list)) {echo $list->jeniskepulangan == 'Jenazah' ? 'selected' : '';}?>>Jenazah</option>
                     <option value="2" <?php if(isset($list)) {echo $list->jeniskepulangan == 'Sakit' ? 'selected' : '';}?>>Sakit</option>
@@ -182,15 +182,15 @@
 
               <div class="form-group">
                 <label>Nama TKI *</label>
-                <input type="text" class="form-control required-entry" placeholder="Nama TKI" id="namatki" name="namatki" value="<?php if(isset($list)) {echo $list->namatki;} else echo ""; ?>">
+                <input type="text" class="form-control required-entry input-sm" placeholder="Nama TKI" id="namatki" name="namatki" value="<?php if(isset($list)) {echo $list->namatki;} else echo ""; ?>">
               </div>
 
               <div class="form-group">
                 <label>Jenis Kelamin *</label>
                 <div class="form-control-static" style="padding: 0px">
                  <div class="btn-group">
-                   <input type="button" class="btn" value="Laki-laki" id="buttonL">
-                   <input type="button" class="btn" value="Perempuan" id="buttonP">
+                   <input type="button" class="btn btn-sm" value="Laki-laki" id="buttonL">
+                   <input type="button" class="btn btn-sm" value="Perempuan" id="buttonP">
                  </div>
                 </div>
                 <input type="hidden" name="gender" id="gender" value="<?php if(isset($list)) {echo $list->jk;} else echo "L"; ?>">
@@ -198,7 +198,7 @@
 
               <div class="form-group">
                 <label>Alamat di Indonesia *</label>
-                <input type="text" class="form-control required-entry" placeholder="Alamat di Indonesia" id="alamatid" name="alamatid" value="<?php if(isset($list)) {echo $list->alamatid;} else echo ""; ?>">
+                <input type="text" class="form-control required-entry input-sm" placeholder="Alamat di Indonesia" id="alamatid" name="alamatid" value="<?php if(isset($list)) {echo $list->alamatid;} else echo ""; ?>">
               </div>
 
               <div class="form-group">
@@ -213,7 +213,7 @@
                 <label>Tanggal Pemulangan *</label>
                 <div class="input-group date datepicker col-md-12 col-xs-12" data-provide="datepicker">
                   <span class="glyphicon glyphicon-th input-group-addon"></span>
-                  <input type="text" class="form-control required-entry" id="tglpemulangan" name="tglpemulangan" value="<?php if(isset($list)) {$splittgl = explode("-", $list->tanggalpemulangan);
+                  <input type="text" class="form-control required-entry input-sm" id="tglpemulangan" name="tglpemulangan" value="<?php if(isset($list)) {$splittgl = explode("-", $list->tanggalpemulangan);
                     echo $splittgl[0]."/".$splittgl[1]."/".$splittgl[2];} else echo ""; ?>">
                 </div>
               </div>
@@ -222,8 +222,8 @@
                 <label>Status Pemulangan *</label> <br />
                 <div class="form-control-static" style="padding: 0px">
                   <div class="btn-group">
-                    <input type="button" class="btn" value="Selesai" id="buttonSelesai">
-                    <input type="button" class="btn" value="Dalam Proses" id="buttonProses">
+                    <input type="button" class="btn btn-sm" value="Selesai" id="buttonSelesai">
+                    <input type="button" class="btn btn-sm" value="Dalam Proses" id="buttonProses">
                   </div>
                 </div>
                 <input type="hidden" name="statuspemulangan" id="statuspemulangan" value="<?php if(isset($list)) {echo $list->statuspemulangan;} else echo "1"; ?>">
@@ -253,30 +253,32 @@
             <div class="col-md-8 center-margin">
                 <div class="form-group">
                   <label>Nama Agensi *</label>
-                  <input type="text" class="form-control required-entry" placeholder="Nama Agensi" id="namaagensi" name="namaagensi" value="<?php if(isset($list)) {echo $list->namaagensi;} else echo ""; ?>">
+                  <input type="text" class="form-control required-entry input-sm" placeholder="Nama Agensi" id="namaagensi" name="namaagensi" value="<?php if(isset($list)) {echo $list->namaagensi;} else echo ""; ?>">
                 </div>
 
                 <div class="form-group">
                   <label>Nama PPTKIS *</label>
-                  <input type="text" class="form-control required-entry" placeholder="Nama PPTKIS" id="namapptkis" name="namapptkis" value="<?php if(isset($list)) {echo $list->namapptkis;} else echo ""; ?>">
+                  <input type="text" class="form-control required-entry input-sm" placeholder="Nama PPTKIS" id="namapptkis" name="namapptkis" value="<?php if(isset($list)) {echo $list->namapptkis;} else echo ""; ?>">
                 </div>
 
                 <div class="form-group">
                   <label>Nama Majikan *</label>
-                  <input type="text" class="form-control required-entry" placeholder="Nama Majikan" id="namamajikan" name="namamajikan" value="<?php if(isset($list)) {echo $list->namamajikan;} else echo ""; ?>">
+                  <input type="text" class="form-control required-entry input-sm" placeholder="Nama Majikan" id="namamajikan" name="namamajikan" value="<?php if(isset($list)) {echo $list->namamajikan;} else echo ""; ?>">
                 </div>
             </div>
             <div class="ln_solid"></div>
             <div class="form-group">
               <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-2">
-                <button type="reset" class="btn btn-primary">Batal</button>
-                <button class="btn btn-success" id="simpan">Simpan</button>
+                <button type="reset" class="btn btn-primary btn-sm">Batal</button>
+                <button class="btn btn-success btn-sm" id="simpan">Simpan</button>
               </div>
             </div>
           </div>
         </div>
       </div>
+
   </div>
+  <br><br>
   </form>
 
 <script type="text/javascript">
@@ -314,7 +316,7 @@
       $.post("<?php echo base_url()?>PemulanganTKI/checkPaspor", {paspor: $('#paspor').val()}, function(xml,status){
         l.ladda('stop');
         json = $.parseJSON(xml);
-        
+
         $.post("<?php echo base_url()?>Endorsement/requestTKI", {paspor: $('#paspor').val(), jpid: ''}, function(xml,status){
           json2 = $.parseJSON(xml);
 
@@ -361,8 +363,8 @@
             $("#modaltki").modal('show');
           }
           $(".checked").show();
-        });       
-      });      
+        });
+      });
     });
 
     $("#btnPilih").click( function(e) {
@@ -418,11 +420,11 @@
 
     $("#simpan").click( function(e) {
       e.preventDefault();
-      
+
       var emptyInput = $('.required-entry').filter(function () {
         return $.trim(this.value) === "";
       });
-      
+
       if(emptyInput.length == 0){
         var postdata = {
           jeniskepulangan:$('#jenispemulangan option:selected').text(),

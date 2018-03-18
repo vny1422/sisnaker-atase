@@ -20,28 +20,28 @@
               <form>
                 <div class="form-group col-lg-4">
                   <label>Shelter</label>
-                  <select class="form-control" ng-model="datacontrol.shelter" ng-options="s.id as s.name for s in shelterlist"
+                  <select class="form-control input-sm" ng-model="datacontrol.shelter" ng-options="s.id as s.name for s in shelterlist"
                   selectpicker="{dropupAuto:false}" toggle-dropdown ng-change="refresh()" ng-disabled="viewAll">
                 </select>
               </div>
               <div class="form-group col-lg-3">
                 <label>Bulan & Tahun</label>
-                <input type="text" class="form-control tglformat" ng-model="datacontrol.dateyear" ng-change="refresh()">
+                <input type="text" class="form-control tglformat input-sm" ng-model="datacontrol.dateyear" ng-change="refresh()">
               </div>
             </form>
           </div>
           <div ng-show="query_result.length > 0 && query_result[0]!=0" class="table-responsive row">
             <div class="col-lg-12">
               <table st-table="queries" st-safe-src="query_result"
-              class="table table-striped table-hover table-bordered animateMe">
+              class="table table-hover animateMe">
               <thead>
                 <tr>
                   <th colspan="5" style="border:hidden;"></th>
                   <th colspan="2" style="border:hidden;">
-                    <input st-search placeholder="Filter pencarian" class="input-sm form-control" type="search"/>
+                    <input st-search placeholder="Filter pencarian" class="input-sm form-control" style="width:90%; height:50%;" type="search"/>
                   </th>
                 </tr>
-                <tr class="btn-danger">
+                <tr class="btn-primary">
                   <th class="text-center" style="width:5%" >No</th>
                   <th class="text-center" style="width:auto" >Nama TKI</th>
                   <th class="text-center" style="width:10%" >Paspor</th>
@@ -236,7 +236,7 @@
             } else {
               alert('Maaf telah terjadi kesalahan. Silahkan coba kembali.');
             }
-            
+
             $('#windowModal').modal('hide');
           });
         }

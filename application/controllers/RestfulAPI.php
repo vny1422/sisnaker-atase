@@ -127,11 +127,15 @@ class RestfulAPI extends REST_Controller
 				public function readSuratPermintaanBC_get()
 				{
 					$this->load->model('Endorsement/EntryJO_model');
+					$this->load->model('Perlindungan/TKI_model');
 					$barcode = $this->get('barcode');
 					if($barcode != NULL)
 					{
 						$entryjo = $this->EntryJO_model->api_get_entry_jo_by_barcode($barcode);
 						//var_dump($entryjo);
+
+						$data_tki = $this->TKI_model->api_get_data_tki_by_ejid($entryjo[0]->ejid);
+						var_dump($data_tki);
 
 						if($entryjo)
 						{

@@ -10,6 +10,7 @@ class RestfulAPI extends REST_Controller
 	{
 		parent::__construct();
 		$this->load->model('Endorsement/API_model');
+		//$this->load->helper('url');
 	}
 
 
@@ -127,8 +128,10 @@ class RestfulAPI extends REST_Controller
 					{
 						$this->load->model('Endorsement/API_model');
 						$paspor = $this->get('paspor');
+						//var_dump($paspor);
 						if($paspor != NULL)
 						{
+
 							// var_dump($paspor);
 							$data_perjanjian_kerja = $this->API_model->getPerjanjianKerjaByPaspor($paspor);
 							// var_dump($data_perjanjian_kerja);
@@ -169,25 +172,11 @@ class RestfulAPI extends REST_Controller
 
 								$key->kotatempatbekerja = $kota;
 
-								// if ($row["jpid"] == 1) {
-								// 	$jp = 'nelayan.php';
-								// } else if ($row["jpid"] == 2) {
-								// 	$jp = 'pekerja.php';
-								// } else if ($row["jpid"] == 3) {
-								// 	$jp = 'perawatpanti.php';
-								// } else if ($row["jpid"] == 4) {
-								// 	$jp = 'perawatsakit.php';
-								// } else if ($row["jpid"] == 5) {
-								// 	$jp = 'penata.php';
-								// } else if ($row["jpid"] == 6) {
-								// 	$jp = 'konstruksi.php';
-								// }
-								//
-								// if ($r["ejtglendorsement"] !== NULL) {
-								// 	$r["url_pdf_tki"] = "http://".$_SERVER["SERVER_NAME"]."/doc/$jp?id=".$row["ejtoken"]."&x=".base64_encode($row["tkbc"]);
-								// } else {
-								// 	$r["url_pdf_tki"] = "NOTFOUND";
-								// }
+								if ($key->ejtglendorsement !== NULL) {
+									$key->url_pdf_tki = "http://".base_url()."PkNew/downloadPK/$key->md5ej";
+								} else {
+									$key->url_pdf_tki = "NOTFOUND";
+								}
 
 							}
 
@@ -253,26 +242,11 @@ class RestfulAPI extends REST_Controller
 
 									$key->kotatempatbekerja = $kota;
 
-									// GET url_pdf_tki
-									// if ($row["jpid"] == 1) {
-									// 	$jp = 'nelayan.php';
-									// } else if ($row["jpid"] == 2) {
-									// 	$jp = 'pekerja.php';
-									// } else if ($row["jpid"] == 3) {
-									// 	$jp = 'perawatpanti.php';
-									// } else if ($row["jpid"] == 4) {
-									// 	$jp = 'perawatsakit.php';
-									// } else if ($row["jpid"] == 5) {
-									// 	$jp = 'penata.php';
-									// } else if ($row["jpid"] == 6) {
-									// 	$jp = 'konstruksi.php';
-									// }
-									//
-									// if ($r["ejtglendorsement"] !== NULL) {
-									// 	$r["url_pdf_tki"] = "http://".$_SERVER["SERVER_NAME"]."/doc/$jp?id=".$row["ejtoken"]."&x=".base64_encode($row["tkbc"]);
-									// } else {
-									// 	$r["url_pdf_tki"] = "NOTFOUND";
-									// }
+									if ($key->ejtglendorsement !== NULL) {
+										$key->url_pdf_tki = "http://".base_url()."PkNew/downloadPK/$key->md5ej";
+									} else {
+										$key->url_pdf_tki = "NOTFOUND";
+									}
 
 								}
 
@@ -300,19 +274,15 @@ class RestfulAPI extends REST_Controller
 								{
 									$data_agensi = $this->API_model->getIsAgensiCekalByAgid($agid);
 
-									foreach ($data_agensi as $key) {
+									$date_now = date('Y-m-d');
 
-										switch ($key->agcekal) {
-											case "0":
-											$key["status"] = "ACTIVE";
-											$key["comment"] = "Tidak dicekal";
-											break;
-											case "1":
-											$key["status"] = "INACTIVE";
-											$key["comment"] = "Dicekal";
-											break;
-										}
-
+									if (($data_agensi[0]->castart <= $date_now && $data_agensi[0]->caend >= $date_now) || $data_agensi[0]->caend === NULL) {
+										$data_agensi[0]->status = "INACTIVE";
+										$data_agensi[0]->comment = "Dicekal";
+									}
+									else {
+										$data_agensi[0]->status = "ACTIVE";
+										$data_agensi[0]->comment = "Tidak Dicekal";
 									}
 
 									if($data_agensi)
@@ -331,24 +301,33 @@ class RestfulAPI extends REST_Controller
 									}
 								}
 
-								public function getJOByDate_get()
+								public function isPPTKISCekal_get()
 								{
-									$date = $this->get('date');
-									if($date != NULL)
+									$this->load->model('Endorsement/API_model');
+									$idpptkis = $this->get('idpptkis');
+									if($idpptkis != NULL)
 									{
-										$jo = $this->API_model->getJOByDate($date);
-										foreach ($jo as $key) {
-											$jodetail = $this->API_model->getJODetail($key->jobid);
-											$key->detail = $jodetail;
+										$data_pptkis = $this->API_model->getIsPptkisCekalByPpkode($idpptkis);
+
+										$date_now = date('Y-m-d');
+
+										if (($data_pptkis[0]->cpstart <= $date_now && $data_pptkis[0]->cpend >= $date_now) || $data_pptkis[0]->cpend === NULL) {
+											$data_pptkis[0]->status = "INACTIVE";
+											$data_pptkis[0]->comment = "Dicekal";
 										}
-										if($jo)
+										else {
+											$data_pptkis[0]->status = "ACTIVE";
+											$data_pptkis[0]->comment = "Tidak Dicekal";
+										}
+
+										if($data_pptkis)
 										{
-											$this->response($jo, REST_Controller::HTTP_OK);
+											$this->response($data_pptkis, REST_Controller::HTTP_OK);
 										}
 										else {
 											$this->response([[
 												'status' => FALSE,
-												'message' => 'JO not found.'
+												'message' => 'Agensi not found.'
 												]], REST_Controller::HTTP_BAD_REQUEST);
 											}
 										}
@@ -357,34 +336,24 @@ class RestfulAPI extends REST_Controller
 										}
 									}
 
-
-
-
-
-
-
-
-									public function getPKByDate_get($date)
+									public function getJOByDate_get()
 									{
-										ini_set('max_execution_time', 600);
-
 										$date = $this->get('date');
 										if($date != NULL)
 										{
-											$entryjo = $this->API_model->getPKByDate($date);
-											foreach ($entryjo as $key) {
-												$tkilist = $this->API_model->getTKI($key->ejid);
-												$key->tki = $tkilist;
+											$jo = $this->API_model->getJOByDate($date);
+											foreach ($jo as $key) {
+												$jodetail = $this->API_model->getJODetail($key->jobid);
+												$key->detail = $jodetail;
 											}
-
-											if($entryjo)
+											if($jo)
 											{
-												$this->response($entryjo, REST_Controller::HTTP_OK);
+												$this->response($jo, REST_Controller::HTTP_OK);
 											}
 											else {
 												$this->response([[
 													'status' => FALSE,
-													'message' => 'Entry JO not found.'
+													'message' => 'JO not found.'
 													]], REST_Controller::HTTP_BAD_REQUEST);
 												}
 											}
@@ -393,30 +362,27 @@ class RestfulAPI extends REST_Controller
 											}
 										}
 
-										public function getBlacklistAgenByDate_get($date)
+										public function getPKByDate_get($date)
 										{
+											ini_set('max_execution_time', 600);
+
 											$date = $this->get('date');
 											if($date != NULL)
 											{
-												$blacklists = $this->API_model->getBlacklistAgenByDate($date);
-												$list = array();
-												foreach($blacklists as $key)
-												{
-													array_push($list, $key->agid);
+												$entryjo = $this->API_model->getPKByDate($date);
+												foreach ($entryjo as $key) {
+													$tkilist = $this->API_model->getTKI($key->ejid);
+													$key->tki = $tkilist;
 												}
 
-												$object = (object) [
-													'list_agid' => $list
-												];
-
-												if($object)
+												if($entryjo)
 												{
-													$this->response($object, REST_Controller::HTTP_OK);
+													$this->response($entryjo, REST_Controller::HTTP_OK);
 												}
 												else {
 													$this->response([[
 														'status' => FALSE,
-														'message' => 'Agency not found.'
+														'message' => 'Entry JO not found.'
 														]], REST_Controller::HTTP_BAD_REQUEST);
 													}
 												}
@@ -425,19 +391,30 @@ class RestfulAPI extends REST_Controller
 												}
 											}
 
-											public function pushKeberangkatan_post()
+											public function getBlacklistAgenByDate_get($date)
 											{
-												if($this->post())
+												$date = $this->get('date');
+												if($date != NULL)
 												{
-													$response = $this->API_model->pushKeberangkatan($this->post());
+													$blacklists = $this->API_model->getBlacklistAgenByDate($date);
+													$list = array();
+													foreach($blacklists as $key)
+													{
+														array_push($list, $key->agid);
+													}
 
-													if($response != 0) {
-														$this->response($response, REST_Controller::HTTP_CREATED); // OK (200) being the HTTP response code
+													$object = (object) [
+														'list_agid' => $list
+													];
+
+													if($object)
+													{
+														$this->response($object, REST_Controller::HTTP_OK);
 													}
 													else {
 														$this->response([[
 															'status' => FALSE,
-															'message' => 'Post Data invalid.'
+															'message' => 'Agency not found.'
 															]], REST_Controller::HTTP_BAD_REQUEST);
 														}
 													}
@@ -446,11 +423,11 @@ class RestfulAPI extends REST_Controller
 													}
 												}
 
-												public function pushKepulangan_post()
+												public function pushKeberangkatan_post()
 												{
 													if($this->post())
 													{
-														$response = $this->API_model->pushKepulangan($this->post());
+														$response = $this->API_model->pushKeberangkatan($this->post());
 
 														if($response != 0) {
 															$this->response($response, REST_Controller::HTTP_CREATED); // OK (200) being the HTTP response code
@@ -467,4 +444,25 @@ class RestfulAPI extends REST_Controller
 														}
 													}
 
-												}
+													public function pushKepulangan_post()
+													{
+														if($this->post())
+														{
+															$response = $this->API_model->pushKepulangan($this->post());
+
+															if($response != 0) {
+																$this->response($response, REST_Controller::HTTP_CREATED); // OK (200) being the HTTP response code
+															}
+															else {
+																$this->response([[
+																	'status' => FALSE,
+																	'message' => 'Post Data invalid.'
+																	]], REST_Controller::HTTP_BAD_REQUEST);
+																}
+															}
+															else {
+																$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
+															}
+														}
+
+													}

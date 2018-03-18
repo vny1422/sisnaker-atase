@@ -353,6 +353,7 @@ class Login extends CI_Controller {
 	}
 
 	function api() {
+		var_dump(base_url());
 		$soapClient = new SoapClient("http://endorsement.kdei-taipei.org/services/?wsdl");
 
 		 /*

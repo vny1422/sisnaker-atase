@@ -338,9 +338,18 @@ class API_model extends CI_Model {
   }
 
   function getIsAgensiCekalByAgid($agid) {
-    $this->db->select('ag.agcekal, ag.agnama');
-    $this->db->from('magensi ag');
-    $this->db->where('ag.agid', $agid);
+    $this->db->select('ca.castart, ca.caend, ag.agnama');
+    $this->db->from('cekalagensi ca');
+    $this->db->join('magensi ag', 'ag.agid = ca.agid');
+    $this->db->where('ca.agid', $agid);
+    return $this->db->get()->result();
+  }
+
+  function getIsPptkisCekalByPpkode($ppkode) {
+    $this->db->select('cp.cpstart, cp.cpend, pp.ppnama');
+    $this->db->from('cekalpptkis cp');
+    $this->db->join('mpptkis pp', 'pp.ppkode = cp.ppkode');
+    $this->db->where('cp.ppkode', $ppkode);
     return $this->db->get()->result();
   }
 

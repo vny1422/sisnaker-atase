@@ -1,5 +1,5 @@
 <?php
-require_once("../connection.php");
+require_once("connection.php");
 require_once("lib/nusoap.php");
 
 function my_character2numeric($t)
@@ -10,6 +10,71 @@ function my_character2numeric($t)
 
 function esc($value) {
 	return $value != null ? preg_replace('/\p{Cc}+/u', '', $value) : null;
+}
+
+function isExist($value) {
+  switch ($value) {
+    // Add whatever your definition of null is
+    // This is just an example
+    //-----------------------------
+    case 'unknown': // continue
+    case 'undefined': // continue
+    //-----------------------------
+    case 'null': // continue
+    case 'NULL': // continue
+    case NULL:
+      return false;
+  }
+  // return false by default
+  return true;
+}
+
+function safeHtml($value) {
+  if (is_array($value)) {
+    if ( array_is_associative($value) ) {
+      foreach( $value as $k=>$v)
+        $tmp_val[$k] = htmlspecialchars($v);
+      $value = $tmp_val;
+    } else {
+      for($j = 0; $j < sizeof($value); $j++)
+        $value[$j] = htmlspecialchars($value[$j]);
+    }
+  } else
+    $value = htmlspecialchars($value);
+
+  return $value;
+}
+
+function escape($values, $quote=1) {
+  $values = safeHtml($values);
+  if(is_array($values)) {
+    if (array_is_associative($values)) {
+      foreach( $values as $k=>$v) {
+        if (!$quote)
+          $tmp_val[$k] = mysql_real_escape_string($v);
+        else
+          $tmp_val[$k] = "'".mysql_real_escape_string($v)."'";
+      }
+      $values = $tmp_val;
+    } else {
+      for($j = 0; $j < sizeof($value); $j++) {
+        if (!$quote)
+          $values[$j] = mysqli_real_escape_string($values[$j]);
+        else
+          $values[$j] = "'".mysqli_real_escape_string($values[$j])."'";
+      }
+    }
+  } else {
+    if (isExist($values)) {
+      if (!$quote)
+        $values = mysql_real_escape_string($values);
+      else
+        $values = "'".mysql_real_escape_string($values)."'";
+    } else {
+      $values = 'NULL';
+    }
+  }
+  return $values;
 }
 
 /*****************************************************************************
@@ -770,70 +835,70 @@ $server->register(
 );
 
 function getJO($ppkode, $agid) {
-	$ppkode = escape($ppkode);
-	$agid = escape($agid);
+  $ppkode = escape($ppkode);
+  $agid = escape($agid);
 
-	$sql = "
-		SELECT
-			agid,
-			ppkode,
-			jobid,
-			jobno,
-			jobtglawal,
-			jobtglakhir
-		FROM jo
-		WHERE
-			jo.agid = $agid
-			AND jo.ppkode = $ppkode
-		ORDER BY jo.jobid asc
-	";
-	$result = mysql_query($sql) or die($messages['err_query']);
-	$i = 0;
-	$r = array();
-	while($row = mysql_fetch_array($result,MYSQL_ASSOC)) {
-		$r[$i]["jobid"] = $row['jobid'];
-		$r[$i]["agid"] = $row['agid'];
-		$r[$i]["ppkode"] = $row['ppkode'];
-		$r[$i]["jobno"] = $row['jobno'];
-		$r[$i]["jobtglawal"] = $row['jobtglawal'];
-		$r[$i]["jobtglakhir"] = $row['jobtglakhir'];
+  $sql = "
+    SELECT
+      agid,
+      ppkode,
+      jobid,
+      jobno,
+      jobtglawal,
+      jobtglakhir
+    FROM jo
+    WHERE
+      jo.agid = $agid
+      AND jo.ppkode = $ppkode
+    ORDER BY jo.jobid asc
+  ";
+  $result = mysql_query($sql) or die($messages['err_query']);
+  $i = 0;
+  $r = array();
+  while($row = mysql_fetch_array($result,MYSQL_ASSOC)) {
+    $r[$i]["jobid"] = $row['jobid'];
+    $r[$i]["agid"] = $row['agid'];
+    $r[$i]["ppkode"] = $row['ppkode'];
+    $r[$i]["jobno"] = $row['jobno'];
+    $r[$i]["jobtglawal"] = $row['jobtglawal'];
+    $r[$i]["jobtglakhir"] = $row['jobtglakhir'];
 
-		foreach($r[$i] as $k => $v) {
-			$r[$i][$k] = esc($v);
-		}
+    foreach($r[$i] as $k => $v) {
+      $r[$i][$k] = esc($v);
+    }
 
-		$sql2 = "
-			SELECT
-				jobdid,
-				jobid,
-				jpid,
-				jobdl,
-				jobdp,
-				jobdc
-			FROM jodetail
-			WHERE
-				jobid = " . $r[$i]["jobid"] . "
-		";
-		$result2 = mysql_query($sql2) or die($messages['err_query']);
-		$j=0;
-		while($row2 = mysql_fetch_array($result2,MYSQL_ASSOC)) {
-			$r[$i]["detail"][$j]["jobdid"] = $row2["jobdid"];
-			$r[$i]["detail"][$j]["jpid"] = $row2["jpid"];
-			$r[$i]["detail"][$j]["jobdl"] = $row2["jobdl"];
-			$r[$i]["detail"][$j]["jobdp"] = $row2["jobdp"];
-			$r[$i]["detail"][$j]["jobdc"] = $row2["jobdc"];
+    $sql2 = "
+      SELECT
+        jobdid,
+        jobid,
+        idjenispekerjaan,
+        jobdl,
+        jobdp,
+        jobdc
+      FROM jodetail
+      WHERE
+        jobid = " . $r[$i]["jobid"] . "
+    ";
+    $result2 = mysql_query($sql2) or die($messages['err_query']);
+    $j=0;
+    while($row2 = mysql_fetch_array($result2,MYSQL_ASSOC)) {
+      $r[$i]["detail"][$j]["jobdid"] = $row2["jobdid"];
+      $r[$i]["detail"][$j]["jpid"] = $row2["idjenispekerjaan"];
+      $r[$i]["detail"][$j]["jobdl"] = $row2["jobdl"];
+      $r[$i]["detail"][$j]["jobdp"] = $row2["jobdp"];
+      $r[$i]["detail"][$j]["jobdc"] = $row2["jobdc"];
 
-			foreach($r[$i]["detail"][$j] as $k => $v) {
-				$r[$i]["detail"][$j][$k] = esc($v);
-			}
+      foreach($r[$i]["detail"][$j] as $k => $v) {
+        $r[$i]["detail"][$j][$k] = esc($v);
+      }
 
-			$j++;
-		}
+      $j++;
+    }
 
-		$i++;
-	}
+    $i++;
+  }
 
-	return $r;
+  return $r;
 }
 
 function readSuratPermintaanBC($barcode) {
@@ -2272,6 +2337,5 @@ function pushPerlintasan($perlintasanArray){
 
 
 $HTTP_RAW_POST_DATA = isset($HTTP_RAW_POST_DATA) ? $HTTP_RAW_POST_DATA : "";
-$server->service($HTTP_RAW_POST_DATA);
-
+$server->service(file_get_contents("php://input"));
 ?>

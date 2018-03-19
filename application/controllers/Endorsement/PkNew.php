@@ -181,8 +181,8 @@ public function __construct()
         $this->load->library('pdfm');
         $pdf=$this->pdfm->load();        
 
-        // $data['pk']['idinstitution'] = 2;
-        //$data['pk']['idjenispekerjaan'] = 5;
+        //$data['pk']['idinstitution'] = 2;
+        //$data['pk']['idjenispekerjaan'] = 1;
 
         if($data['pk']['idinstitution'] == 2){ // pk taiwan
           $html = $this->load->view('Endorsement/PK/'.$data['pk']['idinstitution'].'/'.$data['pk']['idjenispekerjaan'].'.php', $data, true); //render the view into HTML
@@ -297,6 +297,66 @@ public function __construct()
         
         $pdf->SetWatermarkText('SAMPLE');
         $pdf->showWatermarkText = true;        
+        $pdf->WriteHTML($html); //write the HTML into PDF
+        $pdf->Output($nama_dokumen.".pdf" ,'I');
+  } 
+  
+  // halaman LihatPK_view.php
+  public function downloadHumao($param)
+  {
+        $data['humao'] = $this->PK_model->get_pk_for_report($param);
+
+        ini_set('memory_limit', '64M');
+        $nama_dokumen = "Humao_Report";
+
+        $this->load->library('pdfm');
+        $pdf=$this->pdfm->load();        
+
+        //$data['humao']['idinstitution'] = 2;
+        //$data['humao']['idjenispekerjaan'] = 5;
+
+        if($data['humao']['idinstitution'] == 2){ // pk taiwan
+          $html = $this->load->view('Endorsement/Humao/'.$data['humao']['idinstitution'].'/'.$data['humao']['idjenispekerjaan'].'.php', $data, true); //render the view into HTML
+
+          $pdf->SetImportUse();
+
+          $pagecount = $pdf->SetDocTemplate('assets/pdf/'.$data['humao']['idinstitution'].'/humao/'.$data['humao']['idjenispekerjaan'].'.pdf', true);
+
+          $pdf->AddPage();          
+        }
+
+        //$pdf->SetWatermarkText('SAMPLE');
+        //$pdf->showWatermarkText = true;
+        $pdf->WriteHTML($html); //write the HTML into PDF
+        $pdf->Output($nama_dokumen.".pdf" ,'I');
+  }  
+
+  // halaman PrintDokumen_view.php
+  public function downloadHumaoDoc($param)
+  {
+        $data['humao'] = $this->PK_model->get_endorsement_doc($param);
+
+        ini_set('memory_limit', '64M');
+        $nama_dokumen = "Humao_Report";
+
+        $this->load->library('pdfm');
+        $pdf=$this->pdfm->load();        
+
+        //$data['humao']['idinstitution'] = 2;
+        //$data['humao']['idjenispekerjaan'] = 5;
+
+        if($data['humao']['idinstitution'] == 2){ // pk taiwan
+          $html = $this->load->view('Endorsement/Humao/'.$data['humao']['idinstitution'].'/'.$data['humao']['idjenispekerjaan'].'.php', $data, true); //render the view into HTML
+
+          $pdf->SetImportUse();
+
+          $pagecount = $pdf->SetDocTemplate('assets/pdf/'.$data['humao']['idinstitution'].'/humao/'.$data['humao']['idjenispekerjaan'].'.pdf', true);
+
+          $pdf->AddPage();          
+        }
+
+        //$pdf->SetWatermarkText('SAMPLE');
+        //$pdf->showWatermarkText = true;
         $pdf->WriteHTML($html); //write the HTML into PDF
         $pdf->Output($nama_dokumen.".pdf" ,'I');
   }  

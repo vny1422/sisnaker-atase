@@ -218,7 +218,7 @@
 
               if (listinput[key]["isverified"] == 1) {
                 if (listinput[key]["isuploaded"] == 1) {
-                  td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>PkNew/downloadDokFin/' + listinput[key]["ejbcsp"] + ' ">Download PK Document</a><a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>PkNew/downloadSuratKuasa/' + listinput[key]["ejbcsp"] + ' ">Surat Kuasa</a>'
+                  td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>PkNew/downloadDokFin/' + listinput[key]["ejbcsp"] + ' ">Download PK Document</a><a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>PkNew/downloadSuratKuasa/' + listinput[key]["ejbcsp"] + ' ">Surat Kuasa</a><a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>PkNew/downloadHumao/' + listinput[key]["ejbcsp"] + ' ">Humao</a>'
                   
                   //td = '<a target="_blank" class="btn btn-xs btn-default" href=" <?php echo base_url() ?>uploads/dokumenfinalpk/Dokumen_Final_PK_' + listinput[key]["ejbcsp"] +'.pdf ">DOWNLOAD</a>'
                 }

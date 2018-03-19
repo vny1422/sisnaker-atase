@@ -31,6 +31,7 @@
 <!--             <a href="<?php echo base_url()?>document/<?php echo $tki->tkidownloadurl ?>?x=<?php echo $tki->md5tki ?>"><button class="ladda-button" data-style="expand-right" data-color="green" data-size="xs"><span class="ladda-label" style="color:white">Surat PK <?php echo $tki->tknama ?></span></button></a> -->
           <!-- <a href="<?php echo base_url()?>uploads/dokumenfinalpk/PK_ASRI.pdf"><button class="ladda-button" data-style="expand-right" data-color="green" data-size="xs"><span class="ladda-label" style="color:white">Surat PK <?php echo $tki->tknama ?></span></button></a> -->
           <a href="<?php echo base_url()?>PkNew/downloadPK/<?php echo $md5ej ?>" target="_blank"><button class="ladda-button" data-style="expand-right" data-color="green" data-size="xs"><span class="ladda-label" style="color:white">Surat PK <?php echo $tki->tknama ?></span></button></a>
+          <a href="<?php echo base_url()?>PkNew/downloadHumaoDoc/<?php echo $md5ej ?>" target="_blank"><button class="ladda-button" data-style="expand-right" data-color="green" data-size="xs"><span class="ladda-label" style="color:white">Humao <?php echo $tki->tknama ?></span></button></a>
           </div>
           <?php
           }

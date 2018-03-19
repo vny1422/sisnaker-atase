@@ -24,6 +24,7 @@ function get_detail_endorse($idtki) {
   return $q;
 }
 
+
 // function get_all_hiring($param){
 //   if($param=="" || $param==" ") return null;
 //   $q = $this->db->query("SELECT f.idhiring, f.namatki AS namatki, f.nomorpaspor AS paspor, CONCAT('','') AS agensi, CONCAT('','') AS pekerjaan, CONCAT('RE-','ENTRY HIRING') AS pptkis, k.kutglendorsement AS info

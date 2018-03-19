@@ -68,7 +68,7 @@ class Paket extends MY_Controller {
     if ($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7 || $this->session->userdata('role') == 9)
     {
       if ($this->session->userdata('user') == 'pingping' || $this->session->userdata('user') == 'herlan' || $this->session->userdata('user') == 'daud') {
-        break;
+        show_error("Access is forbidden.",403,"403 Forbidden");
       }
       $this->data['title'] = 'Paket PK';
       $this->data['subtitle'] = 'Register Quota';

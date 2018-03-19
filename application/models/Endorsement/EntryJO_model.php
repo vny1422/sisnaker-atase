@@ -13,5 +13,7 @@ class EntryJO_model extends CI_Model {
       $this->db->where('ejid', $ejid);
       return $this->db->update('entryjo',$data);
     }
+
   }
+
   ?>

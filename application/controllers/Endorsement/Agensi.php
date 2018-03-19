@@ -32,6 +32,7 @@ class Agensi extends MY_Controller {
 
   }
 
+
   public function cek()
   {
     $this->data['list'] = $this->Agency_model->get_agency_registration(NULL, $this->session->userdata['institution'], $this->session->userdata['kantor']);

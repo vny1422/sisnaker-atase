@@ -70,7 +70,7 @@
           </div><br /><br /><br />
 
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12">PPTKIS <span class="required">*</span></label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12">PPTKIS <!-- <span class="required">*</span> --></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
               <select id="kodepptkis" name="pptkis" required="required" class="select2_single form-control" tabindex="-1">
                 <option></option>
@@ -85,7 +85,11 @@
           </div><br /><br /><br />
 
 
-
+          <?php 
+          $role = $this->session->userdata('role');
+          $institution = $this->session->userdata('institution');
+          if($institution != 8 && $role != 7){
+          ?>
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">PKP Code <span class="required">*</span></label>
             <div class="col-md-5 col-sm-5 col-xs-12">
@@ -98,7 +102,6 @@
           </div>
 
           <br /><br />
-
         </hr>
 
         <div id="detPKP" class="row" style="padding-top: 20px; display: none;">
@@ -168,7 +171,10 @@
       </div>
 
       <br /><br /><br />
-
+      
+      <?php
+      }
+      ?>
       <div class="form-group" >
         <label class="col-sm-2 control-label">Start Date</label>
         <div class="col-sm-4">

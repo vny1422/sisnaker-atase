@@ -34,7 +34,7 @@
           </div>
         </div>
         <div class="x_content">
-          <table class="table table-striped table-bordered" id="tablepemulangan">
+          <table class="table table-hover table-condensed" id="tablepemulangan">
             <thead>
               <tr>
                 <th>ID Pemulangan</th>
@@ -70,10 +70,10 @@
                 <td><?php echo $row->namaagensi ?></td>
                 <td><?php echo $row->namapptkis ?></td>
                 <td>
-                  <div class="center-button"><a href="<?php echo base_url()?>pemulangantki/edit/<?php echo $row->idtkipulang ?>"><button class="btn btn-info" type="button" name="button">Edit</button></a></div>
+                  <div class="center-button"><a href="<?php echo base_url()?>pemulangantki/edit/<?php echo $row->idtkipulang ?>"><button class="btn btn-info btn-sm" type="button" name="button">Edit</button></a></div>
                 </td>
                 <td>
-                  <div class="center-button"><a href="<?php echo base_url()?>pemulangantki/delete/<?php echo $row->idtkipulang ?>"><button align="center" class="btn btn-danger" type="button" name="button">Hapus</button></a></div>
+                  <div class="center-button"><a href="<?php echo base_url()?>pemulangantki/delete/<?php echo $row->idtkipulang ?>"><button align="center" class="btn btn-danger btn-sm" type="button" name="button">Hapus</button></a></div>
                 </td>
               </tr>
 
@@ -151,8 +151,8 @@
     var tbtki = $('#tablepemulangan').DataTable({"bSort" : false,"bLengthChange": false,"scrollX": true});
 
     $('#tablepemulangan_filter').html("\
-      <form class='form-inline' style='margin-bottom:10px'>\
-        <div class='col-sm-offset-1 form-group'><label>Search: </label><input type='text' class='form-control' id='searchtki'></div>\
+      <form style='margin-bottom:10px'>\
+        <div class='col-sm-offset-1 form-group'><label>Search: </label><input type='text' class='form-control input-sm' id='searchtki'></div>\
       </form>"
       );
 

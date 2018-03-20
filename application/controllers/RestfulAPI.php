@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // This can be removed if you use __autoload() in config.php OR use Modular Extensions
 require_once APPPATH . '/libraries/REST_Controller.php';
 
-class RestfulAPI extends REST_Controller
+class Restfulapi extends REST_Controller
 {
 	public function __construct()
 	{
@@ -14,7 +14,7 @@ class RestfulAPI extends REST_Controller
 	}
 
 
-	public function getJO_get()
+	public function getjo_get()
 	{
 		$agid = $this->get('agid');
 		$ppkode = $this->get('ppkode');

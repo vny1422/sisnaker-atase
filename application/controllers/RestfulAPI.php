@@ -275,20 +275,21 @@ class RestfulAPI extends REST_Controller
 								if($agid != NULL)
 								{
 									$data_agensi = $this->API_model->getIsAgensiCekalByAgid($agid);
-
-									$date_now = date('Y-m-d');
-
-									if (($data_agensi[0]->castart <= $date_now && $data_agensi[0]->caend >= $date_now) || $data_agensi[0]->caend === NULL) {
-										$data_agensi[0]->status = "INACTIVE";
-										$data_agensi[0]->comment = "Dicekal";
-									}
-									else {
-										$data_agensi[0]->status = "ACTIVE";
-										$data_agensi[0]->comment = "Tidak Dicekal";
-									}
+									//var_dump($data_agensi);
 
 									if($data_agensi)
 									{
+										$date_now = date('Y-m-d');
+
+										if (($data_agensi[0]->castart <= $date_now && $data_agensi[0]->caend >= $date_now) || $data_agensi[0]->caend === NULL) {
+											$data_agensi[0]->status = "INACTIVE";
+											$data_agensi[0]->comment = "Dicekal";
+										}
+										else {
+											$data_agensi[0]->status = "ACTIVE";
+											$data_agensi[0]->comment = "Tidak Dicekal";
+										}
+
 										$this->response($data_agensi, REST_Controller::HTTP_OK);
 									}
 									else {
@@ -311,19 +312,19 @@ class RestfulAPI extends REST_Controller
 									{
 										$data_pptkis = $this->API_model->getIsPptkisCekalByPpkode($idpptkis);
 
-										$date_now = date('Y-m-d');
-
-										if (($data_pptkis[0]->cpstart <= $date_now && $data_pptkis[0]->cpend >= $date_now) || $data_pptkis[0]->cpend === NULL) {
-											$data_pptkis[0]->status = "INACTIVE";
-											$data_pptkis[0]->comment = "Dicekal";
-										}
-										else {
-											$data_pptkis[0]->status = "ACTIVE";
-											$data_pptkis[0]->comment = "Tidak Dicekal";
-										}
-
 										if($data_pptkis)
 										{
+											$date_now = date('Y-m-d');
+
+											if (($data_pptkis[0]->cpstart <= $date_now && $data_pptkis[0]->cpend >= $date_now) || $data_pptkis[0]->cpend === NULL) {
+												$data_pptkis[0]->status = "INACTIVE";
+												$data_pptkis[0]->comment = "Dicekal";
+											}
+											else {
+												$data_pptkis[0]->status = "ACTIVE";
+												$data_pptkis[0]->comment = "Tidak Dicekal";
+											}
+
 											$this->response($data_pptkis, REST_Controller::HTTP_OK);
 										}
 										else {

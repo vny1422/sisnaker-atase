@@ -343,6 +343,7 @@ class API_model extends CI_Model {
     $this->db->from('cekalagensi ca');
     $this->db->join('magensi ag', 'ag.agid = ca.agid');
     $this->db->where('ca.agid', $agid);
+    $this->db->limit(0, 1);
     return $this->db->get()->result();
   }
 
@@ -351,6 +352,7 @@ class API_model extends CI_Model {
     $this->db->from('cekalpptkis cp');
     $this->db->join('mpptkis pp', 'pp.ppkode = cp.ppkode');
     $this->db->where('cp.ppkode', $ppkode);
+    $this->db->limit(0, 1);
     return $this->db->get()->result();
   }
 

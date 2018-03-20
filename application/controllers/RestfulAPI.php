@@ -14,7 +14,7 @@ class RestfulAPI extends REST_Controller
 	}
 
 
-	public function getjo_get()
+	public function getJO_get()
 	{
 		$agid = $this->get('agid');
 		$ppkode = $this->get('ppkode');

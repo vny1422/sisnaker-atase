@@ -171,9 +171,10 @@ class RestfulAPI extends REST_Controller
 								else {$kota = 'Kapal Laut atau Tidak Terdeteksi';}
 
 								$key->kotatempatbekerja = $kota;
+								var_dump($key->md5ej);
 
 								if ($key->ejtglendorsement !== NULL) {
-									$key->url_pdf_tki = "http://".base_url()."PkNew/downloadPK/.$key->md5ej";
+									$key->url_pdf_tki = base_url()."PkNew/downloadPK/$key->md5ej";
 								} else {
 									$key->url_pdf_tki = "NOTFOUND";
 								}
@@ -204,7 +205,7 @@ class RestfulAPI extends REST_Controller
 							{
 								// var_dump($paspor);
 								$data_perjanjian_kerja = $this->API_model->getPerjanjianKerjaByBarcode($barcode);
-								// var_dump($data_perjanjian_kerja);
+								 //var_dump($data_perjanjian_kerja);
 
 								foreach ($data_perjanjian_kerja as $key) {
 									//deteksi kotatempatbekerja. Request by Mas Randy 20 Nov 2014. -bagus
@@ -241,9 +242,10 @@ class RestfulAPI extends REST_Controller
 									else {$kota = 'Kapal Laut atau Tidak Terdeteksi';}
 
 									$key->kotatempatbekerja = $kota;
+									var_dump($key->md5ej);
 
 									if ($key->ejtglendorsement !== NULL) {
-										$key->url_pdf_tki = "http://".base_url()."PkNew/downloadPK/.$key->md5ej";
+										$key->url_pdf_tki = base_url()."PkNew/downloadPK/$key->md5ej";
 									} else {
 										$key->url_pdf_tki = "NOTFOUND";
 									}

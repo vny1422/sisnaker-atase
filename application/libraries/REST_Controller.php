@@ -738,8 +738,16 @@ abstract class REST_Controller extends CI_Controller {
      * @param bool $continue TRUE to flush the response to the client and continue
      * running the script; otherwise, exit
      */
-    public function response($data = NULL, $http_code = NULL, $continue = FALSE)
+    public function response($data = NULL, $http_code = NULL, $serialize = FALSE, $continue = FALSE)
     {
+        switch ($serialize) {
+            case "result":
+                $data = $this->serialize_result($data);
+                break;
+            case "error":
+                $data = $this->serialize_error($data);
+                break;
+        }
         // If the HTTP status is not NULL, then cast as an integer
         if ($http_code !== NULL)
         {
@@ -810,6 +818,28 @@ abstract class REST_Controller extends CI_Controller {
         }
 
         // Otherwise dump the output automatically
+    }
+
+    public function serialize_result($data)
+    {
+      $message = (object) [
+        'response_code' => 1,
+        'response_desc' => 'Sukses',
+        'response_data' => $data
+      ];
+
+      return $message;
+    }
+
+    public function serialize_error($info)
+    {
+      if ($info === NULL) { $info = 'Data tidak ditemukan'; }
+      $message = (object) [
+        'response_code' => 0,
+        'response_desc' => $info,
+      ];
+
+      return $message;
     }
 
     /**
@@ -2162,12 +2192,12 @@ abstract class REST_Controller extends CI_Controller {
         {
             return TRUE;
         }
-        
+
         //check if the key has all_access
         $accessRow = $this->rest->db
             ->where('key', $this->rest->key)
             ->get($this->config->item('rest_access_table'))->row_array();
-        
+
         if (!empty($accessRow) && !empty($accessRow['all_access']))
         {
         	return TRUE;

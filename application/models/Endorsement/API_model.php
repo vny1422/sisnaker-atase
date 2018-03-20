@@ -254,7 +254,6 @@ class API_model extends CI_Model {
     $this->db->where('tkrevid IS NULL');
     $this->db->order_by("t.tkiid", "desc");
     $this->db->limit(0, 1);
-
     return $this->db->get()->result();
   }
 

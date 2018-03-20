@@ -13,7 +13,6 @@ class RestfulAPI extends REST_Controller
 		//$this->load->helper('url');
 	}
 
-
 	public function getJO_get()
 	{
 		$agid = $this->get('agid');
@@ -28,13 +27,10 @@ class RestfulAPI extends REST_Controller
 			}
 			if($jo)
 			{
-				$this->response($jo, REST_Controller::HTTP_OK);
+				$this->response($jo, REST_Controller::HTTP_OK, 'result');
 			}
 			else {
-				$this->response([[
-					'status' => FALSE,
-					'message' => 'JO not found.'
-					]], REST_Controller::HTTP_BAD_REQUEST);
+				$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST, 'error');
 				}
 			}
 			else {
@@ -57,13 +53,10 @@ class RestfulAPI extends REST_Controller
 
 				if($entryjo)
 				{
-					$this->response($entryjo, REST_Controller::HTTP_OK);
+					$this->response($entryjo, REST_Controller::HTTP_OK, 'result');
 				}
 				else {
-					$this->response([[
-						'status' => FALSE,
-						'message' => 'Surat Permintaan not found.'
-						]], REST_Controller::HTTP_BAD_REQUEST);
+					$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST, 'error');
 					}
 				}
 				else {
@@ -86,13 +79,10 @@ class RestfulAPI extends REST_Controller
 
 					if($entryjo)
 					{
-						$this->response($entryjo, REST_Controller::HTTP_OK);
+						$this->response($entryjo, REST_Controller::HTTP_OK, 'result');
 					}
 					else {
-						$this->response([[
-							'status' => FALSE,
-							'message' => 'Surat Kuasa not found.'
-							]], REST_Controller::HTTP_BAD_REQUEST);
+						$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST, 'error');
 						}
 					}
 					else {
@@ -110,13 +100,10 @@ class RestfulAPI extends REST_Controller
 
 						if($data_tki)
 						{
-							$this->response($data_tki, REST_Controller::HTTP_OK);
+							$this->response($data_tki, REST_Controller::HTTP_OK, 'result');
 						}
 						else {
-							$this->response([[
-								'status' => FALSE,
-								'message' => 'Perjanjian Kerja not found.'
-								]], REST_Controller::HTTP_BAD_REQUEST);
+							$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST, 'error');
 							}
 						}
 						else {
@@ -183,13 +170,10 @@ class RestfulAPI extends REST_Controller
 
 							if($data_perjanjian_kerja)
 							{
-								$this->response($data_perjanjian_kerja, REST_Controller::HTTP_OK);
+								$this->response($data_perjanjian_kerja, REST_Controller::HTTP_OK, 'result');
 							}
 							else {
-								$this->response([[
-									'status' => FALSE,
-									'message' => 'Perjanjian Kerja not found.'
-									]], REST_Controller::HTTP_BAD_REQUEST);
+								$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST, 'error');
 								}
 							}
 							else {
@@ -254,13 +238,10 @@ class RestfulAPI extends REST_Controller
 
 								if($data_perjanjian_kerja)
 								{
-									$this->response($data_perjanjian_kerja, REST_Controller::HTTP_OK);
+									$this->response($data_perjanjian_kerja, REST_Controller::HTTP_OK, 'result');
 								}
 								else {
-									$this->response([[
-										'status' => FALSE,
-										'message' => 'Perjanjian Kerja not found.'
-										]], REST_Controller::HTTP_BAD_REQUEST);
+									$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST, 'error');
 									}
 								}
 								else {
@@ -290,13 +271,10 @@ class RestfulAPI extends REST_Controller
 											$data_agensi[0]->comment = "Tidak Dicekal";
 										}
 
-										$this->response($data_agensi, REST_Controller::HTTP_OK);
+										$this->response($data_agensi, REST_Controller::HTTP_OK, 'result');
 									}
 									else {
-										$this->response([[
-											'status' => FALSE,
-											'message' => 'Agensi not found.'
-											]], REST_Controller::HTTP_BAD_REQUEST);
+										$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST, 'error');
 										}
 									}
 									else {
@@ -325,13 +303,10 @@ class RestfulAPI extends REST_Controller
 												$data_pptkis[0]->comment = "Tidak Dicekal";
 											}
 
-											$this->response($data_pptkis, REST_Controller::HTTP_OK);
+											$this->response($data_pptkis, REST_Controller::HTTP_OK, 'result');
 										}
 										else {
-											$this->response([[
-												'status' => FALSE,
-												'message' => 'Agensi not found.'
-												]], REST_Controller::HTTP_BAD_REQUEST);
+											$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST, 'error');
 											}
 										}
 										else {
@@ -351,13 +326,10 @@ class RestfulAPI extends REST_Controller
 											}
 											if($jo)
 											{
-												$this->response($jo, REST_Controller::HTTP_OK);
+												$this->response($jo, REST_Controller::HTTP_OK, 'result');
 											}
 											else {
-												$this->response([[
-													'status' => FALSE,
-													'message' => 'JO not found.'
-													]], REST_Controller::HTTP_BAD_REQUEST);
+												$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST, 'error');
 												}
 											}
 											else {
@@ -380,13 +352,10 @@ class RestfulAPI extends REST_Controller
 
 												if($entryjo)
 												{
-													$this->response($entryjo, REST_Controller::HTTP_OK);
+													$this->response($entryjo, REST_Controller::HTTP_OK, 'result');
 												}
 												else {
-													$this->response([[
-														'status' => FALSE,
-														'message' => 'Entry JO not found.'
-														]], REST_Controller::HTTP_BAD_REQUEST);
+													$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST, 'error');
 													}
 												}
 												else {
@@ -412,13 +381,10 @@ class RestfulAPI extends REST_Controller
 
 													if($object)
 													{
-														$this->response($object, REST_Controller::HTTP_OK);
+														$this->response($object, REST_Controller::HTTP_OK, 'result');
 													}
 													else {
-														$this->response([[
-															'status' => FALSE,
-															'message' => 'Agency not found.'
-															]], REST_Controller::HTTP_BAD_REQUEST);
+														$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST, 'error');
 														}
 													}
 													else {
@@ -428,18 +394,16 @@ class RestfulAPI extends REST_Controller
 
 												public function pushKeberangkatan_post()
 												{
-													if($this->post())
+													$data = json_decode($this->post('0'));
+													if($data)
 													{
-														$response = $this->API_model->pushKeberangkatan($this->post());
+														$response = $this->API_model->pushKeberangkatan($data);
 
 														if($response != 0) {
-															$this->response($response, REST_Controller::HTTP_CREATED); // OK (200) being the HTTP response code
+															$this->response($response, REST_Controller::HTTP_CREATED, 'result'); // OK (200) being the HTTP response code
 														}
 														else {
-															$this->response([[
-																'status' => FALSE,
-																'message' => 'Post Data invalid.'
-																]], REST_Controller::HTTP_BAD_REQUEST);
+															$this->response('Post Data invalid', REST_Controller::HTTP_BAD_REQUEST, 'error');
 															}
 														}
 														else {
@@ -449,18 +413,16 @@ class RestfulAPI extends REST_Controller
 
 													public function pushKepulangan_post()
 													{
-														if($this->post())
+														$data = json_decode($this->post('0'));
+														if($data)
 														{
-															$response = $this->API_model->pushKepulangan($this->post());
+															$response = $this->API_model->pushKepulangan($data);
 
 															if($response != 0) {
-																$this->response($response, REST_Controller::HTTP_CREATED); // OK (200) being the HTTP response code
+																$this->response($response, REST_Controller::HTTP_CREATED, 'result'); // OK (200) being the HTTP response code
 															}
 															else {
-																$this->response([[
-																	'status' => FALSE,
-																	'message' => 'Post Data invalid.'
-																	]], REST_Controller::HTTP_BAD_REQUEST);
+																$this->response('Post Data invalid', REST_Controller::HTTP_BAD_REQUEST, 'error');
 																}
 															}
 															else {

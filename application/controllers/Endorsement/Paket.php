@@ -12,6 +12,8 @@ class Paket extends MY_Controller {
     $this->load->model('Perlindungan/Agency_model');
     $this->load->model('Perlindungan/Pptkis_model');
     $this->load->model('Endorsement/Paket_model');
+    $this->load->controller('ServicesAPI', 'ServicesAPI');
+
 
     $this->data['listdp'] = $this->listdp;
     $this->data['usedpg'] = $this->usedpg;
@@ -594,13 +596,9 @@ class Paket extends MY_Controller {
     $query = $this->Agency_model->get_cekalagid($idagensi);
     $query2 = $this->Pptkis_model->get_cekalppkode($idpptkis);
 
-    //CHECK CEKAL FROM BNP
-    $url = "http://ws-sisnaker.kemnaker.go.id/kemenaker/bnp/pptkis/get_by_id/";
-    $param["detail"]["id_pptkis"] 	= $idpptkis; ### isi detailnya disini
-    //$param["detail"]["other_detail"] 	= "AT6773978"; semisal banyak detail
-    $result = $this->send_request($url, $param);
+    $pptkis_bnp = $this->ServicesAPI->ws_get_pptkis_status_by_id($idpptkis);
 
-    var_dump($result);
+    var_dump($pptkis_bnp);
 
 
 

@@ -594,9 +594,13 @@ class Paket extends MY_Controller {
     $query = $this->Agency_model->get_cekalagid($idagensi);
     $query2 = $this->Pptkis_model->get_cekalppkode($idpptkis);
 
-    $pptkis_bnp = base_url()."ServicesAPI/ws_get_pptkis_status_by_id/$idpptkis";
+    //CHECK CEKAL FROM BNP
+    $url = "http://ws-sisnaker.kemnaker.go.id/kemenaker/bnp/pptkis/get_by_id/";
+    $param["detail"]["id_pptkis"] 	= $idpptkis; ### isi detailnya disini
+    //$param["detail"]["other_detail"] 	= "AT6773978"; semisal banyak detail
+    $result = $this->send_request($url, $param);
 
-    var_dump($pptkis_bnp);
+    var_dump($result);
 
 
 

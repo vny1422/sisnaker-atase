@@ -89,15 +89,18 @@ class ServicesAPI extends CI_Controller {
     var_dump($result->response_code); ## to access the property
   }
 
-  function ws_get_pptkis_status_by_id()
+  function ws_get_pptkis_status_by_id($idpptkis)
   {
     $url = "http://ws-sisnaker.kemnaker.go.id/kemenaker/bnp/pptkis/get_by_id/";
-    $param["detail"]["id_pptkis"] 	= "1"; ### isi detailnya disini
+    $param["detail"]["id_pptkis"] 	= $idpptkis; ### isi detailnya disini
     //$param["detail"]["other_detail"] 	= "AT6773978"; semisal banyak detail
     $result = $this->send_request($url, $param);
 
-    var_dump($result);
-    var_dump($result->response_code); ## to access the property
+    //return json_encode()
+    return ($result);
+
+    //var_dump($result);
+    //var_dump($result->response_code); ## to access the property
   }
 
   function send_request($url, $detail)

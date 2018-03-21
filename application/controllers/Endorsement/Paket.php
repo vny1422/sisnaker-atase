@@ -594,6 +594,12 @@ class Paket extends MY_Controller {
     $query = $this->Agency_model->get_cekalagid($idagensi);
     $query2 = $this->Pptkis_model->get_cekalppkode($idpptkis);
 
+    $pptkis_bnp = base_url()."ServicesAPI/ws_get_pptkis_status_by_id/$idpptkis";
+
+    var_dump($pptkis_bnp);
+
+
+
     if(!empty($query) && !empty($query2)) {
       $tmp['success'] = false;
       $tmp['message'] = "Agensi dan PPTKIS terkena cekal";

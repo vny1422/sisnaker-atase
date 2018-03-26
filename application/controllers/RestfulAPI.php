@@ -430,4 +430,23 @@ class RestfulAPI extends REST_Controller
 															}
 														}
 
+														public function pushPerlintasan_post()
+														{
+															$data = json_decode($this->post('0'));
+															if($data)
+															{
+																$response = $this->API_model->pushPerlintasan($data);
+
+																if($response != 0) {
+																	$this->response($response, REST_Controller::HTTP_CREATED, 'result'); // OK (200) being the HTTP response code
+																}
+																else {
+																	$this->response('Post Data invalid', REST_Controller::HTTP_BAD_REQUEST, 'error');
+																	}
+																}
+																else {
+																	$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
+																}
+														}
+
 													}

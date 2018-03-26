@@ -12,6 +12,8 @@ class Paket extends MY_Controller {
     $this->load->model('Perlindungan/Agency_model');
     $this->load->model('Perlindungan/Pptkis_model');
     $this->load->model('Endorsement/Paket_model');
+    //$this->load->controller('ServicesAPI', 'ServicesAPI');
+
 
     $this->data['listdp'] = $this->listdp;
     $this->data['usedpg'] = $this->usedpg;
@@ -594,6 +596,14 @@ class Paket extends MY_Controller {
     $query = $this->Agency_model->get_cekalagid($idagensi);
     $query2 = $this->Pptkis_model->get_cekalppkode($idpptkis);
 
+    //CHECK CEKAL FROM BNP
+    $url = "http://ws-sisnaker.kemnaker.go.id/kemenaker/bnp/pptkis/get_by_id/";
+    $param["detail"]["id_pptkis"] 	= $idpptkis; ### isi detailnya disini
+    //$param["detail"]["other_detail"] 	= "AT6773978"; semisal banyak detail
+    $result = $this->send_request($url, $param);
+
+    var_dump($result->response_detail->status_pptkis);
+
     if(!empty($query) && !empty($query2)) {
       $tmp['success'] = false;
       $tmp['message'] = "Agensi dan PPTKIS terkena cekal";
@@ -606,6 +616,27 @@ class Paket extends MY_Controller {
     }
 
     echo json_encode($tmp);
+   }
+
+   function send_request($url, $detail)
+   {
+     $detail["header"]["username"] = "atnaker";
+     $detail["header"]["password"] = "atnaker@2018";
+
+     $param_send = json_encode ( $detail );
+
+     $ch = curl_init($url);
+     curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, "POST" );
+     curl_setopt ( $ch, CURLOPT_POSTFIELDS, $param_send );
+     curl_setopt_array($ch, array(
+         CURLOPT_RETURNTRANSFER  =>true,
+         CURLOPT_VERBOSE     => 1
+     ));
+
+     $out = curl_exec($ch);
+     curl_close($ch);
+
+     return json_decode($out);
    }
 
 }

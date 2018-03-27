@@ -425,4 +425,18 @@ class API_model extends CI_Model {
       $this->db->db_debug = $db_debug;
       return $this->db->insert_id();
   }
+
+  function pushPerlintasan($post)
+  {
+      $db_debug = $this->db->db_debug;
+      $data = array();
+      foreach($post as $key => $value)
+      {
+        $data[$key] = $value;
+      }
+      $this->db->db_debug = false;
+      $this->db->insert('kepulangan', $data);
+      $this->db->db_debug = $db_debug;
+      return $this->db->insert_id();
+  }
 }

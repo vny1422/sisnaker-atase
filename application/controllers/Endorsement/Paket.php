@@ -606,7 +606,7 @@ class Paket extends MY_Controller {
     $response_code = $result->response_code;
 
     $ispptkis_aktif = "tidak_aktif";
-    if(is_null($response_code)){
+    if(!empty($response_code)){
       //var_dump("masuk ta");
       $ispptkis_aktif = $result->response_detail->status_pptkis;
     }

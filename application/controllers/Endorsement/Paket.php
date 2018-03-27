@@ -594,23 +594,30 @@ class Paket extends MY_Controller {
     $tmp['message'] = "";
 
     $query = $this->Agency_model->get_cekalagid($idagensi);
-    $query2 = $this->Pptkis_model->get_cekalppkode($idpptkis);
+    //$query2 = $this->Pptkis_model->get_cekalppkode($idpptkis);
 
     //CHECK CEKAL FROM BNP
     $url = "http://ws-sisnaker.kemnaker.go.id/kemenaker/bnp/pptkis/get_by_id/";
     $param["detail"]["kode_sisko"] 	= $idpptkis; ### isi detailnya disini
     //$param["detail"]["other_detail"] 	= "AT6773978"; semisal banyak detail
     $result = $this->send_request($url, $param);
+    //var_dump($result);
 
-    var_dump($result->response_code);
+    $response_code = $result->response_code;
 
-    if(!empty($query) && !empty($query2)) {
+    $ispptkis_aktif = "tidak_aktif";
+    if(is_null($response_code)){
+      //var_dump("masuk ta");
+      $ispptkis_aktif = $result->response_detail->status_pptkis;
+    }
+
+    if(!empty($query) && $ispptkis_aktif == "tidak_aktif") {
       $tmp['success'] = false;
       $tmp['message'] = "Agensi dan PPTKIS terkena cekal";
     } elseif(!empty($query)) {
       $tmp['success'] = false;
       $tmp['message'] = "Agensi terkena cekal";
-    } elseif(!empty($query2)) {
+    } elseif($ispptkis_aktif != "aktif") {
       $tmp['success'] = false;
       $tmp['message'] = "PPTKIS terkena cekal";
     }

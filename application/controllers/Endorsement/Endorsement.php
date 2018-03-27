@@ -391,34 +391,32 @@ public function updateagency()
 
       //var_dump($data_agency);
 
-      $result->response_code == 77;
-      if($cek != false){
-        if(!empty($this->Agency_model->get_id_induk_agensi($this->data['values']->agid))){
-          $agc_id = $this->Agency_model->get_id_induk_agensi($this->data['values']->agid);
-        }
-        else {
-          $agc_id = ($this->data['values']->agid);
-        }
 
-        //PUSH UPDATE AGENCY TO BNP
-        $url = "URL	:	http://ws-sisnaker.kemnaker.go.id/kemenaker/bnp/agency/update/";
-        $param["detail"]["agc_id"] 	        = $agc_id; ### isi detailnya disini
-        $param["detail"]["agc_source_id"] 	= $this->data['values']->agid; ### isi detailnya disini
-        $param["detail"]["agc_name"] 	      = $this->input->post('name'); ### isi detailnya disini
-        $param["detail"]["agc_director"] 	  = $this->input->post('penanggung'); ### isi detailnya disini
-        $param["detail"]["agc_address"] 	  = $this->input->post('address'); ### isi detailnya disini
-        $param["detail"]["agc_phone"] 	   = $this->input->post('notelp'); ### isi detailnya disini
-        $param["detail"]["agc_fax"] 	     = $this->input->post('nofax'); ### isi detailnya disini
-        //$param["detail"]["agc_country_id"] 	= ; ### isi detailnya disini
-        $param["detail"]["agc_email"] 	   = $this->input->post('email'); ### isi detailnya disini
-        $param["detail"]["agc_iicense"] 	 = $this->input->post('noijin'); ### isi detailnya disini
-
-        //$param["detail"]["other_detail"] 	= "AT6773978"; semisal banyak detail
-        $result = $this->send_request($url, $param);
-        var_dump($result);
+      if(!empty($this->Agency_model->get_id_induk_agensi($this->data['values']->agid))){
+        $agc_id = $this->Agency_model->get_id_induk_agensi($this->data['values']->agid);
+      }
+      else {
+        $agc_id = ($this->data['values']->agid);
       }
 
-      if($result->response_code == 1)
+      //PUSH UPDATE AGENCY TO BNP
+      $url = "URL	:	http://ws-sisnaker.kemnaker.go.id/kemenaker/bnp/agency/update/";
+      $param["detail"]["agc_id"] 	        = $agc_id; ### isi detailnya disini
+      $param["detail"]["agc_source_id"] 	= $this->data['values']->agid; ### isi detailnya disini
+      $param["detail"]["agc_name"] 	      = $this->input->post('name'); ### isi detailnya disini
+      $param["detail"]["agc_director"] 	  = $this->input->post('penanggung'); ### isi detailnya disini
+      $param["detail"]["agc_address"] 	  = $this->input->post('address'); ### isi detailnya disini
+      $param["detail"]["agc_phone"] 	   = $this->input->post('notelp'); ### isi detailnya disini
+      $param["detail"]["agc_fax"] 	     = $this->input->post('nofax'); ### isi detailnya disini
+      //$param["detail"]["agc_country_id"] 	= ; ### isi detailnya disini
+      $param["detail"]["agc_email"] 	   = $this->input->post('email'); ### isi detailnya disini
+      $param["detail"]["agc_iicense"] 	 = $this->input->post('noijin'); ### isi detailnya disini
+
+      //$param["detail"]["other_detail"] 	= "AT6773978"; semisal banyak detail
+      $result = $this->send_request($url, $param);
+      var_dump($result);
+
+      if($cek != false && $result->response_code == 1)
       {
         $this->Endorsement_model->catat_logagensi($this->data['values']->agid);
         $this->session->set_flashdata('information', 'Congratulation, Your Profile Updated!');

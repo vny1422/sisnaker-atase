@@ -405,7 +405,10 @@ function get_agency_from_pptkis($id){
   public function get_id_induk_agensi($agid_kembar){
     $this->db->select('amm.agid_induk');
     $this->db->from('agensi_merge_map amm');
-    $this->db->distinct();
+    $this->db->where('amm.agid_kembar', $agid_kembar);
+    $this->db->distinct();    
+    //$this->db->get();
+    //var_dump($this->db->last_query());
     return $this->db->get()->result();
   }
 

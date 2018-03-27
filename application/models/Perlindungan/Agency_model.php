@@ -262,7 +262,8 @@ class Agency_model extends CI_Model {
           'agpngjwboth' => $this->input->post('penanggungother',TRUE),
           'agtelp' => $this->input->post('notelp',TRUE),
           'agfax' => $this->input->post('nofax',TRUE),
-          'agenable' => $active
+          'agenable' => $active,
+          'agemail' => $this->input->post('email',TRUE)
       );
       $this->db->where('agid',$id);
       return $this->db->update($this->table, $data);
@@ -399,6 +400,13 @@ function get_agency_from_pptkis($id){
 
   public function deactivate_agensi($inactive){
     return $this->db->update_batch($this->table, $inactive, 'agid');
+  }
+
+  public function get_id_induk_agensi($agid_kembar){
+    $this->db->select('amm.agid_induk');
+    $this->db->from('agensi_merge_map amm');
+    $this->db->distinct();
+    return $this->db->get()->result();
   }
 
 }

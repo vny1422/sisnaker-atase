@@ -598,11 +598,11 @@ class Paket extends MY_Controller {
 
     //CHECK CEKAL FROM BNP
     $url = "http://ws-sisnaker.kemnaker.go.id/kemenaker/bnp/pptkis/get_by_id/";
-    $param["detail"]["id_pptkis"] 	= $idpptkis; ### isi detailnya disini
+    $param["detail"]["kode_sisko"] 	= $idpptkis; ### isi detailnya disini
     //$param["detail"]["other_detail"] 	= "AT6773978"; semisal banyak detail
     $result = $this->send_request($url, $param);
 
-    var_dump($result->response_detail->status_pptkis);
+    var_dump($result->response_code);
 
     if(!empty($query) && !empty($query2)) {
       $tmp['success'] = false;

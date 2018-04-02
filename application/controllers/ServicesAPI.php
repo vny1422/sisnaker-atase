@@ -99,7 +99,7 @@ class ServicesAPI extends CI_Controller {
     //return json_encode()
     return ($result);
 
-    //var_dump($result);
+    var_dump($result);
     //var_dump($result->response_code); ## to access the property
   }
 

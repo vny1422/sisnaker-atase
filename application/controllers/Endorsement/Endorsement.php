@@ -424,7 +424,6 @@ public function updateagency()
         $param["detail"]["agc_iicense"] 	 = $this->input->post('noijin'); ### isi detailnya disini
 
         $result = $this->send_request($url, $param);
-        var_dump($result);
       }
 
       if(!empty($result->response_code)){

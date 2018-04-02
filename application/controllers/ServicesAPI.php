@@ -97,9 +97,8 @@ class ServicesAPI extends CI_Controller {
     $result = $this->send_request($url, $param);
 
     //return json_encode()
+    var_dump($result);
     return ($result);
-
-    //var_dump($result);
     //var_dump($result->response_code); ## to access the property
   }
 

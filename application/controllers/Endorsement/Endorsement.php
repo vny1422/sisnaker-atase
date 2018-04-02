@@ -389,11 +389,13 @@ public function updateagency()
         'agfax' => $this->input->post('nofax')
       );
 
-      var_dump($data_agency);
+      //var_dump($data_agency);
       // var_dump("cek");
       // var_dump($cek);
       // var_dump("dapet ngga");
       // var_dump($this->Agency_model->get_id_induk_agensi($this->data['values']->agid));
+
+
 
       $flag_success_push_bnp = FALSE;
       if($cek != false){
@@ -404,10 +406,10 @@ public function updateagency()
         else {
           $agc_id = ($this->data['values']->agid);
         }
-        // var_dump("agc aidi");
-        // //var_dump($this->data['values']->agid);
-        // var_dump($agc_id);
 
+        $country_id = $this->Agency_model->get_idcountry_by_idinstitution($this->session->userdata('institution'));
+        // var_dump($country_id[0]->tcode);
+        
         //PUSH UPDATE AGENCY TO BNP
         $url = "http://ws-sisnaker.kemnaker.go.id/kemenaker/bnp/agency/update/";
         $param["detail"]["agc_id"] 	        = $agc_id; ### isi detailnya disini
@@ -417,7 +419,7 @@ public function updateagency()
         $param["detail"]["agc_address"] 	  = $this->input->post('address'); ### isi detailnya disini
         $param["detail"]["agc_phone"] 	   = $this->input->post('notelp'); ### isi detailnya disini
         $param["detail"]["agc_fax"] 	     = $this->input->post('nofax'); ### isi detailnya disini
-        $param["detail"]["agc_country_id"] 	= '001.002.207'; ### isi detailnya disini
+        $param["detail"]["agc_country_id"] 	= $country_id[0]->tcode; ### isi detailnya disini
         $param["detail"]["agc_email"] 	   = $this->input->post('email'); ### isi detailnya disini
         $param["detail"]["agc_iicense"] 	 = $this->input->post('noijin'); ### isi detailnya disini
 

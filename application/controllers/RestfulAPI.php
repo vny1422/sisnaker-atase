@@ -392,6 +392,32 @@ class RestfulAPI extends REST_Controller
 		}
 	}
 
+	public function checkTKIValidityByPaspor_get()
+	{
+		$paspor = $this->get('pasporno');
+		$nama = $this->get('namatki');
+		$dob = $this->get('dobtki');
+		if($paspor != NULL && $nama != NULL && $dob != NULL)
+		{
+			$valid = $this->API_model->getValidityTKI($paspor, $nama, $dob);
+			$message = $valid ? 'Valid' : 'Invalid';
+			$object = (object) [
+				'status_tki' => $message
+			];
+
+			if($object)
+			{
+				$this->response($object, REST_Controller::HTTP_OK, 'result');
+			}
+			else {
+				$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST, 'error');
+			}
+		}
+		else {
+			$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
+		}
+	}
+
 	public function pushKeberangkatan_post()
 	{
 		$data = json_decode($this->post('0'));

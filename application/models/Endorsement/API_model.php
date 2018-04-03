@@ -461,4 +461,12 @@ class API_model extends CI_Model {
       $this->db->db_debug = $db_debug;
       return $this->db->insert_id();
   }
+
+  function getValidityTKI($paspor, $nama, $dob)
+  {
+    $this->db->where("tknama LIKE '%$nama%'");
+    $this->db->where("tkpaspor", $paspor);
+    $this->db->where('tktgllahir', $dob);
+    return $this->db->get()->row();
+  }
 }

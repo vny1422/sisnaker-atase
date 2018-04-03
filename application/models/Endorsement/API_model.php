@@ -434,6 +434,34 @@ class API_model extends CI_Model {
       return $this->db->insert_id();
   }
 
+  function pushCekalPPTKIS($post)
+  {
+      $db_debug = $this->db->db_debug;
+      $data = array();
+      foreach($post as $key => $value)
+      {
+        $data[$key] = $value;
+      }
+      $this->db->db_debug = false;
+      $this->db->insert('cekalpptkis', $data);
+      $this->db->db_debug = $db_debug;
+      return $this->db->insert_id();
+  }
+
+  function pushCekalAgency($post)
+  {
+      $db_debug = $this->db->db_debug;
+      $data = array();
+      foreach($post as $key => $value)
+      {
+        $data[$key] = $value;
+      }
+      $this->db->db_debug = false;
+      $this->db->insert('cekalagensi', $data);
+      $this->db->db_debug = $db_debug;
+      return $this->db->insert_id();
+  }
+
   function pushKepulangan($post)
   {
       $db_debug = $this->db->db_debug;

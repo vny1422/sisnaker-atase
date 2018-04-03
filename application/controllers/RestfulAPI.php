@@ -477,13 +477,15 @@ class RestfulAPI extends REST_Controller
 
 	public function pushTundaLayanan_post()
 	{
-		$data = json_decode($this->post('0'));
+		$data = $this->post();
 		if($data)
 		{
-			if($data->tl_type == 'PPTKIS')
-				echo 'a';
+			if($data["tl_type"] == 'PPTKIS')
+			{
+				$response = $this->API_model->pushCekalPPTKIS($data);
+			}
 			elseif ($data->tl_type == 'AGENCY') {
-				echo 'b';
+				$respone = $this->API_model->pushCekalAgency($data);
 			}
 
 			if($response != 0) {

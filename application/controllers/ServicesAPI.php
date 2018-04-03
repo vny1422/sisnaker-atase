@@ -132,15 +132,23 @@ class ServicesAPI extends CI_Controller {
     var_dump($result);
   }
 
-  function get_tki_by_paspor()
+  function get_tki_by_paspor($paspor)
   {
     $url = "http://ws-sisnaker.kemnaker.go.id/kemenaker/bnp/pk/get_by_paspor/";
-    $param["detail"]["tki_pasporno"] 	= "AT6773978"; ### isi detailnya disini
+    $param["detail"]["tki_pasporno"] 	= $paspor; ### isi detailnya disini
     //$param["detail"]["other_detail"] 	= "AT6773978"; semisal banyak detail
     $result = $this->send_request($url, $param);
-
     var_dump($result);
-    var_dump($result->response_code); ## to access the property
+    switch ($result->response_code) {
+      case '0':
+        return 'TKI not found.';
+      case '1':
+        return $result->response_data;
+      case '-1':
+        return 'Failed to Authenticate Service to SISKOTKLN.';
+      case '-2':
+        return 'TKI belum bayar jamsospra.';
+    }
   }
 
   function ws_get_pptkis_status_by_id($idpptkis)

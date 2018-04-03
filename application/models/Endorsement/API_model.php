@@ -467,6 +467,6 @@ class API_model extends CI_Model {
     $this->db->where("tknama LIKE '%$nama%'");
     $this->db->where("tkpaspor", $paspor);
     $this->db->where('tktgllahir', $dob);
-    return $this->db->get()->row();
+    return $this->db->get('tki')->row();
   }
 }

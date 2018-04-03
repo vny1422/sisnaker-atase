@@ -437,34 +437,61 @@ class API_model extends CI_Model {
   function pushCekalPPTKIS($post)
   {
       $db_debug = $this->db->db_debug;
-      $data = array(
-		    'ppkode' => $post["tl_stk_kode"],
-		    'cpstart' => $post["tl_startdate"],
-        'cpend' => $post["tl_expiredate"],
-		    'enable' => 1,
-        'cpcatatan' => $post["tl_issuer_catatan"]
-		  );
       $this->db->db_debug = false;
-      $this->db->insert('cekalpptkis', $data);
-      $this->db->db_debug = $db_debug;
-      return $this->db->insert_id();
+      if $post["tl_status"] == '1'
+      {
+        $data = array(
+  		    'ppkode' => $post["tl_stk_kode"],
+  		    'cpstart' => $post["tl_startdate"],
+          'cpend' => $post["tl_expiredate"],
+  		    'enable' => 1,
+          'cpcatatan' => $post["tl_issuer_catatan"]
+  		  );
+        $this->db->insert('cekalpptkis', $data);
+        $this->db->db_debug = $db_debug;
+        return $this->db->insert_id();
+      }
+      else if $post["tl_status"] == '2'
+      {
+        $data = array(
+  		    'enable' => 0,
+          'cpcatatan' => $post["tl_ender_catatan"]
+  		  );
+        $this->db->where('ppkode', $post["tl_stk_kode"]);
+        $response = $this->db->update('cekalpptkis', $data) ? 1 : 0;
+        $this->db->db_debug = $db_debug;
+        return $response
+      }
   }
 
   function pushCekalAgency($post)
   {
       $db_debug = $this->db->db_debug;
-      $data = array(
-		    'agid' => $post["tl_stk_kode"],
-		    'castart' => $post["tl_startdate"],
-        'caend' => $post["tl_expiredate"],
-		    'enable' => 1,
-        'cacatatan' => $post["tl_issuer_catatan"],
-        'idinstitution' => 2
-		  );
-      $this->db->db_debug = false;
-      $this->db->insert('cekalagensi', $data);
-      $this->db->db_debug = $db_debug;
-      return $this->db->insert_id();
+      if $post["tl_status"] == '1' {
+        $data = array(
+  		    'agid' => $post["tl_stk_kode"],
+  		    'castart' => $post["tl_startdate"],
+          'caend' => $post["tl_expiredate"],
+  		    'enable' => 1,
+          'cacatatan' => $post["tl_issuer_catatan"],
+          'idinstitution' => 2
+  		  );
+        $this->db->db_debug = false;
+        $this->db->insert('cekalagensi', $data);
+        $this->db->db_debug = $db_debug;
+        return $this->db->insert_id();
+      }
+      else if $post["tl_status"] == '2'
+      {
+        $data = array(
+  		    'enable' => 0,
+          'cacatatan' => $post["tl_ender_catatan"]
+  		  );
+        $this->db->where('agid', $post["tl_stk_kode"]);
+        $response = $this->db->update('cekalagensi', $data) ? 1 : 0;
+        $this->db->db_debug = $db_debug;
+        return $response
+      }      
   }
 
   function pushKepulangan($post)

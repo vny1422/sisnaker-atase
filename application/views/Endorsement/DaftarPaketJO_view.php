@@ -264,7 +264,7 @@
         var gsr = $(this).jqGrid("getGridParam", "selrow");
         if (gsr) {
           //$.post('<?//=$serverPath.$currentPage?>?q2=<?//=base64UrlEncode("push_data")?>', {jobid:gsr}, function(json) {
-          $.post("<?php echo base_url()?>ServicesAPI/insert_jo", {jobid:gsr}, function(json) {
+          $.post("<?php echo base_url()?>ServicesAPI/insert_jo_to_bnp", {jobid:gsr}, function(json) {
             if (json.status == "0") {
               alert("Data gagal dipush!");
             } else {

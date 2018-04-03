@@ -7,6 +7,7 @@ class ServicesAPI extends CI_Controller {
   public function __construct()
   {
     parent::__construct();
+    $this->load->model('Endorsement/API_model');
   }
 
   function insert_jo()
@@ -76,6 +77,59 @@ class ServicesAPI extends CI_Controller {
     }
 
     echo json_encode($r);
+  }
+
+  function cobak(){
+    // $jo_data = $this->API_model->getJOByJobId(1);
+    // $jo_data_fix = $jo_data[0];
+    // var_dump($jo_data_fix);
+
+
+    $jo_detail = $this->API_model->getJODetailWithGaji(1);
+    var_dump($jo_detail);
+
+  }
+
+  function insert_jo_to_bnp()
+  {
+    $jobid = $this->input->post('jobid', TRUE);
+
+    // get data jo
+    $jo_data = $this->API_model->getJOByJobId($jobid);
+    $jo_data_fix = $jo_data[0];
+
+    // get jo detail
+    $jo_detail = $this->API_model->getJODetailWithGaji($jobid);
+
+    $a = array();
+    foreach ($jo_detail as $detail) {
+      $data = array(
+        'jo_det_id'     => $detail->jobdid,
+        'jo_det_job_id' => $detail->idjenispekerjaan,
+        'jo_det_L'      => $detail->jobdl,
+        'jo_det_P'      => $detail->jobdc,
+        'jo_det_C'      => $detail->jobdc,
+        'jo_det_gaji'   => $detail->jpgaji
+      );
+      array_push($a, $data);
+    }
+
+    // get country code
+    $country_id = $this->Agency_model->get_idcountry_by_idinstitution($this->session->userdata('institution'));
+
+    $url = "http://ws-sisnaker.kemnaker.go.id/kemenaker/bnp/jo/insert/";
+    $param["detail"]["jo_id"] 	       = $jo_data_fix->jobid; ### isi detailnya disini
+    $param["detail"]["jo_no"] 	       = $jo_data_fix->jobno; ### isi detailnya disini
+    $param["detail"]["jo_tgl"] 	       = $jo_data_fix->jobtglawal; ### isi detailnya disini
+    $param["detail"]["jo_takhir"] 	   = $jo_data_fix->jobtglakhir; ### isi detailnya disini
+    $param["detail"]["jo_pt"] 	       = $jo_data_fix->ppkode; ### isi detailnya disini
+    $param["detail"]["jo_agency"] 	   = $jo_data_fix->agid; ### isi detailnya disini
+    $param["detail"]["jo_negara"] 	   = $country_id; ### isi detailnya disini
+    //$param["detail"]["jo_url"] 	       = $jo_data_fix->; ### isi detailnya disini
+    $param["detail"]["jo_detail"] 	   = $a; ### isi detailnya disini
+
+    $result = $this->send_request($url, $param);
+    var_dump($result);
   }
 
   function get_tki_by_paspor()

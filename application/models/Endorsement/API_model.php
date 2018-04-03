@@ -375,6 +375,28 @@ class API_model extends CI_Model {
     return $this->db->get()->result();
   }
 
+  function getJODetailWithGaji ($jobid) {
+    $this->db->select('j.jobdid, j.idjenispekerjaan, j.jobdl, j.jobdp, j.jobdc, jp.jpgaji');
+    $this->db->from('jodetail j');
+    $this->db->join('jenispekerjaan jp', 'jp.idjenispekerjaan = j.idjenispekerjaan');
+    $this->db->order_by("j.jobdid", "asc");
+    $this->db->where('j.jobid', $jobid);
+    return $this->db->get()->result();
+  }
+
+  function getJOByJobId ($jobid) {
+    $this->db->select("*, DATE_FORMAT(jobtglawal, '%Y%m%d') as jobtglawal2, DATE_FORMAT(jobtglakhir, '%Y%m%d') as jobtglakhir2");
+    $this->db->from('jo');
+    $this->db->where('jo.jobid', $jobid);
+    return $this->db->get()->result();
+  }
+
+  public function get_idcountry_by_idinstitution($idinstitution){
+    $qtext = "SELECT tcode FROM `kode_negara` WHERE uraian like (SELECT nameinstitution from institution where idinstitution = $idinstitution)";
+    $query = $this->db->query($qtext);
+    return $query->result();
+  }
+
   ############PK#######################
   function getPKByDate($date) {
     $this->db->where("ejtglendorsement = DATE_FORMAT('$date', '%Y-%m-%d')");

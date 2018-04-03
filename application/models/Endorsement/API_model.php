@@ -437,11 +437,13 @@ class API_model extends CI_Model {
   function pushCekalPPTKIS($post)
   {
       $db_debug = $this->db->db_debug;
-      $data = array();
-      foreach($post as $key => $value)
-      {
-        $data[$key] = $value;
-      }
+      $data = array(
+		    'ppkode' => $post["tl_stk_kode"],
+		    'cpstart' => $post["tl_startdate"],
+        'cpend' => $post["tl_expiredate"],
+		    'enable' => 1,
+        'cpcatatan' => $post["tl_issuer_catatan"]
+		  );
       $this->db->db_debug = false;
       $this->db->insert('cekalpptkis', $data);
       $this->db->db_debug = $db_debug;
@@ -451,11 +453,14 @@ class API_model extends CI_Model {
   function pushCekalAgency($post)
   {
       $db_debug = $this->db->db_debug;
-      $data = array();
-      foreach($post as $key => $value)
-      {
-        $data[$key] = $value;
-      }
+      $data = array(
+		    'agid' => $post["tl_stk_kode"],
+		    'castart' => $post["tl_startdate"],
+        'caend' => $post["tl_expiredate"],
+		    'enable' => 1,
+        'cacatatan' => $post["tl_issuer_catatan"],
+        'idinstitution' => 2
+		  );
       $this->db->db_debug = false;
       $this->db->insert('cekalagensi', $data);
       $this->db->db_debug = $db_debug;

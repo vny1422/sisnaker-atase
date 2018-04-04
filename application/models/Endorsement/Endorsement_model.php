@@ -310,9 +310,9 @@ class Endorsement_model extends CI_Model {
 
     function get_all_year(){
 		$this->db->distinct();
-		$this->db->select('YEAR(tktglendorsement) as tahun');
-		$this->db->from('tki');
-		$this->db->order_by('tktglendorsement','desc');
+		$this->db->select('YEAR(ejtglendorsement) as tahun');
+		$this->db->from('entryjo');
+		$this->db->order_by('ejtglendorsement','desc');
 		return $this->db->get()->result();
 	}
 
@@ -332,7 +332,7 @@ class Endorsement_model extends CI_Model {
 		$this->db->join('tki','entryjo.ejid = tki.ejid');
 		$this->db->where('tki.tkstat',0);
 		$this->db->where('tki.tkrevid',NULL);
-		$where = "tki.tktglendorsement LIKE '%".$tahun."-%'";
+		$where = "entryjo.ejtglendorsement LIKE '%".$tahun."-%'";
 		$this->db->where($where);
 		if($institution != 'all')
 		{
@@ -427,7 +427,7 @@ class Endorsement_model extends CI_Model {
 		$this->db->join('jenispekerjaan','entryjo.idjenispekerjaan = jenispekerjaan.idjenispekerjaan');
 		$this->db->where('tki.tkstat',0);
 		$this->db->where('tki.tkrevid',NULL);
-		$where = "tki.tktglendorsement LIKE '%".$tahun."-%'";
+		$where = "entryjo.ejtglendorsement LIKE '%".$tahun."-%'";
 		$this->db->where($where);
 		$this->db->where('entryjo.agid',$agid);
 		$this->db->group_by('jenispekerjaan.sektor');
@@ -442,7 +442,7 @@ class Endorsement_model extends CI_Model {
 		$this->db->join('jenispekerjaan','entryjo.idjenispekerjaan = jenispekerjaan.idjenispekerjaan');
 		$this->db->where('tki.tkstat',0);
 		$this->db->where('tki.tkrevid',NULL);
-		$where = "tki.tktglendorsement LIKE '%".$tahun."-".$bulan."-%'";
+		$where = "entryjo.ejtglendorsement LIKE '%".$tahun."-".$bulan."-%'";
 		$this->db->where($where);
 		if($institution != 'all')
 		{
@@ -464,7 +464,7 @@ class Endorsement_model extends CI_Model {
 		$this->db->join('jenispekerjaan','entryjo.idjenispekerjaan = jenispekerjaan.idjenispekerjaan');
 		$this->db->where('tki.tkstat',0);
 		$this->db->where('tki.tkrevid',NULL);
-		$where = "tki.tktglendorsement LIKE '%".$tahun."-".$bulan."-%'";
+		$where = "entryjo.ejtglendorsement LIKE '%".$tahun."-".$bulan."-%'";
 		$this->db->where($where);
 		$this->db->where('entryjo.agid',$agid);
 		$this->db->group_by('jenispekerjaan.sektor');

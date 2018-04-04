@@ -355,7 +355,8 @@
                 if(total == 0) {
                   newf = "  " + key + ":  " + row[key] + " (0%)";
                 } else {
-                  newf = "  " + key + ":  " + row[key] + " (" + (row[key]/total*100) + '%)';
+                  newf = "  " + key + ":  " + row[key] + " (" + (row[key]/total*100).toFixed(2) + '%)';
+                  // parseFloat(Math.round(num3 * 100) / 100).toFixed(2);
                 }
                 contents = contents.replace(replaced,newf);
               }

@@ -90,6 +90,50 @@ class ServicesAPI extends CI_Controller {
 
   }
 
+  function cobak2(){
+    $uri = "http://atnaker.kemnaker.go.id/RestfulAPI/pushTundaLayan/";
+  	//die($uri);
+
+  	$_user 		= "atnaker";
+  	$_pwd 		= "atnaker@2018";
+
+  	$param["tl_stk_kode"] 			= "ILY003";
+  	$param["tl_type"] 				= "PPTKIS";
+  	$param["tl_startdate"] 			= "31-11-2012";
+  	$param["tl_expiredate"] 		= "31-11-2017";
+  	$param["tl_status"] 			= "1";
+  	$param["tl_issuer_catatan"] 	= "CATATAN TUNDA LAYAN";
+
+
+  	$param_send = json_encode ( $param );
+
+
+  	//$param_send = json_encode ( $param );
+  	$ch = curl_init($uri);
+
+    $headers = array(
+    'Content-Type:application/json',
+    'Authorization: Basic '. base64_encode("$_user:$_pwd") // <---
+    );
+
+  	//curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  	//curl_setopt($ch, CURLOPT_USERPWD, "$_user:$_pwd");
+  	curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, "POST" );
+  	curl_setopt ( $ch, CURLOPT_POSTFIELDS, $param_send );
+  	curl_setopt_array($ch, array(
+  	    CURLOPT_RETURNTRANSFER  =>true,
+  	    CURLOPT_VERBOSE     => 1
+  	));
+
+
+
+  	$out = curl_exec($ch);
+  	curl_close($ch);
+
+  	echo $out;
+  }
+
   function insert_jo_to_bnp()
   {
     $jobid = $this->input->post('jobid', TRUE);

@@ -438,7 +438,7 @@ class API_model extends CI_Model {
   {
       $db_debug = $this->db->db_debug;
       $this->db->db_debug = false;
-      if $post["tl_status"] == '1'
+      if ($post["tl_status"] == '1')
       {
         $data = array(
   		    'ppkode' => $post["tl_stk_kode"],
@@ -451,7 +451,7 @@ class API_model extends CI_Model {
         $this->db->db_debug = $db_debug;
         return $this->db->insert_id();
       }
-      else if $post["tl_status"] == '2'
+      else if ($post["tl_status"] == '2')
       {
         $data = array(
   		    'enable' => 0,
@@ -460,14 +460,14 @@ class API_model extends CI_Model {
         $this->db->where('ppkode', $post["tl_stk_kode"]);
         $response = $this->db->update('cekalpptkis', $data) ? 1 : 0;
         $this->db->db_debug = $db_debug;
-        return $response
+        return $response;
       }
   }
 
   function pushCekalAgency($post)
   {
       $db_debug = $this->db->db_debug;
-      if $post["tl_status"] == '1' {
+      if ($post["tl_status"] == '1') {
         $data = array(
   		    'agid' => $post["tl_stk_kode"],
   		    'castart' => $post["tl_startdate"],
@@ -481,7 +481,7 @@ class API_model extends CI_Model {
         $this->db->db_debug = $db_debug;
         return $this->db->insert_id();
       }
-      else if $post["tl_status"] == '2'
+      else if ($post["tl_status"] == '2')
       {
         $data = array(
   		    'enable' => 0,
@@ -490,8 +490,8 @@ class API_model extends CI_Model {
         $this->db->where('agid', $post["tl_stk_kode"]);
         $response = $this->db->update('cekalagensi', $data) ? 1 : 0;
         $this->db->db_debug = $db_debug;
-        return $response
-      }      
+        return $response;
+      }
   }
 
   function pushKepulangan($post)

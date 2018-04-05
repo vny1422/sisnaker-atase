@@ -116,9 +116,11 @@ class ServicesAPI extends CI_Controller {
     'Authorization: Basic '. base64_encode("$_user:$_pwd") // <---
     );
 
-  	//curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+    //echo base64_encode("$_user:$_pwd");
+
+  	curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-  	//curl_setopt($ch, CURLOPT_USERPWD, "$_user:$_pwd");
+  	curl_setopt($ch, CURLOPT_USERPWD, "$_user:$_pwd");
   	curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, "POST" );
   	curl_setopt ( $ch, CURLOPT_POSTFIELDS, $param_send );
   	curl_setopt_array($ch, array(

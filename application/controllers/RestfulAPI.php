@@ -475,7 +475,7 @@ class RestfulAPI extends REST_Controller
 		}
 	}
 
-	public function pushTundaLayanan_post()
+	public function pushTundaLayan_post()
 	{
 		$data = $this->post();
 		if($data)

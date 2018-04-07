@@ -420,7 +420,7 @@ class RestfulAPI extends REST_Controller
 
 	public function pushKeberangkatan_post()
 	{
-		$data = json_decode($this->post('0'));
+		$data = $this->post();
 		if($data)
 		{
 			$response = $this->API_model->pushKeberangkatan($data);
@@ -439,7 +439,7 @@ class RestfulAPI extends REST_Controller
 
 	public function pushKepulangan_post()
 	{
-		$data = json_decode($this->post('0'));
+		$data = $this->post();
 		if($data)
 		{
 			$response = $this->API_model->pushKepulangan($data);
@@ -458,7 +458,7 @@ class RestfulAPI extends REST_Controller
 
 	public function pushPerlintasan_post()
 	{
-		$data = json_decode($this->post('0'));
+		$data = $this->post();
 		if($data)
 		{
 			$response = $this->API_model->pushPerlintasan($data);

@@ -136,6 +136,52 @@ class ServicesAPI extends CI_Controller {
   	echo $out;
   }
 
+  function cobak3(){
+    $uri = "http://localhost/sisnaker-atase/RestfulAPI/pushPerlintasan/";
+  	//die($uri);
+
+  	$_user 		= "atnaker";
+  	$_pwd 		= "atnaker@2018";
+
+  	$param["lintas_tkiid"] 			= "13492011";
+  	$param["lintas_depport"] 				= "CGK";
+  	$param["lintas_trsport"] 			= "SIG";
+  	$param["lintas_depdate"] 		= "01-01-2018";
+  	$param["lintas_neg_id"] 			= "001.002.186";
+  	$param["lintas_pasporno"] 	= "A123456";
+    $param["lintas_type"] 	= "2";
+
+  	$param_send = json_encode ( $param );
+
+
+  	//$param_send = json_encode ( $param );
+  	$ch = curl_init($uri);
+
+    $headers = array(
+    'Content-Type:application/json',
+    'Authorization: Basic '. base64_encode("$_user:$_pwd") // <---
+    );
+
+    //echo base64_encode("$_user:$_pwd");
+
+  	curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  	curl_setopt($ch, CURLOPT_USERPWD, "$_user:$_pwd");
+  	curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, "POST" );
+  	curl_setopt ( $ch, CURLOPT_POSTFIELDS, $param_send );
+  	curl_setopt_array($ch, array(
+  	    CURLOPT_RETURNTRANSFER  =>true,
+  	    CURLOPT_VERBOSE     => 1
+  	));
+
+
+
+  	$out = curl_exec($ch);
+  	curl_close($ch);
+
+  	echo $out;
+  }
+
   function insert_jo_to_bnp()
   {
     $jobid = $this->input->post('jobid', TRUE);

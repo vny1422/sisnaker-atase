@@ -458,10 +458,17 @@ class RestfulAPI extends REST_Controller
 
 	public function pushPerlintasan_post()
 	{
+
 		$data = $this->post();
+		//var_dump($data);
 		if($data)
 		{
-			$response = $this->API_model->pushPerlintasan($data);
+			if($data["lintas_type"] == 1){
+					$response = $this->API_model->push_lintas_keberangkatan($data);
+			}
+			elseif ($data["lintas_type"] == 2) {
+				$response = $this->API_model->push_lintas_kepulangan($data);
+			}
 
 			if($response != 0) {
 				$this->response($response, REST_Controller::HTTP_CREATED, 'result'); // OK (200) being the HTTP response code
@@ -478,6 +485,7 @@ class RestfulAPI extends REST_Controller
 	public function pushTundaLayan_post()
 	{
 		$data = $this->post();
+
 		if($data)
 		{
 			if($data["tl_type"] == 'PPTKIS')

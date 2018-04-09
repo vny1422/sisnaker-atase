@@ -464,6 +464,42 @@ class API_model extends CI_Model {
       }
   }
 
+  function push_lintas_keberangkatan($post)
+  {
+      $db_debug = $this->db->db_debug;
+      $this->db->db_debug = false;
+
+        $data = array(
+  		    'tkiid' => $post["lintas_tkiid"],
+          'tkpaspor' => $post["lintas_pasporno"],
+  		    'bandaracode' => $post["lintas_depport"],
+          'transitport' => $post["lintas_trsport"],
+          'timestamp' => $post["lintas_depdate"]
+  		  );
+        $this->db->insert('keberangkatan', $data);
+        $this->db->db_debug = $db_debug;
+        return $this->db->insert_id();
+  }
+
+  function push_lintas_kepulangan($post)
+  {
+      $db_debug = $this->db->db_debug;
+      $this->db->db_debug = false;
+
+        $data = array(
+  		    'tkiid' => $post["lintas_tkiid"],
+          'tkpaspor' => $post["lintas_pasporno"],
+  		    'bandaracode' => $post["lintas_depport"],
+          'transitport' => $post["lintas_trsport"],
+          'timestamp' => $post["lintas_depdate"]
+  		  );
+        $this->db->insert('kepulangan', $data);
+        $this->db->db_debug = $db_debug;
+        return $this->db->insert_id();
+  }
+
+
+
   function pushCekalAgency($post)
   {
       $db_debug = $this->db->db_debug;
@@ -510,6 +546,7 @@ class API_model extends CI_Model {
 
   function pushPerlintasan($post)
   {
+      //echo $post;
       $db_debug = $this->db->db_debug;
       $data = array();
       foreach($post as $key => $value)

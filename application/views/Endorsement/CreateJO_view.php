@@ -111,7 +111,7 @@
                               <div class="form-group fieldtitle">
                                 <label class="control-label col-md-6 col-sm-6 col-xs-12" for="name">Total childs under 18 y.o<span class="required">*</span></label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                  <input type="text" name="tkijmlhanaktanggungan" required="required" class="form-control input-sm" disabled>
+                                  <input type="text" name="tkijmlhanaktanggungan" required="required" class="form-control input-sm">
                                 </div>
                               </div><br /><br /><br />
                               <div class="form-group fieldtitle">
@@ -589,7 +589,7 @@
 
                                       $(addTKI).click(function(e){
                                         var paspor = $("#passport").val();
-                                        var search = _.find(tkidata, function(d) { return d.TKI_PASPORNO === paspor});
+                                        var search = _.find(tkidata, function(d) { return d.tki_pasporno === paspor});
                                         if (search !== undefined) {
                                           alert("Worker already in the list!");
                                           return;
@@ -599,37 +599,36 @@
                                           return;
                                         }
                                         else {
-                                          $("#loading2nd").mask("Loading...");
+                                          // $("#loading2nd").mask("Loading...");
                                           $.post("<?php echo base_url()?>ServicesAPI/get_tki_by_paspor", {paspor: paspor, jpid: jpid}, function(xml,status){
                                             var json = $.parseJSON(xml);
-                                            if(json == '0')
+                                            if(json.response_code == '0')
                                             {
                                               $("#loading2nd").unmask();
                                               alert("Passport is not found. Please contact your Indonesian agency (PPTKIS) partner.")
                                               return;
                                             }
-                                            else if(json == '-1')
+                                            else if(json.response_code == '-1')
                                             {
                                               $("#loading2nd").unmask();
                                               alert("Failed to Authenticate Request.")
                                               return;
                                             }
-                                            else if(json == '-2')
+                                            else if(json.response_code == '-2')
                                             {
                                               $("#loading2nd").unmask();
                                               alert("TKI not yet Jamsospra etc")
                                               return;
                                             }
                                             else {
-                                              var agid = json.my_agid;
-                                              var tki_agid = json.tki_agid;
-                                              data = json.data;
+                                              data = json.response_data;
+                                              var tki_agid = data.agensiid;
+                                              var agid = data.my_agid;
                                               // var agid_mirip = json.tki_agid_mirip;
                                               bypass = false;
-                                              var jpid3 = json.jpid;
-                                              // if (data.TKI_PJTKIID !== ppkode) {
+                                              // if (data.tki_pptkisid !== ppkode) {
                                               //   $("#loading2nd").unmask();
-                                              //   alert("Passport " + data.TKI_PASPORNO + " (" + data.TKI_TKINAME + ") is found, but registered for " + data.TKI_PJTKADESC + " - PT. " + data.TKI_PJTKIDESC + ". Please contact your partner PPTKIS to revise it via SISKO System in Indonesia.");
+                                              //   alert("Passport " + data.tki_pasporno + " (" + data.tki_name + ") is found, but registered for " + data.tki_agensidesc + " - PT. " + data.tki_pptkisdesc + ". Please contact your partner PPTKIS to revise it via SISKO System in Indonesia.");
                                               //   return;
                                               // }
                                               // else if (agid !== tki_agid) {
@@ -638,24 +637,21 @@
                                               //   // }
                                               //   // else {failed = true;}
                                               //   $("#loading2nd").unmask();
-                                              //   alert("Passport " + data.TKI_PASPORNO + " (" + data.TKI_TKINAME + ") is found, but registered for " + data.TKI_PJTKADESC + " - PT. " + data.TKI_PJTKIDESC + ". Please contact your partner PPTKIS to revise it via SISKO System in Indonesia.");
+                                              //   alert("Passport " + data.tki_pasporno + " (" + data.tki_name + ") is found, but registered for " + data.tki_agensidesc + " - PT. " + data.tki_pptkisdesc + ". Please contact your partner PPTKIS to revise it via SISKO System in Indonesia.");
                                               //   return;
                                               // }
-                                              // else if (typeof data.TKI_PASPORNO === "undefined")
-                                              // {
-                                              //   $("#loading2nd").unmask();
-                                              //   alert("The Indonesian migrant worker data is still not completed. Please contact your partner PPTKIS to complete it via SISKO System in Indonesia.");
-                                              //   return;
-                                              // }
-                                              if (bypass) {
-
+                                              if (typeof data.tki_pasporno === "undefined")
+                                              {
+                                                $("#loading2nd").unmask();
+                                                alert("The Indonesian migrant worker data is still not completed. Please contact your partner PPTKIS to complete it via SISKO System in Indonesia.");
+                                                return;
                                               }
                                               else {
                                                 var valid = 0;
                                                 var undefinedsex = 0;
 
                                                 // laki-laki
-                                                if (data.TKI_TKIGENDER === "L") {
+                                                if (data.tki_gender === "L") {
                                                   if (laki == 0) {
                                                     if (campuran > 0) {
                                                       campuran--;
@@ -665,7 +661,7 @@
                                                     laki--;
                                                     valid = 1;
                                                   }
-                                                } else if (data.TKI_TKIGENDER === "P") {
+                                                } else if (data.tki_gender === "P") {
                                                   if (perempuan == 0) {
                                                     if (campuran > 0) {
                                                       campuran--;
@@ -683,11 +679,11 @@
                                                   editDialog(data);
                                                 } else if( undefinedsex == 1){
                                                   $("#loading2nd").unmask();
-                                                  alert("Please contact your Indonesian Agency (PPTKIS) partner to input Gender Type (Male / Female) of "+ data.TKI_PASPORNO + " (" + data.TKI_TKINAME + ") in SISKO." );
+                                                  alert("Please contact your Indonesian Agency (PPTKIS) partner to input Gender Type (Male / Female) of "+ data.tki_pasporno + " (" + data.tki_name + ") in SISKO." );
                                                 }
                                                 else {
                                                   $("#loading2nd").unmask();
-                                                  alert("You add " + (data.TKI_TKIGENDER === "L"? "a male worker.\n" : "a female worker.\n") + "Your quota has been used up!" );
+                                                  alert("You add " + (data.tki_gender === "L"? "a male worker.\n" : "a female worker.\n") + "Your quota has been used up!" );
                                                 }
                                               }
                                             }
@@ -713,23 +709,23 @@
 
 
                                         if (!isEdit) {
-                                          $("#tkinama").html(data.TKI_TKINAME);
-                                          $("#tkialmtid").html(data.TKI_TKIADDRESS);
-                                          $("#tkipaspor").html(data.TKI_PASPORNO);
-                                          $("#tkitglkeluar").html(data.TKI_PASPORDATE);
-                                          $("#tkitgllahir").html(data.TKI_TKIDOB);
-                                          $("#tkitmptlahir").html(data.TKI_TKIPOBDESC);
-                                          $("#tkitkjk").html(data.TKI_TKIGENDER == "L" ? "Male" : "Female");
-                                          formAddTki.find("input[name=tkiahliwaris]").val(data.TKI_TKIFATHERNAME);
-                                          formAddTki.find("input[name=tkinama2]").val(data.TKI_TKIFATHERNAME);
-                                          formAddTki.find("input[name=tkialmt2]").val(data.TKI_ORTUADDR);
+                                          $("#tkinama").html(data.tki_name);
+                                          $("#tkialmtid").html(data.tki_alamat);
+                                          $("#tkipaspor").html(data.tki_pasporno);
+                                          $("#tkitglkeluar").html(data.tki_pasporexpire);
+                                          $("#tkitgllahir").html(data.tki_dob);
+                                          $("#tkitmptlahir").html(data.tki_pob);
+                                          $("#tkitkjk").html(data.tki_gender == "L" ? "Male" : "Female");
+                                          formAddTki.find("input[name=tkiahliwaris]").val(data.tki_fathername);
+                                          formAddTki.find("input[name=tkinama2]").val(data.tki_fathername);
+                                          formAddTki.find("input[name=tkialmt2]").val(data.tki_ortuaddr);
                                           formAddTki.find("input[name=tkihub]").val("AYAH");
-                                          formAddTki.find("input[name=tkitmptkeluar]").val(data.TKI_PASPORISSUE);
-                                          formAddTki.find("input[name=tkijmlhanaktanggungan]").val(data.TKI_JUMLAH_ANAK);
-                                          formAddTki.find("input[name=tkitelp]").val(data.TKI_TELPKELUARGA);
-                                          if (data.TKI_TKIMARITAL == "009.002") {tempkwn = 0;}
-                                          else if (data.TKI_TKIMARITAL == "009.003") {tempkwn = 1;}
-                                          else if (data.TKI_TKIMARITAL == "009.001") {tempkwn = 2;}
+                                          formAddTki.find("input[name=tkitmptkeluar]").val(data.tki_pasporissue);
+                                          formAddTki.find("input[name=tkijmlhanaktanggungan]").val(data.tki_jumlahanak);
+                                          formAddTki.find("input[name=tkitelp]").val(data.tki_telpkeluarga);
+                                          if (data.tki_marital == "Kawin") {tempkwn = 0;}
+                                          else if (data.tki_marital == "Belum Kawin") {tempkwn = 1;}
+                                          else if (data.tki_marital == "Cerai") {tempkwn = 2;}
                                           formAddTki.find("input:radio[name=tkistatkwn]").filter("[value=" + tempkwn + "]").prop('checked', true);
                                         } else if (isEdit) {
                                           cek = true;
@@ -743,7 +739,7 @@
                                           formAddTki.find("input[name=tkihub]").val(data.tkihub);
                                         }
 
-                                        $("#imgfoto").attr("src", "http://siskotkln.bnp2tki.go.id/function/get_image.php?img=" + data.TKI_TKIID);
+                                        $("#imgfoto").attr("src", "http://siskotkln.bnp2tki.go.id/function/get_image.php?img=" + data.tki_id);
                                         $("#modalcheck").unmask();
                                         $("#btnSubmitForm").unbind('click').click(function(){
                                           if (formAddTki.find("input[name=tkitelp]").val() !== "" && formAddTki.find("input[name=tkijmlhanaktanggungan]").val() !== "" && formAddTki.find("input[name=tkiahliwaris]").val() !== "" && formAddTki.find("input[name=tkinama2]").val() !== "" && formAddTki.find("input[name=tkitelp]").val() !== "") {
@@ -777,7 +773,7 @@
                                           el.empty();
                                           if (tkidata.length > 0) {
                                             _.each(tkidata, function(tki) {
-                                              el.append("<li>"+ tki.TKI_PASPORNO + ", " + tki.TKI_TKINAME + ", " + (tki.TKI_TKIGENDER === "L" ? "Male" : "Female") + " <a edit paspor='" + tki.TKI_PASPORNO + "' href='javascript:void(0)'>(edit)</a>" + " <a delete paspor='" + tki.TKI_PASPORNO + "' href='javascript:void(0)'>(cancel)</a></li>");
+                                              el.append("<li>"+ tki.tki_pasporno + ", " + tki.tki_name + ", " + (tki.tki_gender === "L" ? "Male" : "Female") + " <a edit paspor='" + tki.tki_pasporno + "' href='javascript:void(0)'>(edit)</a>" + " <a delete paspor='" + tki.tki_pasporno + "' href='javascript:void(0)'>(cancel)</a></li>");
                                             });
                                           } else {
                                             el.html("Empty");
@@ -785,21 +781,21 @@
 
                                           el.find("a[edit]").click(function() {
                                             var tmp = $(this).attr("paspor");
-                                            editDialog(_.find(tkidata, function(a) { return a.TKI_PASPORNO == tmp }), true);
+                                            editDialog(_.find(tkidata, function(a) { return a.tki_pasporno == tmp }), true);
                                           });
 
                                           el.find("a[delete]").click(function() {
                                             if (confirm("Are you sure to remove this worker?")) {
                                               var tmp = $(this).attr("paspor");
                                               for (var i=0; i<tkidata.length; i++) {
-                                                if (tkidata[i].TKI_PASPORNO == tmp) {
-                                                  if (tkidata[i].TKI_TKIGENDER === "L") {
+                                                if (tkidata[i].tki_pasporno == tmp) {
+                                                  if (tkidata[i].tki_gender === "L") {
                                                     if (laki <= 0 && campuran < upperboundc) {
                                                       campuran++;
                                                     } else {
                                                       laki++;
                                                     }
-                                                  } else if (tkidata[i].TKI_TKIGENDER === "P") {
+                                                  } else if (tkidata[i].tki_gender === "P") {
                                                     if (perempuan <= 0 && campuran < upperboundc) {
                                                       campuran++;
                                                     } else {
@@ -955,7 +951,6 @@
                                             // jo = splitter[1];
                                             $.post("<?php echo base_url()?>Endorsement/getJodetail", {ppkode : ppkode}, function(data,status){
                                               var obj = $.parseJSON(data);
-                                              console.log(data);
                                               $.each(obj, function (i, item) {
                                                 $('#jobtype').append($('<option>', {
                                                   value: item[1]+'/'+item[3]+'/'+item[4]+'/'+item[5]+'/'+item[6]+'/'+item[7],

@@ -8,6 +8,8 @@ class ServicesAPI extends CI_Controller {
   {
     parent::__construct();
     $this->load->model('Endorsement/API_model');
+    $this->load->model('Perlindungan/Agency_model');
+    $this->load->model('Endorsement/Endorsement_model');
   }
 
   function insert_jo()
@@ -229,16 +231,20 @@ class ServicesAPI extends CI_Controller {
     $paspor = $this->input->post('paspor');
     $url = "http://ws-sisnaker.kemnaker.go.id/kemenaker/bnp/pk/get_by_paspor/";
     $param["detail"]["tki_pasporno"] 	= $paspor; ### isi detailnya disini
-    //$param["detail"]["other_detail"] 	= "AT6773978"; semisal banyak detail
     $result = $this->send_request($url, $param);
-    if ($result->response_code == '1') {
-      $message = $result->response_data;
+    if ($result->response_code == "1")
+    {
+      $agensi = $this->Agency_model->get_agency_info_by_user($this->session->userdata('user'));
+      if(isset($agensi)){
+          $my_agid_induk = $this->Endorsement_model->check_agensi_induk($agensi->agid);
+          $result->my_agid = isset($my_agid_induk) ? $my_agid_induk->agid_induk : $agensi->agid;
+      }
+      $agid_induk = $this->Endorsement_model->check_agensi_induk($result->response_data->tki_agensiid);
+      if (isset($agid_induk)) {
+        $result->response_data->tki_agensiid = $agid_induk->agid_induk;
+      }
     }
-    else {
-      $message = $result->response_code;
-    }
-    var_dump($result);
-    return json_encode($message);
+    echo json_encode($result);
   }
 
   function ws_get_pptkis_status_by_id($idpptkis)

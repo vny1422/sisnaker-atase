@@ -409,7 +409,7 @@ public function updateagency()
 
         $country_id = $this->Agency_model->get_idcountry_by_idinstitution($this->session->userdata('institution'));
         // var_dump($country_id[0]->tcode);
-        
+
         //PUSH UPDATE AGENCY TO BNP
         $url = "http://ws-sisnaker.kemnaker.go.id/kemenaker/bnp/agency/update/";
         $param["detail"]["agc_id"] 	        = $agc_id; ### isi detailnya disini
@@ -983,19 +983,19 @@ public function insertEJ()
   $datatki = array();
   foreach($posttki as $tki)
   {
-    $keluar = DateTime::createFromFormat('d-m-Y', $tki->TKI_KELUARBLKDATE);
+    $keluar = DateTime::createFromFormat('d-m-Y', $tki->tki_pasporexpire);
     $keluarFormatted = $keluar->format('Y-m-d');
-    $lahir = DateTime::createFromFormat('d-m-Y', $tki->TKI_TKIDOB);
+    $lahir = DateTime::createFromFormat('d-m-Y', $tki->tki_dob);
     $lahirFormatted = $lahir->format('Y-m-d');
     $datatki["ejid"] = $ejid;
-    $datatki["tknama"] = $tki->TKI_TKINAME;
-    $datatki["tkalmtid"] = $tki->TKI_TKIADDRESS;
-    $datatki["tkpaspor"] = $tki->TKI_PASPORNO;
+    $datatki["tknama"] = $tki->tki_name;
+    $datatki["tkalmtid"] = $tki->tki_alamat;
+    $datatki["tkpaspor"] = $tki->tki_pasporno;
     $datatki["tktglkeluar"] = $keluarFormatted;
     $datatki["tktmptkeluar"] = $tki->tkitmptkeluar;
     $datatki["tktgllahir"] = $lahirFormatted;
-    $datatki["tktmptlahir"] = $tki->TKI_TKIPOBDESC;
-    $datatki["tkjk"] = $tki->TKI_TKIGENDER;
+    $datatki["tktmptlahir"] = $tki->tki_pob;
+    $datatki["tkjk"] = $tki->tki_gender;
     $datatki["tkstatkwn"] = $tki->tkistatkwn;
     $datatki["tkjmlanaktanggungan"] = $tki->tkijmlanaktanggungan;
     $datatki["tkahliwaris"] = $tki->tkiahliwaris;
@@ -1004,13 +1004,13 @@ public function insertEJ()
     $datatki["tktelp"] = $tki->tkitelp;
     $datatki["tkhub"] = $tki->tkihub;
     $datatki["tkstat"] = 0;
-    $datatki["tkiid"] = $tki->TKI_TKIID;
+    $datatki["tkiid"] = $tki->tki_id;
     $datatki["tkidownloadurl"] = $url->curtkidownloadurl;
     $datatki["md5ej"] = md5($ejid);
-    $check = $this->Endorsement_model->find_tkipaspor($tki->TKI_PASPORNO);
+    $check = $this->Endorsement_model->find_tkipaspor($tki->tki_pasporno);
     if($check > 0)
     {
-      $this->Endorsement_model->update_TKI($datatki,$tki->TKI_PASPORNO);
+      $this->Endorsement_model->update_TKI($datatki,$tki->tki_pasporno);
     }
     else {
       $this->Endorsement_model->insert_tki($datatki);

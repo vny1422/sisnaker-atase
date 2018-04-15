@@ -600,24 +600,12 @@
                                         }
                                         else {
                                           $("#loading2nd").mask("Loading...");
-                                          $.post("<?php echo base_url()?>ServicesAPI/get_tki_by_paspor", {paspor: paspor, jpid: jpid}, function(xml,status){
+                                          $.post("<?php echo base_url()?>Endorsement/requestTKI", {paspor: paspor, jpid: jpid}, function(xml,status){
                                             var json = $.parseJSON(xml);
-                                            if(json == '0')
+                                            if(json == 0)
                                             {
                                               $("#loading2nd").unmask();
                                               alert("Passport is not found. Please contact your Indonesian agency (PPTKIS) partner.")
-                                              return;
-                                            }
-                                            else if(json == '-1')
-                                            {
-                                              $("#loading2nd").unmask();
-                                              alert("Failed to Authenticate Request.")
-                                              return;
-                                            }
-                                            else if(json == '-2')
-                                            {
-                                              $("#loading2nd").unmask();
-                                              alert("TKI not yet Jamsospra etc")
                                               return;
                                             }
                                             else {

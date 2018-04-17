@@ -1110,26 +1110,4 @@ public function printPKTKI($md5tki)
   $pdf->Image('./assets/template/perawatpanti_01.jpg', 0, 0, $pdf->w, $pdf->h);
   $pdf->Output();}
 
-  // API BNP
-  function send_request($url, $detail)
-  {
-    $detail["header"]["username"] = "atnaker";
-    $detail["header"]["password"] = "atnaker@2018";
-
-    $param_send = json_encode ( $detail );
-
-    $ch = curl_init($url);
-    curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, "POST" );
-    curl_setopt ( $ch, CURLOPT_POSTFIELDS, $param_send );
-    curl_setopt_array($ch, array(
-      CURLOPT_RETURNTRANSFER  =>true,
-      CURLOPT_VERBOSE     => 1
-    ));
-
-    $out = curl_exec($ch);
-    curl_close($ch);
-
-    return json_decode($out);
-  }
-
 }

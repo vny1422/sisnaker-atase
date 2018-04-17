@@ -968,19 +968,19 @@ function send_request($url, $detail)
 function ws_push_pk($ej, $tki, $ejid)
 {
   $url = "http://ws-sisnaker.kemnaker.go.id/kemenaker/bnp/pk/endorsement/";
-  $pk_duration = $data["jomkthn"];
-  $jp_bnp2tki = $this->Jobtype_model->get_jobtype($data["idjenispekerjaan"]);
+  $pk_duration = $ej["jomkthn"];
+  $jp_bnp2tki = $this->Jobtype_model->get_jobtype($ej["idjenispekerjaan"]);
   $dateexpire = strtotime("+$pk_duration year");
   $param["detail"]["tki_id"] 	= $tki->tki_id;;
-  $param["detail"]["tki_majikanid"] 	= $data["mjktp"];
-  $param["detail"]["tki_majikanname"] 	= $data["mjnama"];
-  $param["detail"]["tki_majikanaddress"] 	= $data["mjalmt"];
+  $param["detail"]["tki_majikanid"] 	= $ej["mjktp"];
+  $param["detail"]["tki_majikanname"] 	= $ej["mjnama"];
+  $param["detail"]["tki_majikanaddress"] 	= $ej["mjalmt"];
   $param["detail"]["tki_pkno"] 	= $ejid;
   $param["detail"]["tki_pkdate"] 	= date('Y-m-d');;
   $param["detail"]["tki_pkexpire"] 	= data('Y-m-d', $dateexpire);
   $param["detail"]["tki_negaraid"] 	= '001.002.207';
-  $param["detail"]["tki_pptkis"] 	= $data["ppkode"];
-  $param["detail"]["tki_agency"] 	= $data["agid"];
+  $param["detail"]["tki_pptkis"] 	= $ej["ppkode"];
+  $param["detail"]["tki_agency"] 	= $ej["agid"];
   $param["detail"]["tki_pasporno"] 	= $tki->tki_pasporno;;
   $param["detail"]["tki_paspordate"] 	= date('Y-m-d');
   $param["detail"]["tki_jabatan"] 	= $jp_bnp2tki->idpekerjaan_bnp2tki;

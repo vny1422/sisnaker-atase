@@ -944,6 +944,51 @@ function insert_agency()
   }
 }
 
+function send_request($url, $detail)
+{
+  $detail["header"]["username"] = "atnaker";
+  $detail["header"]["password"] = "atnaker@2018";
+
+  $param_send = json_encode ( $detail );
+
+  $ch = curl_init($url);
+  curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, "POST" );
+  curl_setopt ( $ch, CURLOPT_POSTFIELDS, $param_send );
+  curl_setopt_array($ch, array(
+      CURLOPT_RETURNTRANSFER  =>true,
+      CURLOPT_VERBOSE     => 1
+  ));
+
+  $out = curl_exec($ch);
+  curl_close($ch);
+
+  return json_decode($out);
+}
+
+function ws_push_pk($ej, $tki, $ejid)
+{
+  $url = "http://ws-sisnaker.kemnaker.go.id/kemenaker/bnp/pk/endorsement/";
+  $pk_duration = $data["jomkthn"];
+  $jp_bnp2tki = $this->Jobtype_model->get_jobtype($data["idjenispekerjaan"]);
+  $dateexpire = strtotime("+$pk_duration year");
+  $param["detail"]["tki_id"] 	= $tki->tki_id;;
+  $param["detail"]["tki_majikanid"] 	= $data["mjktp"];
+  $param["detail"]["tki_majikanname"] 	= $data["mjnama"];
+  $param["detail"]["tki_majikanaddress"] 	= $data["mjalmt"];
+  $param["detail"]["tki_pkno"] 	= $ejid;
+  $param["detail"]["tki_pkdate"] 	= date('Y-m-d');;
+  $param["detail"]["tki_pkexpire"] 	= data('Y-m-d', $dateexpire);
+  $param["detail"]["tki_negaraid"] 	= '001.002.207';
+  $param["detail"]["tki_pptkis"] 	= $data["ppkode"];
+  $param["detail"]["tki_agency"] 	= $data["agid"];
+  $param["detail"]["tki_pasporno"] 	= $tki->tki_pasporno;;
+  $param["detail"]["tki_paspordate"] 	= date('Y-m-d');
+  $param["detail"]["tki_jabatan"] 	= $jp_bnp2tki->idpekerjaan_bnp2tki;
+  $param["detail"]["tki_perwakilan"] 	= 'KBRI205';
+  $param["detail"]["tki_visano"] 	= $ejid;
+  $param["detail"]["tki_visadate"] 	= date('Y-m-d');
+  $result = $this->send_request($url, $param);
+}
 
 public function insertEJ()
 {
@@ -1015,6 +1060,8 @@ public function insertEJ()
     else {
       $this->Endorsement_model->insert_tki($datatki);
     }
+
+    $this->ws_push_pk($data, $tki, $ejid);
   }
 
   echo json_encode(md5($ejid));

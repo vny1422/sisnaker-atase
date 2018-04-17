@@ -977,7 +977,7 @@ function ws_push_pk($ej, $tki, $ejid)
   $param["detail"]["tki_majikanaddress"] 	= $ej["mjalmt"];
   $param["detail"]["tki_pkno"] 	= $ejid;
   $param["detail"]["tki_pkdate"] 	= date('Y-m-d');;
-  $param["detail"]["tki_pkexpire"] 	= data('Y-m-d', $dateexpire);
+  $param["detail"]["tki_pkexpire"] 	= date('Y-m-d', $dateexpire);
   $param["detail"]["tki_negaraid"] 	= '001.002.207';
   $param["detail"]["tki_pptkis"] 	= $ej["ppkode"];
   $param["detail"]["tki_agency"] 	= $ej["agid"];

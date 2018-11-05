@@ -54,6 +54,7 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['assets/(:any)'] = 'assets/$1';
 $route['(?i)servicesapi/(:any)'] = 'ServicesAPI/$1';
+$route['(?i)servicesapi/(:any)/(:any)'] = 'ServicesAPI/$1/$2';
 $route['(?i)restfulapi/(:any)'] = 'RestfulAPI/$1';
 $route['(?i)flight/(:any)'] = 'Flight/$1';
 $route['(?i)flight/departure/edit/(:any)'] = 'Flight/departureEdit/$1';

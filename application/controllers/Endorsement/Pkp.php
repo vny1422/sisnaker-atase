@@ -55,8 +55,8 @@
 
     public function addPkp()
     {
-      if ($this->session->userdata('role') == 4 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
-      {
+      // if ($this->session->userdata('role') == 4 || $this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
+      // {
         $this->form_validation->set_rules('agensi', 'Agensi', 'required|trim');
         $this->form_validation->set_rules('pptkis', 'PPTKIS', 'required|trim');
         $this->form_validation->set_rules('start', 'Tanggal Mulai', 'required|trim');
@@ -94,17 +94,17 @@
           }
           redirect('pkp/addPkp');
         }
-      }
-      else {
-        show_error("Access is forbidden.",403,"403 Forbidden");
-      }
+      // }
+      // else {
+      //   show_error("Access is forbidden.",403,"403 Forbidden");
+      // }
 
     }
 
     public function pkpnew()
     {
-      if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
-      {
+      // if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
+      // {
         $this->form_validation->set_rules('agensi', 'Agensi', 'required|trim');
         $this->form_validation->set_rules('pptkis', 'PPTKIS', 'required|trim');
         $this->form_validation->set_rules('start', 'Tanggal Mulai', 'required|trim');
@@ -138,17 +138,17 @@
           }
           redirect('pkp/pkpnew');
         }
-      }
-      else {
-        show_error("Access is forbidden.",403,"403 Forbidden");
-      }
+      // }
+      // else {
+      //   show_error("Access is forbidden.",403,"403 Forbidden");
+      // }
 
     }
 
     public function uploadDokFin($pkpkode)
     {
-      if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
-      {
+      // if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
+      // {
         //$this->form_validation->set_rules('dokumenfinalpkp', 'Dokumen Final PKP', 'required');
          // if (empty($_FILES['dokumenfinalpkp']['name']))
          // {
@@ -172,7 +172,6 @@
         }
         else
         {
-          echo "Masuk upload";
           $returnUploadPKP = $this->PKP_model->upload_dokumen_final_pkp($pkpkode);
           if ($returnUploadPKP) {
             //echo "masuk if";
@@ -204,16 +203,16 @@
           redirect('pkp/');
         }
 
-      }
-      else {
-        show_error("Access is forbidden.",403,"403 Forbidden");
-      }
+      // }
+      // else {
+      //   show_error("Access is forbidden.",403,"403 Forbidden");
+      // }
     }
 
     public function downloadDokFin($param)
     {
-      //if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
-      //{
+      // if ($this->session->userdata('role') == 6 || $this->session->userdata('role') == 7)
+      // {
           $data['pkp'] = $this->PKP_model->get_pkp_for_report($param);
           ini_set('memory_limit', '64M');
           $nama_dokumen = "PKP_Report";
@@ -222,10 +221,10 @@
           $pdf=$this->pdfm->load();
           $pdf->WriteHTML($html); //write the HTML into PDF
           $pdf->Output($nama_dokumen.".pdf" ,'I');
-      //}
-      //else {
-        //show_error("Access is forbidden.",403,"403 Forbidden");
-      //}
+      // }
+      // else {
+      //   show_error("Access is forbidden.",403,"403 Forbidden");
+      // }
     }
 
     public function getDataPKP()

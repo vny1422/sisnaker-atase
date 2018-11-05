@@ -82,14 +82,11 @@ class ServicesAPI extends CI_Controller {
   }
 
   function cobak(){
-    // $jo_data = $this->API_model->getJOByJobId(1);
-    // $jo_data_fix = $jo_data[0];
-    // var_dump($jo_data_fix);
+    $url = "http://ws-sisnaker.kemnaker.go.id/kemenaker/bpjs/getStatusBayarbyPaspor/";
+    $param["params"]["tki_pasporno"] 	       = 'A6733715'; ### isi detailnya disini
 
-
-    $jo_detail = $this->API_model->getJODetailWithGaji(1);
-    var_dump($jo_detail);
-
+    $result = $this->send_request($url, $param);
+    var_dump($result);
   }
 
   function cobak2(){
@@ -260,7 +257,27 @@ class ServicesAPI extends CI_Controller {
     //var_dump($result->response_code); ## to access the property
   }
 
-  function send_request($url, $detail)
+  function ws_get_contracts()
+  {
+    $url = "http://ws-sisnaker.kemnaker.go.id/kemenaker/musaned/getPartnershipContracts";
+
+    $result = $this->send_request($url);
+
+    //return json_encode()
+    return ($result);
+  }
+
+  function ws_get_sras()
+  {
+    $url = "http://ws-sisnaker.kemnaker.go.id/kemenaker/musaned/getSRAslist";
+
+    $result = $this->send_request($url);
+
+    //return json_encode()
+    return ($result);
+  }
+
+  function send_request($url, $detail=null)
   {
     $detail["header"]["username"] = "atnaker";
     $detail["header"]["password"] = "atnaker@2018";
@@ -270,6 +287,8 @@ class ServicesAPI extends CI_Controller {
     $ch = curl_init($url);
     curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, "POST" );
     curl_setopt ( $ch, CURLOPT_POSTFIELDS, $param_send );
+    curl_setopt ( $ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt ( $ch, CURLOPT_POSTREDIR, 3);
     curl_setopt_array($ch, array(
         CURLOPT_RETURNTRANSFER  =>true,
         CURLOPT_VERBOSE     => 1

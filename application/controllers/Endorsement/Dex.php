@@ -11,6 +11,7 @@ class Dex extends MY_Controller {
     $this->load_sidebar();
     $this->load->model('Endorsement/Endorsement_model');
     $this->load->model('Endorsement/Dex_model');
+    $this->load->library('excel');
 
     $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'penempatan_'));
 
@@ -63,9 +64,9 @@ class Dex extends MY_Controller {
             $entry->{strtolower("FILE_SURAT_PERNYATAAN_TKI")} = $document->id;
           if($document->type == 8)
             $entry->{strtolower("FILE_LISENSI_PERUSAHAAN")} = $document->id; 
-          $pekerjaan = $this->Dex_model->getPekerjaan();
-          $kuitansi = $this->Dex_model->getKuitansi($entry->id)->result();
         }
+        $pekerjaan = $this->Dex_model->getPekerjaan();
+        $kuitansi = $this->Dex_model->getKuitansi($entry->id)->result();
         $this->data['entry'] = $entry;
         if(!empty($kuitansi))$this->data['kuitansi'] = $kuitansi[0];
         $this->data['pekerjaans'] = $pekerjaan->result();
@@ -139,5 +140,154 @@ class Dex extends MY_Controller {
     $this->datatables->from('entries');
     echo $this->datatables->generate();
   }
+  public function report_view()
+  {
+    $this->data['title'] = 'Report Direct Ext. Hiring';
+    $this->data['subtitle'] = 'Report Direct Ext. Hiring';
+    $this->load->view('templates/headerendorsement', $this->data);
+    $this->load->view('Endorsement/Dex/ReportDex_view', $this->data);
+    $this->load->view('templates/footerendorsement'); 
+  }
+  public function report_entry()
+  {
+    $filename = "Daftar Entry";
+    $title = "Daftar Entry";
+    $file = $filename . '.xls'; //save our workbook as this file name
+   
+    
+    header('Content-Type: application/vnd.ms-excel'); //mime type
+    header('Content-Disposition: attachment;filename="'.$file.'"'); //tell browser what's the file name
+    header('Cache-Control: max-age=0'); //no cache
 
+    $this->excel->setActiveSheetIndex(0);
+    $this->excel->getActiveSheet()->setTitle($filename);
+    $this->excel->getActiveSheet()->setCellValue('A1', $title);
+    $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+    $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+    //$this->excel->getActiveSheet()->mergeCells('A1:' . $cell . '1');
+    $this->excel->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+    $this->excel->getActiveSheet()->setCellValue('A2', 'Kode Entry');
+    $this->excel->getActiveSheet()->setCellValue('B2', 'Nama Majikan');
+    $this->excel->getActiveSheet()->setCellValue('C2', 'Nama Majikan English');
+    $this->excel->getActiveSheet()->setCellValue('D2', 'Nama Perusahaan');
+    $this->excel->getActiveSheet()->setCellValue('E2', 'Nama Perusahaan English');
+    $this->excel->getActiveSheet()->setCellValue('F2', 'Nama Agensi');
+    $this->excel->getActiveSheet()->setCellValue('G2', 'Nama Agensi English');
+    $this->excel->getActiveSheet()->setCellValue('H2', 'Alamat Bekerja English');
+    $this->excel->getActiveSheet()->setCellValue('I2', 'Alamat Bekerja English');
+    $this->excel->getActiveSheet()->setCellValue('J2', 'No Telpon Majikan');
+    $this->excel->getActiveSheet()->setCellValue('K2', 'Nama Pekerja');
+    $this->excel->getActiveSheet()->setCellValue('L2', 'Alamat Indonesia');
+    $this->excel->getActiveSheet()->setCellValue('M2', 'No Paspor');
+    $this->excel->getActiveSheet()->setCellValue('N2', 'Tanggal diterbitkan Paspor');
+    $this->excel->getActiveSheet()->setCellValue('O2', 'Tempat diterbitkan Paspor');
+    $this->excel->getActiveSheet()->setCellValue('P2', 'No Telpon Indonesia');
+    $this->excel->getActiveSheet()->setCellValue('Q2', 'No Telpon Taiwan');
+    $this->excel->getActiveSheet()->setCellValue('R2', 'Tanggal Lahir');
+    $this->excel->getActiveSheet()->setCellValue('S2', 'Tempat Lahir');
+    $this->excel->getActiveSheet()->setCellValue('T2', 'Jenis Kelamin');
+    $this->excel->getActiveSheet()->setCellValue('U2', 'Status Perkawinan');
+    $this->excel->getActiveSheet()->setCellValue('V2', 'Jumlah Tanggungan Anak');
+    $this->excel->getActiveSheet()->setCellValue('W2', 'Nama Ahli Waris');
+    $this->excel->getActiveSheet()->setCellValue('X2', 'Alamat Ahli Waris');
+    $this->excel->getActiveSheet()->setCellValue('Y2', 'Telepon AHli Waris');
+    $this->excel->getActiveSheet()->setCellValue('Z2', 'Hubungan');
+    $this->excel->getActiveSheet()->setCellValue('AA2', 'Gaji');
+    $i = 3;
+    $entry = $this->Dex_model->getAllEntry()->result();
+    foreach ($entry as $key => $value) {
+      if($value->status=="Terima"){
+        $this->excel->getActiveSheet()
+            ->getStyle('A'.$i.':AA'.$i)
+            ->getFill()
+            ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+            ->getStartColor()
+            ->setARGB("FF00FF00");
+      }
+      else if($value->status=="Tolak"){
+        $this->excel->getActiveSheet()
+            ->getStyle('A'.$i.':AA'.$i)
+            ->getFill()
+            ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+            ->getStartColor()
+            ->setARGB("FFFF0000");
+      }
+      $this->excel->getActiveSheet()->setCellValue('A'.$i, $value->kode_entry);
+      $this->excel->getActiveSheet()->setCellValue('B'.$i, $value->nama_majikan);
+      $this->excel->getActiveSheet()->setCellValue('C'.$i, $value->nama_majikan_eng);
+      $this->excel->getActiveSheet()->setCellValue('D'.$i, $value->nama_perusahaan);
+      $this->excel->getActiveSheet()->setCellValue('E'.$i, $value->nama_perusahaan_eng);
+      $this->excel->getActiveSheet()->setCellValue('F'.$i, $value->nama_agensi);
+      $this->excel->getActiveSheet()->setCellValue('G'.$i, $value->nama_agensi_eng);
+      $this->excel->getActiveSheet()->setCellValue('H'.$i, $value->alamat_bekerja_eng);
+      $this->excel->getActiveSheet()->setCellValue('I'.$i, $value->alamat_bekerja_eng);
+      $this->excel->getActiveSheet()->setCellValue('J'.$i, $value->telp_majikan);
+      $this->excel->getActiveSheet()->setCellValue('K'.$i, $value->nama_pekerja);
+      $this->excel->getActiveSheet()->setCellValue('L'.$i, $value->alamat_indonesia);
+      $this->excel->getActiveSheet()->setCellValue('M'.$i, $value->no_paspor);
+      $this->excel->getActiveSheet()->setCellValue('N'.$i, date_view($value->tgl_paspor));
+      $this->excel->getActiveSheet()->setCellValue('O'.$i, $value->tempat_paspor);
+      $this->excel->getActiveSheet()->setCellValue('P'.$i, $value->telp_indonesia);
+      $this->excel->getActiveSheet()->setCellValue('Q'.$i, $value->telp_taiwan);
+      $this->excel->getActiveSheet()->setCellValue('R'.$i, date_view($value->tgl_lahir));
+      $this->excel->getActiveSheet()->setCellValue('S'.$i, $value->tempat_lahir);
+      $this->excel->getActiveSheet()->setCellValue('T'.$i, $value->jenis_kelamin);
+      $this->excel->getActiveSheet()->setCellValue('U'.$i, $value->status_perkawinan);
+      $this->excel->getActiveSheet()->setCellValue('V'.$i, $value->jumlah_tanggungan_anak);
+      $this->excel->getActiveSheet()->setCellValue('W'.$i, $value->nama_ahli_waris);
+      $this->excel->getActiveSheet()->setCellValue('X'.$i, $value->alamat_ahli_waris);
+      $this->excel->getActiveSheet()->setCellValue('Y'.$i, $value->telp_ahli_waris);
+      $this->excel->getActiveSheet()->setCellValue('Z'.$i, $value->hubungan);
+      $this->excel->getActiveSheet()->setCellValue('AA'.$i, $value->gaji);
+      $i++;
+    }
+    $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');  
+    $objWriter->save('php://output');
+  }
+  public function report_kuitansi()
+  {
+    $filename = "Daftar Kuitansi";
+    $title = "Daftar Kuitansi";
+    $file = $filename . '.xls'; //save our workbook as this file name
+    
+    
+    header('Content-Type: application/vnd.ms-excel'); //mime type
+    header('Content-Disposition: attachment;filename="'.$file.'"'); //tell browser what's the file name
+    header('Cache-Control: max-age=0'); //no cache
+
+    $this->excel->setActiveSheetIndex(0);
+    $this->excel->getActiveSheet()->setTitle($filename);
+    $this->excel->getActiveSheet()->setCellValue('A1', $title);
+    $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+    $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+    //$this->excel->getActiveSheet()->mergeCells('A1:' . $cell . '1');
+    $this->excel->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+    $this->excel->getActiveSheet()->setCellValue('A2', 'Kode Entry');
+    $this->excel->getActiveSheet()->setCellValue('B2', 'No Kuitansi');
+    $this->excel->getActiveSheet()->setCellValue('C2', 'Jumlah');
+    $this->excel->getActiveSheet()->setCellValue('D2', 'Pemohon');
+    $this->excel->getActiveSheet()->setCellValue('E2', 'Tanggal Masuk');
+    $this->excel->getActiveSheet()->setCellValue('F2', 'Tanggal Kuitansi');
+    $this->excel->getActiveSheet()->setCellValue('G2', 'Tipe Kuitansi');
+    $this->excel->getActiveSheet()->setCellValue('H2', 'Tanggal Endorsement');
+    $i = 3;
+    $entry = $this->Dex_model->getAllKuitansi()->result();
+    foreach ($entry as $key => $value) {
+
+      $this->excel->getActiveSheet()->setCellValue('A'.$i, $value->kode_entry);
+      $this->excel->getActiveSheet()->setCellValue('B'.$i, $value->no_kuitansi);
+      $this->excel->getActiveSheet()->setCellValue('C'.$i, $value->jumlah);
+      $this->excel->getActiveSheet()->setCellValue('D'.$i, $value->pemohon);
+      $this->excel->getActiveSheet()->setCellValue('E'.$i, date_view($value->tgl_masuk));
+      $this->excel->getActiveSheet()->setCellValue('F'.$i, date_view($value->tgl_kuitansi));
+      $this->excel->getActiveSheet()->setCellValue('G'.$i, $value->tipe_kuitansi);
+      $this->excel->getActiveSheet()->setCellValue('H'.$i, date_view($value->tgl_endorsement));
+
+      $i++;
+    }
+    $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');  
+    $objWriter->save('php://output');
+  }
 }

@@ -256,7 +256,7 @@
             </div>
             <div class="form-group row">
               <label class="col-sm-2 col-form-label text-success">Jenis Kelamin / 性別</label>
-              <div class="col-sm-10">
+              <div class="col-sm-9">
                 <select class="form-control" name="jenis_kelamin">
                   <option value="L" <?php if($entry->jenis_kelamin === 'L')echo "selected='selected'"; ?> >Laki-Laki</option>
                   <option value="P" <?php if($entry->jenis_kelamin === 'P')echo "selected='selected'";  ?> >Perempuan</option>
@@ -322,8 +322,12 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Status Perkawinan</label>
               <div class="col-sm-9">
-                <input type="text" name="status_perkawinan" class="form-control" placeholder="Status Perkawinan" 
-                value="<?php echo $entry->status_perkawinan; ?>">
+                  <select class="form-control" name="status_perkawinan">
+                    <option disabled selected></option>
+                    <option value="0" <?php if($entry->status_perkawinan==0)echo "selected"; ?> >Kawin/已婚</option>
+                    <option value="1" <?php if($entry->status_perkawinan==1)echo "selected"; ?>>Belum Kawin/未婚</option>
+                    <option value="2" <?php if($entry->status_perkawinan==2)echo "selected"; ?>>Cerai/離婚</option>
+                  </select>
               </div>
             </div>
             <div class="form-group">
@@ -447,6 +451,22 @@
             </div>
             </div>' ?>
           <?php endif; ?>
+          <?php
+            $date1 = date("Y-m-d H:i:s");
+            $date2 = $entry->created_at; 
+            $diff = abs(strtotime($date2) - strtotime($date1)); 
+
+            $days = floor(($diff)/ (60*60*24));
+
+          ?>
+          <?php if($days>14) {?>
+            <div class="alert alert-danger" role="alert">
+              <h4 class="alert-heading">Kuitansi sudah kadaluarsa</h4>
+              <p> Maaf Kuitansi anda sudah terlambat <?php echo $days ?> Hari</p>
+              <hr>
+              <p class="mb-0">Kuitansi hanya dilayani maksimal 14 hari kerja</p>
+            </div>
+          <?php }else { ?>
           <form class="form-horizontal" method="POST" action="<?php echo base_url()?>dex/simpan_kuitansi">
             <input type="hidden" name="_method" value="POST"/>
             <input type="hidden" name="entry_id" value="<?php  echo $entry->id; ?>" >
@@ -506,7 +526,7 @@
                       <p><?php echo $_GET['kode_entry']; ?>_formulir.pdf</p>
                     </div>
                     <div class="col-md-3 text-center">
-                      <a href="http://endorsement.kdei-taipei.org/proses/printlabel4.php?bc={{base64UrlEncode($entry->kode_entry)}}" onclick="return popitup(this)">
+                      <a href="http://endorsement.kdei-taipei.org/proses/printlabel4.php?bc=<?php echo strtr(rtrim(base64_encode($entry->kode_entry), '='), '+/', '-_') ?>" onclick="return popitup(this)">
                         <img border="0" alt="STIKER" src="<?php echo assets_url() ?>/images/print.png" width="50" height="50">
                       </a>
                       <p>Cetak Stiker</p>
@@ -519,6 +539,7 @@
               </div>
             </div>
           </form>
+          <?php } ?>
         </div>
       </div>
       <br />

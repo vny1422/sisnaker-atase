@@ -11,6 +11,22 @@ class Dex_model extends CI_Model {
   	$query = $this->db->get_where('entries',array('kode_entry' => $kode_entry));
   	return $query;
   }
+  public function getAllEntry()
+  {
+    $this->db->select('*,nama_pekerja,no_paspor,CONCAT(nama_perusahaan_eng,"/",nama_perusahaan) as nama_perusahaan,pekerjaans.nama as pekerjaan,DATE_FORMAT(tgl_mulai, "%D-%M-%Y") tgl_mulai,DATE_FORMAT(tgl_selesai, "%D-%M-%Y") tgl_selesai,CONCAT(nama_majikan_eng,"/",nama_majikan) as nama_majikan,CONCAT(CASE WHEN is_terima=1 AND (is_tolak is NULL OR is_tolak=0) THEN "Terima" WHEN is_tolak=1 AND (is_terima is NULL OR is_terima=0) THEN "Tolak" ELSE "Belum Diverivikasi" END) as status');
+    $this->db->from('entries');
+    $this->db->join('pekerjaans', 'pekerjaans.id = entries.pekerjaan_id');
+    $query = $this->db->get();
+    return $query;
+  }
+  public function getAllKuitansi()
+  {
+    $this->db->select('*');
+    $this->db->from('kuitansis');
+    $this->db->join('entries', 'entries.id = kuitansis.entry_id');
+    $query = $this->db->get();
+    return $query;
+  }
 
   public function getDocument($id_entry)
   {

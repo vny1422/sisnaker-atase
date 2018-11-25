@@ -175,7 +175,6 @@ class Login extends CI_Controller {
 				}
 			}
 		}
-
 		if($verified) {
 			$user_data = array(
 				'user'	=> $user[0]['username'],
